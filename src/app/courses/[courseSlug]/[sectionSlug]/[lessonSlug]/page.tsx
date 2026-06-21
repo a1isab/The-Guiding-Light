@@ -68,7 +68,7 @@ export default async function LessonPage({
 
       <h1 className="font-amiri text-3xl font-bold text-zinc-100">{lesson.title}</h1>
 
-      <VideoPlayer src={lesson.video_url} poster={`/videos/${courseSlug}/${lessonSlug}.jpg`} />
+      <VideoPlayer src={lesson.video_url} />
 
       <LessonViewer lesson={lesson} userId={user?.id ?? null} />
 

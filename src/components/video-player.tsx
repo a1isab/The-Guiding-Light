@@ -1,46 +1,18 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { Play, Film } from "lucide-react";
+import { Film } from "lucide-react";
 
-type Status = "idle" | "loading" | "playing" | "error";
-
-export function VideoPlayer({ src, poster }: { src?: string | null; poster?: string | null }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [status, setStatus] = useState<Status>("idle");
-
-  function handlePlay() {
-    if (!src) return;
-    setStatus("loading");
-    videoRef.current?.play();
-  }
-
-  function handlePlaying() {
-    setStatus("playing");
-  }
-
-  function handleError() {
-    setStatus("error");
-  }
-
-  function handleEnded() {
-    setStatus("idle");
-  }
-
+export function VideoPlayer({ src }: { src?: string | null }) {
   return (
     <div className="mt-6 overflow-hidden rounded-2xl border border-zinc-800 bg-[#111111]">
       <div className="relative aspect-video">
         {src ? (
-          <video
-            ref={videoRef}
+          <iframe
             src={src}
-            poster={poster ?? undefined}
-            className="h-full w-full object-contain bg-black"
-            controls={status === "playing"}
-            onPlaying={handlePlaying}
-            onError={handleError}
-            onEnded={handleEnded}
-            preload="none"
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+            className="h-full w-full"
           />
         ) : (
           <div className="flex h-full items-center justify-center bg-zinc-900">
@@ -48,18 +20,6 @@ export function VideoPlayer({ src, poster }: { src?: string | null; poster?: str
               <Film className="mx-auto h-12 w-12 text-zinc-700" />
               <p className="mt-3 text-sm text-zinc-600">Video not yet available</p>
             </div>
-          </div>
-        )}
-
-        {status === "loading" && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/60">
-            <div className="h-8 w-8 animate-spin rounded-full border-2 border-emerald-500 border-t-transparent" />
-          </div>
-        )}
-
-        {status === "error" && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/60">
-            <p className="text-sm text-red-400">Failed to load video</p>
           </div>
         )}
       </div>
@@ -70,18 +30,7 @@ export function VideoPlayer({ src, poster }: { src?: string | null; poster?: str
         </div>
         <span className="text-sm font-medium text-zinc-300">Video</span>
         <span className="text-xs text-zinc-600">—</span>
-        {status !== "playing" ? (
-          <button
-            onClick={handlePlay}
-            disabled={!src}
-            className="flex items-center gap-1.5 rounded-lg bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400 transition-colors hover:bg-emerald-500/20 disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            <Play className="h-3 w-3 fill-emerald-400" />
-            {src ? "Watch Video" : "Unavailable"}
-          </button>
-        ) : (
-          <span className="text-xs text-emerald-500">Playing</span>
-        )}
+        <span className="text-xs text-zinc-500">{src ? "YouTube" : "Unavailable"}</span>
       </div>
 
       {src && (
