@@ -1,12 +1,18 @@
-import Link from "next/link";
-import { redirect } from "next/navigation";
-import { BookOpen, Sparkles, Star, TrendingUp } from "lucide-react";
-import { createServerSupabaseClient } from "@/lib/supabase-server";
+"use client";
 
-export default async function LandingPage() {
-  const sb = await createServerSupabaseClient();
-  const { data: { user } } = await sb.auth.getUser();
-  const loggedIn = !!user;
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { BookOpen, Sparkles, Star, TrendingUp } from "lucide-react";
+import { createClient } from "@/lib/supabase-client";
+
+export default function LandingPage() {
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    createClient().auth.getUser().then(({ data }) => {
+      setLoggedIn(!!data.user);
+    });
+  }, []);
 
   return (
     <div className="flex-1">
@@ -137,7 +143,7 @@ export default async function LandingPage() {
           </p>
           <Link
             href="/auth/signup"
-            className="mt-6 inline-block rounded-2xl bg-emerald-500 px-8 py-3 text-base font-medium text-white shadow-[0_0_25px_rgba(16,185,129,0.3)] hover:bg-emerald-400 transition-all"
+            className="mt-6 inline-block rounded-2xl bg-emerald-500 px-8 py-3 text-base font-medium text-white shadow-[0_0_25px rgba(16,185,129,0.3)] hover:bg-emerald-400 transition-all"
           >
             Get Started Free
           </Link>
