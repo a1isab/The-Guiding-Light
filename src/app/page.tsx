@@ -1,7 +1,13 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { BookOpen, Sparkles, Star, TrendingUp } from "lucide-react";
+import { createServerSupabaseClient } from "@/lib/supabase-server";
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const sb = await createServerSupabaseClient();
+  const { data: { user } } = await sb.auth.getUser();
+  const loggedIn = !!user;
+
   return (
     <div className="flex-1">
       {/* Hero */}
@@ -22,17 +28,19 @@ export default function LandingPage() {
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <Link
-              href="/auth/signup"
+              href={loggedIn ? "/courses" : "/auth/signup"}
               className="rounded-2xl bg-emerald-500 px-8 py-3 text-base font-medium text-white shadow-[0_0_25px_rgba(16,185,129,0.3)] hover:bg-emerald-400 hover:shadow-[0_0_35px_rgba(16,185,129,0.4)] transition-all"
             >
-              Start Learning Free
+              {loggedIn ? "Go to Courses" : "Start Learning Free"}
             </Link>
-            <Link
-              href="/auth/login"
-              className="rounded-2xl border border-zinc-700 bg-zinc-900/50 px-8 py-3 text-base font-medium text-zinc-300 hover:bg-zinc-800 transition-all"
-            >
-              I already have an account
-            </Link>
+            {!loggedIn && (
+              <Link
+                href="/auth/login"
+                className="rounded-2xl border border-zinc-700 bg-zinc-900/50 px-8 py-3 text-base font-medium text-zinc-300 hover:bg-zinc-800 transition-all"
+              >
+                I already have an account
+              </Link>
+            )}
           </div>
         </div>
       </section>

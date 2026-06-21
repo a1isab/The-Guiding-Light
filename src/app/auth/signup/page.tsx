@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-client";
@@ -13,6 +13,13 @@ export default function SignUpPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    createClient().auth.getUser().then(({ data }) => {
+      setLoggedIn(!!data.user);
+    });
+  }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -124,12 +131,14 @@ export default function SignUpPage() {
             </button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-zinc-500">
-            Already have an account?{" "}
-            <Link href="/auth/login" className="font-medium text-emerald-400 hover:text-emerald-300 transition-colors">
-              Sign in
-            </Link>
-          </p>
+          {!loggedIn && (
+            <p className="mt-6 text-center text-sm text-zinc-500">
+              Already have an account?{" "}
+              <Link href="/auth/login" className="font-medium text-emerald-400 hover:text-emerald-300 transition-colors">
+                Sign in
+              </Link>
+            </p>
+          )}
         </div>
       </div>
     </div>
