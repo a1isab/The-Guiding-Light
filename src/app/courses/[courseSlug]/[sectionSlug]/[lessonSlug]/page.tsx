@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Course, Section, Lesson } from "@/lib/types";
 import { LessonViewer } from "./lesson-viewer";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { VideoPlayer } from "@/components/video-player";
 
 export const dynamic = "force-dynamic";
@@ -70,33 +69,14 @@ export default async function LessonPage({
 
       <VideoPlayer src={lesson.video_url} />
 
-      <LessonViewer lesson={lesson} userId={user?.id ?? null} />
-
-      {/* Navigation */}
-      <div className="mt-12 flex items-center justify-between border-t border-zinc-800 pt-6">
-        {prevLesson ? (
-          <Link
-            href={`/courses/${courseSlug}/${sectionSlug}/${prevLesson.slug}`}
-            className="flex items-center gap-2 text-sm text-emerald-400 hover:text-emerald-300 transition-colors"
-          >
-            <ChevronLeft className="h-4 w-4" />
-            {prevLesson.title}
-          </Link>
-        ) : (
-          <div />
-        )}
-        {nextLesson ? (
-          <Link
-            href={`/courses/${courseSlug}/${sectionSlug}/${nextLesson.slug}`}
-            className="flex items-center gap-2 text-sm text-emerald-400 hover:text-emerald-300 transition-colors"
-          >
-            {nextLesson.title}
-            <ChevronRight className="h-4 w-4" />
-          </Link>
-        ) : (
-          <div />
-        )}
-      </div>
+      <LessonViewer
+        lesson={lesson}
+        userId={user?.id ?? null}
+        courseSlug={courseSlug}
+        sectionSlug={sectionSlug}
+        prevLesson={prevLesson}
+        nextLesson={nextLesson}
+      />
     </div>
   );
 }
