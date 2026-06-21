@@ -54,7 +54,7 @@ const courses: CourseData[] = [
             title: "Belief in Allah",
             title_ar: "الإيمان بالله",
             slug: "belief-in-allah",
-            video_url: "https://www.youtube.com/embed/rmo4UblVEKg?si=h7fpO6Da34JNBggt&start=0&end=115",
+            video_url: "https://www.youtube.com/embed/rmo4UblVEKg?si=h7fpO6Da34JNBggt&start=0&end=115.3",
             arabic_text: "آمَنَ الرَّسُولُ بِمَا أُنزِلَ إِلَيْهِ مِن رَّبِّهِ وَالْمُؤْمِنُونَ ۚ كُلٌّ آمَنَ بِاللَّهِ وَمَلَائِكَتِهِ وَكُتُبِهِ وَرُسُلِهِ",
             content:
               "Belief in Allah is the first and most fundamental pillar of Iman. It encompasses belief in His existence, His Lordship (Rububiyyah), His exclusive right to worship (Uluhiyyah), and His beautiful Names and Attributes (Asma was-Sifat).\n\nAllah is Al-Khaliq (The Creator), Ar-Razzaq (The Provider), Al-Malik (The Sovereign), and Ar-Rahman (The Most Merciful). He is eternal, all-powerful, and knows all things.\n\nThe Quran says: 'Indeed, in the creation of the heavens and the earth and the alternation of the night and the day are signs for those of understanding.' (3:190)",
@@ -71,7 +71,7 @@ const courses: CourseData[] = [
             title: "Belief in the Angels",
             title_ar: "الإيمان بالملائكة",
             slug: "belief-in-angels",
-            video_url: "https://www.youtube.com/embed/rmo4UblVEKg?si=h7fpO6Da34JNBggt&start=116&end=148",
+            video_url: "https://www.youtube.com/embed/rmo4UblVEKg?si=h7fpO6Da34JNBggt&start=116&end=148.3",
             arabic_text: "الْحَمْدُ لِلَّهِ فَاطِرِ السَّمَاوَاتِ وَالْأَرْضِ جَاعِلِ الْمَلَائِكَةِ رُسُلًا",
             content:
               "Angels (Mala'ikah) are created from light. They are honored servants of Allah who obey His commands without fail. They do not eat, drink, or disobey.\n\nKey angels include: Jibril (Gabriel) — brings revelation, Mika'il (Michael) — provides sustenance, Israfil — blows the Trumpet, Malak al-Mawt (Azrael) — takes souls, and the Kiraman Katibin — record deeds.\n\nBelief in angels means accepting their existence, their names, their functions, and that they constantly worship Allah.",
@@ -88,7 +88,7 @@ const courses: CourseData[] = [
             title: "Belief in the Divine Books",
             title_ar: "الإيمان بالكتب",
             slug: "belief-in-divine-books",
-            video_url: "https://www.youtube.com/embed/rmo4UblVEKg?si=h7fpO6Da34JNBggt&start=149&end=186",
+            video_url: "https://www.youtube.com/embed/rmo4UblVEKg?si=h7fpO6Da34JNBggt&start=149&end=186.3",
             arabic_text: "نَزَّلَ عَلَيْكَ الْكِتَابَ بِالْحَقِّ مُصَدِّقًا لِّمَا بَيْنَ يَدَيْهِ وَأَنزَلَ التَّوْرَاةَ وَالْإِنجِيلَ",
             content:
               "Muslims believe in all the scriptures revealed by Allah to His prophets. These include: the Suhuf (Scrolls) of Ibrahim, the Tawrah (Torah) given to Musa, the Zabur (Psalms) given to Dawud, the Injil (Gospel) given to Isa, and the Quran given to Muhammad (peace be upon them all).\n\nThe Quran is the final and most complete revelation, superseding all previous books. It is preserved in its original Arabic and contains guidance for all of humanity until the end of time.",
@@ -105,7 +105,7 @@ const courses: CourseData[] = [
             title: "Belief in the Prophets",
             title_ar: "الإيمان بالأنبياء",
             slug: "belief-in-prophets",
-            video_url: "https://www.youtube.com/embed/rmo4UblVEKg?si=h7fpO6Da34JNBggt&start=187&end=220",
+            video_url: "https://www.youtube.com/embed/rmo4UblVEKg?si=h7fpO6Da34JNBggt&start=187&end=220.3",
             arabic_text: "إِنَّا أَوْحَيْنَا إِلَيْكَ كَمَا أَوْحَيْنَا إِلَىٰ نُوحٍ وَالنَّبِيِّينَ مِن بَعْدِهِ",
             content:
               "Belief in the Prophets means affirming that Allah sent messengers to every nation to guide humanity to the truth. They were the best of creation, chosen by Allah to deliver His message.\n\nWe believe in all of them: Adam, Nuh, Ibrahim, Musa, Isa, and Muhammad (peace be upon them all). Muhammad is the final prophet, and there is no prophet after him.\n\nThe prophets were protected from sin (isma) in conveying the message. They are models of character, patience, and devotion. To reject even one prophet is to reject them all.",
@@ -122,7 +122,7 @@ const courses: CourseData[] = [
             title: "Belief in the Day of Judgement",
             title_ar: "الإيمان باليوم الآخر",
             slug: "belief-in-day-of-judgement",
-            video_url: "https://www.youtube.com/embed/rmo4UblVEKg?si=h7fpO6Da34JNBggt&start=220&end=266",
+            video_url: "https://www.youtube.com/embed/rmo4UblVEKg?si=h7fpO6Da34JNBggt&start=220&end=266.3",
             arabic_text: "وَيَوْمَ نُسَيِّرُ الْجِبَالَ وَتَرَى الْأَرْضَ بَارِزَةً وَحَشَرْنَاهُمْ فَلَمْ نُغَادِرْ مِنْهُمْ أَحَدًا",
             content:
               "The Day of Judgement (Yawm al-Qiyamah) is the day when all of creation will be resurrected and held accountable for their deeds. Belief in this day includes belief in: the Resurrection, the Gathering, the Book of Deeds, the Scale (Mizan), the Bridge (Sirat), and the Final Destination of Paradise or Hellfire.\n\nEveryone will be judged with perfect justice. Those who believed and did righteous deeds will enter Paradise by Allah's mercy. Those who rejected the truth will face eternal punishment.\n\nThis belief instills taqwa (God-consciousness) and reminds us that this life is temporary — a test for the eternal life to come.",

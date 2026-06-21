@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YouTube Timestamp Player</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #111;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .wrapper {
+      width: 100%;
+      max-width: 640px;
+      padding: 24px;
+    }
+    #custom-youtube-player {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 40px rgba(0, 0, 0, 0.5);
+    }
+    .info {
+      margin-top: 12px;
+      text-align: center;
+      font-size: 13px;
+      color: #555;
+    }
+    .info strong {
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <!-- ── PLAYER CONTAINER ── -->
+    <div id="custom-youtube-player"></div>
+
+    <p class="info">
+      Starts at <strong id="display-start">—</strong> &middot;
+      Stops at <strong id="display-end">—</strong>
+    </p>
+  </div>
+
+  <script>
+    /* ═══════════════════════════════════════════
+       ✏️  CONFIGURE YOUR SETTINGS HERE
+       ═══════════════════════════════════════════ */
+
+    var videoId = 'dQw4w9WgXcQ'; // YouTube video ID (11 characters)
+    var startSeconds = 30;       // Start time in seconds (use 0 for beginning)
+    var endSeconds = 75;         // End time in seconds (video pauses/stops here)
+
+    /* ── Optional: accept MM:SS or HH:MM:SS ── */
+    // If you prefer, you can write your times above as strings instead:
+    // var startSeconds = toSeconds('0:30');   // 30 seconds
+    // var endSeconds   = toSeconds('1:15');   // 1 minute 15 seconds
+
+    function toSeconds(str) {
+      var parts = String(str).split(':').map(Number);
+      if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+      if (parts.length === 2) return parts[0] * 60 + parts[1];
+      return parts[0] || 0;
+    }
+
+    /* ═══════════════════════════════════════════
+       IMPLEMENTATION — no need to touch below
+       ═══════════════════════════════════════════ */
+
+    var player;
+    var timeCheckInterval;
+
+    /* Show configured times in the UI */
+    document.getElementById('display-start').textContent = startSeconds + 's';
+    document.getElementById('display-end').textContent = endSeconds + 's';
+
+    /* 1. Dynamically load the YouTube IFrame API */
+    var tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    /* 2. Called automatically once the API is ready */
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('custom-youtube-player', {
+        height: '100%',
+        width: '100%',
+        videoId: videoId,
+        playerVars: {
+          start: startSeconds,   // Suggests where to begin
+          rel: 0,                // Related videos from same channel
+          modestbranding: 1,     // Minimal YouTube logo
+        },
+        events: {
+          onStateChange: onPlayerStateChange,
+        },
+      });
+    }
+
+    /* 3. Monitor playback and enforce the end time */
+    function onPlayerStateChange(event) {
+      // YT.PlayerState.PLAYING === 1
+      if (event.data === 1) {
+        /* Video started playing — begin polling its position */
+        timeCheckInterval = setInterval(function () {
+          var currentTime = player.getCurrentTime();
+
+          if (currentTime >= endSeconds) {
+            player.pauseVideo();            // Freeze on the last frame
+            // player.stopVideo();           // ← swap to this if you prefer a blank player
+            clearInterval(timeCheckInterval);
+            timeCheckInterval = null;
+          }
+        }, 200); // Check every 200ms — smooth enough without being expensive
+      } else {
+        /* Video paused, buffering, ended, etc. — stop polling */
+        if (timeCheckInterval) {
+          clearInterval(timeCheckInterval);
+          timeCheckInterval = null;
+        }
+      }
+    }
+  </script>
+</body>
+</html>
