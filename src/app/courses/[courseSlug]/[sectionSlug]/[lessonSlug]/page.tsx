@@ -1,7 +1,9 @@
+import { getTranslations } from "next-intl/server";
 import { createServiceClient, createServerSupabaseClient } from "@/lib/supabase-server";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import type { Course, Section, Lesson } from "@/lib/types";
+import type { Course, Section, Lesson, Locale } from "@/lib/types";
+import { getTranslation } from "@/lib/types";
 import { LessonViewer } from "./lesson-viewer";
 import { VideoPlayer } from "@/components/video-player";
 
@@ -12,6 +14,8 @@ export default async function LessonPage({
 }: {
   params: Promise<{ courseSlug: string; sectionSlug: string; lessonSlug: string }>;
 }) {
+  const t = await getTranslations("courses");
+  const { locale } = await params as unknown as { locale: Locale };
   const { courseSlug, sectionSlug, lessonSlug } = await params;
   const supabase = createServiceClient();
 
@@ -56,16 +60,21 @@ export default async function LessonPage({
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-8">
-      {/* Breadcrumbs */}
       <nav className="mb-6 flex items-center gap-2 text-sm text-zinc-500">
-        <Link href="/courses" className="hover:text-emerald-400 transition-colors">Courses</Link>
+        <Link href="/courses" className="hover:text-emerald-400 transition-colors">{t("breadcrumb_courses")}</Link>
         <span className="text-zinc-700">/</span>
-        <Link href={`/courses/${courseSlug}`} className="hover:text-emerald-400 transition-colors">{course.title}</Link>
+        <Link href={`/courses/${courseSlug}`} className="hover:text-emerald-400 transition-colors">
+          {getTranslation(course, "title", locale, course.title)}
+        </Link>
         <span className="text-zinc-700">/</span>
-        <span className="text-zinc-300">{lesson.title}</span>
+        <span className="text-zinc-300">
+          {getTranslation(lesson, "title", locale, lesson.title)}
+        </span>
       </nav>
 
-      <h1 className="font-amiri text-3xl font-bold text-zinc-100">{lesson.title}</h1>
+      <h1 className="font-amiri text-3xl font-bold text-zinc-100">
+        {getTranslation(lesson, "title", locale, lesson.title)}
+      </h1>
 
       <VideoPlayer src={lesson.video_url} />
 

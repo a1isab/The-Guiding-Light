@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Amiri } from "next/font/google";
 import "./globals.css";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 
@@ -28,20 +30,27 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+  const rtl = locale === "ar" || locale === "ur";
+
   return (
     <html
-      lang="en"
+      lang={locale}
+      dir={rtl ? "rtl" : "ltr"}
       className={`${inter.variable} ${amiri.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[#0a0a0a]">
-        <Navbar />
-        <main className="flex-1 flex flex-col pt-16">{children}</main>
-        <Footer />
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <Navbar />
+          <main className="flex-1 flex flex-col pt-16">{children}</main>
+          <Footer />
+        </NextIntlClientProvider>
       </body>
     </html>
   );

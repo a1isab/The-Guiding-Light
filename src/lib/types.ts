@@ -7,12 +7,36 @@ export interface Profile {
   created_at: string;
 }
 
+export type Locale = "en" | "ar" | "ur" | "fr";
+
+export interface Translations {
+  title?: Record<Locale, string>;
+  description?: Record<Locale, string>;
+  content?: Record<Locale, string>;
+  arabic_text?: Record<Locale, string>;
+}
+
+export function getTranslation<T extends Record<string, any>>(
+  obj: T,
+  field: string,
+  locale: Locale,
+  fallback?: string
+): string {
+  const translations = (obj as any).translations as Translations | undefined;
+  if (translations && translations[field as keyof Translations]) {
+    const val = (translations[field as keyof Translations] as Record<string, string>)?.[locale];
+    if (val) return val;
+  }
+  return fallback ?? (obj as any)[field] ?? "";
+}
+
 export interface Course {
   id: string;
   title: string;
   title_ar: string | null;
   description: string;
   description_ar: string | null;
+  translations: Translations | null;
   level: "beginner" | "intermediate" | "advanced";
   slug: string;
   image_url: string | null;
@@ -27,6 +51,7 @@ export interface Section {
   course_id: string;
   title: string;
   title_ar: string | null;
+  translations: Translations | null;
   slug: string;
   order_index: number;
   created_at: string;
@@ -37,6 +62,7 @@ export interface Lesson {
   section_id: string;
   title: string;
   title_ar: string | null;
+  translations: Translations | null;
   slug: string;
   content: string;
   content_type: "text" | "video" | "both";
@@ -78,4 +104,22 @@ export interface QuizQuestion {
   question: string;
   options: string[];
   correct: number;
+  question_ar?: string;
+  question_ur?: string;
+  question_fr?: string;
+  options_ar?: string[];
+  options_ur?: string[];
+  options_fr?: string[];
+}
+
+export function getQuizQuestion(q: QuizQuestion, locale: Locale): { question: string; options: string[] } {
+  if (locale === "en") return { question: q.question, options: q.options };
+  const key = locale as keyof Pick<QuizQuestion, "question_ar" | "question_ur" | "question_fr">;
+  const optKey = `options_${locale}` as keyof QuizQuestion;
+  const translatedQuestion = q[key] as string | undefined;
+  const translatedOptions = q[optKey] as string[] | undefined;
+  return {
+    question: translatedQuestion || q.question,
+    options: translatedOptions || q.options,
+  };
 }

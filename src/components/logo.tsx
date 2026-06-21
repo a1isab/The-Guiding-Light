@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
 const arabic = "النور المبين";
 
 export function Logo() {
+  const t = useTranslations("logo");
   const [displayed, setDisplayed] = useState("");
 
   useEffect(() => {
@@ -37,7 +39,7 @@ export function Logo() {
         {displayed}
       </span>
       <span className="text-[10px] text-zinc-500 uppercase tracking-[0.2em] hidden sm:block">
-        The Guiding Light
+        {t("subtitle")}
       </span>
     </Link>
   );

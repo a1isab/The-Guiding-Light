@@ -1,8 +1,9 @@
-import { NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { createServerClient as createSSRClient } from "@supabase/ssr";
 
-export async function GET() {
-  let supabaseResponse = NextResponse.redirect(new URL("/", process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"));
+export async function GET(request: NextRequest) {
+  const origin = new URL(request.url).origin;
+  let supabaseResponse = NextResponse.redirect(new URL("/", origin));
 
   const supabase = createSSRClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

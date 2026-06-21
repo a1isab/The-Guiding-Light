@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations, useLocale } from "next-intl";
 import { createClient } from "@/lib/supabase-client";
-import type { QuizQuestion } from "@/lib/types";
+import type { QuizQuestion, Locale } from "@/lib/types";
+import { getQuizQuestion } from "@/lib/types";
 
 interface Props {
   lessonId: string;
@@ -11,6 +13,8 @@ interface Props {
 }
 
 export function Quiz({ lessonId, userId, onPass }: Props) {
+  const t = useTranslations("quiz");
+  const locale = useLocale() as Locale;
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [quizId, setQuizId] = useState<string | null>(null);
   const [index, setIndex] = useState(0);
@@ -31,7 +35,7 @@ export function Quiz({ lessonId, userId, onPass }: Props) {
       .maybeSingle()
       .then(({ data, error }) => {
         if (error || !data) {
-          setError(error?.message || "No quiz available for this lesson.");
+          setError(error?.message || t("no_quiz"));
         } else {
           setQuestions(data.questions as QuizQuestion[]);
           setQuizId(data.id);
@@ -88,7 +92,7 @@ export function Quiz({ lessonId, userId, onPass }: Props) {
   if (loading) {
     return (
       <div className="animate-pulse bg-zinc-800 rounded-2xl h-52 flex items-center justify-center">
-        <p className="text-zinc-500">Loading quiz...</p>
+        <p className="text-zinc-500">{t("loading")}</p>
       </div>
     );
   }
@@ -101,7 +105,7 @@ export function Quiz({ lessonId, userId, onPass }: Props) {
           onClick={() => window.location.reload()}
           className="mt-3 text-emerald-400 text-sm hover:text-emerald-300"
         >
-          Retry
+          {t("retry")}
         </button>
       </div>
     );
@@ -114,19 +118,19 @@ export function Quiz({ lessonId, userId, onPass }: Props) {
         {passed ? (
           <>
             <p className="text-5xl mb-4">🎉</p>
-            <p className="text-emerald-400 text-2xl font-bold">Lesson Complete!</p>
+            <p className="text-emerald-400 text-2xl font-bold">{t("pass_title")}</p>
             <p className="text-zinc-400 mt-2">
-              You got {score} out of {questions.length} correct
+              {t("score", { score, total: questions.length })}
             </p>
           </>
         ) : (
           <>
-            <p className="text-amber-400 text-xl font-semibold">Almost there!</p>
+            <p className="text-amber-400 text-xl font-semibold">{t("fail_title")}</p>
             <p className="text-zinc-400 mt-2">
-              You got {score} out of {questions.length} correct
+              {t("score", { score, total: questions.length })}
             </p>
             <p className="text-zinc-500 text-sm mt-1">
-              Review the lesson and try again.
+              {t("fail_msg")}
             </p>
             <div className="flex gap-3 justify-center mt-6">
               <button
@@ -139,7 +143,7 @@ export function Quiz({ lessonId, userId, onPass }: Props) {
                 }}
                 className="border border-zinc-700 text-zinc-300 rounded-xl px-5 py-2 text-sm hover:bg-zinc-800"
               >
-                Retry Quiz
+                {t("retry_quiz")}
               </button>
             </div>
           </>
@@ -155,7 +159,7 @@ export function Quiz({ lessonId, userId, onPass }: Props) {
     <div>
       <div className="flex items-center justify-between mb-4">
         <p className="text-zinc-500 text-sm">
-          Question {index + 1} of {questions.length}
+          {t("question_of", { current: index + 1, total: questions.length })}
         </p>
         <p className="text-zinc-600 text-xs">
           {Math.round(((index) / questions.length) * 100)}%
@@ -169,10 +173,10 @@ export function Quiz({ lessonId, userId, onPass }: Props) {
         />
       </div>
 
-      <p className="text-zinc-100 text-lg font-medium mb-4">{q.question}</p>
+      <p className="text-zinc-100 text-lg font-medium mb-4">{getQuizQuestion(q, locale).question}</p>
 
       <div className="space-y-2">
-        {q.options.map((option, i) => {
+        {getQuizQuestion(q, locale).options.map((option, i) => {
           let className =
             "w-full text-left px-4 py-3 rounded-xl border border-zinc-700 text-zinc-300 hover:border-emerald-700 hover:bg-emerald-900/20 transition-all";
 
@@ -205,7 +209,7 @@ export function Quiz({ lessonId, userId, onPass }: Props) {
           onClick={nextQuestion}
           className="mt-4 bg-emerald-500 hover:bg-emerald-400 text-white rounded-xl px-5 py-2 text-sm font-medium"
         >
-          {index < questions.length - 1 ? "Next Question →" : "See Results"}
+          {index < questions.length - 1 ? t("next_question") : t("see_results")}
         </button>
       )}
     </div>

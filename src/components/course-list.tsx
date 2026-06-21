@@ -1,8 +1,10 @@
 "use client";
 
+import { useTranslations, useLocale } from "next-intl";
 import { useState } from "react";
 import Link from "next/link";
-import type { Course } from "@/lib/types";
+import type { Course, Locale } from "@/lib/types";
+import { getTranslation } from "@/lib/types";
 import { BookOpen, Film } from "lucide-react";
 
 const levels = ["all", "beginner", "intermediate", "advanced"] as const;
@@ -20,6 +22,8 @@ interface Props {
 }
 
 export function CourseList({ courses, courseLessonCount, courseHasVideo }: Props) {
+  const t = useTranslations("courses");
+  const locale = useLocale() as Locale;
   const [active, setActive] = useState<string>("all");
 
   const filtered = active === "all"
@@ -39,7 +43,7 @@ export function CourseList({ courses, courseLessonCount, courseHasVideo }: Props
                 : "border-zinc-800 text-zinc-400 hover:border-emerald-700 hover:text-emerald-400"
             }`}
           >
-            {filter}
+            {t(filter)}
           </button>
         ))}
       </div>
@@ -55,22 +59,24 @@ export function CourseList({ courses, courseLessonCount, courseHasVideo }: Props
             >
               <div className="flex items-start justify-between">
                 <h2 className="text-lg font-semibold text-zinc-100 group-hover:text-emerald-400 transition-colors">
-                  {course.title}
+                  {getTranslation(course, "title", locale, course.title)}
                 </h2>
                 <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${levelColors[course.level] || levelColors.beginner}`}>
                   {course.level}
                 </span>
               </div>
-              <p className="mt-2 text-sm text-zinc-500 line-clamp-2">{course.description}</p>
+              <p className="mt-2 text-sm text-zinc-500 line-clamp-2">
+                {getTranslation(course, "description", locale, course.description)}
+              </p>
               <div className="mt-4 flex items-center gap-3 text-xs text-zinc-600">
                 <span className="flex items-center gap-1">
                   <BookOpen className="h-3.5 w-3.5" />
-                  {lessonCount} lessons
+                  {t("lessons", { count: lessonCount })}
                 </span>
                 {courseHasVideo.has(course.id) && (
                   <span className="flex items-center gap-1 text-emerald-500">
                     <Film className="h-3.5 w-3.5" />
-                    Video
+                    {t("video")}
                   </span>
                 )}
               </div>

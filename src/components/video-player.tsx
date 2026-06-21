@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { Film } from "lucide-react";
 
@@ -23,6 +24,7 @@ function parseEmbedUrl(url: string) {
 }
 
 export function VideoPlayer({ src }: { src?: string | null }) {
+  const t = useTranslations("video");
   const containerRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<any>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -94,16 +96,16 @@ export function VideoPlayer({ src }: { src?: string | null }) {
         <div className="flex aspect-video items-center justify-center bg-zinc-900">
           <div className="text-center">
             <Film className="mx-auto h-12 w-12 text-zinc-700" />
-            <p className="mt-3 text-sm text-zinc-600">Video not yet available</p>
+            <p className="mt-3 text-sm text-zinc-600">{t("not_available")}</p>
           </div>
         </div>
         <div className="flex items-center gap-3 border-t border-zinc-800 px-5 py-3">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/10">
             <Film className="h-4 w-4 text-emerald-400" />
           </div>
-          <span className="text-sm font-medium text-zinc-300">Video</span>
+          <span className="text-sm font-medium text-zinc-300">{t("label")}</span>
           <span className="text-xs text-zinc-600">—</span>
-          <span className="text-xs text-zinc-500">Unavailable</span>
+          <span className="text-xs text-zinc-500">{t("unavailable")}</span>
         </div>
       </div>
     );
@@ -127,13 +129,13 @@ export function VideoPlayer({ src }: { src?: string | null }) {
         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/10">
           <Film className="h-4 w-4 text-emerald-400" />
         </div>
-        <span className="text-sm font-medium text-zinc-300">Video</span>
+        <span className="text-sm font-medium text-zinc-300">{t("label")}</span>
         <span className="text-xs text-zinc-600">—</span>
-        <span className="text-xs text-zinc-500">YouTube</span>
+        <span className="text-xs text-zinc-500">{t("youtube")}</span>
       </div>
 
       <p className="border-t border-zinc-800 px-5 py-2 text-center text-xs text-zinc-600">
-        Credits to Muslim Minds
+        {t("credits")}
       </p>
     </div>
   );

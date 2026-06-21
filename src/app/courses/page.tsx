@@ -1,9 +1,11 @@
+import { getTranslations } from "next-intl/server";
 import { createServiceClient } from "@/lib/supabase-server";
 import { CourseList } from "@/components/course-list";
 
 export const dynamic = "force-dynamic";
 
 export default async function CoursesPage() {
+  const t = await getTranslations("courses");
   const supabase = createServiceClient();
 
   const { data: courses } = await supabase
@@ -33,7 +35,7 @@ export default async function CoursesPage() {
   if (!courses || courses.length === 0) {
     return (
       <div className="flex flex-1 items-center justify-center">
-        <p className="text-zinc-500">No courses available yet.</p>
+        <p className="text-zinc-500">{t("empty")}</p>
       </div>
     );
   }
@@ -41,8 +43,8 @@ export default async function CoursesPage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-16">
       <div className="text-center">
-        <h1 className="font-amiri text-4xl font-bold text-zinc-100">All Courses</h1>
-        <p className="mt-2 text-zinc-400">Start anywhere. Learn at your own pace.</p>
+        <h1 className="font-amiri text-4xl font-bold text-zinc-100">{t("title")}</h1>
+        <p className="mt-2 text-zinc-400">{t("subtitle")}</p>
       </div>
 
       <CourseList
