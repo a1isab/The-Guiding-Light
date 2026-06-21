@@ -106,37 +106,63 @@ async function main() {
 
   // ─── Quizzes (questions) ────────────────────────────
   console.log("\n❓ Translating quiz questions...");
+
+  // Collect all unique strings to translate (deduplicate)
   const { data: quizzes } = await supabase
     .from("quizzes")
     .select("id, questions");
+
+  const uniqueStrings: Set<string> = new Set();
+  const quizMap: { id: string; questions: any[] }[] = [];
+
   for (const quiz of quizzes ?? []) {
     const questions = quiz.questions as any[];
-    const translatedQuestions = await Promise.all(
-      questions.map(async (q: any) => {
-        const translated: any = {
-          ...q,
-          question_ar: await translateText(q.question, "ar"),
-          question_ur: await translateText(q.question, "ur"),
-          question_fr: await translateText(q.question, "fr"),
-          options_ar: await Promise.all(
-            (q.options as string[]).map((o: string) => translateText(o, "ar"))
-          ),
-          options_ur: await Promise.all(
-            (q.options as string[]).map((o: string) => translateText(o, "ur"))
-          ),
-          options_fr: await Promise.all(
-            (q.options as string[]).map((o: string) => translateText(o, "fr"))
-          ),
-        };
-        return translated;
-      })
-    );
+    quizMap.push({ id: quiz.id, questions });
+    for (const q of questions) {
+      uniqueStrings.add(q.question);
+      for (const opt of (q.options as string[]) ?? []) {
+        uniqueStrings.add(opt);
+      }
+    }
+  }
+
+  const stringList = Array.from(uniqueStrings);
+  console.log(`  ${stringList.length} unique strings to translate (${quizzes?.length ?? 0} quizzes)`);
+
+  // Translate each unique string to each target
+  const translationCache: Record<string, Record<string, string>> = {};
+  for (const target of TARGETS) {
+    console.log(`  Translating to ${target}...`);
+    const batch: { original: string; translated: string }[] = [];
+    for (let i = 0; i < stringList.length; i++) {
+      const t = await translateText(stringList[i], target);
+      batch.push({ original: stringList[i], translated: t });
+      if (i % 2 === 1) await sleep(400);
+      process.stdout.write(`    ${i + 1}/${stringList.length}\r`);
+    }
+    for (const b of batch) {
+      if (!translationCache[b.original]) translationCache[b.original] = {};
+      translationCache[b.original][target] = b.translated;
+    }
+  }
+
+  // Update quizzes with translated data
+  console.log(`  Writing translations to ${quizzes?.length ?? 0} quizzes...`);
+  for (const entry of quizMap) {
+    const translatedQuestions = entry.questions.map((q: any) => ({
+      ...q,
+      question_ar: translationCache[q.question]?.ar ?? q.question,
+      question_ur: translationCache[q.question]?.ur ?? q.question,
+      question_fr: translationCache[q.question]?.fr ?? q.question,
+      options_ar: (q.options as string[]).map((o: string) => translationCache[o]?.ar ?? o),
+      options_ur: (q.options as string[]).map((o: string) => translationCache[o]?.ur ?? o),
+      options_fr: (q.options as string[]).map((o: string) => translationCache[o]?.fr ?? o),
+    }));
     await supabase
       .from("quizzes")
       .update({ questions: translatedQuestions })
-      .eq("id", quiz.id);
-    console.log(`  ✓ Quiz ${quiz.id.slice(0, 8)}...`);
-    await sleep(500);
+      .eq("id", entry.id);
+    console.log(`  ✓ Quiz ${entry.id.slice(0, 8)}...`);
   }
 
   console.log("\n✅ All content translated!");
