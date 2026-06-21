@@ -27,6 +27,7 @@ export function VideoPlayer({ src }: { src?: string | null }) {
   const playerRef = useRef<any>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [ready, setReady] = useState(false);
+  const [ended, setEnded] = useState(false);
 
   const parsed = src ? parseEmbedUrl(src) : null;
   const videoId = parsed?.videoId ?? null;
@@ -73,7 +74,8 @@ export function VideoPlayer({ src }: { src?: string | null }) {
         intervalRef.current = setInterval(() => {
           const current = playerRef.current?.getCurrentTime();
           if (current != null && current >= endSec) {
-            playerRef.current?.pauseVideo();
+            playerRef.current?.stopVideo();
+            setEnded(true);
             if (intervalRef.current) clearInterval(intervalRef.current);
           }
         }, 200);
@@ -110,11 +112,14 @@ export function VideoPlayer({ src }: { src?: string | null }) {
   return (
     <div className="mt-6 overflow-hidden rounded-2xl border border-zinc-800 bg-[#111111]">
       <div className="relative aspect-video">
-        <div ref={containerRef} className="h-full w-full" />
-        {!ready && (
+        <div ref={containerRef} className={`h-full w-full ${ended ? "invisible" : ""}`} />
+        {!ready && !ended && (
           <div className="absolute inset-0 flex items-center justify-center bg-zinc-900">
             <div className="h-8 w-8 animate-spin rounded-full border-2 border-emerald-500 border-t-transparent" />
           </div>
+        )}
+        {ended && (
+          <div className="absolute inset-0 bg-zinc-900" />
         )}
       </div>
 
