@@ -574,9 +574,9 @@ const courses: CourseData[] = [
     title: "Islamic History",
     title_ar: "التاريخ الإسلامي",
     description:
-      "Explore the rich history of Islamic civilization: the Rightly Guided Caliphs, the Golden Age, and the spread of Islam across the world.",
+      "Explore the history of Islamic civilization: the Rightly Guided Caliphs, the virtue of knowledge, and the Ottoman Caliphate.",
     description_ar:
-      "استكشف التاريخ الغني للحضارة الإسلامية: الخلفاء الراشدون والعصر الذهبي وانتشار الإسلام في العالم.",
+      "استكشف تاريخ الحضارة الإسلامية: الخلفاء الراشدون وفضل العلم والخلافة العثمانية.",
     level: "intermediate",
     slug: "islamic-history",
     order_index: 6,
@@ -593,7 +593,7 @@ const courses: CourseData[] = [
             slug: "abu-bakr-as-siddiq",
             arabic_text: "ثَانِيَ اثْنَيْنِ إِذْ هُمَا فِي الْغَارِ",
             content:
-              "Abu Bakr (RA) was the first Caliph after the Prophet's death. He is known as 'As-Siddiq' (the Truthful) because he immediately affirmed the Prophet's night journey when others doubted. He was the Prophet's closest companion and father of Aisha (RA).\n\nHis caliphate (632-634 CE) faced the Ridda Wars (apostasy wars) as some tribes refused to pay zakat. He led decisively: 'By Allah, if they withhold even a rope they used to give to the Messenger, I will fight them for it.'\n\nHe also initiated the compilation of the Quran after the Battle of Yamamah, where many memorizers were killed. He served as Caliph for only 2 years but established critical precedents for the Muslim state.",
+              'The imam (ruler) or caliph was appointed to lead the Islamic state by one of three methods: being chosen and elected by the decision makers (ahl al-hall wa\'l-\'aqd), being appointed by the previous caliph, or seizing power by force.\n\nAbu Bakr al-Siddeeq (may Allah be pleased with him) became caliph when he was elected by the decision makers, then the Sahabah unanimously agreed with that and swore allegiance to him, and accepted him as caliph. He was the first adult male to embrace Islam and the closest companion of the Prophet (peace and blessings of Allah be upon him).\n\nThere is no difference of opinion among Ahl as-Sunnah wal-Jama\'ah that the best of the ummah after its Prophet is Abu Bakr, then \'Umar (may Allah be pleased with them both). Al-Bukhari (3671) narrated that Muhammad ibn al-Hanafiyyah said: I said to my father \u2014 meaning \'Ali (may Allah be pleased with him) \u2014: Which of the people is best after the Messenger of Allah? He said: Abu Bakr. I said: Then who? He said: Then \'Umar.\n\nIbn Taymiyah (may Allah have mercy on him) said: "The scholars are agreed that Abu Bakr and \'Umar were more knowledgeable than the rest of the Sahabah, greater in terms of obedience to Allah and His Messenger than the others, and more qualified to recognize the truth and follow it than them." (Majmu\' al-Fatawa, 35/124)\n\nAn-Nawawi (may Allah have mercy on him) said: "Ahl as-Sunnah are unanimously agreed that the best of them was Abu Bakr, then \'Umar." (Sharh an-Nawawi \'ala Muslim, 15/148)\n\nReference: Islam Q&A, Answer 111836, Answer 211865, Answer 240154',
             order_index: 1,
           },
           {
@@ -602,7 +602,7 @@ const courses: CourseData[] = [
             slug: "umar-ibn-al-khattab",
             arabic_text: "اللَّهُمَّ أَعِزَّ الْإِسْلَامَ بِعُمَرَ",
             content:
-              "Umar ibn al-Khattab (RA) was the second Caliph (634-644 CE). His conversion to Islam was a turning point — the Prophet prayed: 'O Allah, strengthen Islam with Umar.' After his conversion, Muslims prayed openly at the Kaaba for the first time.\n\nHis caliphate saw the expansion of Islam to Persia, Syria, Egypt, and North Africa. He established the Islamic calendar (Hijri), a public treasury (Bayt al-Mal), a judicial system, and provincial governance.\n\nKnown for his justice, humility, and direct oversight of governors, Umar would walk the streets at night checking on his people. He was martyred by a Persian slave while leading Fajr prayer.",
+              'Umar ibn al-Khattab (may Allah be pleased with him) became caliph when the position was passed on to him by Abu Bakr al-Siddeeq (may Allah be pleased with him). This was done by appointment of the previous caliph, which is one of the three recognized methods of selecting a ruler in Islamic political tradition.\n\nThe Sahabah agreed and swore allegiance to him, and he became the second caliph. He is regarded by Ahl as-Sunnah wal-Jama\'ah as the second best of this ummah after Abu Bakr, and after the Prophet (peace and blessings of Allah be upon him). This was confirmed by \'Ali ibn Abi Talib (may Allah be pleased with him) himself, as narrated by al-Bukhari.\n\nIbn Taymiyah (may Allah have mercy on him) said: "The Rightly-Guided Caliphs are the most knowledgeable of the ummah about the life and Sunnah of the Messenger of Allah (blessings and peace of Allah be upon him) and the circumstances he went through." (Majmu\' al-Fatawa, 20/234)\n\nIbn \'Uthaymin (may Allah have mercy on him) said: "No one had more knowledge about Islamic rulings than the Rightly-Guided Caliphs (may Allah be pleased with them)." (Majmu\' Fatawa wa Rasa\'il al-\'Uthaymeen, 222/62)\n\nReference: Islam Q&A, Answer 111836, Answer 211865',
             order_index: 2,
           },
           {
@@ -611,33 +611,33 @@ const courses: CourseData[] = [
             slug: "uthman-and-ali",
             arabic_text: "وَاعْتَصِمُوا بِحَبْلِ اللَّهِ جَمِيعًا",
             content:
-              "Uthman ibn Affan (RA), the third Caliph (644-656 CE), standardized the Quranic script and compiled the official Mushaf (Uthmanic codex). He was known for his modesty and generosity. His caliphate saw continued expansion but also the beginnings of fitnah (civil strife).\n\nAli ibn Abi Talib (RA), the fourth Caliph (656-661 CE), was the Prophet's cousin and son-in-law. He was raised by the Prophet and was among the first to accept Islam. His caliphate was marked by internal conflicts including the Battle of the Camel and the Battle of Siffin.\n\nThe period of the rightly guided caliphs lasted 30 years, as the Prophet foretold. Their governance was based on the Quran and Sunnah, with consultation (shura) as a key principle.",
+              'Uthman ibn \'Affan (may Allah be pleased with him) became caliph in a similar manner to Abu Bakr, when \'Umar ibn al-Khattab (may Allah be pleased with him) delegated the appointment to a shoora council of six of the senior Sahabah, who were to elect one of their number. \'Abd al-Rahman ibn \'Awf consulted the Muhaajireen and Ansaar, and when he saw that the people were all inclined towards \'Uthman, he swore allegiance to him first, then the rest swore allegiance to him.\n\nIt is soundly narrated that \'Uthman recited the entire Quran in one rak\'ah. At-Tabarani narrated in Al-Kabir (130) that his wife said, when they surrounded his house: "Whether you kill him or not, he used to spend the entire night praying one rak\'ah in which he would recite the entire Quran."\n\nAli ibn Abi Talib (may Allah be pleased with him) became caliph when he was elected by most of the decision makers.\n\nThe early generations and leading scholars differed concerning \'Uthman and \'Ali: which of them was superior? The majority are of the view that \'Uthman is more virtuous and takes precedence over \'Ali, as he superseded him in deserving to be appointed caliph.\n\nIbn Hajar (may Allah have mercy on him) said: "In the end, there was consensus among Ahl as-Sunnah that their order in terms of virtue is the same as their order in terms of being appointed as caliph, may Allah be pleased with all of them." (Fath al-Bari, 7/34)\n\nReference: Islam Q&A, Answer 111836, Answer 240154, Answer 211865',
             order_index: 3,
           },
         ],
       },
       {
-        title: "The Golden Age",
-        title_ar: "العصر الذهبي",
-        slug: "golden-age",
+        title: "Islam and Knowledge",
+        title_ar: "الإسلام والعلم",
+        slug: "islam-and-knowledge",
         order_index: 2,
         lessons: [
           {
-            title: "The Islamic Golden Age",
-            title_ar: "العصر الذهبي للحضارة الإسلامية",
-            slug: "islamic-golden-age",
+            title: "The Virtue of Knowledge in Islam",
+            title_ar: "فضل العلم في الإسلام",
+            slug: "virtue-of-knowledge",
             arabic_text: "وَقُل رَّبِّ زِدْنِي عِلْمًا",
             content:
-              "The Islamic Golden Age (roughly 8th-13th centuries) was a period of remarkable scientific, cultural, and intellectual achievement. Centered in Baghdad under the Abbasid Caliphate, scholars from diverse backgrounds translated and expanded upon Greek, Persian, and Indian knowledge.\n\nKey figures include: Al-Khwarizmi (father of algebra), Ibn Sina/Avicenna (medicine and philosophy), Al-Farabi (logic), Ibn Rushd/Averroes (philosophy), Ibn al-Haytham (optics), and Al-Idrisi (geography).\n\nInstitutions like the House of Wisdom (Bayt al-Hikmah) in Baghdad and the libraries of Cordoba attracted scholars worldwide. The emphasis on seeking knowledge ('ilm) in Islam drove this intellectual renaissance.",
+              'Allah created man and provided him with the tools for acquiring knowledge, namely hearing, sight and wisdom. Allah says (interpretation of the meaning): "And Allah has brought you out from the wombs of your mothers while you know nothing. And He gave you hearing, sight and hearts that you might give thanks (to Allah)." (an-Nahl 16:78)\n\nAllah praises the scholars and raises their status. He says (interpretation of the meaning): "Allah will exalt in degree those of you who believe, and those who have been granted knowledge" (al-Mujaadilah 58:11). And He says: "Say: \'Are those who know equal to those who know not?\' It is only men of understanding who will remember." (az-Zumar 39:9)\n\nBecause of the importance of knowledge, Allah commanded His Messenger to seek more of it. Allah says: "and say: \'My Lord! Increase me in knowledge\'" (Ta-Ha 20:114).\n\nThe Messenger (peace and blessings of Allah be upon him) made seeking knowledge an obligation upon every Muslim, and he explained that the superiority of the one who has knowledge over the one who merely worships is like the superiority of the moon over every other heavenly body. He said that the scholars are the heirs of the Prophets and that the Prophets did not leave behind dinars and dirhams, rather their inheritance was knowledge, so whoever acquires it has gained a great share.\n\nHe (peace and blessings of Allah be upon him) said: "Whoever follows a path in the pursuit of knowledge, Allah will make a path to Paradise easy for him." (Narrated by al-Bukhari, Kitaab al-\'Ilm, 10)\n\nIslam calls us to learn all kinds of beneficial knowledge. Branches of knowledge vary in status, the highest of which is knowledge of sharee\'ah, then knowledge of medicine, then the other fields of knowledge.\n\nReference: Islam Q&A, Answer 10471',
             order_index: 1,
           },
           {
-            title: "The Ottoman Empire",
-            title_ar: "الدولة العثمانية",
-            slug: "ottoman-empire",
-            arabic_text: "وَأَعِدُّوا لَهُم مَّا اسْتَطَعْتُم مِّن قُوَّةٍ",
+            title: "The Ottoman Caliphate",
+            title_ar: "الخلافة العثمانية",
+            slug: "ottoman-caliphate",
+            arabic_text: "يَا أَيُّهَا الَّذِينَ آمَنُوا أَطِيعُوا اللَّهَ وَأَطِيعُوا الرَّسُولَ وَأُولِي الْأَمْرِ مِنكُمْ",
             content:
-              "The Ottoman Empire (1299-1924) was one of the longest-lasting Islamic empires. Founded by Osman I, it grew from a small principality in Anatolia to a global superpower spanning three continents.\n\nMajor events include: the conquest of Constantinople (1453) by Mehmed the Conqueror, the peak under Suleiman the Magnificent (1520-1566), and the empire's gradual decline culminating in its dissolution after World War I.\n\nThe Ottomans were defenders of the Islamic world, protecting pilgrimage routes and administering justice through Islamic law. They also preserved and developed Islamic architecture, culminating in masterpieces like the Suleymaniye Mosque by architect Mimar Sinan.",
+              'The Ottoman state was one of the longest-lasting Islamic empires. It is important to understand its relationship with the various regions of the Islamic world.\n\nNajd (central Arabia) never came under Ottoman rule, because the rule of the Ottoman state never reached that far, no Ottoman governor was appointed over that region and the Turkish soldiers never marched through its land. Dr. Saalih al-\'Abood said: "Najd never came under Ottoman rule, because the rule of the Ottoman state never reached that far." (\'Aqeedat al-Shaykh Muhammad ibn \'Abd al-Wahhaab, 1/27)\n\nDr. \'Abd-Allaah al-\'Uthaymeen said: "Najd never experienced direct Ottoman rule before the call of Shaykh Muhammad ibn \'Abd al-Wahhaab emerged, just as it never experienced any strong influence that could have an impact on events inside Najd." (Muhammad ibn \'Abd al-Wahhaab Hayaatuhu wa Fikruhu, p. 11)\n\nThe Ottoman state was divided into administrative provinces. A Turkish document entitled Qawaaneen Aal \'Uthmaan indicates that from the beginning of the eleventh century AH the Ottoman state was divided into 23 provinces, of which 14 were Arabic provinces, and the land of Najd was not among them.\n\nThe Prophet (peace and blessings of Allah be upon him) said: "Whoever among you sees something evil, let him change it with his hand; if he cannot, then with his tongue; if he cannot, then with his heart, and that is the weakest of faith." (Narrated by Muslim)\n\nIbn Baaz (may Allah have mercy on him) said: "Shaykh Muhammad ibn \'Abd al-Wahhaab did not rebel against the Ottoman Caliphate as far as I know, because there was no area in Najd that was under Turkish rule."\n\nReference: Islam Q&A, Answer 9243',
             order_index: 2,
           },
         ],
