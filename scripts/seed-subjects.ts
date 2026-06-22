@@ -752,7 +752,7 @@ const courses: CourseData[] = [
         order_index: 3,
         lessons: [
           {
-            title: "Tawbah \u2014 Sincere Repentance',
+            title: 'Tawbah \u2014 Sincere Repentance',
             title_ar: "التوبة النصوح",
             slug: "tawbah-sincere-repentance",
             arabic_text: "يَا أَيُّهَا الَّذِينَ آمَنُوا تُوبُوا إِلَى اللَّهِ تَوْبَةً نَّصُوحًا",
@@ -761,7 +761,7 @@ const courses: CourseData[] = [
             order_index: 1,
           },
           {
-            title: "Muhasabah \u2014 Self-Accounting',
+            title: 'Muhasabah \u2014 Self-Accounting',
             title_ar: "المحاسبة",
             slug: "muhasabah-self-accounting",
             arabic_text: "يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللَّهَ وَلْتَنظُرْ نَفْسٌ مَّا قَدَّمَتْ لِغَدٍ",
@@ -770,7 +770,7 @@ const courses: CourseData[] = [
             order_index: 2,
           },
           {
-            title: "Dhikr \u2014 Remembrance of Allah',
+            title: 'Dhikr \u2014 Remembrance of Allah',
             title_ar: "ذكر الله",
             slug: "dhikr-remembrance",
             arabic_text: "الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ ۗ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ",
@@ -779,7 +779,7 @@ const courses: CourseData[] = [
             order_index: 3,
           },
           {
-            title: "Tawakkul \u2014 Reliance on Allah',
+            title: 'Tawakkul \u2014 Reliance on Allah',
             title_ar: "التوكل على الله",
             slug: "tawakkul-reliance",
             arabic_text: "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ",
