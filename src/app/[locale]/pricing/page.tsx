@@ -2,7 +2,12 @@ import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { Check, Sparkles, Crown } from "lucide-react";
 
-export default async function PricingPage() {
+export default async function PricingPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   const t = await getTranslations("pricing");
 
   return (
@@ -37,7 +42,7 @@ export default async function PricingPage() {
             ))}
           </ul>
           <Link
-            href="/auth/signup"
+            href={`/${locale}/auth/signup`}
             className="mt-8 block w-full text-center rounded-2xl border border-zinc-700 px-4 py-2.5 text-sm font-medium text-zinc-200 hover:bg-zinc-800 transition-all"
           >
             {t("free_cta")}
@@ -69,7 +74,7 @@ export default async function PricingPage() {
             ))}
           </ul>
           <Link
-            href="/auth/signup"
+            href={`/${locale}/auth/signup`}
             className="mt-8 block w-full text-center rounded-2xl bg-amber-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.3)] transition-all"
           >
             {t("premium_cta")}

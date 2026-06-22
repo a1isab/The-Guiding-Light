@@ -12,11 +12,11 @@ export const dynamic = "force-dynamic";
 export default async function LessonPage({
   params,
 }: {
-  params: Promise<{ courseSlug: string; sectionSlug: string; lessonSlug: string }>;
+  params: Promise<{ locale: string; courseSlug: string; sectionSlug: string; lessonSlug: string }>;
 }) {
+  const { locale: rawLocale, courseSlug, sectionSlug, lessonSlug } = await params;
+  const locale = rawLocale as Locale;
   const t = await getTranslations("courses");
-  const { locale } = await params as unknown as { locale: Locale };
-  const { courseSlug, sectionSlug, lessonSlug } = await params;
   const supabase = createServiceClient();
 
   const { data: course } = await supabase
@@ -61,9 +61,9 @@ export default async function LessonPage({
   return (
     <div className="mx-auto max-w-3xl px-4 py-8">
       <nav className="mb-6 flex items-center gap-2 text-sm text-zinc-500">
-        <Link href="/courses" className="hover:text-emerald-400 transition-colors">{t("breadcrumb_courses")}</Link>
+        <Link href={`/${locale}/courses`} className="hover:text-emerald-400 transition-colors">{t("breadcrumb_courses")}</Link>
         <span className="text-zinc-700">/</span>
-        <Link href={`/courses/${courseSlug}`} className="hover:text-emerald-400 transition-colors">
+        <Link href={`/${locale}/courses/${courseSlug}`} className="hover:text-emerald-400 transition-colors">
           {getTranslation(course, "title", locale, course.title)}
         </Link>
         <span className="text-zinc-700">/</span>

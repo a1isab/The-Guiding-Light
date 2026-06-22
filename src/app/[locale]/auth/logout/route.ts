@@ -2,8 +2,11 @@ import { type NextRequest, NextResponse } from "next/server";
 import { createServerClient as createSSRClient } from "@supabase/ssr";
 
 export async function GET(request: NextRequest) {
-  const origin = new URL(request.url).origin;
-  let supabaseResponse = NextResponse.redirect(new URL("/", origin));
+  const url = new URL(request.url);
+  const origin = url.origin;
+  const pathParts = url.pathname.split("/").filter(Boolean);
+  const locale = pathParts.length > 0 && /^[a-z]{2}(-[A-Z]{2})?$/.test(pathParts[0]) ? pathParts[0] : "en";
+  let supabaseResponse = NextResponse.redirect(new URL(`/${locale}`, origin));
 
   const supabase = createSSRClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

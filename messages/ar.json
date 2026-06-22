@@ -60,11 +60,11 @@
     "premium": "غالي",
     "free": "حر",
     "overall_progress": "التقدم الشامل",
-    "progress_detail": "{Completed} من {total} الدروس المكتملة",
+    "progress_detail": "{completed} من {total} الدروس المكتملة",
     "continue_learning": "مواصلة التعلم",
     "upgrade_premium": "الترقية إلى بريميوم",
     "sign_out": "تسجيل الخروج",
-    "days": "{عدد} أيام"
+    "days": "{count} أيام"
   },
   "pricing": {
     "title": "تسعير بسيط وشفاف",
@@ -122,7 +122,7 @@
     "beginner": "مبتدئ",
     "intermediate": "متوسط",
     "advanced": "متقدم",
-    "lessons": "{عدد} الدروس",
+    "lessons": "{count} الدروس",
     "video": "فيديو",
     "breadcrumb_courses": "الدورات"
   },
@@ -142,7 +142,7 @@
     "fail_title": "تقريبا هناك!",
     "fail_msg": "راجع الدرس ثم حاول مرة أخرى.",
     "retry_quiz": "إعادة محاولة الاختبار",
-    "question_of": "السؤال {الحالي} من {total}",
+    "question_of": "السؤال {current} من {total}",
     "next_question": "السؤال التالي →",
     "see_results": "انظر النتائج"
   },

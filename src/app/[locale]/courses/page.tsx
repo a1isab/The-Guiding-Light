@@ -4,7 +4,12 @@ import { CourseList } from "@/components/course-list";
 
 export const dynamic = "force-dynamic";
 
-export default async function CoursesPage() {
+export default async function CoursesPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  await params;
   const t = await getTranslations("courses");
   const supabase = createServiceClient();
 

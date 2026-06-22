@@ -3,15 +3,16 @@
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { createClient } from "@/lib/supabase-client";
 import { LogIn, Sparkles } from "lucide-react";
 
 function LoginForm() {
   const t = useTranslations("auth");
+  const locale = useLocale();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirect = searchParams.get("redirect") || "/courses";
+  const redirect = searchParams.get("redirect") || "/" + locale + "/courses";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -88,6 +89,7 @@ function LoginForm() {
 
 export default function LoginPage() {
   const t = useTranslations("auth");
+  const locale = useLocale();
 
   return (
     <div className="flex flex-1 items-center justify-center px-4">
@@ -108,7 +110,7 @@ export default function LoginPage() {
 
           <p className="mt-6 text-center text-sm text-zinc-500">
             {t("dont_have_account")}{" "}
-            <Link href="/auth/signup" className="font-medium text-emerald-400 hover:text-emerald-300 transition-colors">
+            <Link href={`/${locale}/auth/signup`} className="font-medium text-emerald-400 hover:text-emerald-300 transition-colors">
               {t("create_one")}
             </Link>
           </p>

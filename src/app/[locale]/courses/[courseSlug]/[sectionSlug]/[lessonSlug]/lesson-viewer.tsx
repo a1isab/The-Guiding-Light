@@ -97,7 +97,7 @@ export function LessonViewer({
       <div className="mt-12 flex items-center justify-between border-t border-zinc-800 pt-6">
         {prevLesson ? (
           <Link
-            href={`/courses/${courseSlug}/${sectionSlug}/${prevLesson.slug}`}
+            href={`/${locale}/courses/${courseSlug}/${sectionSlug}/${prevLesson.slug}`}
             className="flex items-center gap-2 text-sm text-emerald-400 hover:text-emerald-300 transition-colors"
           >
             <ChevronLeft className="h-4 w-4" />
@@ -108,7 +108,7 @@ export function LessonViewer({
         )}
         {nextLesson && stage === "complete" ? (
           <Link
-            href={`/courses/${courseSlug}/${sectionSlug}/${nextLesson.slug}`}
+            href={`/${locale}/courses/${courseSlug}/${sectionSlug}/${nextLesson.slug}`}
             className="flex items-center gap-2 text-sm text-emerald-400 hover:text-emerald-300 transition-colors"
           >
             {getTranslation(nextLesson, "title", locale, nextLesson.title)}

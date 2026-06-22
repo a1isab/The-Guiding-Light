@@ -46,7 +46,7 @@
     "pricing": "Tarifs",
     "about": "À propos",
     "about_text": "Éducation islamique gratuite et structurée, alimentée par l'IA. Construit pour chaque musulman, partout.",
-    "copyright": "© {année} La lumière directrice. Fabriqué avec ♥ pour l'amour d'Allah."
+    "copyright": "© {year} La lumière directrice. Fabriqué avec ♥ pour l'amour d'Allah."
   },
   "logo": {
     "subtitle": "La lumière directrice"
@@ -142,7 +142,7 @@
     "fail_title": "J'y suis presque !",
     "fail_msg": "Relisez la leçon et réessayez.",
     "retry_quiz": "Réessayer le quiz",
-    "question_of": "Question {actuelle} sur {total}",
+    "question_of": "Question {current} of {total}",
     "next_question": "Question suivante →",
     "see_results": "Voir les résultats"
   },

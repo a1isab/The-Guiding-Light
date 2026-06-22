@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useEffect, useState } from "react";
 
 const arabic = "النور المبين";
 
 export function Logo() {
   const t = useTranslations("logo");
+  const locale = useLocale();
   const [displayed, setDisplayed] = useState("");
 
   useEffect(() => {
@@ -31,7 +32,7 @@ export function Logo() {
   }, []);
 
   return (
-    <Link href="/" className="flex flex-col items-start">
+    <Link href={`/${locale}`} className="flex flex-col items-start">
       <span
         className="font-['Amiri'] text-emerald-400 text-xl leading-none"
         dir="rtl"

@@ -160,7 +160,7 @@ export function Navbar() {
                       {t("dashboard")}
                     </Link>
                     <a
-                      href="/auth/logout"
+                      href={"/" + currentLocale + "/auth/logout"}
                       className="block px-4 py-2 text-sm text-red-400 hover:bg-zinc-800"
                     >
                       {t("sign_out")}
@@ -243,7 +243,7 @@ export function Navbar() {
               )}
               {user ? (
                 <a
-                  href="/auth/logout"
+                  href={"/" + currentLocale + "/auth/logout"}
                   className="text-red-400 text-lg font-medium mt-4"
                 >
                   {t("sign_out")}

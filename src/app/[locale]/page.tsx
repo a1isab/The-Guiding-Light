@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { BookOpen, Sparkles, Star, TrendingUp } from "lucide-react";
 import { createClient } from "@/lib/supabase-client";
+import type { Locale } from "@/lib/types";
 
 const steps = [
   { key: "step1" },
@@ -15,6 +16,7 @@ const steps = [
 
 export default function LandingPage() {
   const t = useTranslations("landing");
+  const locale = useLocale() as Locale;
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -41,14 +43,14 @@ export default function LandingPage() {
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <Link
-              href={loggedIn ? "/courses" : "/auth/signup"}
+              href={loggedIn ? `/${locale}/courses` : `/${locale}/auth/signup`}
               className="rounded-2xl bg-emerald-500 px-8 py-3 text-base font-medium text-white shadow-[0_0_25px_rgba(16,185,129,0.3)] hover:bg-emerald-400 hover:shadow-[0_0_35px_rgba(16,185,129,0.4)] transition-all"
             >
               {loggedIn ? t("go_to_courses") : t("start_learning")}
             </Link>
             {!loggedIn && (
               <Link
-                href="/auth/login"
+                href={`/${locale}/auth/login`}
                 className="rounded-2xl border border-zinc-700 bg-zinc-900/50 px-8 py-3 text-base font-medium text-zinc-300 hover:bg-zinc-800 transition-all"
               >
                 {t("have_account")}
@@ -117,7 +119,7 @@ export default function LandingPage() {
             {t("journey_desc")}
           </p>
           <Link
-            href="/courses"
+            href={`/${locale}/courses`}
             className="mt-8 inline-flex items-center gap-2 rounded-2xl bg-emerald-500 px-8 py-3 text-base font-medium text-white hover:bg-emerald-400 transition-all"
           >
             {t("browse_courses")} <TrendingUp className="h-4 w-4" />
@@ -134,7 +136,7 @@ export default function LandingPage() {
             {t("cta_desc")}
           </p>
           <Link
-            href="/auth/signup"
+            href={`/${locale}/auth/signup`}
             className="mt-6 inline-block rounded-2xl bg-emerald-500 px-8 py-3 text-base font-medium text-white shadow-[0_0_25px rgba(16,185,129,0.3)] hover:bg-emerald-400 transition-all"
           >
             {t("get_started_free")}

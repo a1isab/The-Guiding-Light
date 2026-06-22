@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 
-export async function Footer() {
+export async function Footer({ locale }: { locale: string }) {
   const t = await getTranslations("footer");
 
   return (
@@ -23,13 +23,13 @@ export async function Footer() {
             </h4>
             <div className="space-y-2">
               <Link
-                href="/courses"
+                href={`/${locale}/courses`}
                 className="block text-zinc-500 hover:text-zinc-300 text-sm"
               >
                 {t("courses")}
               </Link>
               <Link
-                href="/pricing"
+                href={`/${locale}/pricing`}
                 className="block text-zinc-500 hover:text-zinc-300 text-sm"
               >
                 {t("pricing")}

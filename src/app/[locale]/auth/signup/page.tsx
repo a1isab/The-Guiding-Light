@@ -3,12 +3,13 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { createClient } from "@/lib/supabase-client";
 import { UserPlus, Sparkles, CheckCircle2 } from "lucide-react";
 
 export default function SignUpPage() {
   const t = useTranslations("auth");
+  const locale = useLocale();
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,7 +35,7 @@ export default function SignUpPage() {
       email,
       password,
       options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback?next=/dashboard`,
+        emailRedirectTo: `${window.location.origin}/${locale}/auth/callback?next=/${locale}/dashboard`,
       },
     });
 
@@ -62,10 +63,9 @@ export default function SignUpPage() {
               {t("check_email_msg", { email })}
             </p>
             <Link
-              href="/auth/login"
+              href={`/${locale}/auth/login`}
               className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-emerald-400 hover:text-emerald-300 transition-colors"
             >
-              <UserPlus className="h-4 w-4" />
               {t("go_to_login")}
             </Link>
           </div>
@@ -136,7 +136,7 @@ export default function SignUpPage() {
           {!loggedIn && (
             <p className="mt-6 text-center text-sm text-zinc-500">
               {t("already_have_account")}{" "}
-              <Link href="/auth/login" className="font-medium text-emerald-400 hover:text-emerald-300 transition-colors">
+              <Link href={`/${locale}/auth/login`} className="font-medium text-emerald-400 hover:text-emerald-300 transition-colors">
                 {t("sign_in_link")}
               </Link>
             </p>

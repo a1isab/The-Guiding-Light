@@ -7,12 +7,17 @@ import { BookOpen, Flame, Crown, TrendingUp, LogOut } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   const t = await getTranslations("dashboard");
   const supabase = await createServerSupabaseClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  if (!user) redirect("/auth/login");
+  if (!user) redirect(`/${locale}/auth/login`);
 
   const service = createServiceClient();
 
@@ -112,7 +117,7 @@ export default async function DashboardPage() {
 
       <div className="mt-10 flex flex-wrap items-center gap-4">
         <Link
-          href="/courses"
+          href={`/${locale}/courses`}
           className="inline-flex items-center gap-2 rounded-2xl bg-emerald-500 px-6 py-2.5 text-sm font-medium text-white hover:bg-emerald-400 transition-all shadow-[0_0_20px_rgba(16,185,129,0.2)]"
         >
           <TrendingUp className="h-4 w-4" />
@@ -120,7 +125,7 @@ export default async function DashboardPage() {
         </Link>
         {!isPremium && (
           <Link
-            href="/pricing"
+            href={`/${locale}/pricing`}
             className="inline-flex items-center gap-2 rounded-2xl border border-amber-700 bg-amber-500/10 px-6 py-2.5 text-sm font-medium text-amber-400 hover:bg-amber-500/20 transition-all"
           >
             <Crown className="h-4 w-4" />
@@ -128,7 +133,7 @@ export default async function DashboardPage() {
           </Link>
         )}
         <a
-          href="/auth/logout"
+          href={`/${locale}/auth/logout`}
           className="inline-flex items-center gap-2 rounded-2xl border border-zinc-700 px-6 py-2.5 text-sm font-medium text-zinc-400 hover:bg-zinc-800 transition-all ml-auto"
         >
           <LogOut className="h-4 w-4" />
