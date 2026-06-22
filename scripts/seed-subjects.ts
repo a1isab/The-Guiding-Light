@@ -57,7 +57,7 @@ const courses: CourseData[] = [
             video_url: "https://www.youtube.com/embed/rmo4UblVEKg?si=h7fpO6Da34JNBggt&start=0&end=115.3",
             arabic_text: "آمَنَ الرَّسُولُ بِمَا أُنزِلَ إِلَيْهِ مِن رَّبِّهِ وَالْمُؤْمِنُونَ ۚ كُلٌّ آمَنَ بِاللَّهِ وَمَلَائِكَتِهِ وَكُتُبِهِ وَرُسُلِهِ",
             content:
-              "Belief in Allah is the first and most fundamental pillar of Iman. It encompasses belief in His existence, His Lordship (Rububiyyah), His exclusive right to worship (Uluhiyyah), and His beautiful Names and Attributes (Asma was-Sifat).\n\nAllah is Al-Khaliq (The Creator), Ar-Razzaq (The Provider), Al-Malik (The Sovereign), and Ar-Rahman (The Most Merciful). He is eternal, all-powerful, and knows all things.\n\nThe Quran says: 'Indeed, in the creation of the heavens and the earth and the alternation of the night and the day are signs for those of understanding.' (3:190)",
+              "Faith in Allah means believing firmly in His existence, Lordship and Divinity, and in His Names and Attributes. Faith in Allah implies four things, whoever believes in them is a true believer.\n\n1 – Belief in the existence of Allah. The existence of Allah is indicated by reason and by man's innate nature. Every man has been created with an innate belief in his Creator without having to first think about it or be taught, and no one deviates from this innate nature except the one who has been exposed to misguiding influences. The Prophet (peace be upon him) said: 'There is no child who is not born in a state of fitrah (the natural inclination of man), but his parents make him a Jew, a Christian or a Magian.' (Bukhari, Muslim). All these created things, past, present and future, must have a Creator Who brought them into existence, because it is not possible for them to have created themselves or to have come into existence by accident.\n\n2 – Belief in the Lordship of Allah (Rububiyyah). That He alone is the Lord, with no partner or helper. The Lord (Rabb) is the One Who has the power of creation, dominion and control. There is no Creator except Allah, no Sovereign except Allah, no controller of affairs except Allah. 'Surely, His is the creation and commandment' (7:54).\n\n3 – Belief in His Divinity (Uluhiyyah). That He is the One True God, with no partner or associate. Allah (God) means the One Who is worshipped out of love and veneration. This is what is meant by La ilaha illa Allah (there is no god but Allah). No one deserves to be worshipped or singled out for worship except Allah. The call of all the Messengers, from the first to the last of them, was the call to say La ilaha illa Allah.\n\n4 – Belief in His Names and Attributes (Asma was-Sifat). Affirming the names and attributes which Allah has affirmed for Himself in His Book and in the Sunnah of His Messenger in a manner that befits Him, without distorting (tahrif), denying (ta'til), inquiring into how (takyeef), or likening to creation (tamthil). 'There is nothing like Him, and He is the All-Hearing, All-Seeing.' (42:11)\n\nSource: islamqa.info/en/answers/34630",
             questions: [
               { question: "What is the first and most fundamental pillar of Iman?", options: ["Belief in Allah", "Belief in the Angels", "Belief in the Books", "Belief in the Prophets"], correct: 0 },
               { question: "Which category of Tawheed means singling out Allah for worship?", options: ["Tawhid ar-Rububiyyah", "Tawhid al-Uluhiyyah", "Tawhid al-Asma was-Sifat", "All of the above"], correct: 1 },
@@ -74,7 +74,7 @@ const courses: CourseData[] = [
             video_url: "https://www.youtube.com/embed/rmo4UblVEKg?si=h7fpO6Da34JNBggt&start=116&end=148.3",
             arabic_text: "الْحَمْدُ لِلَّهِ فَاطِرِ السَّمَاوَاتِ وَالْأَرْضِ جَاعِلِ الْمَلَائِكَةِ رُسُلًا",
             content:
-              "Angels (Mala'ikah) are created from light. They are honored servants of Allah who obey His commands without fail. They do not eat, drink, or disobey.\n\nKey angels include: Jibril (Gabriel) — brings revelation, Mika'il (Michael) — provides sustenance, Israfil — blows the Trumpet, Malak al-Mawt (Azrael) — takes souls, and the Kiraman Katibin — record deeds.\n\nBelief in angels means accepting their existence, their names, their functions, and that they constantly worship Allah.",
+              "The angels form an unseen world; they were created by Allah from light and they obey the commands of Allah: 'Who disobey not, (from executing) the commands they receive from Allah, but do that which they are commanded.' (66:6). Belief in the angels implies four essential things:\n\n1 – Affirming that they exist and that they are part of the creation of Allah, subject to His Lordship and subjugated to Him. They are 'honoured slaves. They speak not until He has spoken, and they act on His command.' (21:26-27). 'And those who are near Him (i.e. the angels) are not too proud to worship Him, nor are they weary (of His worship). They glorify His praises night and day, (and) they never slacken (to do so).' (21:19-20).\n\n2 – Belief in the names of those whose name we know, such as Jibreel, Mikail, Israfil, Malik, Radwan and others – peace be upon them.\n\n3 – Belief in the attributes of those whose attributes we know, as we know the description of Jibreel (peace be upon him) from the sunnah, and that he has six hundred wings which filled the horizon.\n\n4 – Belief in the actions which we know some of them do. Jibreel is entrusted with revelation, Israfil is entrusted with sounding the trumpet-blast (to herald the onset of the Day of Resurrection), Mikail is entrusted with the rain, and Malik is entrusted with Hell.\n\nOne of the most important things that we must believe in is that every person has two angels with him who record his deeds: '(Remember) that the two receivers (recording angels) receive (each human being), one sitting on the right and one on the left (to note his or her actions).' (50:17-18).\n\nSource: islamqa.info/en/answers/9477",
             questions: [
               { question: "What are angels created from?", options: ["Clay", "Fire", "Light", "Water"], correct: 2 },
               { question: "Which angel is responsible for bringing revelation?", options: ["Mika'il", "Jibril", "Israfil", "Malak al-Mawt"], correct: 1 },
@@ -91,7 +91,7 @@ const courses: CourseData[] = [
             video_url: "https://www.youtube.com/embed/rmo4UblVEKg?si=h7fpO6Da34JNBggt&start=149&end=186.3",
             arabic_text: "نَزَّلَ عَلَيْكَ الْكِتَابَ بِالْحَقِّ مُصَدِّقًا لِّمَا بَيْنَ يَدَيْهِ وَأَنزَلَ التَّوْرَاةَ وَالْإِنجِيلَ",
             content:
-              "Muslims believe in all the scriptures revealed by Allah to His prophets. These include: the Suhuf (Scrolls) of Ibrahim, the Tawrah (Torah) given to Musa, the Zabur (Psalms) given to Dawud, the Injil (Gospel) given to Isa, and the Quran given to Muhammad (peace be upon them all).\n\nThe Quran is the final and most complete revelation, superseding all previous books. It is preserved in its original Arabic and contains guidance for all of humanity until the end of time.",
+              "Belief in the Books of Allah implies four things:\n\n1 – Firm belief that all of them were revealed from Allah, and that Allah spoke them in a real sense. Some were heard from Him from behind a veil, some were conveyed by an angelic messenger to a human messenger, and some were written by Allah's own Hand. 'And to Musa Allah spoke directly.' (4:164).\n\n2 – The Books that Allah has mentioned by name, we must believe in by name. These are the Books which Allah has named in the Quran: the Quran, the Tawrat (Torah), the Injil (Gospel), the Zabur (Psalms), and the Scriptures (Suhuf) of Ibrahim and Musa. Those which Allah has mentioned in general terms, we must believe in them in general terms.\n\n3 – Believing whatever is true of what they say, such as what is said in the Quran, and whatever has not been altered or distorted in the previous Books.\n\n4 – Believing that Allah revealed the Quran as a witness over these Books and to confirm them: 'And We have sent down to you (O Muhammad) the Book (this Quran) in truth, confirming the Scripture that came before it and Muhaymin (trustworthy in highness and a witness) over it (old Scriptures).' (5:48).\n\nThe Quran is the final and most complete revelation, superseding all previous books. It is preserved in its original Arabic and contains guidance for all of humanity until the end of time.\n\nSource: islamqa.info/en/answers/9519",
             questions: [
               { question: "Which scripture was given to Prophet Dawud (AS)?", options: ["Tawrah", "Zabur", "Injil", "Suhuf"], correct: 1 },
               { question: "What makes the Quran unique among all scriptures?", options: ["It was revealed in multiple languages", "It is preserved in its original Arabic", "It contains stories only", "It was revealed to multiple prophets"], correct: 1 },
@@ -108,7 +108,7 @@ const courses: CourseData[] = [
             video_url: "https://www.youtube.com/embed/rmo4UblVEKg?si=h7fpO6Da34JNBggt&start=187&end=220.3",
             arabic_text: "إِنَّا أَوْحَيْنَا إِلَيْكَ كَمَا أَوْحَيْنَا إِلَىٰ نُوحٍ وَالنَّبِيِّينَ مِن بَعْدِهِ",
             content:
-              "Belief in the Prophets means affirming that Allah sent messengers to every nation to guide humanity to the truth. They were the best of creation, chosen by Allah to deliver His message.\n\nWe believe in all of them: Adam, Nuh, Ibrahim, Musa, Isa, and Muhammad (peace be upon them all). Muhammad is the final prophet, and there is no prophet after him.\n\nThe prophets were protected from sin (isma) in conveying the message. They are models of character, patience, and devotion. To reject even one prophet is to reject them all.",
+              "It is obligatory to believe in all the Prophets and Messengers whom Allah has sent. The Prophets and Messengers were many, and no one knows their number except Allah. Among them are those of whom Allah has told us, and some of whom He has not told us. Allah has mentioned twenty-five in the Quran, and we are obliged to believe in all of them.\n\nAllah chose Messengers and Prophets from among the sons of Adam, and sent them to each nation, and commanded them to call them to worship Allah alone. 'And verily, We have sent among every Ummah (community, nation) a Messenger (proclaiming): Worship Allah (Alone), and avoid Taghut (all false deities besides Allah).' (16:36).\n\nThe difference between a Nabi (Prophet) and a Rasool (Messenger) is that a Rasool is one to whom a new law is revealed, while a Nabi is one who is sent to confirm the law of a previous Messenger. Allah has mentioned twenty-five by name in the Quran, including Nuh, Ibrahim, Musa, Isa, and Muhammad (peace be upon them all). Muhammad is the final prophet, and there is no prophet after him. He was sent to all of mankind.\n\nThe Prophets and Messengers were chosen by Allah to be an example to their nations. They were protected from sin in conveying the message. 'Indeed in the Messenger of Allah (Muhammad) you have a good example to follow for him who hopes for (the Meeting with) Allah and the Last Day.' (33:21). Belief in all the Prophets and Messengers is one of the pillars of Islamic belief, without which the faith of the Muslim cannot be complete.\n\nSource: islamqa.info/en/answers/10468",
             questions: [
               { question: "Why did Allah send prophets to humanity?", options: ["To rule over people", "To guide humanity to the truth", "To perform miracles", "To write scriptures"], correct: 1 },
               { question: "Who is the final prophet sent by Allah?", options: ["Isa (AS)", "Musa (AS)", "Muhammad ﷺ", "Ibrahim (AS)"], correct: 2 },
@@ -125,7 +125,7 @@ const courses: CourseData[] = [
             video_url: "https://www.youtube.com/embed/rmo4UblVEKg?si=h7fpO6Da34JNBggt&start=220&end=266.3",
             arabic_text: "وَيَوْمَ نُسَيِّرُ الْجِبَالَ وَتَرَى الْأَرْضَ بَارِزَةً وَحَشَرْنَاهُمْ فَلَمْ نُغَادِرْ مِنْهُمْ أَحَدًا",
             content:
-              "The Day of Judgement (Yawm al-Qiyamah) is the day when all of creation will be resurrected and held accountable for their deeds. Belief in this day includes belief in: the Resurrection, the Gathering, the Book of Deeds, the Scale (Mizan), the Bridge (Sirat), and the Final Destination of Paradise or Hellfire.\n\nEveryone will be judged with perfect justice. Those who believed and did righteous deeds will enter Paradise by Allah's mercy. Those who rejected the truth will face eternal punishment.\n\nThis belief instills taqwa (God-consciousness) and reminds us that this life is temporary — a test for the eternal life to come.",
+              "Belief in the Day of Judgement (Yawm al-Qiyamah) is one of the six pillars of faith. The sequence of events on the Day of Resurrection is as follows:\n\n1 – The people are resurrected and rise from their graves, then go to the land of gathering, where they will stand for a long time, during which they will suffer intense hardship and thirst, and experience extreme fear.\n\n2 – When they have stood for a long time, Allah will bring forth the cistern of the Prophet (blessings and peace of Allah be upon him) to which people will come. The one who died adhering to his Sunnah, without introducing any innovation, will come to the cistern and be given to drink from it.\n\n3 – Then the great intercession will come – the intercession of the Prophet (blessings and peace of Allah be upon him), who will ask Allah to hasten the reckoning for all people.\n\n4 – After that will come the examination of deeds, then the reckoning. Then the records of deeds will fly to the people.\n\n5 – Then after that the balance (Mizan) will be set up, and deeds will be weighed.\n\n6 – Then after the balance, people will be divided into groups and categories, with people of similar calibre being grouped together.\n\n7 – Then Allah will cause darkness to prevail just before people reach Hell. The believers will be given light, and the hypocrites will not be given light and will fall into Hell.\n\n8 – Then the Prophet (blessings and peace of Allah be upon him) will be standing on the Sirat (bridge), asking: 'O Allah, grant safety.' The believers will cross over the Sirat, each one passing in accordance with his deeds.\n\nBelief in the Day of Judgement instills taqwa (God-consciousness) and reminds us that this life is temporary — a test for the eternal life to come.\n\nSource: islamqa.info/en/answers/220511",
             questions: [
               { question: "What is Yawm al-Qiyamah?", options: ["The night of power", "The Day of Judgement", "The day of Eid", "The day of forgiveness"], correct: 1 },
               { question: "Which of the following is part of belief in the Last Day?", options: ["Reincarnation", "The Scale (Mizan)", "Karma", "Astrology"], correct: 1 },
@@ -142,7 +142,7 @@ const courses: CourseData[] = [
             video_url: "https://www.youtube.com/embed/rmo4UblVEKg?si=h7fpO6Da34JNBggt&start=266",
             arabic_text: "إِنَّا كُلَّ شَيْءٍ خَلَقْنَاهُ بِقَدَرٍ",
             content:
-              "Belief in Divine Decree (Qadr) means affirming that everything that happens — good or bad — occurs by the knowledge, will, and power of Allah. This includes four levels: Allah's complete knowledge of all things, His recording of all things in the Preserved Tablet (al-Lawh al-Mahfuz), His will that nothing occurs outside of it, and His creation of all actions and events.\n\nQadr is a profound source of peace. Whatever befalls you could not have missed you, and whatever misses you could not have befallen you. This frees the heart from anxiety and regret.\n\nAt the same time, Qadr does not negate human free will — we choose our actions and are accountable for them. The relationship between divine decree and human responsibility is a mystery that the believer accepts.",
+              "Belief in al-Qadr (the divine will and decree) is one of the pillars of faith. The Prophet (peace and blessings of Allah be upon him) said, when he answered Jibreel's question about faith: '(It means) believing in Allah, His angels, His Books, His Messengers and the Last Day, and to believe in al-Qadr (the divine decree) both good and bad.'\n\nBelief in al-Qadr is based on four things:\n\n1 – Knowledge: That Allah knows what His creation will do, by virtue of His eternal knowledge. 'And with Him are the keys of the Ghayb (all that is hidden), none knows them but He. And He knows whatever there is in the land and in the sea; not a leaf falls, but He knows it.' (6:59)\n\n2 – Writing: That Allah has written the destiny of all creatures in al-Lawh al-Mahfuz (the Preserved Tablet). The Prophet said: 'Allah wrote down the decrees of creation fifty thousand years before He created the heavens and the earth.' (Muslim)\n\n3 – Will: That what Allah wills happens and what He does not will does not happen. There is no movement in the heavens or on earth but it happens by His will.\n\n4 – Creation: That Allah is the Creator of all things, including the actions of His slaves. They do their actions in a real sense, and He is the Creator of them and of their actions.\n\nWhoever believes in these four believes in al-Qadr. The belief of Ahl al-Sunnah wal-Jama'ah is that a person has freedom of will, and hence he will be rewarded or punished. But his will is subject to the will of Allah, and nothing can take place in the universe that is not willed by Allah.\n\nSource: islamqa.info/en/answers/20806",
             questions: [
               { question: "What does Qadr refer to?", options: ["Only good events", "Divine Decree — everything happens by Allah's will", "Human free will only", "Random chance"], correct: 1 },
               { question: "How many levels are there in belief in Qadr?", options: ["Two", "Three", "Four", "Five"], correct: 2 },
@@ -166,7 +166,7 @@ const courses: CourseData[] = [
             slug: "tawhid-rububiyyah",
             arabic_text: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ",
             content:
-              "Tawhid ar-Rububiyyah is the oneness of Allah's Lordship. It means affirming that Allah alone is the Creator, Sustainer, Sovereign, and Controller of all affairs. He alone gives life and causes death, sends down rain, and governs the universe.\n\nEven the polytheists of Quraysh acknowledged this type of Tawheed. They believed Allah created the heavens and the earth, yet they still worshipped others alongside Him.\n\nThis category establishes that all power and authority belong to Allah alone.",
+              "Tawhid ar-Rububiyyah (Oneness of Divine Lordship) means believing in Allah as One and Unique with regard to His actions such as creation, sovereignty, control, giving life and death, and so on. Allah says: 'Surely, His is the creation and the commandment' (7:54).\n\nThere is a great deal of evidence to support this in the Quran and Sunnah. Whoever believes that there is any creator other than Allah or any sovereign controlling this universe and disposing of its affairs other than Allah has denied this aspect of Tawhid and disbelieved in Allah.\n\nThe disbelievers of old accepted this aspect of Tawhid in general terms, although they differed with regard to some of its details. Allah says: 'And if you were to ask them: Who has created the heavens and the earth and subjected the sun and the moon? they will surely reply: Allah.' (29:61).\n\nSo whoever affirms this Tawhid in the true sense must inevitably also affirm the Oneness of Allah's Divinity (Tawhid al-Uluhiyyah).\n\nSource: islamqa.info/en/answers/49030",
             order_index: 1,
           },
           {
@@ -175,7 +175,7 @@ const courses: CourseData[] = [
             slug: "tawhid-uluhiyyah",
             arabic_text: "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
             content:
-              "Tawhid al-Uluhiyyah is the oneness of Allah's worship. It means singling out Allah alone for all acts of worship — prayer, fasting, supplication, trust, fear, hope, love, and sacrifice.\n\nThis is the essence of the Shahada: 'La ilaha illa Allah' — there is no god worthy of worship except Allah. It was the primary message of all prophets.\n\nAny act of worship directed to other than Allah is major shirk, which Allah does not forgive unless one repents.",
+              "Tawhid al-Uluhiyyah means devoting all acts of worship, both inward and outward, in word and deed, to Allah Alone, and not worshipping anything or anyone other than Allah, no matter who he is. It is called Tawhid al-Uluhiyyah because it is based on ta-alluh lillah, which is worship and devotion to Allah accompanied by love and veneration.\n\nIt is also called Tawhid al-'Ibadah (Oneness of Worship) because it means that a person worships Allah by doing what He has commanded and avoiding that which He has forbidden. Allah says: 'And your Lord has decreed that you worship none but Him' (17:23) and 'Worship Allah and join none with Him in worship' (4:36).\n\nThis is the essence of the Shahada: 'La ilaha illa Allah' — there is no god worthy of worship except Allah. It was the primary message of all prophets. This is the kind of Tawhid concerning which people went astray, which is why the prophets were sent and the Books were revealed. Whoever goes astray with regard to this Tawhid, such as devoting some of his worship to someone other than Allah, has gone beyond the pale of Islam.\n\nSource: islamqa.info/en/answers/49030",
             order_index: 2,
           },
           {
@@ -184,7 +184,7 @@ const courses: CourseData[] = [
             slug: "tawhid-asma-was-sifat",
             arabic_text: "لَيْسَ كَمِثْلِهِ شَيْءٌ ۖ وَهُوَ السَّمِيعُ الْبَصِيرُ",
             content:
-              "Tawhid al-Asma was-Sifat is the oneness of Allah's Names and Attributes. It means affirming for Allah the names and attributes that He has affirmed for Himself in the Quran and through His Messenger, without distortion (tahrif), denial (ta'til), inquiring into how (takyeef), or likening to creation (tamthil).\n\nAllah is As-Sami' (All-Hearing), Al-Basir (All-Seeing), Al-Qadir (All-Powerful), Ar-Rahman (Most Merciful). His attributes are perfect and unique to Him.\n\nThe principle is: 'There is nothing like unto Him, and He is the All-Hearing, All-Seeing.' (42:11)",
+              "Tawhid al-Asma wa'l-Sifat (Oneness of the Divine Names and Attributes) means affirming the names and attributes of Allah and believing that there is none like unto Allah in His names and attributes. This Tawhid is based on two principles:\n\n1 – Affirmation: Affirming that which Allah has affirmed for Himself in His Book or that His Prophet (peace and blessings of Allah be upon him) has affirmed of His beautiful names and sublime attributes in a manner that suits the Majesty and Greatness of Allah, without distorting them, twisting their meanings, denying their reality or discussing how they are.\n\n2 – Denial: Denying that Allah has any faults and denying any shortcomings that He has denied Himself. The evidence for that is the words of Allah: 'There is nothing like Him, and He is the All-Hearer, the All-Seer' (42:11). So He has denied that He bears any resemblance to His creation, and affirmed that He has attributes of perfection in a manner that befits Him.\n\nExamples of Allah's beautiful names include Ar-Rahman (Most Compassionate), Ar-Rahim (Most Merciful), Al-Malik (The Sovereign), Al-Quddus (The Pure), As-Sami' (All-Hearing), Al-Basir (All-Seeing).\n\nSource: islamqa.info/en/answers/49030",
             order_index: 3,
           },
         ],
@@ -201,7 +201,7 @@ const courses: CourseData[] = [
             slug: "ahlus-sunnah",
             arabic_text: "وَاعْتَصِمُوا بِحَبْلِ اللَّهِ جَمِيعًا وَلَا تَفَرَّقُوا",
             content:
-              "Ahlus-Sunnah wal-Jama'ah (the People of the Sunnah and the Community) are those who follow the Quran and authentic Sunnah according to the understanding of the companions (Sahabah). They are the majority of Muslims and represent the orthodox tradition.\n\nKey principles include: following the Quran and Sunnah, loving the companions, avoiding innovation (bid'ah), and maintaining unity.\n\nThe Prophet (peace be upon him) said: 'My Ummah will split into 73 sects, all in the Fire except one.' They asked: 'Who is that, O Messenger of Allah?' He said: 'Those who follow what I and my companions are upon.'",
+              "Ahl al-Sunnah wa'l-Jamaa'ah are those who adhere to the Sunnah and who unite upon it, not turning to anything else, whether that be in matters of belief (aqeedah) or matters of actions which are subject to shar'i rulings. Hence they are called Ahl al-Sunnah because they adhere to it (the Sunnah), and they are called Ahl al-Jamaa'ah because they are united in following it.\n\nThe Prophet (peace be upon him) said: 'My Ummah will split into 73 sects, all in the Fire except one.' They asked: 'Who is that, O Messenger of Allah?' He said: 'Those who follow what I and my companions are upon.' (Tirmidhi)\n\nIf you examine the followers of bid'ah (innovation), you will find that they differ concerning that which they are following, with regard to beliefs, methodology and practices, which indicates that their being far removed from the Sunnah is commensurate with the extent to which they have introduced innovations.\n\nSource: islamqa.info/en/answers/10777",
             order_index: 1,
           },
           {
@@ -210,7 +210,7 @@ const courses: CourseData[] = [
             slug: "warning-against-bidah",
             arabic_text: "وَأَنَّ هَٰذَا صِرَاطِي مُسْتَقِيمًا فَاتَّبِعُوهُ ۖ وَلَا تَتَّبِعُوا السُّبُلَ فَتَفَرَّقَ بِكُمْ عَن سَبِيلِهِ",
             content:
-              "Bid'ah (religious innovation) refers to introducing new practices into the religion that are not part of the Quran and Sunnah. The Prophet said: 'Every innovation is misguidance, and every misguidance is in the Fire.'\n\nInnovations can range from minor practices to major doctrinal deviations. The safeguard against bid'ah is to ground all worship and belief in authentic evidence from the revealed sources.\n\nGood intentions do not justify innovations. The religion was perfected during the Prophet's lifetime, as Allah says: 'This day I have perfected for you your religion.' (5:3)",
+              "Bid'ah (religious innovation) refers to introducing new practices into the religion. The Prophet (blessings and peace of Allah be upon him) said: 'Beware of newly introduced matters, for every newly introduced matter is an innovation, and every innovation is misguidance.' (Abu Dawud) And he said: 'Whoever does an action that is not in accordance with this matter of ours, it will be rejected.' (Muslim)\n\nInnovation (bid'ah) is defined by three characteristics:\n\n1 – Being newly introduced into the religion.\n2 – Being attributed to the religion of Islam (seeking to draw close to Allah by means of something He did not prescribe).\n3 – Having no basis in the religious texts, whether in a specific sense or in general terms.\n\nThis excludes new inventions and newly introduced matters pertaining to worldly life, that have nothing to do with religion. It also excludes sins that have been introduced but were known before.\n\nThe safeguard against bid'ah is to ground all worship and belief in authentic evidence from the revealed sources. Good intentions do not justify innovations, as the religion was perfected during the Prophet's lifetime: 'This day I have perfected for you your religion.' (5:3)\n\nSource: islamqa.info/en/answers/118225",
             order_index: 2,
           },
         ],
@@ -242,7 +242,7 @@ const courses: CourseData[] = [
             slug: "wudu",
             arabic_text: "يَا أَيُّهَا الَّذِينَ آمَنُوا إِذَا قُمْتُمْ إِلَى الصَّلَاةِ فَاغْسِلُوا وُجُوهَكُمْ وَأَيْدِيَكُمْ إِلَى الْمَرَافِقِ",
             content:
-              "Wudu is the ritual washing performed before prayer. Its obligatory (fard) acts are: washing the face, washing the arms to the elbows, wiping the head, and washing the feet to the ankles — in order.\n\nSunnah acts include: rinsing the mouth, sniffing water into the nose, wiping the ears, and saying the basmalah before starting.\n\nWudu is invalidated by: natural discharge, deep sleep, loss of consciousness, and touching the private parts directly. The Prophet said: 'The key to Paradise is prayer, and the key to prayer is purification.'",
+              "Wudu is the ritual washing performed before prayer. The obligatory parts of wudu are:\n\n1 – Washing the face completely once, which includes rinsing the mouth and nose.\n2 – Washing the arms up to the elbows, once.\n3 – Wiping the entire head, including the ears.\n4 – Washing the feet up to the ankles, once.\n\nThese must be done in order and continuously (one after the other with no lengthy interruption). The evidence is the verse: 'O you who believe! When you intend to offer As-Salah (the prayer), wash your faces and your hands (forearms) up to the elbows, rub (by passing wet hands over) your heads, and (wash) your feet up to the ankles.' (5:6).\n\nThe mustahabb (recommended) parts of wudu include: saying Bismillah, washing the hands three times, rinsing the mouth and nose three times, washing the face three times, washing the arms three times, wiping the head and ears once with fresh water, and washing the feet three times. After completing wudu, it is recommended to say: 'Ashhadu an la ilaha ill-Allah wahdahu la sharika lah, wa ashhadu anna Muhammadan abduhu wa rasuluhu.'\n\nThere is no difference between men and women in the way wudu should be done. The conditions of wudu are: being Muslim, of sound mind, having reached the age of discernment and having the intention of doing wudu.\n\nSource: islamqa.info/en/answers/11497",
             order_index: 1,
           },
           {
@@ -251,7 +251,7 @@ const courses: CourseData[] = [
             slug: "ghusl",
             arabic_text: "وَإِن كُنتُمْ جُنُبًا فَاطَّهَّرُوا",
             content:
-              "Ghusl (full body wash) becomes obligatory after: sexual intercourse, ejaculation (wet dream or otherwise), and the end of menstruation and post-childbirth bleeding.\n\nThe obligatory acts of ghusl are: rinsing the mouth, sniffing water into the nose, and washing the entire body with water.\n\nRecommended acts include: washing the private parts, performing wudu-like washing before the full bath, and pouring water over the head three times. Ghusl on Friday is a confirmed Sunnah for attending the congregational prayer.",
+              "Ghusl (full body wash) becomes obligatory after: sexual intercourse, ejaculation (wet dream or otherwise), and the end of menstruation and post-childbirth bleeding. Ghusl on Friday is a confirmed Sunnah for attending the congregational prayer.\n\nA brief summary of the requirements for ghusl:\n\n1 – Make the intention for purification.\n2 – Wash the private parts.\n3 – Make wudu like the wudu done for prayer.\n4 – Pour water on the right side, then the left side.\n5 – Pour water on the head, covering the entire body with water.\n\nIt is reported in the Sunnah that the Prophet (peace and blessings of Allah be upon him), when performing ghusl from janabah, used to wash his hands, then wash his private parts with his left hand. After that he performed wudu like that for prayer. Next he took some water and ran his fingers in the roots of his hair until he used three handfuls of water on his head. He would then go on pouring water on the rest of his body and wash his legs. (Muslim)\n\nSource: islamqa.info/en/answers/415",
             order_index: 2,
           },
           {
@@ -260,7 +260,7 @@ const courses: CourseData[] = [
             slug: "tayammum",
             arabic_text: "فَلَمْ تَجِدُوا مَاءً فَتَيَمَّمُوا صَعِيدًا طَيِّبًا",
             content:
-              "Tayammum is a substitute for wudu or ghusl when water is unavailable or its use would cause harm. It is performed by striking clean earth and wiping the face and hands.\n\nConditions for tayammum include: absence of water, illness that would worsen with water, or being on a journey with insufficient water.\n\nTayammum is nullified by the same things that nullify wudu, AND by the presence of water (if performing tayammum for lack of water). Allah says: 'And He has not placed upon you any hardship in the religion.' (22:78)",
+              "Tayammum is a substitute for wudu or ghusl when water is unavailable or its use would cause harm. The way in which tayammum is done is:\n\n1 – Say Bismillah with the intention of doing tayammum.\n2 – Strike the ground once with the palms of the hands.\n3 – Wipe the back of the right hand with the palm of the left, and the back of the left hand with the palm of the right.\n4 – Wipe the face with both hands.\n5 – Recite the same du'as that are recited after wudu.\n\nThis is based on the hadith of Ammar ibn Yasir (may Allah be pleased with him) in al-Bukhari and Muslim, where the Prophet (peace and blessings of Allah be upon him) said: 'It would have been sufficient for you to do this' — then he struck the palms of his hands on the ground, then dusted them off, then wiped the back of each hand with the other, then he wiped his face with his hands.\n\nConditions for tayammum include: absence of water, illness that would worsen with water, or being on a journey with insufficient water. Tayammum is nullified by the same things that nullify wudu, and by the presence of water (if performing tayammum for lack of water).\n\nSource: islamqa.info/en/answers/21074",
             order_index: 3,
           },
         ],
@@ -277,7 +277,7 @@ const courses: CourseData[] = [
             slug: "five-daily-prayers",
             arabic_text: "إِنَّ الصَّلَاةَ كَانَتْ عَلَى الْمُؤْمِنِينَ كِتَابًا مَّوْقُوتًا",
             content:
-              "The five daily prayers are Fajr (2 rak'ahs), Dhuhr (4), Asr (4), Maghrib (3), and Isha (4). They are an obligation upon every adult Muslim of sound mind.\n\nPrayer times are determined by the sun's position: Fajr from dawn to sunrise, Dhuhr when the sun passes its zenith, Asr when shadows equal object length, Maghrib at sunset, Isha when twilight disappears.\n\nPrayer is the second pillar of Islam and the first deed for which a person will be held accountable on the Day of Judgment. The Prophet said: 'The covenant between us and them is prayer; whoever abandons it has disbelieved.'",
+              "The five daily prayers are an obligation upon every adult Muslim of sound mind. Their times were defined by the Prophet (peace and blessings of Allah be upon him) in the hadith: 'The time for Zhuhr is from when the sun has passed its zenith and a man's shadow is equal in length to his height, until the time for Asr comes. The time for Asr lasts until the sun turns yellow. The time for Maghrib lasts until the twilight has faded. The time for Isha lasts until midnight. The time for Subh (Fajr) prayer lasts from the beginning of the pre-dawn so long as the sun has not yet started to rise.' (Muslim, 612)\n\nIn summary:\n- Fajr: from true dawn (second dawn) until sunrise. (2 rak'ahs)\n- Dhuhr: from when the sun passes its zenith until the shadow of an object is equal to its length. (4 rak'ahs)\n- Asr: from when Dhuhr time ends until sunset (preferred time: until the sun turns yellow). (4 rak'ahs)\n- Maghrib: from sunset until the red afterglow (twilight) fades. (3 rak'ahs)\n- Isha: from when the red afterglow disappears until midnight. (4 rak'ahs)\n\nPrayer is the second pillar of Islam and the first deed for which a person will be held accountable on the Day of Judgment. The Prophet said: 'The covenant between us and them is prayer; whoever abandons it has disbelieved.'\n\nSource: islamqa.info/en/answers/9940",
             order_index: 1,
           },
           {
@@ -286,7 +286,7 @@ const courses: CourseData[] = [
             slug: "conditions-pillars-prayer",
             arabic_text: "وَقُومُوا لِلَّهِ قَانِتِينَ",
             content:
-              "The conditions for prayer (shurut) include: being Muslim, of sound mind, having reached puberty, being in a state of purity, covering the awrah, facing the qiblah, and that the time for prayer has entered.\n\nThe pillars of prayer (arkaan) include: standing (if able), the opening takbeer, reciting Surah al-Fatihah, bowing (ruku), rising from ruku, prostrating (sujood), rising from sujood, the final tashahhud, and the tasleem.\n\nIntentionally omitting any pillar invalidates the prayer. Forgetting a pillar requires repeating that part and performing sujood as-sahw (prostration of forgetfulness).",
+              "The conditions for prayer include: being Muslim, of sound mind, having reached puberty, being in a state of purity, covering the awrah, facing the qiblah, and that the time for prayer has entered.\n\nThere are 14 pillars of prayer (arkaan), which cannot be waived whether one omits them deliberately or by mistake:\n1 – Standing during obligatory prayers (if able)\n2 – The opening takbeer (saying 'Allahu akbar')\n3 – Reciting al-Fatihah\n4 – Rukoo' (bowing)\n5 – Rising from bowing\n6 – Standing up straight\n7 – Sujood (prostration)\n8 – Rising from prostration\n9 – Sitting between the two prostrations\n10 – Being at ease in each of these physical pillars\n11 – The final tashahhud\n12 – Sitting to recite the final tashahhud\n13 – The two salaams\n14 – Doing the pillars in order\n\nThere are 8 obligatory parts of prayer, which are waived if one forgets and can be compensated for by prostration of forgetfulness (sujud as-sahw): takbeers other than the opening takbeer, saying 'Sami'a Allahu liman hamidah', saying 'Rabbana wa laka'l-hamd', saying 'Subhaana rabbiy al-azeem' when bowing, saying 'Subhaana rabbiy al-a'laa' when prostrating, saying 'Rabb ighfir li' between the two prostrations, the first tashahhud, and sitting for the first tashahhud.\n\nSource: islamqa.info/en/answers/65847",
             order_index: 2,
           },
           {
@@ -295,7 +295,7 @@ const courses: CourseData[] = [
             slug: "jumuah-prayer",
             arabic_text: "يَا أَيُّهَا الَّذِينَ آمَنُوا إِذَا نُودِيَ لِلصَّلَاةِ مِن يَوْمِ الْجُمُعَةِ فَاسْعَوْا إِلَىٰ ذِكْرِ اللَّهِ",
             content:
-              "Jumu'ah (Friday prayer) is an obligatory congregational prayer that replaces Dhuhr for men. It consists of a khutbah (sermon) delivered by the imam followed by two rak'ahs of prayer.\n\nAttending Jumu'ah is obligatory upon every free, adult, resident male Muslim. Women may attend if they wish but are not obligated.\n\nThe khutbah has two parts with a brief sitting between them. The imam advises the congregation, reminds them of Allah, and may address current affairs. It is recommended to arrive early, listen attentively, and send blessings upon the Prophet on Friday.",
+              "Jumu'ah (Friday prayer) is an obligatory congregational prayer that replaces Dhuhr for men. Allah chose Friday to be the best of days before Him, and He singled it out for major events and great qualities. Jumu'ah prayer has a particular virtue and great qualities through the blessing of this great day.\n\nAttending Jumu'ah is obligatory upon every free, adult, resident male Muslim. Women may attend if they wish but are not obligated. The Prophet (blessings and peace of Allah be upon him) said: 'Whoever misses three Jumu'ahs out of heedlessness, Allah will place a seal on his heart.'\n\nJumu'ah consists of a khutbah (sermon) delivered by the imam followed by two rak'ahs of prayer. The khutbah has two parts with a brief sitting between them. It is recommended to perform ghusl on Friday, wear perfume, come early to the mosque, and listen attentively to the khutbah.\n\nThe main reason for venerating Friday prayer is because of the divine decree that singled out this prayer and this day for special virtues. This is one of the manifestations of Allah's Lordship (rububiyyah), as He Alone singles out for veneration whatever He Wills of His creation and whatever times and places He chooses.\n\nSource: islamqa.info/en/answers/165601",
             order_index: 3,
           },
         ],
@@ -312,7 +312,7 @@ const courses: CourseData[] = [
             slug: "obligation-of-zakat",
             arabic_text: "وَأَقِيمُوا الصَّلَاةَ وَآتُوا الزَّكَاةَ",
             content:
-              "Zakat is the third pillar of Islam. It is an obligatory charity on wealth that has reached the nisab (minimum threshold) and been held for one lunar year. The standard rate is 2.5% of savings and wealth.\n\nZakat purifies wealth and helps those in need. It is to be given to eight categories specified in the Quran (9:60): the poor, the needy, zakat collectors, those whose hearts are to be reconciled, slaves, debtors, in the path of Allah, and the stranded traveler.\n\nZakat is not a tax or voluntary charity — it is a right of Allah upon the wealth of the wealthy.",
+              "Zakat is the third pillar of Islam. It is an obligatory charity on wealth that has reached the nisab (minimum threshold) and been held for one lunar year. The standard rate is 2.5% (one quarter of one tenth).\n\nIn order for Zakah to be due on money, two conditions must be met:\n1 – It must reach the nisab (minimum threshold). The nisab is the equivalent of 85 grams of gold or 595 grams of silver.\n2 – One lunar year has passed since it reached the nisab.\n\nIf the money is less than the nisab, then no Zakah is due on it. If extra money is earned during the year that stems directly from the original amount (such as profit from investment), then Zakah should be paid on the entire amount at the end of the year. If the extra money comes from a different source (such as inheritance), then a separate year should be counted for it.\n\nZakat is to be given to eight categories specified in the Quran (9:60): the poor, the needy, zakat collectors, those whose hearts are to be reconciled, slaves, debtors, in the path of Allah, and the stranded traveler.\n\nSource: islamqa.info/en/answers/93414",
             order_index: 1,
           },
           {
@@ -321,7 +321,7 @@ const courses: CourseData[] = [
             slug: "sadaqah-voluntary-charity",
             arabic_text: "مَّثَلُ الَّذِينَ يُنفِقُونَ أَمْوَالَهُمْ فِي سَبِيلِ اللَّهِ كَمَثَلِ حَبَّةٍ أَنبَتَتْ سَبْعَ سَنَابِلَ",
             content:
-              "Sadaqah is any act of giving done to seek Allah's pleasure. It is not limited to money — even a smile is sadaqah. The Prophet said: 'Every good deed is sadaqah.'\n\nSadaqah can be: feeding the hungry, visiting the sick, removing harm from the road, teaching knowledge, or giving a helping hand. Ongoing charity (sadaqah jariyah) includes building a mosque, digging a well, or raising a righteous child.\n\nThe best sadaqah is that given while healthy and hoping to live, fearing poverty but hoping for reward. It extinguishes sins as water extinguishes fire.",
+              "Sadaqah (voluntary charity) is any act of giving done to seek Allah's pleasure. It is not limited to money — even a smile is sadaqah. The Prophet said: 'Every good deed is sadaqah.'\n\nAllah says: 'The likeness of those who spend their wealth in the way of Allah, is as the likeness of a grain (of corn); it grows seven ears, and each ear has a hundred grains. Allah gives manifold increase to whom He wills.' (2:261)\n\nThe Prophet (peace and blessings of Allah be upon him) said: 'Whoever gives charity equal to a date from good (halal) earnings — for Allah does not accept anything but that which is good — Allah will take it in His right hand and tend it for the one who gave it as any one of you tends his foal, until it becomes like a mountain.' (Bukhari, Muslim)\n\nHe also said: 'There is no day on which the people get up but two angels come down and one of them says: O Allah, give in compensation to the one who spends (in charity), and the other says: O Allah, destroy the one who withholds.' (Bukhari, Muslim)\n\nOngoing charity (sadaqah jariyah) includes building a mosque, digging a well, or raising a righteous child. The best sadaqah is that given while healthy and hoping to live, fearing poverty but hoping for reward.\n\nSource: islamqa.info/en/answers/36783",
             order_index: 2,
           },
         ],
@@ -353,7 +353,7 @@ const courses: CourseData[] = [
             slug: "science-of-tafsir",
             arabic_text: "كِتَابٌ أَنزَلْنَاهُ إِلَيْكَ مُبَارَكٌ لِّيَدَّبَّرُوا آيَاتِهِ",
             content:
-              "Tafsir is the science of explaining and interpreting the Quran. It involves understanding the Arabic language, the context of revelation (asbab an-nuzul), the abrogating and abrogated verses (nasikh wa mansukh), and the explanations of the Prophet and his companions.\n\nThe best tafsir is: (1) the Quran explaining itself, (2) the Sunnah explaining the Quran, (3) the statements of the Sahabah, (4) the statements of the Tabi'in, and (5) linguistic analysis.\n\nMajor works of tafsir include Tafsir Ibn Kathir, Tafsir al-Tabari, Tafsir al-Qurtubi, and Tafsir al-Sa'di. Each scholar approached tafsir with their unique methodology while adhering to authentic principles.",
+              "Tafsir is the science of explaining the meanings of the Qur'an. The mufassir follows one of two methods.\n\nThe first method is tafsir on the basis of narrated texts (at-tafsir bil-ma'thur). This is of several types:\n\n1. Tafsir of the Qur'an by the Qur'an: Some parts of the Qur'an explain other parts. As Shaykh al-Islam Ibn Taymiyah said: The soundest way is to interpret the Qur'an by the Qur'an, because sometimes it refers to a matter in brief then explains it in detail elsewhere.\n\n2. Tafsir of the Prophet (blessings and peace of Allah be upon him): He came to both convey and explain the Qur'an. Allah says: 'And We have also sent down unto you the reminder, that you may explain clearly to men what is sent down to them' (an-Nahl 16:44). If an explanation has reached us from the Prophet, it is obligatory to adhere to it.\n\n3. Tafsir based on reports from the Sahabah: Their tafsir takes precedence over others, because they witnessed the revelation and knew the circumstances. As Ibn Mas'ood said: One of us would learn ten verses and not move on until he understood their meaning and put them into practice.\n\n4. Tafsir based on reports from the Tabi'een: If no explanation is found in the Qur'an, Sunnah, or words of the Sahabah, the mufassir turns to the Tabi'een, who acquired their knowledge from the Companions.\n\nThe second method is tafsir on the basis of individual understanding and ijtihad (at-tafsir bir-ra'y). This requires extensive knowledge of Arabic language, its styles, and deep insight into the rules of sharee'ah.\n\nTafsir based on individual understanding is blameworthy when: (1) the person is not qualified and explains without knowledge; (2) he follows his whims and desires to support innovation. Said Ibn 'Uthaymeen: The one who interprets the meanings of the Qur'an is testifying that Allah meant such and such. This is a very serious matter, for Allah has forbidden saying about Him that which we do not know.",
             order_index: 1,
           },
           {
@@ -362,7 +362,7 @@ const courses: CourseData[] = [
             slug: "meccan-medinan-revelations",
             arabic_text: "الر ۚ كِتَابٌ أُحْكِمَتْ آيَاتُهُ ثُمَّ فُصِّلَتْ مِن لَّدُنْ حَكِيمٍ خَبِيرٍ",
             content:
-              "The Quran was revealed over 23 years: approximately 13 years in Makkah and 10 years in Madinah. Meccan surahs focus on Tawheed, the Hereafter, and moral reform. Medinan surahs contain legislation, social laws, and guidance for the Muslim community.\n\nMeccan surahs are typically shorter, more rhythmic, and address the soul directly. Medinan surahs are longer, contain detailed rulings, and address the believers collectively.\n\nKnowing whether a verse is Meccan or Medinan helps in understanding its context and application. Most scholars determine this based on the time of revelation rather than location.",
+              "Scholars have discussed the distinction between Makkan and Madinan revelations. One of the characteristics of Makkan verses is that they are addressed to all of mankind with the call 'O mankind', whereas Madinan verses are addressed to the believers with 'O you who believe'.\n\nThe call 'O mankind' appears in twenty places in the Book. The one who ponders these verses will find that they call all people, believers and disbelievers, righteous and evildoers, to think about that which will benefit them in the Hereafter and to worship Allah alone.\n\nAs for places where 'O mankind' appears in the context of Hajj, the reason is that Hajj was first enjoined with the call of Ibrahim (peace be upon him) to all the people of the earth. As Allah says: 'And proclaim to mankind the Hajj. They will come to you on foot and on every lean camel, they will come from every deep and distant mountain highway' (al-Hajj 22:27).\n\nIbn Katheer said: It was narrated that Ibrahim said: O Lord, how can I call mankind when my voice will not reach them? It was said: Call, and it is for Us to convey. So he stood and said: O mankind, your Lord has established a House, so come on pilgrimage to it. The mountains lowered themselves so that his voice could reach all the corners of the earth, and those who were still in their fathers' loins heard it.\n\nThis characteristic — that Makkan surahs address all mankind while Madinan surahs address the believers — helps in understanding the context and purpose of the revelation.",
             order_index: 2,
           },
         ],
@@ -380,7 +380,7 @@ const courses: CourseData[] = [
             arabic_text:
               "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ\nالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ\nالرَّحْمَٰنِ الرَّحِيمِ\nمَالِكِ يَوْمِ الدِّينِ\nإِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ\nاهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ\nصِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ",
             content:
-              "Surah al-Fatihah (The Opening) is the greatest surah of the Quran. It consists of 7 verses and is recited in every unit of prayer. It is a comprehensive prayer that summarizes the relationship between the servant and Allah.\n\nIt begins with praise (hamd), establishes Allah's sovereignty, and then the servant makes the ultimate request: 'Guide us to the straight path.'\n\nThe straight path is that of the prophets, the truthful, the martyrs, and the righteous — not the path of those who incurred wrath (such as those who knew the truth and rejected it) nor of those who went astray (such as those who worshiped without knowledge).",
+              "Surat Al-Fatihah is the greatest surah of the Quran. It is one of the pillars of the prayer; no prayer is valid without it. The Prophet (blessings and peace of Allah be upon him) said: 'There is no prayer for the one who does not recite the Opening of the Book.'\n\nIt is the best surah of the Quran. The Prophet said to Ubayy ibn Ka'b: 'By the One in Whose hand is my soul, nothing like it has been revealed in the Torah or in the Gospel or in the Psalms or in the Furqan. Verily it is the seven oft-repeated verses and the Glorious Quran that I have been given.'\n\nDespite its brevity, Surat Al-Fatihah includes all three types of Tawhid: Tawhid ar-Rububiyyah (divine Lordship), Tawhid al-Uluhiyyah (divinity), and Tawhid al-Asma' was-Sifat (divine names and attributes).\n\nIt refers to well-being for both hearts and bodies. It is a complete healing and beneficial remedy. Ibn Al-Qayyim said: 'The Opening of the Book is the complete healing, the beneficial remedy, the perfect Ruqyah, the key to independence of means and success, that wards off worry, distress, fear and grief.'\n\nSurat Al-Fatihah is a refutation of all followers of falsehood. The straight path refers to the path of the Messenger of Allah and his companions. It contains the most beneficial of supplications, as Ibn Taymiyah said: 'I have thought about the most beneficial of supplications, and it is asking for help to do that which pleases Allah. Then I found it in Al-Fatihah: It is You we worship and You we ask for help.'",
             order_index: 1,
           },
           {
@@ -390,7 +390,7 @@ const courses: CourseData[] = [
             arabic_text:
               "قُلْ هُوَ اللَّهُ أَحَدٌ\nاللَّهُ الصَّمَدُ\nلَمْ يَلِدْ وَلَمْ يُولَدْ\nوَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ",
             content:
-              "Surah al-Ikhlas (Sincerity) is equivalent to one-third of the Quran. It is a concise yet complete statement of Tawheed. The surah affirms Allah's absolute oneness (Ahad), His self-sufficiency (Samad), and negates any notion of offspring or parentage for Him.\n\n'Al-Ahad' means the One, the Unique — there is no partner or equal. 'As-Samad' means the Eternal, the Self-Sufficient Master whom all creation depends upon, yet He depends on none.\n\nThe surah refutes all false concepts about Allah — whether from polytheists, atheists, or those who attribute physical offspring to Him. The Prophet said that reciting this surah earns the reward of reciting one-third of the Quran.",
+              "Surat al-Ikhlas (Qul Huwa Allahu Ahad) is equivalent to one-third of the Quran. Al-Bukhari narrated from Abu Sa'id that a man heard another reciting it repeatedly and thought it was too little, but the Messenger of Allah (peace and blessings of Allah be upon him) said: 'By the One in Whose Hand is my soul, it is equivalent to one-third of the Quran.'\n\nThere is an important distinction between jaza (reward) and ijza (sufficiency). Reciting Qul Huwallahu Ahad brings a reward equivalent to reciting one-third of the Quran, but it does not take the place of reading one-third of the Quran. If a person vows to read one-third of the Quran, it is not sufficient for him to read this surah alone.\n\nThe correct scholarly view is that this surah has this great virtue because the Quran deals with three topics: one-third for rulings, one-third for promises and warnings, and one-third for the Divine names and attributes. This surah combines the names and attributes, as stated by Ibn Surayj and affirmed by Ibn Taymiyah.\n\nIbn Taymiyah said: 'Rewards are of different types, just as wealth is of different types. If a man possesses one type of wealth to the value of one thousand dinars, that does not mean he can do without the other types. Similarly, the people need the commands, prohibitions and stories that are in the Quran, and these cannot be replaced by anything else.'\n\nThus while the reward is immense, the Muslim cannot do without the other two issues — the rulings and the promises and warnings — which are found throughout the rest of the Quran.",
             order_index: 2,
           },
         ],
@@ -567,83 +567,9 @@ const courses: CourseData[] = [
     ],
   },
 
-  // ─── 6. Arabic Language ──────────────────────────────────────────────
-  {
-    title: "Arabic Language",
-    title_ar: "اللغة العربية",
-    description:
-      "Study Arabic grammar (Nahw), morphology (Sarf), and rhetoric (Balaghah) to better understand the Quran and Islamic texts.",
-    description_ar:
-      "دراسة النحو والصرف والبلاغة العربية لفهم القرآن والنصوص الإسلامية بشكل أفضل.",
-    level: "intermediate",
-    slug: "arabic-language",
-    order_index: 6,
-    sections: [
-      {
-        title: "Nahw (Grammar) Foundations",
-        title_ar: "أسس النحو",
-        slug: "nahw-foundations",
-        order_index: 1,
-        lessons: [
-          {
-            title: "Parts of Speech in Arabic",
-            title_ar: "أقسام الكلام",
-            slug: "parts-of-speech",
-            arabic_text: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
-            content:
-              "Arabic has three parts of speech: Ism (noun), Fi'l (verb), and Harf (particle). An ism denotes a person, place, thing, or concept. A fi'l indicates an action in past, present, or command form. A harf provides meaning only when attached to other words.\n\nNouns in Arabic have gender (masculine/feminine), number (singular/dual/plural), and case (nominative/accusative/genitive). Verbs conjugate according to person, gender, and number.\n\nUnderstanding these categories is the foundation of Arabic grammar. The science of Nahw was systematized by Abu al-Aswad ad-Du'ali and later refined by Sibawayh, whose book 'Al-Kitab' remains the foundational text of Arabic grammar.",
-            order_index: 1,
-          },
-          {
-            title: "The Nominal Sentence (Jumla Ismiyya)",
-            title_ar: "الجملة الاسمية",
-            slug: "nominal-sentence",
-            arabic_text: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ",
-            content:
-              "A nominal sentence begins with a noun and consists of two parts: Mubtada (subject, in nominative case) and Khabar (predicate, in nominative case). The mubtada is the topic, and the khabar provides information about it.\n\nExample: 'Allahu Ghafurun Rahim' — Allah (subject) is Oft-Forgiving, Most Merciful (predicate).\n\nUnlike English, the nominal sentence does not require a linking verb ('is', 'are'). The khabar can be a single word, a phrase, or even a full sentence. The mubtada and khabar must agree in gender and number.",
-            order_index: 2,
-          },
-          {
-            title: "The Verbal Sentence (Jumla Fi'liyya)",
-            title_ar: "الجملة الفعلية",
-            slug: "verbal-sentence",
-            arabic_text: "يَقُولُ اللَّهُ تَعَالَىٰ",
-            content:
-              "A verbal sentence begins with a verb and consists of Fi'l (verb), Fa'il (subject), and optionally Maf'ul bihi (object). The default order in Arabic is Verb-Subject-Object (VSO).\n\nExample: 'Darasa at-talibu ad-darsa' — The student studied the lesson (literally: studied the student the lesson).\n\nWhen the subject is explicitly mentioned after the verb, the verb remains singular masculine even if the subject is plural or feminine (except in certain cases). The verbal sentence is more common in Arabic than the nominal sentence and carries nuances of action and renewal.",
-            order_index: 3,
-          },
-        ],
-      },
-      {
-        title: "Sarf (Morphology)",
-        title_ar: "علم الصرف",
-        slug: "sarf-morphology",
-        order_index: 2,
-        lessons: [
-          {
-            title: "The Arabic Root System",
-            title_ar: "النظام الجذري",
-            slug: "root-system",
-            arabic_text: "وَعَلَّمَ آدَمَ الْأَسْمَاءَ كُلَّهَا",
-            content:
-              "Most Arabic words derive from a three-letter root (usually, sometimes four). For example, the root K-T-B (كت ب) gives: Kataba (he wrote), Maktab (office), Kitab (book), Katib (writer), Maktubah (written), and so on.\n\nThere are approximately 10 common verb patterns (awzan). Each pattern adds a specific nuance: Form II (fa''ala) intensifies, Form III (fa'ala) indicates participation, Form X (istaf'ala) means to consider or seek.\n\nUnderstanding the root system allows you to guess the meaning of unfamiliar words from context. About 80-90% of Arabic vocabulary is based on the triliteral root system.",
-            order_index: 1,
-          },
-          {
-            title: "Verb Conjugation Overview",
-            title_ar: "تصريف الأفعال",
-            slug: "verb-conjugation",
-            arabic_text: "فَسَبِّحْ بِحَمْدِ رَبِّكَ وَاسْتَغْفِرْهُ",
-            content:
-              "Arabic verbs conjugate for person (1st, 2nd, 3rd), gender (male/female), and number (singular/dual/plural). The past tense (madhi) is formed by adding suffixes to the root, while the present tense (mudari') adds prefixes and suffixes.\n\nExample of Kataba (to write): Katabtu (I wrote), Katabta (you masc. wrote), Katabti (you fem. wrote), Kataba (he wrote), Katabat (she wrote), Katabna (we wrote).\n\nThere are also imperative (amr), passive (majhul), and energetic (ta'kid) forms. Mastering verb tables (tasrif) is essential for fluency in Quranic and classical Arabic.",
-            order_index: 2,
-          },
-        ],
-      },
-    ],
-  },
 
-  // ─── 7. Islamic History ──────────────────────────────────────────────
+
+  // ─── 6. Islamic History ──────────────────────────────────────────────
   {
     title: "Islamic History",
     title_ar: "التاريخ الإسلامي",
@@ -653,7 +579,7 @@ const courses: CourseData[] = [
       "استكشف التاريخ الغني للحضارة الإسلامية: الخلفاء الراشدون والعصر الذهبي وانتشار الإسلام في العالم.",
     level: "intermediate",
     slug: "islamic-history",
-    order_index: 7,
+    order_index: 6,
     sections: [
       {
         title: "The Rightly Guided Caliphs",
@@ -719,168 +645,12 @@ const courses: CourseData[] = [
     ],
   },
 
-  // ─── 8. Tasawwuf / Tazkiyah ─────────────────────────────────────────
-  {
-    title: "Tasawwuf and Tazkiyah",
-    title_ar: "التصوف والتزكية",
-    description:
-      "Learn about spiritual purification, character refinement, and the inner dimensions of Islam rooted in the Quran and Sunnah.",
-    description_ar:
-      "تعلم تزكية النفس وتطهير القلب والأبعاد الداخلية للإسلام المستندة إلى الكتاب والسنة.",
-    level: "intermediate",
-    slug: "tasawwuf-tazkiyah",
-    order_index: 8,
-    sections: [
-      {
-        title: "Purification of the Heart",
-        title_ar: "تزكية القلوب",
-        slug: "purification-of-heart",
-        order_index: 1,
-        lessons: [
-          {
-            title: "The Diseases of the Heart",
-            title_ar: "أمراض القلوب",
-            slug: "diseases-of-heart",
-            arabic_text: "يَوْمَ لَا يَنفَعُ مَالٌ وَلَا بَنُونَ إِلَّا مَنْ أَتَى اللَّهَ بِقَلْبٍ سَلِيمٍ",
-            content:
-              "The heart (qalb) is the spiritual center of a person. The Prophet said: 'There is a piece of flesh in the body; if it is sound, the whole body is sound; if it is corrupt, the whole body is corrupt. Indeed, it is the heart.' (Bukhari, Muslim)\n\nSpiritual diseases include: arrogance (kibr), envy (hasad), ostentation (riya'), love of the world (hubb ad-dunya), anger (ghadab), and heedlessness (ghaflah). These diseases cloud the heart and distance one from Allah.\n\nPurification begins with recognizing these diseases, then actively treating them through sincere repentance, reflection, and consistent worship. The scholars of tazkiyah have written extensively on diagnosing and curing these spiritual ailments.",
-            order_index: 1,
-          },
-          {
-            title: "Muhasabah (Self-Accounting)",
-            title_ar: "المحاسبة",
-            slug: "muhasabah-self-accounting",
-            arabic_text: "يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللَّهَ وَلْتَنظُرْ نَفْسٌ مَّا قَدَّمَتْ لِغَدٍ",
-            content:
-              "Muhasabah (self-accounting) is the practice of reflecting on one's actions and intentions, holding oneself accountable before being held accountable by Allah on the Day of Judgment.\n\nUmar ibn al-Khattab (RA) said: 'Take account of yourselves before you are taken to account.' The early Muslims would regularly assess their deeds: What did I intend today? What did I achieve? Where did I fall short?\n\nA practical method is to set aside time each evening to review the day: repent for sins, thank Allah for blessings, and plan for improvement. Regular muhasabah develops taqwa (God-consciousness) and helps align one's life with Divine pleasure.",
-            order_index: 2,
-          },
-        ],
-      },
-      {
-        title: "The Stages of the Soul",
-        title_ar: "مراتب النفس",
-        slug: "stages-of-soul",
-        order_index: 2,
-        lessons: [
-          {
-            title: "The Commanding and Blameworthy Soul",
-            title_ar: "النفس الأمارة بالسوء",
-            slug: "commanding-soul",
-            arabic_text: "إِنَّ النَّفْسَ لَأَمَّارَةٌ بِالسُّوءِ",
-            content:
-              "The soul (nafs) has different stages. The lowest is an-Nafs al-Ammara (the commanding soul), which inclines toward evil and base desires. Allah mentions it in the story of Yusuf (AS): 'Indeed, the soul is ever inclined to evil.' (12:53)\n\nThis stage is characterized by following whims, indulgence in sins, and resistance to good. The person struggles to pray, finds obedience heavy, and is easily swayed by Shaytan and desires.\n\nThe remedy is: consistent muhasabah, accompanying the righteous, reducing worldly distractions, and sincerely asking Allah for help. With effort and divine grace, the soul can progress to higher stages.",
-            order_index: 1,
-          },
-          {
-            title: "The Contented Soul",
-            title_ar: "النفس المطمئنة",
-            slug: "contented-soul",
-            arabic_text: "يَا أَيَّتُهَا النَّفْسُ الْمُطْمَئِنَّةُ ارْجِعِي إِلَىٰ رَبِّكِ رَاضِيَةً مَّرْضِيَّةً",
-            content:
-              "An-Nafs al-Mutma'innah (the contented soul) is the highest spiritual stage. Allah addresses it in the Quran: 'O contented soul, return to your Lord, well-pleased and pleasing [to Him].' (89:27-28)\n\nAt this stage, the soul finds peace in Allah, joy in worship, and contentment with divine decree. Obedience becomes easy, sins become detestable, and the person constantly feels the presence of Allah.\n\nBetween the commanding soul and the contented soul lies an-Nafs al-Lawwamah (the blaming soul) — which criticizes itself for shortcomings and strives for improvement. The goal of every believer is to reach the station of contentment, where the soul's rest is in its Creator.",
-            order_index: 2,
-          },
-        ],
-      },
-      {
-        title: "The Remembrance of Allah",
-        title_ar: "ذكر الله",
-        slug: "remembrance-of-allah",
-        order_index: 3,
-        lessons: [
-          {
-            title: "Dhikr: The Food of the Soul",
-            title_ar: "الذكر: غذاء الروح",
-            slug: "dhikr-food-of-soul",
-            arabic_text: "الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ ۗ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ",
-            content:
-              "Dhikr (remembrance of Allah) is the essence of worship. It includes both verbal remembrance (saying Subhanallah, Alhamdulillah, Allahu Akbar, La ilaha illa Allah) and heart-based awareness (being conscious of Allah at all times).\n\nThe Quran says: 'And the men who remember Allah often and the women who remember — Allah has prepared for them forgiveness and a great reward.' (33:35)\n\nMorning and evening adhkar (supplications) protect the believer, bring barakah, and strengthen faith. The Prophet never let his tongue be dry from the remembrance of Allah. He encouraged constant dhikr: 'Let your tongue be moist with the remembrance of Allah.' (Tirmidhi)",
-            order_index: 1,
-          },
-          {
-            title: "Tawakkul: Reliance on Allah",
-            title_ar: "التوكل على الله",
-            slug: "tawakkul-reliance",
-            arabic_text: "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ",
-            content:
-              "Tawakkul (trust in Allah) is an essential aspect of tazkiyah. It means relying on Allah wholeheartedly while taking the necessary means. It is not fatalism or passivity — the Prophet himself tied his camel before trusting Allah.\n\nTrue tawakkul brings peace: 'And whoever relies upon Allah — then He is sufficient for him.' (65:3). The believer takes action, plans wisely, and then leaves the outcome to Allah with complete trust.\n\nTawakkul and rizq (provision) are connected. The Prophet said: 'If you were to rely upon Allah with the reliance He is due, He would provide for you as He provides for the birds — they go out in the morning hungry and return full.' (Tirmidhi, Ibn Majah)",
-            order_index: 2,
-          },
-        ],
-      },
-    ],
-  },
 
-  // ─── 9. Usul al-Fiqh ─────────────────────────────────────────────────
-  {
-    title: "Usul al-Fiqh",
-    title_ar: "أصول الفقه",
-    description:
-      "Study the principles of Islamic jurisprudence: how rulings are derived from the Quran, Sunnah, consensus, and analogical reasoning.",
-    description_ar:
-      "دراسة أصول الفقه: كيفية استنباط الأحكام من الكتاب والسنة والإجماع والقياس.",
-    level: "advanced",
-    slug: "usul-al-fiqh",
-    order_index: 9,
-    sections: [
-      {
-        title: "The Primary Sources",
-        title_ar: "المصادر الأصلية",
-        slug: "primary-sources",
-        order_index: 1,
-        lessons: [
-          {
-            title: "The Quran as Primary Source",
-            title_ar: "القرآن كمصدر أول",
-            slug: "quran-as-primary-source",
-            arabic_text: "أَفَلَا يَتَدَبَّرُونَ الْقُرْآنَ ۚ وَلَوْ كَانَ مِنْ عِندِ غَيْرِ اللَّهِ لَوَجَدُوا فِيهِ اخْتِلَافًا كَثِيرًا",
-            content:
-              "The Quran is the primary and most authoritative source of Islamic law. Its verses are categorized into: Muhkamat (clear, unequivocal verses) — the foundation of the law, and Mutashabihat (ambiguous verses) — interpreted in light of the clear ones.\n\nLegal verses (ayat al-ahkam) cover worship, family law, criminal law, business transactions, and governance. Scholars have identified approximately 500 legal verses in the Quran.\n\nThe Quran's rulings take precedence over all other sources. The Sunnah explains and clarifies the Quran, but never contradicts it. Understanding the Quran requires knowledge of Arabic, asbab an-nuzul (context), and naskh (abrogation).",
-            order_index: 1,
-          },
-          {
-            title: "The Sunnah: Revelation and Explanation",
-            title_ar: "السنة: وحي وبيان",
-            slug: "sunnah-revelation-explanation",
-            arabic_text: "وَمَا آتَاكُمُ الرَّسُولُ فَخُذُوهُ وَمَا نَهَاكُمْ عَنْهُ فَانتَهُوا",
-            content:
-              "The Sunnah is the second primary source of Islamic law. It consists of the Prophet's statements, actions, and tacit approvals. The Quran itself commands obedience to the Prophet and establishes his Sunnah as binding.\n\nThe Sunnah serves multiple functions: (1) explaining Quranic verses (e.g., how to pray), (2) specifying general verses (e.g., inheritance shares), (3) providing additional rulings not explicitly in the Quran (e.g., prohibition of combining a woman and her aunt in marriage).\n\nScholars of usul al-fiqh differentiate between Sunnah that is legislative (tashri'i) — establishing law — and that which is habitual (jibilli), like the Prophet's preferred foods or sleeping positions, which is recommended but not obligatory.",
-            order_index: 2,
-          },
-        ],
-      },
-      {
-        title: "Secondary Sources and Ijtihad",
-        title_ar: "المصادر التبعية والاجتهاد",
-        slug: "secondary-sources-ijtihad",
-        order_index: 2,
-        lessons: [
-          {
-            title: "Ijma (Consensus) and Qiyas (Analogy)",
-            title_ar: "الإجماع والقياس",
-            slug: "ijma-qiyas",
-            arabic_text: "وَمَن يُشَاقِقِ الرَّسُولَ مِن بَعْدِ مَا تَبَيَّنَ لَهُ الْهُدَىٰ وَيَتَّبِعْ غَيْرَ سَبِيلِ الْمُؤْمِنِينَ",
-            content:
-              "Ijma (scholarly consensus) is the agreement of qualified jurists of a generation on a legal ruling. It is based on the principle that the Ummah does not unite upon error. Ijma is a binding source after the Quran and Sunnah.\n\nQiyas (analogical reasoning) is deriving a ruling for a new case by comparing it to an existing case with a shared effective cause (illah). For example, the prohibition of wine is extended to all intoxicants because the illah (intoxication) is common to both.\n\nBoth ijma and qiyas are recognized by the majority of scholars (Jumhur) as valid sources, though the Zahiri school rejects qiyas. Ijtihad (independent reasoning) is the process by which qualified scholars derive rulings using these sources.",
-            order_index: 1,
-          },
-          {
-            title: "Istihsan, Maslahah, and 'Urf",
-            title_ar: "الاستحسان والمصلحة والعرف",
-            slug: "istihsan-maslahah-urf",
-            arabic_text: "الَّذِينَ يَسْتَمِعُونَ الْقَوْلَ فَيَتَّبِعُونَ أَحْسَنَهُ",
-            content:
-              "Istihsan (juristic preference) is departing from a clear analogy in favor of a more suitable ruling due to a stronger evidence or necessity. It is used by the Hanafi school and others to achieve justice and prevent hardship.\n\nMaslahah Mursalah (public interest) considers the general welfare in matters where no specific text exists. It is employed by the Maliki school as long as it aligns with the objectives of Islamic law (Maqasid ash-Shari'ah).\n\n'Urf (custom) refers to local customs and practices that do not contradict Islamic principles. Customs are considered in legal rulings, especially in transactions and family matters, as long as they are not explicitly prohibited by revelation.",
-            order_index: 2,
-          },
-        ],
-      },
-    ],
-  },
+
+
 
   // ═════════════════════════════════════════════════════════════════════
-  //  8. TAZKIYAH (تزكية النفس)
+  //  7. TAZKIYAH (تزكية النفس)
   // ═════════════════════════════════════════════════════════════════════
   {
     title: "Tazkiyah",
@@ -891,7 +661,7 @@ const courses: CourseData[] = [
       "طهر روحك وارفع أخلاقك. دراسة أمراض القلوب ومراتب النفس والطريق إلى الإحسان الروحي.",
     level: "intermediate",
     slug: "tazkiyah",
-    order_index: 8,
+    order_index: 7,
     sections: [
       // ── Section 1: Knowing Your Enemy — The Nafs ──
       {
@@ -1023,7 +793,7 @@ const courses: CourseData[] = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
-  //  9. USUL AL-FIQH (أصول الفقه)
+  //  8. USUL AL-FIQH (أصول الفقه)
   // ═════════════════════════════════════════════════════════════════════
   {
     title: "Usul al-Fiqh",
@@ -1034,7 +804,7 @@ const courses: CourseData[] = [
       "افهم أصول الفقه: كيف يستنبط العلماء الأحكام من الكتاب والسنة والإجماع والقياس.",
     level: "advanced",
     slug: "usul-al-fiqh",
-    order_index: 9,
+    order_index: 8,
     sections: [
       // ── Section 1: What is Islamic Law Built On? ──
       {
@@ -1147,7 +917,7 @@ const courses: CourseData[] = [
     ],
   },
 
-  // ─── 10. Dawah ──────────────────────────────────────────────────────
+  // ─── 9. Dawah ──────────────────────────────────────────────────────
   {
     title: "Dawah",
     title_ar: "الدعوة",
@@ -1157,7 +927,7 @@ const courses: CourseData[] = [
       "تعلم مبادئ وأساليب الدعوة إلى الله بالحكمة والموعظة الحسنة والمجادلة بالتي هي أحسن.",
     level: "intermediate",
     slug: "dawah",
-    order_index: 10,
+    order_index: 9,
     sections: [
       {
         title: "Foundations of Dawah",
@@ -1216,19 +986,7 @@ const courses: CourseData[] = [
 ];
 
 async function seed() {
-  console.log("🌱 Seeding 10 subjects with sections and lessons...\n");
-
-  // Remove old courses that overlap with the new structured subjects
-  const oldSlugs = ["new-muslim-guide", "aqeedah-basics", "arabic-alphabet"];
-  for (const slug of oldSlugs) {
-    const { error } = await supabase.from("courses").delete().eq("slug", slug);
-    if (error) {
-      console.log(`  ⚠️  Could not delete "${slug}": ${error.message}`);
-    } else {
-      console.log(`  🗑️  Deleted old course: ${slug}`);
-    }
-  }
-  console.log("");
+  console.log("🌱 Seeding 9 courses with sections and lessons...\n");
 
   for (const course of courses) {
     const { data: insertedCourse, error: courseErr } = await supabase
@@ -1323,7 +1081,7 @@ async function seed() {
     console.log("");
   }
 
-  console.log("✅ Seed complete! 10 subjects seeded.");
+  console.log("✅ Seed complete! 9 courses seeded.");
 }
 
 seed().catch((err) => {
