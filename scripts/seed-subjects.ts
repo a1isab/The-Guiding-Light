@@ -725,7 +725,7 @@ const courses: CourseData[] = [
             order_index: 2,
           },
           {
-            title: "Riya (Showing Off)',
+            title: "Riya (Showing Off)",
             title_ar: "الرياء",
             slug: "riya-showing-off",
             arabic_text: "فَوَيْلٌ لِّلْمُصَلِّينَ الَّذِينَ هُمْ عَن صَلَاتِهِمْ سَاهُونَ الَّذِينَ هُمْ يُرَاءُونَ",
