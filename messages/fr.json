@@ -9,18 +9,16 @@
     "your_account": "Votre compte"
   },
   "landing": {
-    "badge": "Éducation islamique basée sur l'IA",
-    "hero_title": "Votre guide alimenté par l'IA pour",
-    "hero_highlight": "Apprentissage islamique",
-    "hero_subtitle": "The Guiding Light propose des cours islamiques gratuits et structurés alimentés par l’IA. Apprenez à votre rythme grâce à des quiz personnalisés, une recherche intelligente et une communauté de soutien.",
+    "hero_title": "Votre guide vers",
+    "hero_highlight": "l'apprentissage islamique",
+    "hero_subtitle": "The Guiding Light propose des cours islamiques gratuits et structurés. Apprenez à votre rythme grâce à des quiz interactifs et une communauté de soutien.",
     "start_learning": "Commencez à apprendre gratuitement",
     "go_to_courses": "Aller aux cours",
     "have_account": "J'ai déjà un compte",
     "why_title": "Pourquoi la lumière directrice ?",
     "feature_structured_title": "Cours structurés",
     "feature_structured_desc": "Cours organisés du débutant au avancé, couvrant la Aqida, le Fiqh, l'arabe et plus encore.",
-    "feature_ai_title": "Apprentissage basé sur l'IA",
-    "feature_ai_desc": "Recherche intelligente, quiz basés sur l'IA et recommandations personnalisées.",
+
     "feature_free_title": "Gratuit pour tous",
     "feature_free_desc": "Les cours de base sont entièrement gratuits. Les fonctionnalités Premium sont facultatives et abordables.",
     "how_title": "Comment ça marche",
@@ -40,12 +38,12 @@
     "get_started_free": "Commencez gratuitement"
   },
   "footer": {
-    "tagline": "Apprentissage islamique basé sur l'IA pour tous",
+    "tagline": "Apprentissage islamique pour tous",
     "links": "Links",
     "courses": "Cours",
     "pricing": "Tarifs",
     "about": "À propos",
-    "about_text": "Éducation islamique gratuite et structurée, alimentée par l'IA. Construit pour chaque musulman, partout.",
+    "about_text": "Éducation islamique gratuite et structurée pour chaque musulman, partout.",
     "copyright": "© {year} La lumière directrice. Fabriqué avec ♥ pour l'amour d'Allah."
   },
   "logo": {
@@ -73,16 +71,16 @@
     "free_price": "$0",
     "free_desc": "Parfait pour commencer votre parcours d’apprentissage.",
     "free_feature1": "Accès à tous les cours de base",
-    "free_feature2": "Quiz générés par l'IA",
+    "free_feature2": "Quiz interactifs",
     "free_feature3": "Suivi des progrès de base",
     "free_feature4": "Série d'apprentissage",
     "free_cta": "Commencez gratuitement",
     "premium_title": "Prime",
     "premium_price": "$9",
     "premium_month": "/mois",
-    "premium_desc": "Libérez tout le potentiel de l’apprentissage islamique basé sur l’IA.",
+    "premium_desc": "Libérez tout le potentiel de l'apprentissage islamique.",
     "premium_feature1": "Tout est gratuit",
-    "premium_feature2": "Tentatives illimitées de quiz sur l'IA",
+    "premium_feature2": "Tentatives de quiz illimitées",
     "premium_feature3": "Analyses et informations avancées",
     "premium_feature4": "Assistance prioritaire",
     "premium_feature5": "PDF de cours téléchargeables",
@@ -145,6 +143,13 @@
     "question_of": "Question {current} of {total}",
     "next_question": "Question suivante →",
     "see_results": "Voir les résultats"
+  },
+  "badge": {
+    "earned": "Badge obtenu",
+    "completed": "terminé",
+    "all_done": "Toutes les leçons de cette section sont terminées !",
+    "achievements": "Réalisations",
+    "locked": "Verrouillé"
   },
   "video": {
     "not_available": "Vidéo pas encore disponible",

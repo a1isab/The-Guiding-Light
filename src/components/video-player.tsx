@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { Film } from "lucide-react";
 
@@ -25,6 +25,7 @@ function parseEmbedUrl(url: string) {
 
 export function VideoPlayer({ src }: { src?: string | null }) {
   const t = useTranslations("video");
+  const locale = useLocale();
   const containerRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<any>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -35,6 +36,13 @@ export function VideoPlayer({ src }: { src?: string | null }) {
   const videoId = parsed?.videoId ?? null;
   const startSec = parsed?.start ?? 0;
   const endSec = parsed?.end ?? null;
+
+  const ytLang: Record<string, string> = {
+    en: "en",
+    ar: "ar",
+    ur: "ur",
+    fr: "fr",
+  };
 
   useEffect(() => {
     if (!videoId) return;
@@ -52,7 +60,7 @@ export function VideoPlayer({ src }: { src?: string | null }) {
         height: "100%",
         width: "100%",
         videoId,
-        playerVars: { start: startSec, rel: 0 },
+        playerVars: { start: startSec, rel: 0, cc_load_policy: 1, cc_lang_pref: ytLang[locale] ?? "en" },
         events: { onStateChange: onStateChange },
       });
       setReady(true);

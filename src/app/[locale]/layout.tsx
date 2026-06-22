@@ -21,13 +21,13 @@ const amiri = Amiri({
 });
 
 export const metadata: Metadata = {
-  title: "The Guiding Light — AI-Powered Islamic Learning",
+  title: "The Guiding Light — Islamic Learning Platform",
   description:
-    "Free, structured Islamic courses powered by AI. Learn Aqeedah, Arabic, and more at your own pace.",
+    "Free, structured Islamic courses. Learn Aqeedah, Arabic, and more at your own pace.",
   openGraph: {
-    title: "The Guiding Light — AI-Powered Islamic Learning",
+    title: "The Guiding Light — Islamic Learning Platform",
     description:
-      "Free, structured Islamic courses powered by AI. Learn Aqeedah, Arabic, and more at your own pace.",
+      "Free, structured Islamic courses. Learn Aqeedah, Arabic, and more at your own pace.",
     type: "website",
   },
 };

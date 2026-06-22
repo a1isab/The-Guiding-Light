@@ -82,6 +82,17 @@ export interface Progress {
   completed_at: string;
 }
 
+export interface UserBadge {
+  id: string;
+  user_id: string;
+  badge_key: string;
+  earned_at: string;
+}
+
+export interface SectionWithLessons extends Section {
+  lessons: Lesson[];
+}
+
 export interface SimilarLesson {
   id: string;
   lesson_id: string;

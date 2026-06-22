@@ -9,18 +9,16 @@
     "your_account": "Your Account"
   },
   "landing": {
-    "badge": "AI-Powered Islamic Education",
-    "hero_title": "Your AI-Powered Guide to",
+    "hero_title": "Your Guide to",
     "hero_highlight": "Islamic Learning",
-    "hero_subtitle": "The Guiding Light offers free, structured Islamic courses powered by AI. Learn at your own pace with personalized quizzes, smart search, and a supportive community.",
+    "hero_subtitle": "The Guiding Light offers free, structured Islamic courses. Learn at your own pace with interactive quizzes and a supportive community.",
     "start_learning": "Start Learning Free",
     "go_to_courses": "Go to Courses",
     "have_account": "I already have an account",
     "why_title": "Why The Guiding Light?",
     "feature_structured_title": "Structured Courses",
     "feature_structured_desc": "Curated lessons from beginner to advanced, covering Aqeedah, Fiqh, Arabic, and more.",
-    "feature_ai_title": "AI-Powered Learning",
-    "feature_ai_desc": "Smart search, AI-powered quizzes, and personalized recommendations.",
+
     "feature_free_title": "Free for Everyone",
     "feature_free_desc": "Core courses are completely free. Premium features are optional and affordable.",
     "how_title": "How It Works",
@@ -40,12 +38,12 @@
     "get_started_free": "Get Started Free"
   },
   "footer": {
-    "tagline": "AI-Powered Islamic Learning for Everyone",
+    "tagline": "Islamic Learning for Everyone",
     "links": "Links",
     "courses": "Courses",
     "pricing": "Pricing",
     "about": "About",
-    "about_text": "Free, structured Islamic education powered by AI. Built for every Muslim, everywhere.",
+    "about_text": "Free, structured Islamic education for every Muslim, everywhere.",
     "copyright": "© {year} The Guiding Light. Made with ♥ for the sake of Allah."
   },
   "logo": {
@@ -73,16 +71,16 @@
     "free_price": "$0",
     "free_desc": "Perfect for getting started on your learning journey.",
     "free_feature1": "Access to all core courses",
-    "free_feature2": "AI-generated quizzes",
+    "free_feature2": "Interactive quizzes",
     "free_feature3": "Basic progress tracking",
     "free_feature4": "Learning streak",
     "free_cta": "Get Started Free",
     "premium_title": "Premium",
     "premium_price": "$9",
     "premium_month": "/month",
-    "premium_desc": "Unlock the full potential of AI-powered Islamic learning.",
+    "premium_desc": "Unlock the full potential of Islamic learning.",
     "premium_feature1": "Everything in Free",
-    "premium_feature2": "Unlimited AI quiz attempts",
+    "premium_feature2": "Unlimited quiz attempts",
     "premium_feature3": "Advanced analytics & insights",
     "premium_feature4": "Priority support",
     "premium_feature5": "Downloadable lesson PDFs",
@@ -145,6 +143,13 @@
     "question_of": "Question {current} of {total}",
     "next_question": "Next Question →",
     "see_results": "See Results"
+  },
+  "badge": {
+    "earned": "Badge Earned",
+    "completed": "completed",
+    "all_done": "All lessons in this section are done!",
+    "achievements": "Achievements",
+    "locked": "Locked"
   },
   "video": {
     "not_available": "Video not yet available",

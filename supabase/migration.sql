@@ -263,7 +263,30 @@ CREATE POLICY "Anyone can read flashcards"
   TO anon, authenticated
   USING (true);
 
--- 17. Add columns for Arabic content & publishing (safe for existing DBs)
+-- 17. User badges (earned for completing sections)
+CREATE TABLE IF NOT EXISTS user_badges (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id uuid REFERENCES profiles(user_id) ON DELETE CASCADE NOT NULL,
+  badge_key text NOT NULL,
+  earned_at timestamptz DEFAULT now(),
+  UNIQUE(user_id, badge_key)
+);
+
+ALTER TABLE user_badges ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Users can read own badges" ON user_badges;
+CREATE POLICY "Users can read own badges"
+  ON user_badges FOR SELECT
+  TO authenticated
+  USING (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS "Users can insert own badges" ON user_badges;
+CREATE POLICY "Users can insert own badges"
+  ON user_badges FOR INSERT
+  TO authenticated
+  WITH CHECK (auth.uid() = user_id);
+
+-- 18. Add columns for Arabic content & publishing (safe for existing DBs)
 ALTER TABLE courses ADD COLUMN IF NOT EXISTS title_ar text;
 ALTER TABLE courses ADD COLUMN IF NOT EXISTS description_ar text;
 ALTER TABLE courses ADD COLUMN IF NOT EXISTS thumbnail_url text;

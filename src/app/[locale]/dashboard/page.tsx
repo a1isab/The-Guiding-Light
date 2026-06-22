@@ -2,8 +2,9 @@ import { getTranslations } from "next-intl/server";
 import { createServiceClient, createServerSupabaseClient } from "@/lib/supabase-server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import type { Profile, Progress, Subscription } from "@/lib/types";
+import type { Profile, Progress, Subscription, UserBadge } from "@/lib/types";
 import { BookOpen, Flame, Crown, TrendingUp, LogOut } from "lucide-react";
+import { BadgeGrid } from "@/components/badge-grid";
 
 export const dynamic = "force-dynamic";
 
@@ -49,6 +50,30 @@ export default async function DashboardPage({
   const percentComplete = totalLessons > 0 ? Math.round((completedCount / totalLessons) * 100) : 0;
 
   const isPremium = sub?.plan === "premium";
+
+  const { data: userBadges } = await service
+    .from("user_badges")
+    .select("*")
+    .eq("user_id", user.id);
+
+  const earnedBadges: { badge_key: string; section_title: string; earned_at: string }[] = [];
+  if (userBadges && userBadges.length > 0) {
+    for (const badge of userBadges) {
+      if (badge.badge_key.startsWith("section_")) {
+        const sectionId = badge.badge_key.replace("section_", "");
+        const { data: section } = await service
+          .from("sections")
+          .select("title")
+          .eq("id", sectionId)
+          .single();
+        earnedBadges.push({
+          badge_key: badge.badge_key,
+          section_title: section?.title ?? "Unknown Section",
+          earned_at: badge.earned_at,
+        });
+      }
+    }
+  }
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
@@ -114,6 +139,8 @@ export default async function DashboardPage({
           </p>
         </div>
       )}
+
+      <BadgeGrid badges={earnedBadges} />
 
       <div className="mt-10 flex flex-wrap items-center gap-4">
         <Link

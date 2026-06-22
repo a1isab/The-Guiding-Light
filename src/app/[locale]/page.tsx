@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useTranslations, useLocale } from "next-intl";
-import { BookOpen, Sparkles, Star, TrendingUp } from "lucide-react";
+import { BookOpen, Star, TrendingUp } from "lucide-react";
 import { createClient } from "@/lib/supabase-client";
 import type { Locale } from "@/lib/types";
 
@@ -30,10 +30,6 @@ export default function LandingPage() {
       <section className="relative overflow-hidden px-4 py-24 sm:py-32">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.15),transparent_70%)]" />
         <div className="relative mx-auto max-w-4xl text-center">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-zinc-800 bg-zinc-900/50 px-4 py-1.5 text-xs text-zinc-400">
-            <Sparkles className="h-3.5 w-3.5 text-emerald-400" />
-            {t("badge")}
-          </div>
           <h1 className="font-amiri text-5xl font-bold leading-tight text-zinc-100 sm:text-6xl lg:text-7xl">
             {t("hero_title")}
             <span className="text-emerald-400"> {t("hero_highlight")}</span>
@@ -72,13 +68,6 @@ export default function LandingPage() {
               </div>
               <h3 className="mt-4 text-lg font-semibold text-zinc-100">{t("feature_structured_title")}</h3>
               <p className="mt-2 text-sm text-zinc-500">{t("feature_structured_desc")}</p>
-            </div>
-            <div className="rounded-2xl border border-zinc-800 bg-[#111111] p-6 hover:border-emerald-800/50 transition-all">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500/10">
-                <Sparkles className="h-6 w-6 text-emerald-400" />
-              </div>
-              <h3 className="mt-4 text-lg font-semibold text-zinc-100">{t("feature_ai_title")}</h3>
-              <p className="mt-2 text-sm text-zinc-500">{t("feature_ai_desc")}</p>
             </div>
             <div className="rounded-2xl border border-zinc-800 bg-[#111111] p-6 hover:border-emerald-800/50 transition-all">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500/10">

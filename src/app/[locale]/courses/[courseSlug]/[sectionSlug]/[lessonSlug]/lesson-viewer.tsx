@@ -6,7 +6,9 @@ import Link from "next/link";
 import type { Lesson, Locale } from "@/lib/types";
 import { getTranslation } from "@/lib/types";
 import { Quiz } from "@/components/quiz";
+import { BadgeNotification } from "@/components/badge-notification";
 import { createClient } from "@/lib/supabase-client";
+import { awardSectionBadge } from "@/lib/badges";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 type Stage = "content" | "quiz" | "complete";
@@ -29,6 +31,7 @@ export function LessonViewer({
   const t = useTranslations("lesson");
   const locale = useLocale() as Locale;
   const [stage, setStage] = useState<Stage>("content");
+  const [newBadge, setNewBadge] = useState<string | null>(null);
   const supabase = createClient();
 
   async function handleComplete() {
@@ -38,6 +41,11 @@ export function LessonViewer({
       lesson_id: lesson.id,
     });
     setStage("complete");
+
+    const result = await awardSectionBadge(userId, lesson.id);
+    if (result.earned) {
+      setNewBadge(result.sectionTitle);
+    }
   }
 
   return (
@@ -118,6 +126,13 @@ export function LessonViewer({
           <div />
         )}
       </div>
+
+      {newBadge && (
+        <BadgeNotification
+          sectionTitle={newBadge}
+          onClose={() => setNewBadge(null)}
+        />
+      )}
     </>
   );
 }
