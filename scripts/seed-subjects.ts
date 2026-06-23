@@ -218,6 +218,43 @@ const courses: CourseData[] = [
           },
         ],
       },
+      {
+        title: "Contemporary Issues in Aqeedah",
+        title_ar: "قضايا عقدية معاصرة",
+        slug: "contemporary-issues-aqeedah",
+        order_index: 4,
+        lessons: [
+          {
+            title: "Magic, Soothsaying, and Fortune-Telling",
+            title_ar: "السحر والكهانة والعرافة",
+            slug: "magic-soothsaying",
+            arabic_text: "وَلَا يُفْلِحُ السَّاحِرُ حَيْثُ أَتَى",
+            video_url: "https://www.youtube.com/embed/ASYfRbFuNmU?si=h7fpO6Da34JNBggt&start=1200&end=1500",
+            content:
+              "Magic (sihr) is real and its effects are real, but Islam forbids it and regards it as major shirk. The Prophet (peace and blessings of Allah be upon him) said: 'Avoid the seven destructive sins.' They asked: 'What are they, O Messenger of Allah?' He said: 'Associating others with Allah (shirk), magic...' (Narrated by al-Bukhari and Muslim). Learning magic and teaching it are forms of disbelief (kufr). Allah says: 'And they [the two angels] taught no one until they had said, Indeed, we are a trial, so do not separate yourself [from Allah by disbelieving in magic]. And they learn from them that by which they cause separation between a man and his wife. But they do not harm anyone through it except by permission of Allah.' (2:102). Soothsaying (kahanah) and fortune-telling are also forbidden. The Prophet said: 'Whoever goes to a fortune-teller and asks him about something, his prayer will not be accepted for forty days.' (Muslim). Believers are commanded to rely on Allah alone and not seek knowledge of the unseen from any source other than revelation.\n\nSource: islamqa.info/en/answers/11189",
+            order_index: 1,
+          },
+          {
+            title: "Tawassul (Seeking Intermediation)",
+            title_ar: "التوسل",
+            slug: "tawassul",
+            arabic_text: "يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللَّهَ وَابْتَغُوا إِلَيْهِ الْوَسِيلَةَ",
+            video_url: "https://www.youtube.com/embed/ASYfRbFuNmU?si=h7fpO6Da34JNBggt&start=1500&end=1800",
+            content:
+              "Tawassul (seeking wasilah or drawing near to Allah) through righteous deeds is one of the things that are prescribed in sharee'ah. The believer seeks to draw closer to Allah by obeying Him, worshipping Him, and following His commands. The prescribed type of tawassul includes: (1) Tawassul through Allah's names and attributes; (2) Tawassul through one's righteous deeds; (3) Tawassul by asking a living righteous person to make du'aa'. The forbidden type of tawassul includes: (1) Tawassul to Allah by virtue of a particular person, such as saying 'I ask You by virtue of Your Prophet' or 'by virtue of so-and-so' — this was not practiced by the Sahabah and is an innovation; (2) Tawassul that is directed to someone other than Allah, i.e., calling upon the dead or absent saints for help, which is a form of major shirk. The correct position is that the Sahabah did not do tawassul by the Prophet's person after he died. Umar ibn al-Khattab used to pray for rain through al-Abbas, not through the Prophet.\n\nSource: islamqa.info/en/answers/120",
+            order_index: 2,
+          },
+          {
+            title: "Love and Hate for Allah's Sake",
+            title_ar: "الحب والبغض في الله",
+            slug: "love-hate-for-allah",
+            arabic_text: "وَالَّذِينَ آمَنُوا أَشَدُّ حُبًّا لِّلَّهِ",
+            content:
+              "Loving for the sake of Allah and hating for the sake of Allah are among the greatest acts of faith. The Prophet (peace and blessings of Allah be upon him) said: 'Whoever loves for Allah, hates for Allah, gives for Allah, and withholds for Allah has perfected faith.' (Abu Dawud). Loving for Allah means loving the believers and righteous people because of their obedience to Allah. Hating for Allah means hating the disbelievers and sinners because of their disobedience. This does not mean mistreating people; rather it is an internal state of the heart. The Prophet loved the son of his daughter and said: 'O Allah, I love him, so love him.' He also hated the deeds of the hypocrites but treated them according to Islamic rulings. Loving for Allah is the strongest bond of faith. The Prophet said: 'The strongest bond of faith is loving for Allah and hating for Allah.' (Ahmad). The sweetness of faith is not attained until these feelings are firmly rooted in the heart.\n\nSource: islamqa.info/en/answers/39641",
+            order_index: 3,
+          },
+        ],
+      },
     ],
   },
 
@@ -337,6 +374,76 @@ const courses: CourseData[] = [
           },
         ],
       },
+      {
+        title: "Fasting (Sawm)",
+        title_ar: "الصيام",
+        slug: "fasting-sawm",
+        order_index: 4,
+        lessons: [
+          {
+            title: "The Obligation and Virtues of Fasting",
+            title_ar: "فريضة الصيام وفضائله",
+            slug: "obligation-virtues-fasting",
+            arabic_text: "يَا أَيُّهَا الَّذِينَ آمَنُوا كُتِبَ عَلَيْكُمُ الصِّيَامُ",
+            content:
+              "Fasting (sawm) in Ramadan is the fourth pillar of Islam. Allah says: 'O you who believe! Fasting is prescribed for you as it was prescribed for those before you, that you may become righteous (taqwa).' (2:183). The obligation of fasting Ramadan is proven by the Quran, the Sunnah, and scholarly consensus. The Prophet (peace and blessings of Allah be upon him) said: 'Islam is built on five: testifying that there is no god but Allah and that Muhammad is the Messenger of Allah, establishing prayer, paying zakat, fasting Ramadan, and pilgrimage to the House.' (Bukhari, Muslim). Fasting is an act of worship that is uniquely between the slave and his Lord. The Prophet said, in a hadith qudsi: 'Every deed of the son of Adam is for him except fasting; it is for Me and I shall reward for it.' (Bukhari, Muslim). Fasting develops taqwa (God-consciousness), self-discipline, and empathy for the poor. It is a shield that protects the believer from sin and from the Fire.\n\nSource: islamqa.info/en/answers/93521",
+            order_index: 1,
+          },
+          {
+            title: "Rulings of Ramadan",
+            title_ar: "أحكام رمضان",
+            slug: "rulings-ramadan",
+            arabic_text: "شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ",
+            content:
+              "Fasting in Ramadan begins at the sighting of the crescent moon. The Prophet said: 'Fast when you see it (the new moon) and break your fast when you see it. If it is cloudy, then complete the month of Shaban as thirty days.' (Bukhari, Muslim). The intention (niyyah) for fasting must be made before Fajr. It is recommended to have suhoor (pre-dawn meal) and to delay it until just before Fajr. The fast is broken at Maghrib with iftar, and it is recommended to break the fast with dates and water before praying Maghrib. The Prophet said: 'My Ummah will continue to be upon goodness as long as they hasten to break the fast.' (Bukhari, Muslim). Things that break the fast include: intentional eating and drinking, intentional vomiting, sexual intercourse, and the onset of menstruation or postpartum bleeding. Things that do NOT break the fast include: eating or drinking out of forgetfulness, unintentional vomiting, and anything that enters the body without intent (such as rinsing the mouth). The one who breaks his fast without a valid excuse must repent and make up the day, and if the break was through intercourse, he must also pay kaffarah (expiation) by freeing a slave or fasting two consecutive months or feeding sixty poor people.\n\nSource: islamqa.info/en/answers/37951",
+            order_index: 2,
+          },
+          {
+            title: "Voluntary Fasts",
+            title_ar: "الصيام التطوعي",
+            slug: "voluntary-fasts",
+            arabic_text: "وَصُومُوا تَصِحُّوا",
+            content:
+              "Voluntary fasting is highly recommended and brings great reward. The best voluntary fasts include: (1) Fasting on Mondays and Thursdays — the Prophet used to fast on these days, and said: 'Deeds are presented (to Allah) on Monday and Thursday, and I like my deeds to be presented while I am fasting.' (Tirmidhi). (2) The three white days (al-ayyam al-beed) — the 13th, 14th, and 15th of each lunar month. The Prophet said: 'Fasting three days of each month is like fasting for a lifetime.' (Bukhari, Muslim). (3) Fasting six days of Shawwal — the Prophet said: 'Whoever fasts Ramadan then follows it with six days of Shawwal, it is as if he fasted for a lifetime.' (Muslim). (4) The day of Arafah (9th of Dhul Hijjah) — fasting it expiates the sins of the previous year and the coming year, for those not performing Hajj. (5) The day of Ashura (10th of Muharram) along with the 9th — expiates the sins of the previous year. (6) Fasting the month of Muharram, which is the best month for voluntary fasting after Ramadan. (7) Fasting as much as possible in Sha'ban — the Prophet used to fast most of Sha'ban. It is forbidden to fast on Eid al-Fitr, Eid al-Adha, and the days of Tashreeq (11th-13th of Dhul Hijjah). It is also disliked to single out Friday for fasting.\n\nSource: islamqa.info/en/answers/36289",
+            order_index: 3,
+          },
+        ],
+      },
+      {
+        title: "Hajj and Umrah",
+        title_ar: "الحج والعمرة",
+        slug: "hajj-and-umrah",
+        order_index: 5,
+        lessons: [
+          {
+            title: "The Obligation and Virtues of Hajj",
+            title_ar: "فريضة الحج وفضائله",
+            slug: "obligation-hajj",
+            arabic_text: "وَلِلَّهِ عَلَى النَّاسِ حِجُّ الْبَيْتِ مَنِ اسْتَطَاعَ إِلَيْهِ سَبِيلًا",
+            content:
+              "Hajj (pilgrimage to Makkah) is the fifth pillar of Islam. Allah says: 'And Hajj (pilgrimage to Makkah) to the House (Kaaba) is a duty that mankind owes to Allah, those who can afford the expenses (for one's conveyance, provision and residence).' (3:97). Hajj is obligatory once in a lifetime upon every free, adult, sane Muslim who is physically and financially able. The virtues of Hajj are immense. The Prophet (peace and blessings of Allah be upon him) said: 'Whoever performs Hajj for the sake of Allah and does not commit any obscenity or transgression will return free of sin as on the day his mother bore him.' (Bukhari, Muslim). He also said: 'An accepted Hajj brings no less a reward than Paradise.' (Bukhari, Muslim). Hajj is the greatest jihad for women, as the Prophet said when asked about jihad for women: 'Their jihad is Hajj.' (Bukhari). The conditions for Hajj being obligatory are: being Muslim, being of sound mind, having reached puberty, being free, and being able to afford it (having sufficient provision and means of transport, security on the journey, and being able to leave dependents with adequate support).\n\nSource: islamqa.info/en/answers/111840",
+            order_index: 1,
+          },
+          {
+            title: "The Rituals of Hajj",
+            title_ar: "مناسك الحج",
+            slug: "rituals-hajj",
+            arabic_text: "وَأَتِمُّوا الْحَجَّ وَالْعُمْرَةَ لِلَّهِ",
+            content:
+              "Hajj begins on the 8th of Dhul-Hijjah. The pilgrim enters ihram (state of consecration) from the miqat (appointed station). Ihram for men consists of two white seamless sheets; women may wear any modest clothing that covers the body, avoiding the face veil and gloves. While in ihram, certain things are prohibited: wearing perfume, cutting nails or hair, hunting, engaging in sexual relations, and for men, wearing stitched clothing or covering the head. The rituals of Hajj follow a specific sequence: (1) On the 8th of Dhul-Hijjah (Yawm at-Tarwiyah), pilgrims go to Mina and spend the day. (2) On the 9th (Yawm Arafah), they gather at Arafah from noon until sunset — standing at Arafah is the greatest pillar of Hajj. The Prophet said: 'Hajj is Arafah.' (Tirmidhi). (3) After sunset, they proceed to Muzdalifah, where they combine Maghrib and Isha and spend the night. (4) On the 10th (Yawm an-Nahr), they go to Mina, stone the Jamrat al-Aqabah, sacrifice an animal, shave or trim their hair, and perform tawaf al-ifadah around the Kaaba. (5) On the 11th-13th (Ayyam at-Tashreeq), they stone the three jamarat each day. (6) Before leaving Makkah, they perform tawaf al-wada' (farewell circumambulation). The three obligatory acts of Hajj are: ihram, standing at Arafah, and tawaf al-ifadah.\n\nSource: islamqa.info/en/answers/158553",
+            order_index: 2,
+          },
+          {
+            title: "Umrah",
+            title_ar: "العمرة",
+            slug: "umrah",
+            arabic_text: "وَأَتِمُّوا الْحَجَّ وَالْعُمْرَةَ لِلَّهِ",
+            content:
+              "Umrah (lesser pilgrimage) can be performed at any time of the year. It is recommended, and some scholars consider it obligatory at least once. The Prophet performed Umrah four times in his life, all in the month of Dhul-Qa'dah. The rituals of Umrah include: (1) Entering ihram from the miqat; (2) Performing tawaf (circumambulation) around the Kaaba seven times, starting from the Black Stone; (3) Performing sa'y (walking) between Safa and Marwah seven times; (4) Shaving or trimming the hair. The Prophet said: 'Umrah is an expiation for the sins committed between it and the previous Umrah.' (Bukhari, Muslim). Performing Umrah in Ramadan is especially meritorious — the Prophet said: 'Umrah in Ramadan is equivalent to Hajj (in reward).' (Bukhari, Muslim). There is no specified time for Umrah, but the best time is Ramadan. The same prohibitions of ihram apply to Umrah as to Hajj.\n\nSource: islamqa.info/en/answers/105278",
+            order_index: 3,
+          },
+        ],
+      },
     ],
   },
 
@@ -406,6 +513,42 @@ const courses: CourseData[] = [
             content:
               "Surat al-Ikhlas (Qul Huwa Allahu Ahad) is equivalent to one-third of the Quran. Al-Bukhari narrated from Abu Sa'id that a man heard another reciting it repeatedly and thought it was too little, but the Messenger of Allah (peace and blessings of Allah be upon him) said: 'By the One in Whose Hand is my soul, it is equivalent to one-third of the Quran.'\n\nThere is an important distinction between jaza (reward) and ijza (sufficiency). Reciting Qul Huwallahu Ahad brings a reward equivalent to reciting one-third of the Quran, but it does not take the place of reading one-third of the Quran. If a person vows to read one-third of the Quran, it is not sufficient for him to read this surah alone.\n\nThe correct scholarly view is that this surah has this great virtue because the Quran deals with three topics: one-third for rulings, one-third for promises and warnings, and one-third for the Divine names and attributes. This surah combines the names and attributes, as stated by Ibn Surayj and affirmed by Ibn Taymiyah.\n\nIbn Taymiyah said: 'Rewards are of different types, just as wealth is of different types. If a man possesses one type of wealth to the value of one thousand dinars, that does not mean he can do without the other types. Similarly, the people need the commands, prohibitions and stories that are in the Quran, and these cannot be replaced by anything else.'\n\nThus while the reward is immense, the Muslim cannot do without the other two issues — the rulings and the promises and warnings — which are found throughout the rest of the Quran.",
             order_index: 2,
+          },
+        ],
+      },
+      {
+        title: "Advanced Tafsir Studies",
+        title_ar: "دراسات متقدمة في التفسير",
+        slug: "advanced-tafsir",
+        order_index: 3,
+        lessons: [
+          {
+            title: "Tafsir of Surah al-Kahf",
+            title_ar: "تفسير سورة الكهف",
+            slug: "surah-al-kahf",
+            arabic_text: "الْحَمْدُ لِلَّهِ الَّذِي أَنزَلَ عَلَىٰ عَبْدِهِ الْكِتَابَ وَلَمْ يَجْعَل لَّهُ عِوَجًا",
+            video_url: "https://www.youtube.com/embed/52QILyMug3E?si=tafsir01&start=0&end=0",
+            content:
+              "Surah al-Kahf (The Cave) was revealed in Makkah and contains 110 verses. It is one of the five surahs that begin with 'Alhamdu lillah'. The Prophet (peace and blessings of Allah be upon him) said: 'Whoever recites Surah al-Kahf on Friday, a light will shine for him between the two Fridays.' (al-Hakim). The surah contains four main stories, each teaching a profound lesson: (1) The People of the Cave — illustrating the virtue of faith and patience in the face of persecution; (2) The Owner of the Two Gardens — a warning against pride and attachment to worldly wealth; (3) Musa (AS) and al-Khidr — teaching humility in seeking knowledge and that Allah's wisdom may be hidden from us; (4) Dhul-Qarnayn — showing that power should be used to establish justice. The surah also refutes those who claim Allah has a son, and emphasizes that true success lies in doing righteous deeds and hoping for the mercy of Allah. It is highly recommended to recite this surah every Friday.\n\nSource: islamqa.info/en/answers/10700",
+            order_index: 1,
+          },
+          {
+            title: "Tafsir of Surah Yaseen",
+            title_ar: "تفسير سورة يس",
+            slug: "surah-yaseen",
+            arabic_text: "يس وَالْقُرْآنِ الْحَكِيمِ",
+            content:
+              "Surah Yaseen is known as the 'heart of the Quran'. It was revealed in Makkah and contains 83 verses. The Prophet (peace and blessings of Allah be upon him) said: 'Everything has a heart, and the heart of the Quran is Yaseen. Whoever recites Yaseen, Allah will write for him the reward of reciting the Quran ten times.' (Tirmidhi — classed as weak by some scholars but the meaning is sound). The surah focuses on three core themes: (1) Tawheed — affirming the oneness of Allah and warning against shirk. It presents proofs of Allah's power through creation, including the alternation of day and night, the movement of the sun and moon, and the revival of dead land. (2) Risalah (Prophethood) — the story of the messengers sent to a town and the man who came running from the farthest part of the city to support them. (3) The Hereafter — vivid descriptions of the Resurrection and the accountability of deeds. The surah consoles the Prophet by showing that rejection of messengers is not new. It is recommended to recite Yaseen for the dying and the deceased, following the practice of many early Muslims.\n\nSource: islamqa.info/en/answers/236772",
+            order_index: 2,
+          },
+          {
+            title: "The Miraculous Nature of the Quran (I'jaz)",
+            title_ar: "إعجاز القرآن",
+            slug: "ijaz-al-quran",
+            arabic_text: "قُل لَّئِنِ اجْتَمَعَتِ الْإِنسُ وَالْجِنُّ عَلَىٰ أَن يَأْتُوا بِمِثْلِ هَٰذَا الْقُرْآنِ لَا يَأْتُونَ بِمِثْلِهِ",
+            content:
+              "I'jaz al-Quran (the miraculous nature of the Quran) refers to the Quran's inability to be matched or imitated. Allah challenges humanity to produce anything like it: 'Say: If mankind and the jinn were to gather together to produce the like of this Quran, they could not produce the like thereof, even if they backed up one another.' (17:88). The Quran is miraculous in many ways: (1) Linguistic miracle — the Arabic of the Quran is unmatched in eloquence, beauty, and precision. The Arabs at the time of revelation were masters of poetry and rhetoric, yet they could not produce anything comparable. (2) Legislative miracle — the laws and rulings of the Quran are perfectly suited for all times and places. (3) Scientific miracles — the Quran contains accurate references to natural phenomena that were unknown at the time, such as the expansion of the universe (51:47), the barrier between fresh and salt water (25:53), and the stages of embryonic development (23:12-14). (4) Prophetic miracles — the Quran accurately prophesied future events, such as the victory of the Romans over the Persians (30:2-4). These aspects confirm that the Quran is the word of Allah and not the product of any human being.\n\nSource: islamqa.info/en/answers/75348",
+            order_index: 3,
           },
         ],
       },
@@ -487,6 +630,32 @@ const courses: CourseData[] = [
             content:
               "There are three degrees of Islam: Islam, iman and ihsan. This is established by the famous hadith of Jibril narrated by Muslim from Umar ibn al-Khattab.\n\nThe first degree is Islam. When used on its own, it refers to the religion as a whole. When used in conjunction with iman, it refers to outward deeds and words. The Prophet said: 'Islam is to testify that there is none worthy of worship except Allah and that Muhammad is the Messenger of Allah, to establish regular prayer, to pay zakah, to fast Ramadan and to go on pilgrimage to the House if you are able to.'\n\nThe second degree is iman (faith). When used on its own, it refers to the whole religion. The Salaf were agreed that iman means affirming in the heart, saying with the tongue, and acting with one's physical faculties; it increases by obedience and decreases by sin. When used with Islam, it refers to inward beliefs. The Prophet said: 'It means believing in Allah, His angels, His Books, His Messengers, and the Last Day, and believing in al-qadar, both good and bad.'\n\nThe third degree is ihsan (excellence). The Prophet said: 'It means worshipping Allah as if you can see Him, and although you cannot see Him, He can see you.' This is the highest degree. Ihsan is of two categories: the higher is worshipping Allah as if you see Him, with awareness of His nearness; the second is sincerity and awareness that Allah is always watching.\n\nJibril came to teach the people their religion, encompassing all three degrees in one conversation.",
             order_index: 3,
+          },
+        ],
+      },
+      {
+        title: "Further Studies in Hadith",
+        title_ar: "دراسات متقدمة في الحديث",
+        slug: "advanced-hadith",
+        order_index: 3,
+        lessons: [
+          {
+            title: "The Muwatta of Imam Malik",
+            title_ar: "موطأ الإمام مالك",
+            slug: "muwatta-imam-malik",
+            arabic_text: "وَإِنَّهُ لَكِتَابٌ عَزِيزٌ",
+            content:
+              "The Muwatta of Imam Malik ibn Anas (93-179 AH) is one of the earliest and most important collections of hadith and fiqh. Imam Malik compiled it over forty years, reviewing it with thousands of scholars each year. It contains approximately 1,720 hadith, arranged by chapters of fiqh. What makes the Muwatta unique is that it combines hadith with the practice (amal) of the people of Madinah, which Imam Malik considered a source of legal authority. The Prophet said: 'There will be a time when people will beat the flanks of their camels (i.e., travel far) in search of knowledge, and they will find no scholar more knowledgeable than the scholar of Madinah.' (Tirmidhi). Many scholars interpreted this as referring to Imam Malik. Al-Shafi'i said: 'There is no book on earth more authentic than the Muwatta after the Book of Allah.' The Muwatta includes hadith from the Prophet, fatwas of the Sahabah, and the rulings of the Tabi'een, making it an essential source for understanding the development of Islamic law. Imam Ahmad ibn Hanbal authenticated the Muwatta and relied on it extensively.\n\nSource: islamqa.info/en/answers/63998",
+            order_index: 1,
+          },
+          {
+            title: "The Musnad of Imam Ahmad",
+            title_ar: "مسند الإمام أحمد",
+            slug: "musnad-imam-ahmad",
+            arabic_text: "وَإِنَّهُ لَذِكْرٌ لَّكَ وَلِقَوْمِكَ",
+            content:
+              "The Musnad of Imam Ahmad ibn Hanbal (164-241 AH) is the largest collection of hadith among the early works, containing approximately 27,000 hadith (around 40,000 including repeats). Unlike other collections that arrange hadith by topic, the Musnad is organized by narrator — all the hadith narrated by Abu Bakr are together, followed by those of Umar, Uthman, Ali, and so on. Imam Ahmad selected these hadith from a vast pool of over 750,000. He said to his son Abdullah: 'I compiled this Musnad from over 750,000 hadith. If the Muslims disagree about a matter of the Sunnah, let them refer to the Musnad; if they find it there, it is evidence.' Imam Ahmad was known for his strictness in accepting narrators — he would not accept hadith from anyone who engaged in bid'ah (innovation). The Musnad contains many authentic hadith not found in the Six Books. However, it also contains some weak hadith, which scholars have identified. It remains a primary source for hadith study and is especially valuable for finding multiple chains of narration for the same hadith.\n\nSource: islamqa.info/en/answers/115328",
+            order_index: 2,
           },
         ],
       },
@@ -589,6 +758,42 @@ const courses: CourseData[] = [
           },
         ],
       },
+      {
+        title: "The Prophet's Life and Legacy",
+        title_ar: "حياة النبي صلى الله عليه وسلم وإرثه",
+        slug: "prophets-life-legacy",
+        order_index: 4,
+        lessons: [
+          {
+            title: "The Character and Manners of the Prophet",
+            title_ar: "خلق النبي صلى الله عليه وسلم",
+            slug: "character-of-prophet",
+            arabic_text: "وَإِنَّكَ لَعَلَىٰ خُلُقٍ عَظِيمٍ",
+            video_url: "https://www.youtube.com/embed/JbcAj754-mo?si=seerah03&start=0&end=0",
+            content:
+              "Allah described His Prophet (peace and blessings of Allah be upon him) as being of immense moral character. Anas (may Allah be pleased with him) said: 'The Messenger of Allah was the best of people in character.' (Bukhari, Muslim). His character was the Quran itself — Aishah said when asked about his character: 'His character was the Quran.' (Muslim). He was the most truthful and trustworthy of people. The people of Makkah called him Al-Amin (the trustworthy) even before his prophethood. He was the most humble — he would sit with the poor, eat with the needy, and serve his family. He never struck a servant or a woman. He was the most generous — Ibn Abbas said: 'The Messenger of Allah was the most generous of people, and he was most generous in Ramadan.' (Bukhari, Muslim). He was the most courageous — Ali said: 'When the fighting grew fierce, we would seek protection behind the Messenger of Allah.' (Ahmad). He was the most merciful — he would weep when seeing others suffer, and he forbade harming any living creature. His mercy extended even to his enemies. He said: 'I was sent to perfect good character.' (Bukhari).\n\nSource: islamqa.info/en/answers/102440",
+            order_index: 1,
+          },
+          {
+            title: "His Family Life",
+            title_ar: "حياته الأسرية",
+            slug: "family-life-prophet",
+            arabic_text: "لَّقَدْ كَانَ لَكُمْ فِي رَسُولِ اللَّهِ أُسْوَةٌ حَسَنَةٌ",
+            content:
+              "The Prophet (peace and blessings of Allah be upon him) was an exemplary husband and father. He married Khadijah bint Khuwaylid at age 25 and remained monogamous to her until her death. After her death, he married several wives for various reasons: to strengthen tribal bonds, to provide for widows, and to teach the Ummah through them — the Mothers of the Believers. His treatment of his wives was gentle and kind. He would help with household chores, mend his own clothes, and milk his own goat. He said: 'The best of you are those who are best to their families, and I am the best of you to my family.' (Tirmidhi). He never raised his hand against any of his wives or servants. He would listen to them, consult them, and even receive advice from them — as when Umm Salamah advised him during the Treaty of Hudaybiyyah. He was a loving father to his children — all seven of whom were from Khadijah except Ibrahim who was from Mariyah. His daughters Zaynab, Ruqayyah, Umm Kulthum, and Fatimah were all believers who supported him. His sons — al-Qasim, Abdullah, and Ibrahim — all died in infancy. He would carry his grandchildren and let them climb on his back during prayer. His love for his daughter Fatimah was such that he would stand for her when she entered and seat her in his place.\n\nSource: islamqa.info/en/answers/10078",
+            order_index: 2,
+          },
+          {
+            title: "His Final Days and Death",
+            title_ar: "أيامه الأخيرة ووفاته",
+            slug: "final-days-prophet",
+            arabic_text: "إِنَّكَ مَيِّتٌ وَإِنَّهُم مَّيِّتُونَ",
+            content:
+              "In the tenth year after the Hijrah (632 CE), the Prophet (peace and blessings of Allah be upon him) began to show signs of illness. He had been feeling unwell after returning from the Farewell Pilgrimage, during which he gave his final sermon, saying: 'O people, I have left among you that which if you hold fast to, you will never go astray: the Book of Allah and my Sunnah.' The illness began as a severe headache. He sought treatment from his wives and stayed in the apartment of Aishah. Despite his severe pain, he continued to lead the prayer until he could no longer stand, at which point he appointed Abu Bakr to lead the prayer. He would ask: 'Where am I tomorrow? Where am I tomorrow?' hoping to spend his last day with Aishah. His wives agreed that he could stay with her. In his final moments, Aishah held him and heard him say: 'Rather, the Exalted Companion in Paradise.' (Bukhari). He then raised his finger and said: 'O Allah, the Exalted Companion' three times, and his hand fell. He passed away on Monday, the 12th of Rabee' al-Awwal, 11 AH (632 CE). The Sahabah were devastated — Umar refused to believe it, while Abu Bakr addressed the people from the mosque, saying: 'Whoever worshipped Muhammad, let him know that Muhammad is dead. But whoever worshipped Allah, let him know that Allah is alive and never dies.' He was buried in the apartment of Aishah, where the Prophet's Mosque in Madinah now houses his grave.\n\nSource: islamqa.info/en/answers/10010",
+            order_index: 3,
+          },
+        ],
+      },
     ],
   },
 
@@ -667,6 +872,41 @@ const courses: CourseData[] = [
             content:
               'The Ottoman state was one of the longest-lasting Islamic empires. It is important to understand its relationship with the various regions of the Islamic world.\n\nNajd (central Arabia) never came under Ottoman rule, because the rule of the Ottoman state never reached that far, no Ottoman governor was appointed over that region and the Turkish soldiers never marched through its land. Dr. Saalih al-\'Abood said: "Najd never came under Ottoman rule, because the rule of the Ottoman state never reached that far." (\'Aqeedat al-Shaykh Muhammad ibn \'Abd al-Wahhaab, 1/27)\n\nDr. \'Abd-Allaah al-\'Uthaymeen said: "Najd never experienced direct Ottoman rule before the call of Shaykh Muhammad ibn \'Abd al-Wahhaab emerged, just as it never experienced any strong influence that could have an impact on events inside Najd." (Muhammad ibn \'Abd al-Wahhaab Hayaatuhu wa Fikruhu, p. 11)\n\nThe Ottoman state was divided into administrative provinces. A Turkish document entitled Qawaaneen Aal \'Uthmaan indicates that from the beginning of the eleventh century AH the Ottoman state was divided into 23 provinces, of which 14 were Arabic provinces, and the land of Najd was not among them.\n\nThe Prophet (peace and blessings of Allah be upon him) said: "Whoever among you sees something evil, let him change it with his hand; if he cannot, then with his tongue; if he cannot, then with his heart, and that is the weakest of faith." (Narrated by Muslim)\n\nIbn Baaz (may Allah have mercy on him) said: "Shaykh Muhammad ibn \'Abd al-Wahhaab did not rebel against the Ottoman Caliphate as far as I know, because there was no area in Najd that was under Turkish rule."\n\nReference: Islam Q&A, Answer 9243',
             order_index: 2,
+          },
+        ],
+      },
+      {
+        title: "The Great Islamic Dynasties",
+        title_ar: "الدول الإسلامية الكبرى",
+        slug: "great-islamic-dynasties",
+        order_index: 3,
+        lessons: [
+          {
+            title: "The Umayyad Caliphate",
+            title_ar: "الخلافة الأموية",
+            slug: "umayyad-caliphate",
+            arabic_text: "وَاللَّهُ غَالِبٌ عَلَىٰ أَمْرِهِ وَلَٰكِنَّ أَكْثَرَ النَّاسِ لَا يَعْلَمُونَ",
+            content:
+              "The Umayyad Caliphate (661-750 CE / 41-132 AH) was established by Muawiyah ibn Abi Sufyan (may Allah be pleased with him) after the Fitnah (civil strife). Muawiyah was the first in a line of 14 Umayyad caliphs who ruled from Damascus. The Umayyad period was marked by tremendous territorial expansion — the Islamic empire stretched from Spain in the west to Central Asia in the east. Important conquests included North Africa, Spain (Andalusia), Transoxiana, and Sindh. The Umayyads made Arabic the official language of the empire and minted the first Islamic currency. They built remarkable architectural works including the Dome of the Rock in Jerusalem and the Umayyad Mosque in Damascus. Despite their achievements, the Umayyads faced criticism from some scholars for turning the caliphate into a hereditary monarchy. The Umayyad period ended with the Abbasid Revolution in 750 CE, when the Abbasids overthrew the last Umayyad caliph, Marwan II. One Umayyad prince, Abd al-Rahman I, escaped to Spain and established the Umayyad Emirate of Cordoba, which lasted for centuries. The scholars differed regarding the legitimacy of the Umayyad rulers, but the majority of Ahl al-Sunnah accept their caliphate as valid while acknowledging that some of them were just rulers and others were not.\n\nSource: islamqa.info/en/answers/22881",
+            order_index: 1,
+          },
+          {
+            title: "The Abbasid Caliphate",
+            title_ar: "الخلافة العباسية",
+            slug: "abbasid-caliphate",
+            arabic_text: "وَقُل رَّبِّ زِدْنِي عِلْمًا",
+            content:
+              "The Abbasid Caliphate (750-1258 CE / 132-656 AH) succeeded the Umayyads and ruled from Baghdad. The Abbasids were descendants of al-Abbas, the uncle of the Prophet (peace and blessings of Allah be upon him). The early Abbasid period is considered the Golden Age of Islamic civilization. The most famous Abbasid caliphs include al-Mansur (who founded Baghdad in 762 CE), Harun al-Rashid (786-809 CE), and al-Ma'mun (813-833 CE). Under the Abbasids, the Islamic world experienced a flourishing of knowledge in every field — medicine, astronomy, mathematics, philosophy, literature, and Islamic sciences. The House of Wisdom (Bayt al-Hikmah) in Baghdad became a center of translation and scholarship, preserving and building upon the knowledge of ancient civilizations. Great scholars like Imam Abu Hanifah, Imam Malik, Imam al-Shafi'i, Imam Ahmad ibn Hanbal, al-Bukhari, Muslim, and the linguist Sibawayh lived during the early Abbasid era. The Abbasid Caliphate gradually declined due to internal conflicts, the rise of regional dynasties (such as the Fatimids in Egypt and the Seljuks), and the devastating Mongol invasion of Baghdad in 1258 CE, which ended the Abbasid Caliphate in Iraq. A shadow Abbasid Caliphate continued in Cairo under the Mamluks until the Ottoman conquest.\n\nSource: islamqa.info/en/answers/22881",
+            order_index: 2,
+          },
+          {
+            title: "The Islamic Golden Age",
+            title_ar: "العصر الذهبي للإسلام",
+            slug: "islamic-golden-age",
+            arabic_text: "قُلْ هَلْ يَسْتَوِي الَّذِينَ يَعْلَمُونَ وَالَّذِينَ لَا يَعْلَمُونَ",
+            content:
+              "The Islamic Golden Age (roughly 8th-13th centuries CE) was a period of extraordinary scientific, cultural, and economic flourishing in the Islamic world. The Quran and Sunnah encouraged seeking knowledge, which inspired Muslims to pursue learning in all fields. Major contributions include: (1) Medicine — Ibn Sina (Avicenna) wrote al-Qanun fi al-Tibb (The Canon of Medicine), the standard medical text in Europe for 500 years. Al-Razi (Rhazes) identified smallpox and measles. Al-Zahrawi (Albucasis) pioneered surgical techniques. (2) Mathematics — Al-Khwarizmi developed algebra (al-jabr) and introduced the decimal number system. (3) Astronomy — Al-Battani made precise astronomical observations. Ibn al-Haytham (Alhazen) revolutionized optics. (4) Philosophy — Ibn Rushd (Averroes) and al-Farabi preserved and expanded upon Greek philosophy. (5) Geography — Ibn Battuta traveled across the known world and documented his journeys. (6) Literature — The Arabian Nights, the poetry of al-Mutanabbi, and Rumi's spiritual poetry. The Golden Age was not limited to Arabs — Persian, Turkish, Berber, Indian, and Andalusian scholars all contributed. The decline began with internal political fragmentation and the Mongol invasion, but the legacy of Islamic scholarship laid the foundation for the European Renaissance.\n\nSource: islamqa.info/en/answers/10471",
+            order_index: 3,
           },
         ],
       },
@@ -828,6 +1068,44 @@ const courses: CourseData[] = [
           },
         ],
       },
+      // ── Section 4: Essential Virtues ──
+      {
+        title: "Essential Virtues",
+        title_ar: "الفضائل الأساسية",
+        slug: "essential-virtues",
+        order_index: 4,
+        lessons: [
+          {
+            title: "Patience (Sabr)",
+            title_ar: "الصبر",
+            slug: "patience-sabr",
+            arabic_text: "يَا أَيُّهَا الَّذِينَ آمَنُوا اسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ",
+            video_url: "https://www.youtube.com/embed/4kWMwOLpR8U?si=tazkiyah03&start=0&end=0",
+            content:
+              "Sabr (patience) is half of faith and one of the greatest virtues in Islam. Allah mentions patience in the Quran more than ninety times. He says: 'O you who believe! Seek help through patience and prayer. Indeed, Allah is with the patient.' (2:153). Patience is of three types: (1) Patience in obeying Allah — persisting in worship and good deeds despite the effort; (2) Patience in refraining from sin — controlling one's desires and avoiding what Allah has forbidden; (3) Patience with the trials of Allah — accepting hardship, illness, and loss with faith and hope of reward. The reward for patience is immense: 'Indeed, the patient will be given their reward without account.' (39:10). The Prophet (peace and blessings of Allah be upon him) said: 'No one has been given anything better and more abundant than patience.' (Bukhari, Muslim). When calamity strikes, the believer says: 'Inna lillahi wa inna ilayhi raji'oon' and knows that everything belongs to Allah. The Prophet said: 'How amazing is the affair of the believer! All his affairs are good. If he is granted ease, he is thankful, and that is good for him. If he is afflicted with hardship, he is patient, and that is good for him.' (Muslim).\n\nSource: islamqa.info/en/answers/31703",
+            order_index: 1,
+          },
+          {
+            title: "Gratitude (Shukr)",
+            title_ar: "الشكر",
+            slug: "gratitude-shukr",
+            arabic_text: "لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ",
+            video_url: "https://www.youtube.com/embed/4kWMwOLpR8U?si=tazkiyah03&start=600&end=0",
+            content:
+              "Shukr (gratitude) is the opposite of kufr (ingratitude/disbelief). Gratitude to Allah is a fundamental characteristic of the believer. Allah says: 'And (remember) when your Lord proclaimed: If you are grateful, I will surely increase you (in favor); but if you deny, indeed My punishment is severe.' (14:7). Gratitude is expressed in three ways: (1) Gratitude of the heart — acknowledging that all blessings come from Allah alone; (2) Gratitude of the tongue — praising Allah and saying 'Alhamdulillah'; (3) Gratitude of the limbs — using Allah's blessings to obey Him and not to disobey Him. The Prophet (peace and blessings of Allah be upon him) prayed at night until his feet swelled, and when asked why, he said: 'Should I not be a grateful servant?' (Bukhari, Muslim). True gratitude leads to more blessings and is a means of protection from punishment. The Prophet said: 'Whoever says in the morning: O Allah, whatever blessing I or any of Your creation have woken up with, it is from You alone, with no partner, so praise be to You and gratitude — has offered his gratitude for the day.' (Abu Dawud). Ingratitude leads to the loss of blessings.\n\nSource: islamqa.info/en/answers/26657",
+            order_index: 2,
+          },
+          {
+            title: "Love of Allah and His Messenger",
+            title_ar: "محبة الله ورسوله",
+            slug: "love-of-allah-messenger",
+            arabic_text: "قُلْ إِن كَانَ آبَاؤُكُمْ وَأَبْنَاؤُكُمْ وَإِخْوَانُكُمْ وَأَزْوَاجُكُمْ وَعَشِيرَتُكُمْ وَأَمْوَالٌ اقْتَرَفْتُمُوهَا وَتِجَارَةٌ تَخْشَوْنَ كَسَادَهَا وَمَسَاكِنُ تَرْضَوْنَهَا أَحَبَّ إِلَيْكُم مِّنَ اللَّهِ وَرَسُولِهِ وَجِهَادٍ فِي سَبِيلِهِ فَتَرَبَّصُوا حَتَّىٰ يَأْتِيَ اللَّهُ بِأَمْرِهِ",
+            content:
+              "Love of Allah is the foundation of faith. It is the essence of Tawhid — 'Those who believe love Allah more than all else' (2:165). The signs of true love for Allah include: (1) Following the Prophet (peace and blessings of Allah be upon him) — 'Say: If you love Allah, then follow me, and Allah will love you.' (3:31); (2) Longing to meet Allah — the Prophet said: 'Whoever loves to meet Allah, Allah loves to meet him.' (Bukhari, Muslim); (3) Remembering Allah often and feeling joy in His remembrance; (4) Loving what Allah loves and hating what He hates. Love for the Prophet is a necessary part of faith. The Prophet said: 'None of you truly believes until I am more beloved to him than his father, his child, and all of mankind.' (Bukhari, Muslim). This love is proven by obeying him, defending his Sunnah, and following his example. Love for righteous believers is also part of faith: 'The believers are but brothers' (49:10). The Prophet said: 'There are three qualities, whoever has them will taste the sweetness of faith: that Allah and His Messenger are more beloved to him than all else... and that he loves a person only for the sake of Allah.' (Bukhari, Muslim).\n\nSource: islamqa.info/en/answers/127052",
+            order_index: 3,
+          },
+        ],
+      },
     ],
   },
 
@@ -961,6 +1239,42 @@ const courses: CourseData[] = [
           },
         ],
       },
+      {
+        title: "Ijtihad and Legal Theory",
+        title_ar: "الاجتهاد والنظرية القانونية",
+        slug: "ijtihad-legal-theory",
+        order_index: 4,
+        lessons: [
+          {
+            title: "Ijtihad and the Mujtahid",
+            title_ar: "الاجتهاد والمجتهد",
+            slug: "ijtihad-mujtahid",
+            arabic_text: "وَمَا كَانَ الْمُؤْمِنُونَ لِيَنفِرُوا كَافَّةً ۚ فَلَوْلَا نَفَرَ مِن كُلِّ فِرْقَةٍ مِّنْهُمْ طَائِفَةٌ لِّيَتَفَقَّهُوا فِي الدِّينِ وَلِيُنذِرُوا قَوْمَهُمْ إِذَا رَجَعُوا إِلَيْهِمْ لَعَلَّهُمْ يَحْذَرُونَ",
+            video_url: "https://www.youtube.com/embed/7nflGnmR83I?si=usul03&start=0&end=0",
+            content:
+              "Ijtihad (independent legal reasoning) is the process by which a qualified scholar derives rulings from the primary sources of Islamic law. It is a fard kifayah (communal obligation) — if some qualified scholars engage in ijtihad, the obligation is lifted from the rest. The conditions for a mujtahid include: (1) Deep knowledge of the Quran and Sunnah — he must know the verses of rulings (ayah al-ahkam) and hadith of rulings, which number approximately 500 each; (2) Knowledge of Arabic language, grammar, and rhetoric to understand the texts correctly; (3) Knowledge of the scholarly consensus (ijma') so he does not contradict it; (4) Knowledge of the principles of hadith criticism (mustalah al-hadith); (5) Knowledge of the principles of jurisprudence (usul al-fiqh); (6) Knowledge of abrogating and abrogated verses (nasikh and mansukh); (7) Understanding of the objectives of Shariah (maqasid al-shariah). A mujtahid may err or be correct — if he is correct, he gets two rewards; if he errs, he gets one reward, as the Prophet said (Bukhari, Muslim). Ijtihad is not permissible for those who are not qualified, as this leads to misguidance.\n\nSource: islamqa.info/en/answers/41118",
+            order_index: 1,
+          },
+          {
+            title: "Taqlid (Following Scholarship)",
+            title_ar: "التقليد",
+            slug: "taqlid",
+            arabic_text: "فَاسْأَلُوا أَهْلَ الذِّكْرِ إِن كُنتُمْ لَا تَعْلَمُونَ",
+            content:
+              "Taqlid means following the opinion of a qualified scholar or madhab (school of thought) without knowing the detailed evidence. For the ordinary Muslim who does not have the ability to derive rulings directly from the Quran and Sunnah, it is obligatory to follow those who have knowledge. Allah says: 'Ask the people of knowledge if you do not know.' (16:43). The four established madhabs — Hanafi, Maliki, Shafi'i, and Hanbali — are all valid and follow the Quran and Sunnah. The differences among them are differences of mercy and are usually in minor matters, not in principles of faith. The Prophet's companions differed among themselves on many issues, yet they remained brothers. The scholars of each madhab agreed on the fundamentals and differed only on some subsidiary matters based on their understanding of the evidence. A layperson may follow any of the four madhabs. However, it is not permissible to follow a madhab for the sake of personal desire or to seek leniency by picking and choosing — rather one should follow a madhab with respect and commit to its methodology. If a person finds that the evidence in another madhab is stronger on a particular issue, they may follow it as long as they are not doing so merely to follow their whims.\n\nSource: islamqa.info/en/answers/31805",
+            order_index: 2,
+          },
+          {
+            title: "Maqasid al-Shariah (Higher Objectives of Law)",
+            title_ar: "مقاصد الشريعة",
+            slug: "maqasid-al-shariah",
+            arabic_text: "الْيَوْمَ أَكْمَلْتُ لَكُمْ دِينَكُمْ وَأَتْمَمْتُ عَلَيْكُمْ نِعْمَتِي وَرَضِيتُ لَكُمُ الْإِسْلَامَ دِينًا",
+            content:
+              "Maqasid al-Shariah (the higher objectives of Islamic law) refer to the purposes and goals that the Shariah aims to achieve. Scholars have identified five essential objectives (al-daruriyyat al-khamsah) that the Shariah protects: (1) Protection of religion (hifz al-din) — preserving the freedom to worship and practice Islam; (2) Protection of life (hifz al-nafs) — the prohibition of murder and the preservation of human life; (3) Protection of intellect (hifz al-aql) — the prohibition of intoxicants that cloud the mind; (4) Protection of lineage (hifz al-nasl) — the regulation of marriage and prohibition of zina (adultery); (5) Protection of property (hifz al-mal) — the prohibition of theft, fraud, and usury. In addition to these essentials, the Shariah also considers needs (hajiyyat) that make life easier, and improvements (tahsiniyyat) that beautify and perfect human conduct. Understanding the maqasid helps scholars apply Islamic law in new situations. For example, the permissibility of breaking the fast while traveling is based on the objective of preventing hardship. The maqasid are not independent sources of law — they are derived from the texts and used as tools for understanding and applying the revealed law correctly.\n\nSource: islamqa.info/en/answers/93412",
+            order_index: 3,
+          },
+        ],
+      },
     ],
   },
 
@@ -1028,6 +1342,32 @@ const courses: CourseData[] = [
             video_url: "https://www.youtube.com/embed/Mp0WtZYxlds?si=dawah02&start=600&end=0",
             content:
               "There is no need at all for differences as to which work should take precedence: calling Muslims or calling non-Muslims. The one whom Allah enables to do any of that should go ahead with it.\n\nThere are some Muslims who are good at calling non-Muslims, because Allah has given them the ability to explain things clearly or to convince people easily, or He has enabled him to learn the language of the non-Muslims whom he is calling, or because of the nature of his work. In such cases we say to the individual: Go ahead and call these people with wisdom and beautiful preaching, with clear proof, and with patience in dealing with them.\n\nAnd there are some Muslims who are good at calling their fellow Muslims, because of some of the things that have been mentioned above; or because he has skills in convincing and debating in various issues and establishing clear proof; or because he is well versed in some branches of Islamic knowledge that may be needed more by one who calls Muslims than one who calls non-Muslims.\n\nBoth are necessary according to sharee'ah, and each person will be enabled to do that for which he was created. The one who finds that he has an interest and is able to work in either of the two fields should not denounce anyone who works in the other field, because both of them are good and are necessary.\n\nReference: Islam Q&A, Answer 186813",
+            order_index: 2,
+          },
+        ],
+      },
+      {
+        title: "Advanced Dawah",
+        title_ar: "الدعوة المتقدمة",
+        slug: "advanced-dawah",
+        order_index: 3,
+        lessons: [
+          {
+            title: "Dawah in the Modern Age",
+            title_ar: "الدعوة في العصر الحديث",
+            slug: "dawah-modern-age",
+            arabic_text: "ادْعُ إِلَىٰ سَبِيلِ رَبِّكَ بِالْحِكْمَةِ وَالْمَوْعِظَةِ الْحَسَنَةِ",
+            content:
+              "Dawah in the modern age comes with unique challenges and opportunities. The internet and social media have made it possible to reach millions of people with the message of Islam. However, they also spread misinformation and distractions. The principles of dawah remain the same: calling to Allah with wisdom (hikmah), good preaching (maw'izah hasanah), and debating in the best manner (jidal bil-ahsan) as Allah commands in 16:125. The Prophet (peace and blessings of Allah be upon him) said: 'Convey from me, even if it is one verse.' (Bukhari). Effective modern dawah requires: (1) Using digital platforms — creating quality Islamic content on YouTube, social media, and websites; (2) Understanding the audience — addressing the questions and doubts of contemporary people, especially about science, feminism, human rights, and pluralism; (3) Being proactive — engaging with popular culture and current events to present an Islamic perspective; (4) Collaboration — working together with other da'wah organizations and avoiding divisiveness. The Muslim must also be mindful of the manners of dawah: being gentle, patient, and merciful, as the Prophet was. Allah said to Musa and Harun when sending them to Pharaoh: 'Speak to him softly; perhaps he may be reminded or fear Allah.' (20:44). If the Prophet was commanded to be gentle with Pharaoh, how much more should we be gentle with ordinary people seeking the truth.\n\nSource: islamqa.info/en/answers/32043",
+            order_index: 1,
+          },
+          {
+            title: "Dawah to People of Other Faiths",
+            title_ar: "الدعوة لأتباع الديانات الأخرى",
+            slug: "dawah-other-faiths",
+            arabic_text: "وَلَا تُجَادِلُوا أَهْلَ الْكِتَابِ إِلَّا بِالَّتِي هِيَ أَحْسَنُ",
+            content:
+              "Calling people of other faiths to Islam requires special knowledge and sensitivity. The Quran provides the best guidance for this: 'And do not argue with the People of the Book except in the best manner, except those who do wrong among them. And say: We believe in what has been revealed to us and what has been revealed to you. Our God and your God is One, and to Him we submit.' (29:46). When calling Jews and Christians, it is effective to focus on the common ground — belief in one God, the prophets, and the moral teachings. The Quran tells us to say: 'Say: O People of the Book, come to a common word between us and you: that we worship none but Allah.' (3:64). When calling Hindus, Buddhists, or atheists, one should start with the belief in God, drawing on rationality and the fitrah (innate nature). The Prophet sent letters to the rulers of his time — the Negus of Abyssinia, Heraclius of Byzantium, the Chosroes of Persia, and the Muqawqis of Egypt — each tailored to their specific beliefs and context. Key principles include: (1) Respecting other faiths without compromising Islamic teachings; (2) Understanding what the other person believes before presenting Islam; (3) Being patient and not expecting immediate results; (4) Focusing on the positive message of Islam — mercy, justice, and the relationship with God; (5) Using evidence from their own scriptures where appropriate, such as the prophecies about Muhammad in the Bible.\n\nSource: islamqa.info/en/answers/32043",
             order_index: 2,
           },
         ],
