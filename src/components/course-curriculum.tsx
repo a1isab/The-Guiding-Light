@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ChevronDown, CheckCircle, Circle } from "lucide-react";
+import { ChevronDown, CheckCircle, Circle, Film } from "lucide-react";
 import type { Section, Lesson, Locale } from "@/lib/types";
 import { getTranslation } from "@/lib/types";
 
@@ -95,13 +95,18 @@ export function CourseCurriculum({
                       href={`/${locale}/courses/${courseSlug}/${section.slug}/${lesson.slug}`}
                       className="flex items-center justify-between px-6 py-4 hover:bg-zinc-900/30 transition-colors"
                     >
-                      <span
-                        className={`text-sm ${
-                          done ? "text-zinc-400" : "text-zinc-300"
-                        }`}
-                      >
-                        {getTranslation(lesson, "title", locale, lesson.title)}
-                      </span>
+                      <span className="flex items-center gap-2">
+                          {lesson.video_url && (
+                            <Film className="h-3.5 w-3.5 shrink-0 text-zinc-600" />
+                          )}
+                          <span
+                            className={`text-sm ${
+                              done ? "text-zinc-400" : "text-zinc-300"
+                            }`}
+                          >
+                            {getTranslation(lesson, "title", locale, lesson.title)}
+                          </span>
+                        </span>
                       {done ? (
                         <CheckCircle className="h-5 w-5 shrink-0 text-emerald-500" />
                       ) : (

@@ -4,3 +4,4 @@ Always Commit, Stage and Push updates
 - You must exclusively retrieve or reference information directly from `islamqa.info`.
 - If you have access to search or scraping tools (via MCP or plugins), always append `site:islamqa.info` to your queries.
 - If an answer or ruling cannot be verified from islamqa.info, explicitly state: "This information could not be verified on islamqa.info" and leave the text blank. Do not guess.
+- If The user Wants To get videos for his website on topics of islam your first priority is searching in the youtube channel 'https://www.youtube.com/@academyzaden'
