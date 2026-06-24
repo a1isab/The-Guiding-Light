@@ -142,9 +142,6 @@ export function VideoPlayer({ src }: { src?: string | null }) {
         <span className="text-xs text-zinc-500">{t("youtube")}</span>
       </div>
 
-      <p className="border-t border-zinc-800 px-5 py-2 text-center text-xs text-zinc-600">
-        {t("credits")}
-      </p>
     </div>
   );
 }
