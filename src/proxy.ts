@@ -5,7 +5,9 @@ import { routing } from "../i18n/routing";
 
 const intlMiddleware = createIntlMiddleware(routing);
 
-const protectedPaths = ["/dashboard", "/courses/"];
+const protectedPaths = ["/dashboard"];
+const adminPaths = ["/admin"];
+const apiAdminPaths = ["/api/admin"];
 const LOCALES = new Set<string>(routing.locales);
 
 function stripLocale(pathname: string): string {
@@ -19,22 +21,21 @@ function stripLocale(pathname: string): string {
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
-  // 1. Run next-intl middleware for locale handling
+  // 1. Handle locale routing first
   const intlResponse = await intlMiddleware(request);
-
-  // If next-intl wants to redirect (add locale prefix), do that
   if (intlResponse.headers.get("location")) {
     return intlResponse;
   }
 
-  // 2. Extract locale from the response
   const locale: string = intlResponse.headers.get("X-NEXT-INTL-LOCALE") || routing.defaultLocale;
 
-  // 3. Run auth check on the locale-stripped path
+  // 2. Strip locale to get actual route
   const actualPath = stripLocale(pathname);
   const isProtected = protectedPaths.some((p) => actualPath.startsWith(p));
+  const isAdmin = adminPaths.some((p) => actualPath.startsWith(p));
+  const isApiAdmin = apiAdminPaths.some((p) => pathname.startsWith(p));
 
-  if (isProtected) {
+  if (isProtected || isAdmin || isApiAdmin) {
     let supabaseResponse = NextResponse.next({ request });
 
     const supabase = createSSRClient(
@@ -62,6 +63,7 @@ export async function proxy(request: NextRequest) {
       data: { user },
     } = await supabase.auth.getUser();
 
+    // All protected routes require auth
     if (!user) {
       const url = request.nextUrl.clone();
       url.pathname = "/" + locale + "/auth/login";
@@ -69,11 +71,27 @@ export async function proxy(request: NextRequest) {
       return NextResponse.redirect(url);
     }
 
+    // Admin routes require admin or teacher role
+    if (isAdmin || isApiAdmin) {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("user_id", user.id)
+        .single<{ role: string }>();
+
+      if (!profile || (profile.role !== "admin" && profile.role !== "teacher")) {
+        if (isApiAdmin) {
+          return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+        }
+        return NextResponse.redirect(new URL(`/${locale}/dashboard`, request.url));
+      }
+    }
+
     supabaseResponse.headers.set("X-NEXT-INTL-LOCALE", locale);
     return supabaseResponse;
   }
 
-  // 4. Non-protected path — just forward locale header
+  // 3. Non-protected path — forward locale header
   intlResponse.headers.set("X-NEXT-INTL-LOCALE", locale);
   return intlResponse;
 }

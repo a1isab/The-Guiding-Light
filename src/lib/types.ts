@@ -1,6 +1,8 @@
+export type Role = "student" | "teacher" | "admin";
+
 export interface Profile {
   user_id: string;
-  role: "student" | "admin";
+  role: Role;
   level: "beginner" | "intermediate" | "advanced";
   streak: number;
   onboarded: boolean;
@@ -37,6 +39,7 @@ export interface Course {
   thumbnail_url: string | null;
   is_published: boolean;
   order_index: number;
+  created_by: string | null;
   created_at: string;
 }
 
