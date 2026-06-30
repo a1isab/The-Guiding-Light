@@ -1,0 +1,66 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { Trash2 } from "lucide-react";
+
+interface Member {
+  student_id: string;
+  joined_at: string;
+  profile?: { user_id: string; role: string } | null;
+}
+
+export function StudentTable({
+  members,
+  locale,
+  classId,
+}: {
+  members: Member[];
+  locale: string;
+  classId: string;
+}) {
+  const t = useTranslations("teacher");
+  const router = useRouter();
+  const [removing, setRemoving] = useState<string | null>(null);
+
+  async function handleRemove(studentId: string) {
+    if (!confirm(t("remove_student_confirm"))) return;
+    setRemoving(studentId);
+    const res = await fetch("/api/teacher/classes/members", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ classId, studentId }),
+    });
+    if (res.ok) {
+      router.refresh();
+    }
+    setRemoving(null);
+  }
+
+  if (members.length === 0) {
+    return <p className="px-5 py-8 text-sm text-zinc-500 text-center">{t("no_students")}</p>;
+  }
+
+  return (
+    <div className="divide-y divide-zinc-800/50">
+      {members.map((m) => (
+        <div key={m.student_id} className="flex items-center justify-between px-5 py-3">
+          <div>
+            <p className="text-sm text-zinc-300">{m.student_id}</p>
+            <p className="text-xs text-zinc-600">
+              {t("joined")} {new Date(m.joined_at).toLocaleDateString()}
+            </p>
+          </div>
+          <button
+            onClick={() => handleRemove(m.student_id)}
+            disabled={removing === m.student_id}
+            className="rounded-lg p-1.5 text-red-400 hover:bg-red-900/20 transition-all disabled:opacity-50"
+          >
+            <Trash2 className="h-4 w-4" />
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+}

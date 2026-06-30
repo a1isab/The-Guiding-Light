@@ -120,6 +120,65 @@ export interface QuizQuestion {
   options_fr?: string[];
 }
 
+export interface TeacherClass {
+  id: string;
+  teacher_id: string;
+  name: string;
+  description: string | null;
+  cover_image: string | null;
+  invite_code: string;
+  invite_expires_at: string | null;
+  created_at: string;
+}
+
+export interface ClassMember {
+  id: string;
+  class_id: string;
+  student_id: string;
+  joined_at: string;
+}
+
+export interface TeacherCourse {
+  id: string;
+  class_id: string;
+  teacher_id: string;
+  title: string;
+  description: string | null;
+  thumbnail: string | null;
+  order_index: number;
+  created_at: string;
+}
+
+export interface TeacherSection {
+  id: string;
+  course_id: string;
+  title: string;
+  order_index: number;
+  created_at: string;
+}
+
+export interface TeacherLesson {
+  id: string;
+  section_id: string;
+  title: string;
+  content: string | null;
+  video_url: string | null;
+  duration: number | null;
+  order_index: number;
+  created_at: string;
+}
+
+export interface TeacherVideoAsset {
+  id: string;
+  teacher_id: string;
+  lesson_id: string | null;
+  filename: string;
+  file_size: number;
+  mime_type: string;
+  storage_path: string;
+  created_at: string;
+}
+
 export function getQuizQuestion(q: QuizQuestion, locale: Locale): { question: string; options: string[] } {
   if (locale === "en") return { question: q.question, options: q.options };
   const key = locale as keyof Pick<QuizQuestion, "question_ar" | "question_ur" | "question_fr">;

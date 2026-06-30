@@ -3,7 +3,7 @@ import { createServiceClient, createServerSupabaseClient } from "@/lib/supabase-
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import type { Profile, Progress, Subscription, UserBadge } from "@/lib/types";
-import { BookOpen, Flame, Crown, TrendingUp, LogOut } from "lucide-react";
+import { BookOpen, Flame, Crown, TrendingUp, LogOut, Users } from "lucide-react";
 import { BadgeGrid } from "@/components/badge-grid";
 
 export const dynamic = "force-dynamic";
@@ -55,6 +55,33 @@ export default async function DashboardPage({
     .from("user_badges")
     .select("*")
     .eq("user_id", user.id);
+
+  const { data: myMemberships } = await service
+    .from("class_members")
+    .select("class_id, joined_at")
+    .eq("student_id", user.id);
+
+  const myClassIds = myMemberships?.map((m) => m.class_id) ?? [];
+
+  const { data: myClasses } = myClassIds.length
+    ? await service
+        .from("classes")
+        .select("id, name, description")
+        .in("id", myClassIds)
+        .order("created_at", { ascending: false })
+    : { data: [] };
+
+  const { data: myCourseCounts } = myClassIds.length
+    ? await service
+        .from("teacher_courses")
+        .select("class_id")
+        .in("class_id", myClassIds)
+    : { data: [] };
+
+  const courseCounts: Record<string, number> = {};
+  for (const c of myCourseCounts ?? []) {
+    courseCounts[c.class_id] = (courseCounts[c.class_id] ?? 0) + 1;
+  }
 
   const earnedBadges: { badge_key: string; section_title: string; earned_at: string }[] = [];
   if (userBadges && userBadges.length > 0) {
@@ -141,6 +168,33 @@ export default async function DashboardPage({
       )}
 
       <BadgeGrid badges={earnedBadges} />
+
+      {myClasses && myClasses.length > 0 && (
+        <div className="mt-10">
+          <h2 className="font-amiri text-xl font-bold text-zinc-100 mb-4">{t("my_classes")}</h2>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {myClasses.map((cls) => (
+              <Link
+                key={cls.id}
+                href={`/${locale}/dashboard/classes/${cls.id}`}
+                className="rounded-2xl border border-zinc-800 bg-[#111111] p-5 hover:border-zinc-700 transition-all"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10">
+                    <Users className="h-5 w-5 text-emerald-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-zinc-200">{cls.name}</p>
+                    <p className="text-xs text-zinc-500">
+                      {courseCounts[cls.id] ?? 0} {(t as any)("courses") ?? "courses"}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="mt-10 flex flex-wrap items-center gap-4">
         <Link

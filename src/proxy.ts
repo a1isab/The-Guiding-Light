@@ -6,8 +6,9 @@ import { routing } from "../i18n/routing";
 const intlMiddleware = createIntlMiddleware(routing);
 
 const protectedPaths = ["/dashboard"];
-const adminPaths = ["/admin"];
+const adminPaths = ["/admin", "/teacher"];
 const apiAdminPaths = ["/api/admin"];
+const joinPaths = ["/join"];
 const LOCALES = new Set<string>(routing.locales);
 
 function stripLocale(pathname: string): string {
@@ -34,8 +35,9 @@ export async function proxy(request: NextRequest) {
   const isProtected = protectedPaths.some((p) => actualPath.startsWith(p));
   const isAdmin = adminPaths.some((p) => actualPath.startsWith(p));
   const isApiAdmin = apiAdminPaths.some((p) => pathname.startsWith(p));
+  const isJoin = joinPaths.some((p) => actualPath.startsWith(p));
 
-  if (isProtected || isAdmin || isApiAdmin) {
+  if (isProtected || isAdmin || isApiAdmin || isJoin) {
     let supabaseResponse = NextResponse.next({ request });
 
     const supabase = createSSRClient(

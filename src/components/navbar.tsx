@@ -143,16 +143,28 @@ export function Navbar() {
                 {t("dashboard")}
               </Link>
               {(userRole === "admin" || userRole === "teacher") && (
-                <Link
-                  href={"/" + currentLocale + "/admin"}
-                  className={`text-sm font-medium ${
-                    pathname.includes("/admin")
-                      ? "text-emerald-400"
-                      : "text-zinc-400 hover:text-zinc-200"
-                  }`}
-                >
-                  Admin
-                </Link>
+                <>
+                  <Link
+                    href={"/" + currentLocale + "/teacher"}
+                    className={`text-sm font-medium ${
+                      pathname.includes("/teacher")
+                        ? "text-emerald-400"
+                        : "text-zinc-400 hover:text-zinc-200"
+                    }`}
+                  >
+                    Teacher
+                  </Link>
+                  <Link
+                    href={"/" + currentLocale + "/admin"}
+                    className={`text-sm font-medium ${
+                      pathname.includes("/admin")
+                        ? "text-emerald-400"
+                        : "text-zinc-400 hover:text-zinc-200"
+                    }`}
+                  >
+                    Admin
+                  </Link>
+                </>
               )}
               <div className="relative">
                 <button
@@ -177,14 +189,22 @@ export function Navbar() {
                     >
                       {t("dashboard")}
                     </Link>
-                    {(userRole === "admin" || userRole === "teacher") && (
-                      <Link
-                        href={"/" + currentLocale + "/admin"}
-                        className="block px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800"
-                      >
-                        Admin
-                      </Link>
-                    )}
+              {(userRole === "admin" || userRole === "teacher") && (
+                <>
+                  <Link
+                    href={"/" + currentLocale + "/teacher"}
+                    className="block px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800"
+                  >
+                    Teacher
+                  </Link>
+                  <Link
+                    href={"/" + currentLocale + "/admin"}
+                    className="block px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800"
+                  >
+                    Admin
+                  </Link>
+                </>
+              )}
                     <a
                       href={"/" + currentLocale + "/auth/logout"}
                       className="block px-4 py-2 text-sm text-red-400 hover:bg-zinc-800"
@@ -268,13 +288,22 @@ export function Navbar() {
                 </Link>
               )}
               {(userRole === "admin" || userRole === "teacher") && (
-                <Link
-                  href={"/" + currentLocale + "/admin"}
-                  className="text-zinc-300 hover:text-emerald-400 text-lg font-medium"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  Admin
-                </Link>
+                <>
+                  <Link
+                    href={"/" + currentLocale + "/teacher"}
+                    className="text-zinc-300 hover:text-emerald-400 text-lg font-medium"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    Teacher
+                  </Link>
+                  <Link
+                    href={"/" + currentLocale + "/admin"}
+                    className="text-zinc-300 hover:text-emerald-400 text-lg font-medium"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    Admin
+                  </Link>
+                </>
               )}
               {user ? (
                 <a
