@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { VideoUpload } from "@/components/teacher/video-upload";
 
 interface Lesson {
   id: string;
@@ -12,7 +13,15 @@ interface Lesson {
   duration: number | null;
 }
 
-export function LessonEditor({ lesson, locale }: { lesson: Lesson; locale: string }) {
+export function LessonEditor({
+  lesson,
+  locale,
+  teacherId,
+}: {
+  lesson: Lesson;
+  locale: string;
+  teacherId: string;
+}) {
   const t = useTranslations("teacher");
   const router = useRouter();
   const [saving, setSaving] = useState(false);
@@ -70,9 +79,19 @@ export function LessonEditor({ lesson, locale }: { lesson: Lesson; locale: strin
         />
       </div>
 
+      <div>
+        <label className="block text-sm font-medium text-zinc-400 mb-1">{t("video")}</label>
+        <VideoUpload
+          lessonId={lesson.id}
+          teacherId={teacherId}
+          currentUrl={videoUrl}
+          onVideoChange={(url) => setVideoUrl(url ?? "")}
+        />
+      </div>
+
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="block text-sm font-medium text-zinc-400 mb-1">{t("video_url")}</label>
+          <label className="block text-sm font-medium text-zinc-400 mb-1">{t("video_url_fallback")}</label>
           <input
             type="url"
             value={videoUrl}

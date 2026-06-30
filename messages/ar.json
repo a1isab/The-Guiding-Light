@@ -216,7 +216,22 @@
     "join_error_title": "تعذر الانضمام",
     "join_invalid_code": "رمز دعوة غير صالح.",
     "join_error": "حدث خطأ ما. حاول مرة أخرى.",
-    "go_to_dashboard": "اذهب إلى لوحة التحكم"
+    "go_to_dashboard": "اذهب إلى لوحة التحكم",
+    "view_progress": "عرض تقدم الطلاب",
+    "view_progress_desc": "عرض حالة إكمال الدروس لكل طالب",
+    "student_progress": "تقدم الطلاب",
+    "no_lessons_in_class": "لا توجد دروس في هذا الفصل بعد",
+    "student": "الطالب",
+    "completion": "الإكمال",
+    "back_to_class": "العودة إلى الفصل",
+    "upload_video": "انقر لرفع فيديو",
+    "video_limits": "MP4, MOV, أو WebM — حد أقصى 500MB",
+    "uploading_video": "جاري الرفع...",
+    "remove_video": "إزالة الفيديو",
+    "video": "الفيديو",
+    "video_url_fallback": "أو الصق رابط فيديو",
+    "video_format_error": "صيغة غير مدعومة. استخدم MP4, MOV, أو WebM.",
+    "video_size_error": "الملف كبير جداً. الحد الأقصى 500MB."
   },
   "admin": {
     "title": "Admin Dashboard",

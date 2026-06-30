@@ -216,7 +216,22 @@
     "join_error_title": "شامل نہیں ہو سکا",
     "join_invalid_code": "غلط دعوتی کوڈ۔",
     "join_error": "کچھ غلط ہو گیا۔ براہ کرم دوبارہ کوشش کریں۔",
-    "go_to_dashboard": "ڈیش بورڈ پر جائیں۔"
+    "go_to_dashboard": "ڈیش بورڈ پر جائیں۔",
+    "view_progress": "طلبہ کی پیشرفت دیکھیں",
+    "view_progress_desc": "ہر طالب علم کے اسباق کی تکمیل کی حیثیت دیکھیں",
+    "student_progress": "طلبہ کی پیشرفت",
+    "no_lessons_in_class": "اس کلاس میں ابھی تک کوئی اسباق نہیں ہیں",
+    "student": "طالب علم",
+    "completion": "تکمیل",
+    "back_to_class": "کلاس میں واپس جائیں",
+    "upload_video": "ویڈیو اپ لوڈ کرنے کے لیے کلک کریں",
+    "video_limits": "MP4, MOV, یا WebM — زیادہ سے زیادہ 500MB",
+    "uploading_video": "اپ لوڈ ہو رہا ہے...",
+    "remove_video": "ویڈیو ہٹائیں",
+    "video": "ویڈیو",
+    "video_url_fallback": "یا ویڈیو URL پیسٹ کریں",
+    "video_format_error": "غیر معاون فارمیٹ۔ MP4, MOV, یا WebM استعمال کریں۔",
+    "video_size_error": "فائل بہت بڑی ہے۔ زیادہ سے زیادہ 500MB۔"
   },
   "admin": {
     "title": "Admin Dashboard",

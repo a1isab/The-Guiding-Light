@@ -23,9 +23,26 @@ export default async function LessonEditPage({
 
   if (!lesson) notFound();
 
+  const { data: section } = await supabase
+    .from("teacher_sections")
+    .select("course_id")
+    .eq("id", sectionId)
+    .single();
+
+  let teacherId = "";
+
+  if (section) {
+    const { data: course } = await supabase
+      .from("teacher_courses")
+      .select("teacher_id")
+      .eq("id", section.course_id)
+      .single();
+    if (course) teacherId = course.teacher_id ?? "";
+  }
+
   return (
     <div>
-      <LessonEditor lesson={lesson} locale={locale} />
+      <LessonEditor lesson={lesson} locale={locale} teacherId={teacherId} />
     </div>
   );
 }

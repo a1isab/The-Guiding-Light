@@ -256,3 +256,46 @@ CREATE POLICY "Admins have full access to teacher_video_assets"
 
 GRANT USAGE ON SCHEMA public TO anon, authenticated;
 GRANT ALL ON ALL TABLES IN SCHEMA public TO authenticated;
+
+-- 18. Storage bucket for teacher videos
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES ('teacher-videos', 'teacher-videos', true, 524288000, ARRAY['video/mp4', 'video/quicktime', 'video/webm'])
+ON CONFLICT (id) DO NOTHING;
+
+-- 19. Storage RLS: teachers upload/manage own files
+DROP POLICY IF EXISTS "Teachers can upload videos" ON storage.objects;
+CREATE POLICY "Teachers can upload videos"
+  ON storage.objects FOR INSERT TO authenticated
+  WITH CHECK (
+    bucket_id = 'teacher-videos'
+    AND (SELECT role FROM public.profiles WHERE user_id = auth.uid()) IN ('teacher', 'admin')
+  );
+
+DROP POLICY IF EXISTS "Teachers can update own videos" ON storage.objects;
+CREATE POLICY "Teachers can update own videos"
+  ON storage.objects FOR UPDATE TO authenticated
+  USING (
+    bucket_id = 'teacher-videos'
+    AND (storage.foldername(name))[1] = auth.uid()::text
+  );
+
+DROP POLICY IF EXISTS "Teachers can delete own videos" ON storage.objects;
+CREATE POLICY "Teachers can delete own videos"
+  ON storage.objects FOR DELETE TO authenticated
+  USING (
+    bucket_id = 'teacher-videos'
+    AND (storage.foldername(name))[1] = auth.uid()::text
+  );
+
+DROP POLICY IF EXISTS "Authenticated can read teacher videos" ON storage.objects;
+CREATE POLICY "Authenticated can read teacher videos"
+  ON storage.objects FOR SELECT TO authenticated
+  USING (bucket_id = 'teacher-videos');
+
+DROP POLICY IF EXISTS "Admins can manage all teacher videos" ON storage.objects;
+CREATE POLICY "Admins can manage all teacher videos"
+  ON storage.objects FOR ALL TO authenticated
+  USING (
+    bucket_id = 'teacher-videos'
+    AND (SELECT role FROM public.profiles WHERE user_id = auth.uid()) = 'admin'
+  );

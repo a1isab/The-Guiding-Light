@@ -2,7 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { createServiceClient } from "@/lib/supabase-server";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Users, BookOpen, Copy, ArrowLeft } from "lucide-react";
+import { Users, BookOpen, Copy, ArrowLeft, BarChart3 } from "lucide-react";
 import { InviteCodeDisplay } from "./invite-code";
 import { StudentTable } from "./students/student-table";
 
@@ -84,6 +84,20 @@ export default async function ClassDetailPage({
 
       {/* Invite Code */}
       <InviteCodeDisplay code={cls.invite_code} url={inviteUrl} locale={locale} classId={id} />
+
+      {/* Progress Link */}
+      <div className="mt-6">
+        <Link
+          href={`/${locale}/teacher/classes/${id}/progress`}
+          className="flex items-center gap-2 rounded-xl border border-zinc-800 bg-[#111111] px-4 py-3 hover:bg-zinc-900/30 transition-colors"
+        >
+          <BarChart3 className="h-5 w-5 text-emerald-400" />
+          <div>
+            <p className="text-sm text-zinc-300">{t("view_progress")}</p>
+            <p className="text-xs text-zinc-600">{t("view_progress_desc")}</p>
+          </div>
+        </Link>
+      </div>
 
       {/* Students */}
       <div className="mt-8 rounded-2xl border border-zinc-800 bg-[#111111] overflow-hidden">

@@ -216,7 +216,22 @@
     "join_error_title": "Impossible de rejoindre",
     "join_invalid_code": "Code d'invitation invalide.",
     "join_error": "Quelque chose s'est mal passé. Veuillez réessayer.",
-    "go_to_dashboard": "Aller au tableau de bord"
+    "go_to_dashboard": "Aller au tableau de bord",
+    "view_progress": "Voir la progression des élèves",
+    "view_progress_desc": "Consultez l'état d'achèvement des leçons pour chaque élève",
+    "student_progress": "Progression des élèves",
+    "no_lessons_in_class": "Pas encore de leçons dans cette classe",
+    "student": "Élève",
+    "completion": "Achèvement",
+    "back_to_class": "Retour à la classe",
+    "upload_video": "Cliquez pour télécharger une vidéo",
+    "video_limits": "MP4, MOV ou WebM — max 500 Mo",
+    "uploading_video": "Téléchargement...",
+    "remove_video": "Supprimer la vidéo",
+    "video": "Vidéo",
+    "video_url_fallback": "Ou collez une URL de vidéo",
+    "video_format_error": "Format non pris en charge. Utilisez MP4, MOV ou WebM.",
+    "video_size_error": "Fichier trop volumineux. Maximum 500 Mo."
   },
   "admin": {
     "title": "Admin Dashboard",

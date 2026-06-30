@@ -216,7 +216,22 @@
     "join_error_title": "Could Not Join",
     "join_invalid_code": "Invalid invite code.",
     "join_error": "Something went wrong. Please try again.",
-    "go_to_dashboard": "Go to Dashboard"
+    "go_to_dashboard": "Go to Dashboard",
+    "view_progress": "View Student Progress",
+    "view_progress_desc": "See lesson completion status for each student",
+    "student_progress": "Student Progress",
+    "no_lessons_in_class": "No lessons in this class yet",
+    "student": "Student",
+    "completion": "Completion",
+    "back_to_class": "Back to Class",
+    "upload_video": "Click to upload a video",
+    "video_limits": "MP4, MOV, or WebM — max 500MB",
+    "uploading_video": "Uploading...",
+    "remove_video": "Remove video",
+    "video": "Video",
+    "video_url_fallback": "Or paste a video URL",
+    "video_format_error": "Unsupported format. Use MP4, MOV, or WebM.",
+    "video_size_error": "File too large. Maximum 500MB."
   },
   "admin": {
     "title": "Admin Dashboard",
