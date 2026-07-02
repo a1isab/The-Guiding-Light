@@ -1,7 +1,6 @@
 "use client";
 
 import { Suspense, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useTranslations, useLocale } from "next-intl";
 import { createClient } from "@/lib/supabase-client";
@@ -10,9 +9,6 @@ import { LogIn, Sparkles } from "lucide-react";
 function LoginForm() {
   const t = useTranslations("auth");
   const locale = useLocale();
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const redirect = searchParams.get("redirect") || "/" + locale + "/courses";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -29,34 +25,16 @@ function LoginForm() {
       password,
     });
 
+    setLoading(false);
+
     if (signInError) {
       setError(signInError.message);
-      setLoading(false);
       return;
     }
 
-    const { data: { user } } = await supabase.auth.getUser();
-    let role = "student";
-
-    if (user) {
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("role")
-        .eq("user_id", user.id)
-        .single<{ role: string }>();
-      if (profile) role = profile.role;
-    }
-
-    setLoading(false);
-
-    if (role === "admin") {
-      router.push(`/${locale}/admin`);
-    } else if (role === "teacher") {
-      router.push(`/${locale}/teacher`);
-    } else {
-      router.push(redirect);
-    }
-    router.refresh();
+    // Redirect to dashboard — server-side role check will route
+    // admins to /admin and teachers to /teacher
+    window.location.href = `/${locale}/dashboard`;
   }
 
   return (
