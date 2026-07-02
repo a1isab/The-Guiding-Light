@@ -93,6 +93,27 @@ export default async function ClassProgressPage({
     completedSet.add(`${p.user_id}:${p.lesson_id}`);
   }
 
+  // Get quiz attempts for best scores
+  const { data: quizAttempts } = studentIds.length && lessonIds.length
+    ? await supabase
+        .from("teacher_quiz_attempts")
+        .select("student_id, lesson_id, score, total")
+        .in("student_id", studentIds)
+        .in("lesson_id", lessonIds)
+    : { data: [] };
+
+  // Build best score map: "userId:lessonId" -> "score/total"
+  const bestScoreMap = new Map<string, string>();
+  for (const a of quizAttempts ?? []) {
+    const key = `${a.student_id}:${a.lesson_id}`;
+    const existing = bestScoreMap.get(key);
+    const currentPct = a.score / a.total;
+    const existingPct = existing ? parseFloat(existing.split("/")[0]) / parseFloat(existing.split("/")[1]) : 0;
+    if (!existing || currentPct > existingPct) {
+      bestScoreMap.set(key, `${a.score}/${a.total}`);
+    }
+  }
+
   // Build the display structure
   const courseSectionLessonMap = (courses ?? []).map((course) => ({
     ...course,
@@ -162,9 +183,15 @@ export default async function ClassProgressPage({
                       course.sections.map((section) =>
                         section.lessons.map((lesson) => {
                           const done = completedSet.has(`${student.user_id}:${lesson.id}`);
+                          const scoreKey = `${student.user_id}:${lesson.id}`;
+                          const quizScore = bestScoreMap.get(scoreKey);
                           return (
                             <td key={lesson.id} className="px-2 py-2.5 text-center">
-                              {done ? (
+                              {quizScore ? (
+                                <span className={`text-xs font-medium ${done ? "text-emerald-400" : "text-amber-400"}`}>
+                                  {quizScore}
+                                </span>
+                              ) : done ? (
                                 <CheckCircle className="h-4 w-4 text-emerald-400 inline-block" />
                               ) : (
                                 <MinusCircle className="h-4 w-4 text-zinc-700 inline-block" />

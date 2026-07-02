@@ -121,9 +121,12 @@ export function CourseSectionManager({
         const isExpanded = expandedSections.has(section.id);
         return (
           <div key={section.id} className="rounded-2xl border border-zinc-800 bg-[#111111] overflow-hidden">
-            <button
+            <div
               onClick={() => toggleSection(section.id)}
-              className="flex w-full items-center justify-between px-5 py-4 text-left hover:bg-zinc-900/50 transition-colors"
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') toggleSection(section.id); }}
+              role="button"
+              tabIndex={0}
+              className="flex w-full items-center justify-between px-5 py-4 text-left hover:bg-zinc-900/50 transition-colors cursor-pointer"
             >
               <div className="flex items-center gap-3">
                 <ChevronDown
@@ -137,11 +140,11 @@ export function CourseSectionManager({
               <button
                 onClick={(e) => { e.stopPropagation(); deleteSection(section.id); }}
                 disabled={deleting === section.id}
-                className="text-red-400 hover:text-red-300 p-1"
+                className="text-red-400 hover:text-red-300 p-1 cursor-pointer"
               >
                 <Trash2 className="h-4 w-4" />
               </button>
-            </button>
+            </div>
 
             {isExpanded && (
               <div className="border-t border-zinc-800 divide-y divide-zinc-800/50">

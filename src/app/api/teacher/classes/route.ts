@@ -1,34 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createApiSupabaseClient, requireTeacher } from "@/lib/supabase-api";
 import { createServerClient } from "@supabase/ssr";
 
-function createSupabase(request: NextRequest) {
-  return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() { return request.cookies.getAll(); },
-        setAll() {},
-      },
-    }
-  );
-}
-
-async function getTeacherId(supabase: ReturnType<typeof createServerClient>): Promise<string | null> {
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
-  const profile = (await supabase
-    .from("profiles")
-    .select("role")
-    .eq("user_id", user.id)
-    .single()).data as { role: string } | null;
-  if (!profile || (profile.role !== "teacher" && profile.role !== "admin")) return null;
-  return user.id;
+async function isAdmin(supabase: ReturnType<typeof createServerClient>): Promise<boolean> {
+  const { data: role } = await supabase.rpc("get_user_role");
+  return role === "admin";
 }
 
 export async function POST(request: NextRequest) {
-  const supabase = createSupabase(request);
-  const teacherId = await getTeacherId(supabase);
+  const { supabase, applyCookies } = createApiSupabaseClient(request);
+  const teacherId = await requireTeacher(supabase);
   if (!teacherId) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
@@ -48,12 +29,12 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json({ id: data.id });
+  return applyCookies(NextResponse.json({ id: data.id }));
 }
 
 export async function PATCH(request: NextRequest) {
-  const supabase = createSupabase(request);
-  const teacherId = await getTeacherId(supabase);
+  const { supabase, applyCookies } = createApiSupabaseClient(request);
+  const teacherId = await requireTeacher(supabase);
   if (!teacherId) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
@@ -69,7 +50,7 @@ export async function PATCH(request: NextRequest) {
     .eq("id", id)
     .single()).data as { teacher_id: string } | null;
 
-  if (!cls || (cls.teacher_id !== teacherId && !(await isAdmin(supabase, teacherId)))) {
+  if (!cls || (cls.teacher_id !== teacherId && !(await isAdmin(supabase)))) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
@@ -82,12 +63,12 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json({ ok: true });
+  return applyCookies(NextResponse.json({ ok: true }));
 }
 
 export async function DELETE(request: NextRequest) {
-  const supabase = createSupabase(request);
-  const teacherId = await getTeacherId(supabase);
+  const { supabase, applyCookies } = createApiSupabaseClient(request);
+  const teacherId = await requireTeacher(supabase);
   if (!teacherId) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
@@ -104,7 +85,7 @@ export async function DELETE(request: NextRequest) {
     .eq("id", id)
     .single()).data as { teacher_id: string } | null;
 
-  if (!cls || (cls.teacher_id !== teacherId && !(await isAdmin(supabase, teacherId)))) {
+  if (!cls || (cls.teacher_id !== teacherId && !(await isAdmin(supabase)))) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
@@ -113,14 +94,5 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json({ ok: true });
-}
-
-async function isAdmin(supabase: ReturnType<typeof createServerClient>, userId: string): Promise<boolean> {
-  const profile = (await supabase
-    .from("profiles")
-    .select("role")
-    .eq("user_id", userId)
-    .single()).data as { role: string } | null;
-  return profile?.role === "admin";
+  return applyCookies(NextResponse.json({ ok: true }));
 }

@@ -64,7 +64,11 @@
     "sign_out": "Sign out",
     "days": "{count} days",
     "my_classes": "My Classes",
-    "back": "Back"
+    "back": "Back",
+    "join_class": "Join a Class",
+    "invite_code_placeholder": "Enter invite code",
+    "join": "Join",
+    "lesson_files": "Lesson Files"
   },
   "pricing": {
     "title": "Simple, Transparent Pricing",
@@ -151,7 +155,12 @@
     "retry_quiz": "Retry Quiz",
     "question_of": "Question {current} of {total}",
     "next_question": "Next Question →",
-    "see_results": "See Results"
+    "see_results": "See Results",
+    "attempts_remaining": "Attempts remaining: {count}",
+    "locked_title": "Locked",
+    "locked_msg": "Too many failed attempts. Retry in {time}",
+    "submit_quiz": "Submit Quiz",
+    "submitting": "Submitting..."
   },
   "badge": {
     "earned": "Badge Earned",
@@ -238,7 +247,20 @@
     "video": "Video",
     "video_url_fallback": "Or paste a video URL",
     "video_format_error": "Unsupported format. Use MP4, MOV, or WebM.",
-    "video_size_error": "File too large. Maximum 500MB."
+    "video_size_error": "File too large. Maximum 500MB.",
+    "quiz_questions": "Quiz Questions",
+    "questions_saved": "{count} questions saved",
+    "generate_with_ai": "Generate with AI",
+    "generating": "Generating...",
+    "question_count": "Qty",
+    "add_question": "Add",
+    "no_quiz_yet": "No quiz yet. Create questions manually or generate with AI.",
+    "save_quiz": "Save Quiz",
+    "saving_quiz": "Saving...",
+    "upload_document": "Upload Document",
+    "file_limits": "PDF, Word, TXT — up to 10MB",
+    "documents": "Documents",
+    "remove_file": "Remove file"
   },
   "admin": {
     "title": "Admin Dashboard",

@@ -1,6 +1,7 @@
 import { type EmailOtpType } from "@supabase/supabase-js";
 import { type NextRequest, NextResponse } from "next/server";
 import { createServerClient as createSSRClient } from "@supabase/ssr";
+import { createAdminClient } from "@/lib/supabase-server";
 
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
@@ -47,8 +48,9 @@ export async function GET(request: NextRequest) {
 
       if (user?.user_metadata?.role === "teacher") {
         const inviteCode = user.user_metadata.inviteCode;
+        const adminClient = createAdminClient();
 
-        const { data: invite } = await supabase
+        const { data: invite } = await adminClient
           .from("teacher_invites")
           .select("id")
           .eq("code", inviteCode)
@@ -56,12 +58,12 @@ export async function GET(request: NextRequest) {
           .single();
 
         if (invite) {
-          await supabase
+          await adminClient
             .from("teacher_invites")
             .update({ used_by: user.id, used_at: new Date().toISOString() })
             .eq("id", invite.id);
 
-          await supabase
+          await adminClient
             .from("profiles")
             .update({ role: "teacher" })
             .eq("user_id", user.id);

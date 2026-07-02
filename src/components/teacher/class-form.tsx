@@ -11,9 +11,10 @@ interface Props {
   };
   classId?: string;
   onSave?: (id: string) => void;
+  locale?: string;
 }
 
-export function ClassForm({ defaultValues, classId, onSave }: Props) {
+export function ClassForm({ defaultValues, classId, onSave, locale }: Props) {
   const t = useTranslations("teacher");
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -28,25 +29,30 @@ export function ClassForm({ defaultValues, classId, onSave }: Props) {
     setLoading(true);
     setError("");
 
-    const res = await fetch("/api/teacher/classes", {
-      method: classId ? "PATCH" : "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(classId ? { ...form, id: classId } : form),
-    });
+    try {
+      const res = await fetch("/api/teacher/classes", {
+        method: classId ? "PATCH" : "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(classId ? { ...form, id: classId } : form),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (!res.ok) {
-      setError(data.error ?? t("error"));
+      if (!res.ok) {
+        setError(data.error ?? t("error"));
+        setLoading(false);
+        return;
+      }
+
+      if (onSave) {
+        onSave(data.id);
+      } else {
+        router.push(`/${locale ?? ""}/teacher/classes/${data.id}`);
+        router.refresh();
+      }
+    } catch {
+      setError(t("error"));
       setLoading(false);
-      return;
-    }
-
-    if (onSave) {
-      onSave(data.id);
-    } else {
-      router.push(`/teacher/classes/${data.id}`);
-      router.refresh();
     }
   }
 

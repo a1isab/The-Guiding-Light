@@ -1,20 +1,39 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createApiSupabaseClient, requireAuth } from "@/lib/supabase-api";
 import { createServerClient } from "@supabase/ssr";
 
-export async function POST(request: NextRequest) {
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() { return request.cookies.getAll(); },
-        setAll() {},
-      },
-    }
-  );
+async function authorizeBySection(supabase: ReturnType<typeof createServerClient>, sectionId: string, userId: string): Promise<boolean> {
+  const section = (await supabase
+    .from("teacher_sections")
+    .select("course_id")
+    .eq("id", sectionId)
+    .single()).data as { course_id: string } | null;
+  if (!section) return false;
 
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const course = (await supabase
+    .from("teacher_courses")
+    .select("class_id")
+    .eq("id", section.course_id)
+    .single()).data as { class_id: string } | null;
+  if (!course) return false;
+
+  const cls = (await supabase
+    .from("classes")
+    .select("teacher_id")
+    .eq("id", course.class_id)
+    .single()).data as { teacher_id: string } | null;
+  if (!cls) return false;
+
+  if (cls.teacher_id === userId) return true;
+
+  const { data: role } = await supabase.rpc("get_user_role");
+  return role === "admin";
+}
+
+export async function POST(request: NextRequest) {
+  const { supabase, applyCookies } = createApiSupabaseClient(request);
+  const userId = await requireAuth(supabase);
+  if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { courseId, title, orderIndex } = await request.json();
   if (!courseId || !title) {
@@ -26,7 +45,6 @@ export async function POST(request: NextRequest) {
     .select("class_id")
     .eq("id", courseId)
     .single()).data as { class_id: string } | null;
-
   if (!course) return NextResponse.json({ error: "Course not found" }, { status: 404 });
 
   const cls = (await supabase
@@ -35,13 +53,8 @@ export async function POST(request: NextRequest) {
     .eq("id", course.class_id)
     .single()).data as { teacher_id: string } | null;
 
-  const profile = (await supabase
-    .from("profiles")
-    .select("role")
-    .eq("user_id", user.id)
-    .single()).data as { role: string } | null;
-
-  if (!cls || (cls.teacher_id !== user.id && profile?.role !== "admin")) {
+  const { data: role } = await supabase.rpc("get_user_role");
+  if (!cls || (cls.teacher_id !== userId && role !== "admin")) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
@@ -52,57 +65,23 @@ export async function POST(request: NextRequest) {
   });
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ ok: true });
+  return applyCookies(NextResponse.json({ ok: true }));
 }
 
 export async function DELETE(request: NextRequest) {
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() { return request.cookies.getAll(); },
-        setAll() {},
-      },
-    }
-  );
-
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const { supabase, applyCookies } = createApiSupabaseClient(request);
+  const userId = await requireAuth(supabase);
+  if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { searchParams } = new URL(request.url);
   const id = searchParams.get("id");
   if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
 
-  const section = (await supabase
-    .from("teacher_sections")
-    .select("course_id")
-    .eq("id", id)
-    .single()).data as { course_id: string } | null;
-
-  if (!section) return NextResponse.json({ error: "Not found" }, { status: 404 });
-
-  const course = (await supabase
-    .from("teacher_courses")
-    .select("class_id")
-    .eq("id", section.course_id)
-    .single()).data as { class_id: string } | null;
-
-  const cls = course
-    ? (await supabase.from("classes").select("teacher_id").eq("id", course.class_id).single()).data as { teacher_id: string } | null
-    : null;
-
-  const profile = (await supabase
-    .from("profiles")
-    .select("role")
-    .eq("user_id", user.id)
-    .single()).data as { role: string } | null;
-
-  if (!cls || (cls.teacher_id !== user.id && profile?.role !== "admin")) {
+  if (!(await authorizeBySection(supabase, id, userId))) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
   const { error } = await supabase.from("teacher_sections").delete().eq("id", id);
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ ok: true });
+  return applyCookies(NextResponse.json({ ok: true }));
 }

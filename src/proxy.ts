@@ -22,6 +22,45 @@ function stripLocale(pathname: string): string {
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
+  // ─── API routes: skip intl middleware to avoid locale prefix redirect ───
+  if (pathname.startsWith("/api/")) {
+    if (apiAdminPaths.some((p) => pathname.startsWith(p))) {
+      let supabaseResponse = NextResponse.next({ request });
+
+      const supabase = createSSRClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+        {
+          cookies: {
+            getAll() { return request.cookies.getAll(); },
+            setAll(cookiesToSet) {
+              cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
+              supabaseResponse = NextResponse.next({ request });
+              cookiesToSet.forEach(({ name, value, options }) =>
+                supabaseResponse.cookies.set(name, value, options)
+              );
+            },
+          },
+        }
+      );
+
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      }
+
+      const { data: role } = await supabase.rpc("get_user_role");
+      if (role !== "admin" && role !== "teacher") {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
+
+      return supabaseResponse;
+    }
+
+    return NextResponse.next();
+  }
+
+  // ─── Non-API routes: intl + auth middleware ───
   const intlResponse = await intlMiddleware(request);
   if (intlResponse.headers.get("location")) {
     return intlResponse;
@@ -32,10 +71,9 @@ export async function proxy(request: NextRequest) {
   const actualPath = stripLocale(pathname);
   const isProtected = protectedPaths.some((p) => actualPath.startsWith(p));
   const isAdmin = adminPaths.some((p) => actualPath.startsWith(p));
-  const isApiAdmin = apiAdminPaths.some((p) => pathname.startsWith(p));
   const isJoin = joinPaths.some((p) => actualPath.startsWith(p));
 
-  if (isProtected || isAdmin || isApiAdmin || isJoin) {
+  if (isProtected || isAdmin || isJoin) {
     let supabaseResponse = NextResponse.next({ request });
 
     const supabase = createSSRClient(
@@ -43,13 +81,9 @@ export async function proxy(request: NextRequest) {
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       {
         cookies: {
-          getAll() {
-            return request.cookies.getAll();
-          },
+          getAll() { return request.cookies.getAll(); },
           setAll(cookiesToSet) {
-            cookiesToSet.forEach(({ name, value }) =>
-              request.cookies.set(name, value)
-            );
+            cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
             supabaseResponse = NextResponse.next({ request });
             cookiesToSet.forEach(({ name, value, options }) =>
               supabaseResponse.cookies.set(name, value, options)
@@ -59,9 +93,7 @@ export async function proxy(request: NextRequest) {
       }
     );
 
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    const { data: { user } } = await supabase.auth.getUser();
 
     if (!user) {
       const url = request.nextUrl.clone();
@@ -70,13 +102,9 @@ export async function proxy(request: NextRequest) {
       return NextResponse.redirect(url);
     }
 
-    if (isAdmin || isApiAdmin) {
+    if (isAdmin) {
       const { data: role } = await supabase.rpc("get_user_role");
-
       if (role !== "admin" && role !== "teacher") {
-        if (isApiAdmin) {
-          return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-        }
         return NextResponse.redirect(new URL(`/${locale}/dashboard`, request.url));
       }
     }

@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { Profile, Progress, Subscription, UserBadge } from "@/lib/types";
 import { BookOpen, Flame, Crown, TrendingUp, LogOut, Users } from "lucide-react";
 import { BadgeGrid } from "@/components/badge-grid";
+import { JoinClassCard } from "@/components/join-class-card";
 
 export const dynamic = "force-dynamic";
 
@@ -173,6 +174,8 @@ export default async function DashboardPage({
       )}
 
       <BadgeGrid badges={earnedBadges} />
+
+      <JoinClassCard />
 
       {myClasses && myClasses.length > 0 && (
         <div className="mt-10">

@@ -64,7 +64,11 @@
     "sign_out": "تسجيل الخروج",
     "days": "{count} أيام",
     "my_classes": "فصولي",
-    "back": "رجوع"
+    "back": "رجوع",
+    "join_class": "انضم إلى فصل",
+    "invite_code_placeholder": "أدخل رمز الدعوة",
+    "join": "انضمام",
+    "lesson_files": "ملفات الدرس"
   },
   "pricing": {
     "title": "تسعير بسيط وشفاف",
@@ -151,7 +155,12 @@
     "retry_quiz": "إعادة محاولة الاختبار",
     "question_of": "السؤال {current} من {total}",
     "next_question": "السؤال التالي →",
-    "see_results": "انظر النتائج"
+    "see_results": "انظر النتائج",
+    "attempts_remaining": "المحاولات المتبقية: {count}",
+    "locked_title": "مقفل",
+    "locked_msg": "عدد كبير جدًا من المحاولات الفاشلة. أعد المحاولة بعد {time}",
+    "submit_quiz": "إرسال الاختبار",
+    "submitting": "جارٍ الإرسال..."
   },
   "badge": {
     "earned": "تم الحصول على الشارة",
@@ -238,7 +247,20 @@
     "video": "الفيديو",
     "video_url_fallback": "أو الصق رابط فيديو",
     "video_format_error": "صيغة غير مدعومة. استخدم MP4, MOV, أو WebM.",
-    "video_size_error": "الملف كبير جداً. الحد الأقصى 500MB."
+    "video_size_error": "الملف كبير جداً. الحد الأقصى 500MB.",
+    "quiz_questions": "أسئلة الاختبار",
+    "questions_saved": "تم حفظ {count} سؤال",
+    "generate_with_ai": "إنشاء بالذكاء الاصطناعي",
+    "generating": "جارٍ الإنشاء...",
+    "question_count": "العدد",
+    "add_question": "إضافة",
+    "no_quiz_yet": "لا يوجد اختبار بعد. أنشئ أسئلة يدويًا أو بالذكاء الاصطناعي.",
+    "save_quiz": "حفظ الاختبار",
+    "saving_quiz": "جارٍ الحفظ...",
+    "upload_document": "رفع مستند",
+    "file_limits": "PDF, Word, TXT — حتى 10MB",
+    "documents": "المستندات",
+    "remove_file": "إزالة الملف"
   },
   "admin": {
     "title": "Admin Dashboard",

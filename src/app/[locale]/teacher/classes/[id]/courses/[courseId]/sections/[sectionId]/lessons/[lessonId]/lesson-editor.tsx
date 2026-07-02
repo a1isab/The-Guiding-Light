@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { VideoUpload } from "@/components/teacher/video-upload";
+import { QuizEditor } from "@/components/teacher/quiz-editor";
+import { FileUpload } from "@/components/teacher/file-upload";
 
 interface Lesson {
   id: string;
@@ -111,6 +113,16 @@ export function LessonEditor({
             className="w-full rounded-xl border border-zinc-700 bg-zinc-900/50 px-3 py-2.5 text-sm text-zinc-100 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
           />
         </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-zinc-400 mb-1">Documents</label>
+        <FileUpload lessonId={lesson.id} />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-zinc-400 mb-1">Quiz</label>
+        <QuizEditor lessonId={lesson.id} lessonContent={content} />
       </div>
 
       {error && <p className="text-sm text-red-400">{error}</p>}

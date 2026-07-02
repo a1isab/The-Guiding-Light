@@ -1,20 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerClient } from "@supabase/ssr";
+import { createApiSupabaseClient, requireAuth } from "@/lib/supabase-api";
 
 export async function DELETE(request: NextRequest) {
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() { return request.cookies.getAll(); },
-        setAll() {},
-      },
-    }
-  );
-
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) {
+  const { supabase, applyCookies } = createApiSupabaseClient(request);
+  const userId = await requireAuth(supabase);
+  if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -33,14 +23,9 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: "Class not found" }, { status: 404 });
   }
 
-  const profile = (await supabase
-    .from("profiles")
-    .select("role")
-    .eq("user_id", user.id)
-    .single()).data as { role: string } | null;
-
-  const isOwner = cls.teacher_id === user.id;
-  const isAdmin = profile?.role === "admin";
+  const { data: role } = await supabase.rpc("get_user_role");
+  const isOwner = cls.teacher_id === userId;
+  const isAdmin = role === "admin";
 
   if (!isOwner && !isAdmin) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
@@ -56,5 +41,5 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json({ ok: true });
+  return applyCookies(NextResponse.json({ ok: true }));
 }

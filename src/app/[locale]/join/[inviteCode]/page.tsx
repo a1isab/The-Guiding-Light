@@ -75,7 +75,7 @@ export default function JoinPage() {
     }
 
     join();
-  }, []);
+  }, [params.locale, params.inviteCode, supabase, router, t]);
 
   return (
     <div className="flex min-h-[60vh] items-center justify-center">

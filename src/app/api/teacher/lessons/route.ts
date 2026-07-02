@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createApiSupabaseClient, requireAuth } from "@/lib/supabase-api";
 import { createServerClient } from "@supabase/ssr";
 
-async function authorize(supabase: ReturnType<typeof createServerClient>, sectionId: string, userId: string): Promise<boolean> {
+async function authorizeBySection(supabase: ReturnType<typeof createServerClient>, sectionId: string, userId: string): Promise<boolean> {
   const section = (await supabase
     .from("teacher_sections")
     .select("course_id")
@@ -25,35 +26,21 @@ async function authorize(supabase: ReturnType<typeof createServerClient>, sectio
 
   if (cls.teacher_id === userId) return true;
 
-  const profile = (await supabase
-    .from("profiles")
-    .select("role")
-    .eq("user_id", userId)
-    .single()).data as { role: string } | null;
-  return profile?.role === "admin";
+  const { data: role } = await supabase.rpc("get_user_role");
+  return role === "admin";
 }
 
 export async function POST(request: NextRequest) {
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() { return request.cookies.getAll(); },
-        setAll() {},
-      },
-    }
-  );
-
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const { supabase, applyCookies } = createApiSupabaseClient(request);
+  const userId = await requireAuth(supabase);
+  if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { sectionId, title, orderIndex, content, videoUrl } = await request.json();
   if (!sectionId || !title) {
     return NextResponse.json({ error: "sectionId and title required" }, { status: 400 });
   }
 
-  if (!(await authorize(supabase, sectionId, user.id))) {
+  if (!(await authorizeBySection(supabase, sectionId, userId))) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
@@ -66,23 +53,13 @@ export async function POST(request: NextRequest) {
   });
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ ok: true });
+  return applyCookies(NextResponse.json({ ok: true }));
 }
 
 export async function PATCH(request: NextRequest) {
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() { return request.cookies.getAll(); },
-        setAll() {},
-      },
-    }
-  );
-
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const { supabase, applyCookies } = createApiSupabaseClient(request);
+  const userId = await requireAuth(supabase);
+  if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { id, title, content, videoUrl, duration, orderIndex } = await request.json();
   if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
@@ -95,7 +72,7 @@ export async function PATCH(request: NextRequest) {
 
   if (!lesson) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-  if (!(await authorize(supabase, lesson.section_id, user.id))) {
+  if (!(await authorizeBySection(supabase, lesson.section_id, userId))) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
@@ -108,23 +85,13 @@ export async function PATCH(request: NextRequest) {
 
   const { error } = await supabase.from("teacher_lessons").update(updates).eq("id", id);
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ ok: true });
+  return applyCookies(NextResponse.json({ ok: true }));
 }
 
 export async function DELETE(request: NextRequest) {
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() { return request.cookies.getAll(); },
-        setAll() {},
-      },
-    }
-  );
-
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const { supabase, applyCookies } = createApiSupabaseClient(request);
+  const userId = await requireAuth(supabase);
+  if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { searchParams } = new URL(request.url);
   const id = searchParams.get("id");
@@ -138,11 +105,11 @@ export async function DELETE(request: NextRequest) {
 
   if (!lesson) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-  if (!(await authorize(supabase, lesson.section_id, user.id))) {
+  if (!(await authorizeBySection(supabase, lesson.section_id, userId))) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
   const { error } = await supabase.from("teacher_lessons").delete().eq("id", id);
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ ok: true });
+  return applyCookies(NextResponse.json({ ok: true }));
 }

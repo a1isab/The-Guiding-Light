@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { createServiceClient } from "@/lib/supabase-server";
+import { createServerSupabaseClient } from "@/lib/supabase-server";
 import Link from "next/link";
 import { Plus } from "lucide-react";
 import { ClassList } from "@/components/teacher/class-list";
@@ -13,7 +13,7 @@ export default async function TeacherClassesPage({
 }) {
   const { locale } = await params;
   const t = await getTranslations("teacher");
-  const supabase = createServiceClient();
+  const supabase = await createServerSupabaseClient();
 
   const { data: classes } = await supabase
     .from("classes")

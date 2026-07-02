@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { createServerClient as createSSRClient } from "@supabase/ssr";
+import { createApiSupabaseClient, requireAdmin } from "@/lib/supabase-api";
 import crypto from "crypto";
 
 function generateCode(): string {
@@ -8,41 +8,9 @@ function generateCode(): string {
 }
 
 export async function POST(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({ request });
-
-  const supabase = createSSRClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll();
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value)
-          );
-          supabaseResponse = NextResponse.next({ request });
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
-          );
-        },
-      },
-    }
-  );
-
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("user_id", user.id)
-    .single<{ role: string }>();
-
-  if (!profile || profile.role !== "admin") {
+  const { supabase, applyCookies } = createApiSupabaseClient(request);
+  const userId = await requireAdmin(supabase);
+  if (!userId) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
@@ -50,11 +18,11 @@ export async function POST(request: NextRequest) {
 
   const { error } = await supabase
     .from("teacher_invites")
-    .insert({ code, created_by: user.id });
+    .insert({ code, created_by: userId });
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json({ code });
+  return applyCookies(NextResponse.json({ code }));
 }

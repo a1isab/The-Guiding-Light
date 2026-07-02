@@ -64,7 +64,11 @@
     "sign_out": "سائن آؤٹ کریں۔",
     "days": "{count} دن",
     "my_classes": "میری کلاسیں",
-    "back": "واپس"
+    "back": "واپس",
+    "join_class": "کلاس میں شامل ہوں",
+    "invite_code_placeholder": "دعوتی کوڈ درج کریں",
+    "join": "شامل ہوں",
+    "lesson_files": "سبق کی فائلیں"
   },
   "pricing": {
     "title": "سادہ، شفاف قیمتوں کا تعین",
@@ -151,7 +155,12 @@
     "retry_quiz": "کوئز کی دوبارہ کوشش کریں۔",
     "question_of": "{total} میں سے {current} سوال",
     "next_question": "اگلا سوال →",
-    "see_results": "نتائج دیکھیں"
+    "see_results": "نتائج دیکھیں",
+    "attempts_remaining": "باقی کوششیں: {count}",
+    "locked_title": "مقفل",
+    "locked_msg": "بہت زیادہ ناکام کوششیں۔ {time} کے بعد دوبارہ کوشش کریں",
+    "submit_quiz": "کوئز جمع کروائیں",
+    "submitting": "جمع کروا رہے ہیں..."
   },
   "badge": {
     "earned": "بیج حاصل ہوا",
@@ -238,7 +247,20 @@
     "video": "ویڈیو",
     "video_url_fallback": "یا ویڈیو URL پیسٹ کریں",
     "video_format_error": "غیر معاون فارمیٹ۔ MP4, MOV, یا WebM استعمال کریں۔",
-    "video_size_error": "فائل بہت بڑی ہے۔ زیادہ سے زیادہ 500MB۔"
+    "video_size_error": "فائل بہت بڑی ہے۔ زیادہ سے زیادہ 500MB۔",
+    "quiz_questions": "کوئز کے سوالات",
+    "questions_saved": "{count} سوالات محفوظ ہو گئے",
+    "generate_with_ai": "AI سے تیار کریں",
+    "generating": "تیار ہو رہا ہے...",
+    "question_count": "تعداد",
+    "add_question": "شامل کریں",
+    "no_quiz_yet": "ابھی تک کوئی کوئز نہیں۔ دستی طور پر یا AI سے سوالات بنائیں۔",
+    "save_quiz": "کوئز محفوظ کریں",
+    "saving_quiz": "محفوظ ہو رہا ہے...",
+    "upload_document": "دستاویز اپ لوڈ کریں",
+    "file_limits": "PDF, Word, TXT — 10MB تک",
+    "documents": "دستاویزات",
+    "remove_file": "فائل ہٹائیں"
   },
   "admin": {
     "title": "Admin Dashboard",

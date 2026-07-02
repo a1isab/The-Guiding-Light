@@ -64,7 +64,11 @@
     "sign_out": "se déconnecter",
     "days": "{count} days",
     "my_classes": "Mes Classes",
-    "back": "Retour"
+    "back": "Retour",
+    "join_class": "Rejoindre une classe",
+    "invite_code_placeholder": "Entrez le code d'invitation",
+    "join": "Rejoindre",
+    "lesson_files": "Fichiers de la leçon"
   },
   "pricing": {
     "title": "Tarification simple et transparente",
@@ -151,7 +155,12 @@
     "retry_quiz": "Réessayer le quiz",
     "question_of": "Question {current} of {total}",
     "next_question": "Question suivante →",
-    "see_results": "Voir les résultats"
+    "see_results": "Voir les résultats",
+    "attempts_remaining": "Tentatives restantes : {count}",
+    "locked_title": "Verrouillé",
+    "locked_msg": "Trop de tentatives échouées. Réessayez dans {time}",
+    "submit_quiz": "Soumettre le quiz",
+    "submitting": "Soumission..."
   },
   "badge": {
     "earned": "Badge obtenu",
@@ -238,7 +247,20 @@
     "video": "Vidéo",
     "video_url_fallback": "Ou collez une URL de vidéo",
     "video_format_error": "Format non pris en charge. Utilisez MP4, MOV ou WebM.",
-    "video_size_error": "Fichier trop volumineux. Maximum 500 Mo."
+    "video_size_error": "Fichier trop volumineux. Maximum 500 Mo.",
+    "quiz_questions": "Questions du quiz",
+    "questions_saved": "{count} questions enregistrées",
+    "generate_with_ai": "Générer avec l'IA",
+    "generating": "Génération...",
+    "question_count": "Nombre",
+    "add_question": "Ajouter",
+    "no_quiz_yet": "Pas encore de quiz. Créez des questions manuellement ou avec l'IA.",
+    "save_quiz": "Enregistrer le quiz",
+    "saving_quiz": "Enregistrement...",
+    "upload_document": "Télécharger un document",
+    "file_limits": "PDF, Word, TXT — jusqu'à 10 Mo",
+    "documents": "Documents",
+    "remove_file": "Supprimer le fichier"
   },
   "admin": {
     "title": "Admin Dashboard",

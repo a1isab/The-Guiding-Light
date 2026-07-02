@@ -4,6 +4,7 @@ import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { CompleteButton } from "./complete-button";
+import { QuizViewer } from "@/components/teacher/quiz-viewer";
 
 export const dynamic = "force-dynamic";
 
@@ -33,6 +34,34 @@ export default async function StudentLessonPage({
     .eq("user_id", user.id)
     .eq("lesson_id", lessonId)
     .single()).data;
+
+  const { count: quizCount } = await service
+    .from("teacher_quiz_questions")
+    .select("*", { count: "exact", head: true })
+    .eq("lesson_id", lessonId);
+
+  const hasQuiz = (quizCount ?? 0) > 0;
+
+  const { data: lessonFiles } = await service
+    .from("teacher_lesson_files")
+    .select("*")
+    .eq("lesson_id", lessonId)
+    .order("created_at", { ascending: false });
+
+  const storageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/lesson-files`;
+
+  function getFileIcon(mime: string): string {
+    if (mime === "application/pdf") return "PDF";
+    if (mime.includes("word")) return "DOC";
+    if (mime === "text/plain") return "TXT";
+    return "FILE";
+  }
+
+  function formatFileSize(bytes: number): string {
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  }
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-12">
@@ -65,8 +94,40 @@ export default async function StudentLessonPage({
         )}
       </article>
 
+      {lessonFiles && lessonFiles.length > 0 && (
+        <div className="mt-8">
+          <h2 className="text-sm font-medium text-zinc-400 mb-3">Lesson Files</h2>
+          <div className="space-y-2">
+            {lessonFiles.map((f) => (
+              <a
+                key={f.id}
+                href={`${storageUrl}/${f.storage_path}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 rounded-xl border border-zinc-700 bg-zinc-900/50 px-4 py-3 hover:border-zinc-600 transition-all"
+              >
+                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/10 text-[10px] font-bold text-emerald-400">
+                  {getFileIcon(f.mime_type)}
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm text-zinc-200 truncate">{f.filename}</p>
+                  <p className="text-xs text-zinc-600">{formatFileSize(f.file_size)}</p>
+                </div>
+                <svg className="h-4 w-4 flex-shrink-0 text-zinc-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="mt-10 pt-8 border-t border-zinc-800">
-        <CompleteButton lessonId={lessonId} classId={classId} courseId={courseId} initialCompleted={isCompleted} />
+        {hasQuiz ? (
+          <QuizViewer lessonId={lessonId} />
+        ) : (
+          <CompleteButton lessonId={lessonId} classId={classId} courseId={courseId} initialCompleted={isCompleted} />
+        )}
       </div>
     </div>
   );

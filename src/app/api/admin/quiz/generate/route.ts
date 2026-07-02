@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerClient } from "@supabase/ssr";
+import { createApiSupabaseClient, requireTeacher } from "@/lib/supabase-api";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_API_KEY!);
@@ -26,32 +26,9 @@ Generate exactly 5 questions. Make them educational, not trick questions. Base t
 
 export async function POST(request: NextRequest) {
   try {
-    // Verify the user is admin or teacher
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          getAll() {
-            return request.cookies.getAll();
-          },
-          setAll() {},
-        },
-      }
-    );
-
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("role")
-      .eq("user_id", user.id)
-      .single();
-
-    if (!profile || (profile.role !== "admin" && profile.role !== "teacher")) {
+    const { supabase, applyCookies } = createApiSupabaseClient(request);
+    const teacherId = await requireTeacher(supabase);
+    if (!teacherId) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
@@ -78,7 +55,7 @@ export async function POST(request: NextRequest) {
       throw new Error("Invalid quiz response format");
     }
 
-    return NextResponse.json({ questions: parsed.questions });
+    return applyCookies(NextResponse.json({ questions: parsed.questions }));
   } catch (err) {
     console.error("Quiz generation error:", err);
     return NextResponse.json(

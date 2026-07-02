@@ -1,30 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerClient } from "@supabase/ssr";
+import { createApiSupabaseClient, requireTeacher } from "@/lib/supabase-api";
 
 export async function POST(request: NextRequest) {
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() { return request.cookies.getAll(); },
-        setAll() {},
-      },
-    }
-  );
-
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  const profile = (await supabase
-    .from("profiles")
-    .select("role")
-    .eq("user_id", user.id)
-    .single()).data as { role: string } | null;
-
-  if (!profile || (profile.role !== "teacher" && profile.role !== "admin")) {
+  const { supabase, applyCookies } = createApiSupabaseClient(request);
+  const teacherId = await requireTeacher(supabase);
+  if (!teacherId) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
@@ -39,7 +19,8 @@ export async function POST(request: NextRequest) {
     .eq("id", classId)
     .single()).data as { teacher_id: string } | null;
 
-  if (!cls || (cls.teacher_id !== user.id && profile.role !== "admin")) {
+  const { data: role } = await supabase.rpc("get_user_role");
+  if (!cls || (cls.teacher_id !== teacherId && role !== "admin")) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
@@ -56,7 +37,7 @@ export async function POST(request: NextRequest) {
     .from("teacher_courses")
     .insert({
       class_id: classId,
-      teacher_id: user.id,
+      teacher_id: teacherId,
       title: title.trim(),
       description: description?.trim() || null,
       order_index: orderIndex,
@@ -68,5 +49,5 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json({ id: (data as { id: string }).id });
+  return applyCookies(NextResponse.json({ id: (data as { id: string }).id }));
 }

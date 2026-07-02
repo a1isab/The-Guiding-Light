@@ -81,16 +81,10 @@ export function VideoUpload({
   async function handleRemove() {
     if (!currentUrl) return;
     const path = currentUrl.split("/").slice(-3).join("/");
-    const { data: assets } = await supabase
-      .from("teacher_video_assets")
-      .select("storage_path")
-      .eq("storage_path", path);
-
-    if (assets?.[0]) {
-      await supabase.storage.from("teacher-videos").remove([path]);
-      await supabase.from("teacher_video_assets").delete().eq("storage_path", path);
-    }
-
+    await Promise.all([
+      supabase.storage.from("teacher-videos").remove([path]).then(),
+      supabase.from("teacher_video_assets").delete().eq("storage_path", path).then(),
+    ]);
     onVideoChange(null);
   }
 

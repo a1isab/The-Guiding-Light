@@ -12,7 +12,7 @@ export default async function NewClassPage({
   return (
     <div>
       <h1 className="font-amiri text-2xl font-bold text-zinc-100 mb-6">{t("new_class")}</h1>
-      <ClassForm />
+      <ClassForm locale={locale} />
     </div>
   );
 }
