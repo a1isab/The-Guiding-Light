@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useTranslations, useLocale } from "next-intl";
 import { createClient } from "@/lib/supabase-client";
-import { UserPlus, Sparkles, CheckCircle2 } from "lucide-react";
+import { UserPlus, Sparkles, CheckCircle2, GraduationCap, User } from "lucide-react";
 
 export default function SignUpPage() {
   const t = useTranslations("auth");
@@ -16,6 +16,7 @@ export default function SignUpPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [role, setRole] = useState<"student" | "teacher">("student");
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -35,6 +36,7 @@ export default function SignUpPage() {
       email,
       password,
       options: {
+        data: { role },
         emailRedirectTo: `${window.location.origin}/${locale}/auth/callback?next=/${locale}/dashboard`,
       },
     });
@@ -117,6 +119,38 @@ export default function SignUpPage() {
                 className="mt-1 block w-full rounded-xl border border-zinc-700 bg-zinc-900/50 px-3 py-2.5 text-sm text-zinc-100 placeholder-zinc-500 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
                 placeholder={t("password_placeholder")}
               />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-zinc-400 mb-2">
+                {t("signup_role_label")}
+              </label>
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  onClick={() => setRole("student")}
+                  className={`flex items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-medium transition-all ${
+                    role === "student"
+                      ? "border-emerald-500/50 bg-emerald-500/10 text-emerald-400"
+                      : "border-zinc-700 bg-zinc-900/50 text-zinc-400 hover:border-zinc-600"
+                  }`}
+                >
+                  <User className="h-4 w-4" />
+                  {t("signup_as_student")}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setRole("teacher")}
+                  className={`flex items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-medium transition-all ${
+                    role === "teacher"
+                      ? "border-emerald-500/50 bg-emerald-500/10 text-emerald-400"
+                      : "border-zinc-700 bg-zinc-900/50 text-zinc-400 hover:border-zinc-600"
+                  }`}
+                >
+                  <GraduationCap className="h-4 w-4" />
+                  {t("signup_as_teacher")}
+                </button>
+              </div>
             </div>
 
             {error && (

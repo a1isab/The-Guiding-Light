@@ -6,7 +6,7 @@ export async function GET(request: NextRequest) {
   const origin = url.origin;
   const pathParts = url.pathname.split("/").filter(Boolean);
   const locale = pathParts.length > 0 && /^[a-z]{2}(-[A-Z]{2})?$/.test(pathParts[0]) ? pathParts[0] : "en";
-  let supabaseResponse = NextResponse.redirect(new URL(`/${locale}`, origin));
+  const supabaseResponse = NextResponse.redirect(new URL(`/${locale}`, origin));
 
   const supabase = createSSRClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
     {
       cookies: {
         getAll() {
-          return [];
+          return request.cookies.getAll();
         },
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value, options }) =>

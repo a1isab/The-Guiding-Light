@@ -22,7 +22,6 @@ function stripLocale(pathname: string): string {
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
-  // 1. Handle locale routing first
   const intlResponse = await intlMiddleware(request);
   if (intlResponse.headers.get("location")) {
     return intlResponse;
@@ -30,7 +29,6 @@ export async function proxy(request: NextRequest) {
 
   const locale: string = intlResponse.headers.get("X-NEXT-INTL-LOCALE") || routing.defaultLocale;
 
-  // 2. Strip locale to get actual route
   const actualPath = stripLocale(pathname);
   const isProtected = protectedPaths.some((p) => actualPath.startsWith(p));
   const isAdmin = adminPaths.some((p) => actualPath.startsWith(p));
@@ -65,7 +63,6 @@ export async function proxy(request: NextRequest) {
       data: { user },
     } = await supabase.auth.getUser();
 
-    // All protected routes require auth
     if (!user) {
       const url = request.nextUrl.clone();
       url.pathname = "/" + locale + "/auth/login";
@@ -73,7 +70,6 @@ export async function proxy(request: NextRequest) {
       return NextResponse.redirect(url);
     }
 
-    // Admin routes require admin or teacher role
     if (isAdmin || isApiAdmin) {
       const { data: profile } = await supabase
         .from("profiles")
@@ -93,7 +89,6 @@ export async function proxy(request: NextRequest) {
     return supabaseResponse;
   }
 
-  // 3. Non-protected path — forward locale header
   intlResponse.headers.set("X-NEXT-INTL-LOCALE", locale);
   return intlResponse;
 }

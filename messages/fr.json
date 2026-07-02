@@ -112,7 +112,10 @@
     "check_email_msg": "Nous avons envoyé un lien de confirmation à {email}. Cliquez dessus pour activer votre compte.",
     "go_to_login": "Allez vous connecter",
     "loading": "Chargement...",
-    "invalid_link": "Lien invalide ou expiré"
+    "invalid_link": "Lien invalide ou expiré",
+    "signup_role_label": "Je veux rejoindre en tant que",
+    "signup_as_student": "Étudiant",
+    "signup_as_teacher": "Enseignant"
   },
   "courses": {
     "title": "Tous les cours",

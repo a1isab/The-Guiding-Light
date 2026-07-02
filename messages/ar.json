@@ -112,7 +112,10 @@
     "check_email_msg": "لقد أرسلنا رابط تأكيد إلى {email}. انقر عليه لتفعيل حسابك.",
     "go_to_login": "اذهب لتسجيل الدخول",
     "loading": "تحميل...",
-    "invalid_link": "الرابط غير صالح أو منتهي الصلاحية"
+    "invalid_link": "الرابط غير صالح أو منتهي الصلاحية",
+    "signup_role_label": "أرغب في الانضمام كـ",
+    "signup_as_student": "طالب",
+    "signup_as_teacher": "مدرس"
   },
   "courses": {
     "title": "جميع الدورات",
