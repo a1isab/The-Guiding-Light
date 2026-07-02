@@ -29,14 +29,33 @@ function LoginForm() {
       password,
     });
 
-    setLoading(false);
-
     if (signInError) {
       setError(signInError.message);
+      setLoading(false);
       return;
     }
 
-    router.push(redirect);
+    const { data: { user } } = await supabase.auth.getUser();
+    let role = "student";
+
+    if (user) {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("user_id", user.id)
+        .single<{ role: string }>();
+      if (profile) role = profile.role;
+    }
+
+    setLoading(false);
+
+    if (role === "admin") {
+      router.push(`/${locale}/admin`);
+    } else if (role === "teacher") {
+      router.push(`/${locale}/teacher`);
+    } else {
+      router.push(redirect);
+    }
     router.refresh();
   }
 
