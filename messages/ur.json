@@ -115,7 +115,11 @@
     "invalid_link": "غلط یا میعاد ختم ہونے والا لنک",
     "signup_role_label": "میں بطور شامل ہونا چاہتا ہوں",
     "signup_as_student": "طالب علم",
-    "signup_as_teacher": "استاد"
+    "signup_as_teacher": "استاد",
+    "invite_code": "استاد دعوتی کوڈ",
+    "invite_code_placeholder": "اپنا دعوتی کوڈ درج کریں",
+    "invite_code_required": "براہ کرم اپنا استاد دعوتی کوڈ درج کریں",
+    "invalid_invite_code": "غلط یا پہلے سے استعمال شدہ دعوتی کوڈ"
   },
   "courses": {
     "title": "تمام کورسز",
@@ -266,6 +270,7 @@
     "saved": "Saved successfully",
     "deleted": "Deleted successfully",
     "error": "Something went wrong",
+    "loading": "لوڈ ہو رہا ہے...",
     "sections": "Sections",
     "lessons": "Lessons",
     "add_section": "Add Section",
@@ -294,6 +299,12 @@
     "no_lessons": "No lessons yet",
     "back": "Back",
     "view": "View",
-    "edit": "Edit"
+    "edit": "Edit",
+    "invites": "دعوتیں",
+    "generate_invite": "دعوتی کوڈ بنائیں",
+    "no_invites": "ابھی تک کوئی دعوتی کوڈ نہیں بنایا گیا",
+    "used": "استعمال شدہ",
+    "active": "فعال",
+    "expired": "میعاد ختم"
   }
 }

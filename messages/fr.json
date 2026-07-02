@@ -115,7 +115,11 @@
     "invalid_link": "Lien invalide ou expiré",
     "signup_role_label": "Je veux rejoindre en tant que",
     "signup_as_student": "Étudiant",
-    "signup_as_teacher": "Enseignant"
+    "signup_as_teacher": "Enseignant",
+    "invite_code": "Code d'invitation enseignant",
+    "invite_code_placeholder": "Entrez votre code d'invitation",
+    "invite_code_required": "Veuillez entrer votre code d'invitation enseignant",
+    "invalid_invite_code": "Code d'invitation invalide ou déjà utilisé"
   },
   "courses": {
     "title": "Tous les cours",
@@ -266,6 +270,7 @@
     "saved": "Saved successfully",
     "deleted": "Deleted successfully",
     "error": "Something went wrong",
+    "loading": "Chargement...",
     "sections": "Sections",
     "lessons": "Lessons",
     "add_section": "Add Section",
@@ -294,6 +299,12 @@
     "no_lessons": "No lessons yet",
     "back": "Back",
     "view": "View",
-    "edit": "Edit"
+    "edit": "Edit",
+    "invites": "Invitations",
+    "generate_invite": "Générer un code d'invitation",
+    "no_invites": "Aucun code d'invitation généré",
+    "used": "Utilisé",
+    "active": "Actif",
+    "expired": "Expiré"
   }
 }

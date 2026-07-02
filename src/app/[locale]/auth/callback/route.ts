@@ -46,10 +46,26 @@ export async function GET(request: NextRequest) {
       } = await supabase.auth.getUser();
 
       if (user?.user_metadata?.role === "teacher") {
-        await supabase
-          .from("profiles")
-          .update({ role: "teacher" })
-          .eq("user_id", user.id);
+        const inviteCode = user.user_metadata.inviteCode;
+
+        const { data: invite } = await supabase
+          .from("teacher_invites")
+          .select("id")
+          .eq("code", inviteCode)
+          .is("used_by", null)
+          .single();
+
+        if (invite) {
+          await supabase
+            .from("teacher_invites")
+            .update({ used_by: user.id, used_at: new Date().toISOString() })
+            .eq("id", invite.id);
+
+          await supabase
+            .from("profiles")
+            .update({ role: "teacher" })
+            .eq("user_id", user.id);
+        }
       }
 
       return supabaseResponse;

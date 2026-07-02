@@ -115,7 +115,11 @@
     "invalid_link": "الرابط غير صالح أو منتهي الصلاحية",
     "signup_role_label": "أرغب في الانضمام كـ",
     "signup_as_student": "طالب",
-    "signup_as_teacher": "مدرس"
+    "signup_as_teacher": "مدرس",
+    "invite_code": "رمز دعوة المعلم",
+    "invite_code_placeholder": "أدخل رمز الدعوة الخاص بك",
+    "invite_code_required": "الرجاء إدخال رمز دعوة المعلم",
+    "invalid_invite_code": "رمز الدعوة غير صالح أو مستخدم بالفعل"
   },
   "courses": {
     "title": "جميع الدورات",
@@ -266,6 +270,7 @@
     "saved": "Saved successfully",
     "deleted": "Deleted successfully",
     "error": "Something went wrong",
+    "loading": "جارٍ التحميل...",
     "sections": "Sections",
     "lessons": "Lessons",
     "add_section": "Add Section",
@@ -294,6 +299,12 @@
     "no_lessons": "No lessons yet",
     "back": "Back",
     "view": "View",
-    "edit": "Edit"
+    "edit": "Edit",
+    "invites": "الدعوات",
+    "generate_invite": "إنشاء رمز دعوة",
+    "no_invites": "لم يتم إنشاء رموز دعوة بعد",
+    "used": "مُستخدم",
+    "active": "نشط",
+    "expired": "منتهي الصلاحية"
   }
 }

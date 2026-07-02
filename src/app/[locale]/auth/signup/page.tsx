@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useTranslations, useLocale } from "next-intl";
 import { createClient } from "@/lib/supabase-client";
-import { UserPlus, Sparkles, CheckCircle2, GraduationCap, User } from "lucide-react";
+import { UserPlus, Sparkles, CheckCircle2, GraduationCap, User, KeyRound } from "lucide-react";
 
 export default function SignUpPage() {
   const t = useTranslations("auth");
@@ -17,6 +17,7 @@ export default function SignUpPage() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [role, setRole] = useState<"student" | "teacher">("student");
+  const [inviteCode, setInviteCode] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -30,13 +31,35 @@ export default function SignUpPage() {
     setError("");
     setLoading(true);
 
+    if (role === "teacher") {
+      if (!inviteCode.trim()) {
+        setError(t("invite_code_required"));
+        setLoading(false);
+        return;
+      }
+
+      const res = await fetch("/api/teacher/invites/validate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: inviteCode.trim() }),
+      });
+
+      const result = await res.json();
+
+      if (!result.valid) {
+        setError(result.message || t("invalid_invite_code"));
+        setLoading(false);
+        return;
+      }
+    }
+
     const supabase = createClient();
 
     const { error: signUpError } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        data: { role },
+        data: { role, inviteCode: role === "teacher" ? inviteCode.trim() : "" },
         emailRedirectTo: `${window.location.origin}/${locale}/auth/callback?next=/${locale}/dashboard`,
       },
     });
@@ -152,6 +175,26 @@ export default function SignUpPage() {
                 </button>
               </div>
             </div>
+
+            {role === "teacher" && (
+              <div>
+                <label htmlFor="inviteCode" className="block text-sm font-medium text-zinc-400">
+                  {t("invite_code")}
+                </label>
+                <div className="relative mt-1">
+                  <KeyRound className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+                  <input
+                    id="inviteCode"
+                    type="text"
+                    required
+                    value={inviteCode}
+                    onChange={(e) => setInviteCode(e.target.value)}
+                    className="block w-full rounded-xl border border-zinc-700 bg-zinc-900/50 pl-10 pr-3 py-2.5 text-sm text-zinc-100 placeholder-zinc-500 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    placeholder={t("invite_code_placeholder")}
+                  />
+                </div>
+              </div>
+            )}
 
             {error && (
               <p className="text-sm text-red-400">{error}</p>

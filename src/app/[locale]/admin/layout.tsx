@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
-import { LayoutDashboard, BookOpen, Users, LogOut } from "lucide-react";
+import { LayoutDashboard, BookOpen, Users, Key, LogOut } from "lucide-react";
 
 export default async function AdminLayout({
   children,
@@ -16,6 +16,7 @@ export default async function AdminLayout({
     { href: `/${locale}/admin`, label: t("overview"), icon: LayoutDashboard },
     { href: `/${locale}/admin/courses`, label: t("courses"), icon: BookOpen },
     { href: `/${locale}/admin/users`, label: t("users"), icon: Users },
+    { href: `/${locale}/admin/invites`, label: t("invites"), icon: Key },
   ];
 
   return (
