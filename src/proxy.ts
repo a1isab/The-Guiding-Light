@@ -71,13 +71,9 @@ export async function proxy(request: NextRequest) {
     }
 
     if (isAdmin || isApiAdmin) {
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("role")
-        .eq("user_id", user.id)
-        .single<{ role: string }>();
+      const { data: role } = await supabase.rpc("get_user_role");
 
-      if (!profile || (profile.role !== "admin" && profile.role !== "teacher")) {
+      if (role !== "admin" && role !== "teacher") {
         if (isApiAdmin) {
           return NextResponse.json({ error: "Forbidden" }, { status: 403 });
         }

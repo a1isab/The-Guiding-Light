@@ -20,14 +20,10 @@ export default async function DashboardPage({
 
   if (!user) redirect(`/${locale}/auth/login`);
 
-  const { data: roleCheck } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("user_id", user.id)
-    .single<{ role: string }>();
+  const { data: role } = await supabase.rpc("get_user_role");
 
-  if (roleCheck?.role === "admin") redirect(`/${locale}/admin`);
-  if (roleCheck?.role === "teacher") redirect(`/${locale}/teacher`);
+  if (role === "admin") redirect(`/${locale}/admin`);
+  if (role === "teacher") redirect(`/${locale}/teacher`);
 
   const service = createServiceClient();
 
