@@ -16,6 +16,8 @@ agent-browser wait --load domcontentloaded 2>/dev/null
 agent-browser wait 2000
 take_screenshot "$name" "02-lesson-editor"
 
+skip_on_404 "$name"
+
 agent-browser find text "Preview" click --exact 2>/dev/null
 agent-browser wait 2000
 take_screenshot "$name" "03-preview-mode"

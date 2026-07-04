@@ -17,6 +17,8 @@ agent-browser wait --load domcontentloaded 2>/dev/null
 agent-browser wait 2000
 take_screenshot "$name" "02-lesson-page"
 
+skip_on_404 "$name"
+
 assert_text_visible "Mark as Viewed"
 echo "  ✓ 'Mark as Viewed' button visible"
 

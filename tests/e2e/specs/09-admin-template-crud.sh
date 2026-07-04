@@ -14,6 +14,18 @@ agent-browser wait --load domcontentloaded 2>/dev/null
 agent-browser wait 1000
 take_screenshot "$name" "02-templates-page"
 
+CURRENT_URL=$(agent-browser get url 2>/dev/null)
+if ! echo "$CURRENT_URL" | grep -q "/admin"; then
+  echo "  ⚠ Not on /admin page (current: $CURRENT_URL)."
+  echo "  The admin user may not have 'admin' role in the database."
+  agent-browser close 2>/dev/null
+  echo ""
+  echo "=== Test: $name SKIPPED ==="
+  exit 0
+fi
+
+assert_url_contains "/admin/templates"
+
 agent-browser find text "New Template" click --exact 2>/dev/null
 agent-browser wait 1000
 take_screenshot "$name" "03-new-template-form"

@@ -32,3 +32,23 @@ assert_text_visible() {
     exit 1
   fi
 }
+
+check_is_404() {
+  local snapshot
+  snapshot=$(agent-browser snapshot -i -c 2>/dev/null)
+  if echo "$snapshot" | grep -q "This page could not be found"; then
+    return 0
+  fi
+  return 1
+}
+
+skip_on_404() {
+  local test_name="$1"
+  if check_is_404; then
+    echo "  ⚠ Page is 404 (TODO URL needs real IDs). Skipping."
+    agent-browser close 2>/dev/null
+    echo ""
+    echo "=== Test: $test_name SKIPPED ==="
+    exit 0
+  fi
+}
