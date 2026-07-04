@@ -10,14 +10,14 @@ agent-browser wait --load domcontentloaded 2>/dev/null
 agent-browser wait 1000
 take_screenshot "$name" "02-templates-page"
 
-agent-browser click "button" --name "New Template" 2>/dev/null
+agent-browser find text "New Template" click --exact 2>/dev/null
 agent-browser wait 1000
 take_screenshot "$name" "03-new-template-form"
 
 agent-browser fill "input[placeholder=\"Template name\"]" "E2E Template $(date +%s)" 2>/dev/null
 agent-browser fill "input[placeholder=\"Brief description\"]" "Created by e2e test" 2>/dev/null
 
-agent-browser click "button" --name "Save" --exact 2>/dev/null
+agent-browser find text "Save" click --exact 2>/dev/null
 agent-browser wait 3000
 take_screenshot "$name" "04-after-create"
 

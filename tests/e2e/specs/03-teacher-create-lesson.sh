@@ -24,7 +24,7 @@ take_screenshot "$name" "03-lesson-editor"
 agent-browser fill "input[type=\"text\"]" "E2E Test Lesson $(date +%s)" 2>/dev/null
 take_screenshot "$name" "04-title-filled"
 
-agent-browser click "button" --name "Save" 2>/dev/null
+agent-browser find text "Save" click --exact 2>/dev/null
 agent-browser wait 3000
 take_screenshot "$name" "05-after-save"
 

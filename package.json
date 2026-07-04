@@ -9,7 +9,7 @@
     "lint": "eslint",
     "seed": "npx tsx --env-file=\".env.local\" scripts/seed-subjects.ts",
     "seed:users": "npx tsx --env-file=\".env.local\" scripts/seed-users.ts",
-    "test:e2e": "bash tests/e2e/run-all.sh"
+    "test:e2e": "\"C:\\Program Files\\Git\\bin\\bash.exe\" tests/e2e/run-all.sh"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

@@ -12,14 +12,14 @@ agent-browser wait --load domcontentloaded 2>/dev/null
 agent-browser wait 2000
 take_screenshot "$name" "02-lesson-editor"
 
-agent-browser click "button" --name "Preview" 2>/dev/null
+agent-browser find text "Preview" click --exact 2>/dev/null
 agent-browser wait 2000
 take_screenshot "$name" "03-preview-mode"
 
 assert_text_visible "Preview Mode"
 echo "  ✓ Preview Mode banner visible"
 
-agent-browser click "button" --name "Back to Edit" 2>/dev/null
+agent-browser find text "Back to Edit" click --exact 2>/dev/null
 agent-browser wait 1500
 take_screenshot "$name" "04-back-to-edit"
 

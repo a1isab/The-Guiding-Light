@@ -11,7 +11,7 @@ agent-browser fill "input[placeholder*=\"invite code\" i]" "$INVITE_CODE" 2>/dev
 agent-browser wait 500
 take_screenshot "$name" "02-invite-code-filled"
 
-agent-browser click "button" --name "Join" 2>/dev/null
+agent-browser find text "Join" click --exact 2>/dev/null
 agent-browser wait 5000
 
 take_screenshot "$name" "03-after-join"

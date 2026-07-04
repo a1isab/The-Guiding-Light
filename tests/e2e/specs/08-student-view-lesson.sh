@@ -16,7 +16,7 @@ take_screenshot "$name" "02-lesson-page"
 assert_text_visible "Mark as Viewed"
 echo "  ✓ 'Mark as Viewed' button visible"
 
-agent-browser click "button" --name "Mark as Viewed" 2>/dev/null
+agent-browser find text "Mark as Viewed" click --exact 2>/dev/null
 agent-browser wait 3000
 take_screenshot "$name" "03-after-mark-viewed"
 

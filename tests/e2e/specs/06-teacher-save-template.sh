@@ -12,13 +12,13 @@ agent-browser wait --load domcontentloaded 2>/dev/null
 agent-browser wait 2000
 take_screenshot "$name" "02-lesson-editor"
 
-agent-browser click "button" --name "Save as Template" 2>/dev/null
+agent-browser find text "Save as Template" click --exact 2>/dev/null
 agent-browser wait 1000
 take_screenshot "$name" "03-template-dialog"
 
 agent-browser fill "input[placeholder=\"My template name\"]" "E2E Test Template $(date +%s)" 2>/dev/null
 
-agent-browser click "button" --name "Save" --exact 2>/dev/null
+agent-browser find text "Save" click --exact 2>/dev/null
 agent-browser wait 2000
 take_screenshot "$name" "04-after-save-template"
 
