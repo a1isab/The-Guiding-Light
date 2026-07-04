@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
 
   const { data, error } = await supabase
     .from("classes")
-    .update({ invite_code: newCode })
+    .update({ invite_code: newCode, invite_expires_at: null })
     .eq("id", classId)
     .select("invite_code")
     .single();

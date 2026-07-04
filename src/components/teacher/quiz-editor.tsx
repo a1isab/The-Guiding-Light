@@ -91,7 +91,7 @@ export function QuizEditor({ lessonId, lessonContent }: { lessonId: string; less
 
   async function handleGenerate() {
     if (!lessonContent || lessonContent.trim().length < 10) {
-      setError("Lesson content is too short to generate a quiz.");
+      setError("Quiz source content is required. Enter text or copy from lesson content.");
       return;
     }
     setGenerating(true);

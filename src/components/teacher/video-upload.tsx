@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, type DragEvent } from "react";
 import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase-client";
 import { Upload, X, Film, Loader2 } from "lucide-react";
@@ -22,8 +22,10 @@ export function VideoUpload({
   const t = useTranslations("teacher");
   const supabase = createClient();
   const inputRef = useRef<HTMLInputElement>(null);
+  const dragCounter = useRef(0);
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [dragOver, setDragOver] = useState(false);
   const [error, setError] = useState("");
 
   async function handleFile(file: File) {
@@ -78,6 +80,36 @@ export function VideoUpload({
     setUploading(false);
   }
 
+  function handleDragEnter(e: DragEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    dragCounter.current++;
+    if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
+      setDragOver(true);
+    }
+  }
+
+  function handleDragLeave(e: DragEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    dragCounter.current--;
+    if (dragCounter.current === 0) setDragOver(false);
+  }
+
+  function handleDragOver(e: DragEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  function handleDrop(e: DragEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragOver(false);
+    dragCounter.current = 0;
+    const file = e.dataTransfer.files?.[0];
+    if (file) handleFile(file);
+  }
+
   async function handleRemove() {
     if (!currentUrl) return;
     const path = currentUrl.split("/").slice(-3).join("/");
@@ -112,7 +144,15 @@ export function VideoUpload({
       ) : (
         <div
           onClick={() => inputRef.current?.click()}
-          className="flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-zinc-700 bg-zinc-900/30 p-8 hover:border-zinc-500 hover:bg-zinc-900/50 transition-all"
+          onDragEnter={handleDragEnter}
+          onDragLeave={handleDragLeave}
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
+          className={`flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed p-8 transition-all ${
+            dragOver
+              ? "border-emerald-500 bg-emerald-500/10"
+              : "border-zinc-700 bg-zinc-900/30 hover:border-zinc-500 hover:bg-zinc-900/50"
+          }`}
         >
           {uploading ? (
             <div className="text-center">
@@ -129,8 +169,10 @@ export function VideoUpload({
             </div>
           ) : (
             <div className="text-center">
-              <Film className="h-8 w-8 text-zinc-500 mx-auto mb-2" />
-              <p className="text-sm text-zinc-400">{t("upload_video")}</p>
+              <Film className={`h-8 w-8 mx-auto mb-2 ${dragOver ? "text-emerald-400" : "text-zinc-500"}`} />
+              <p className={`text-sm ${dragOver ? "text-emerald-400" : "text-zinc-400"}`}>
+                {dragOver ? "Drop video here" : t("upload_video")}
+              </p>
               <p className="text-xs text-zinc-600 mt-1">{t("video_limits")}</p>
             </div>
           )}

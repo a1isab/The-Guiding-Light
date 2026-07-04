@@ -29,6 +29,46 @@ export async function GET(request: NextRequest) {
   return applyCookies(NextResponse.json({ files: files ?? [] }));
 }
 
+export async function POST(request: NextRequest) {
+  const { supabase, applyCookies } = createApiSupabaseClient(request);
+  const userId = await requireAuth(supabase);
+  if (!userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const { lessonId, filename, mime_type, file_size, storage_path } = await request.json();
+  if (!lessonId || !filename || !storage_path) {
+    return NextResponse.json({ error: "lessonId, filename, and storage_path required" }, { status: 400 });
+  }
+
+  const { data, error } = await supabase
+    .from("teacher_lesson_files")
+    .insert({
+      lesson_id: lessonId,
+      teacher_id: userId,
+      filename,
+      mime_type: mime_type ?? "application/octet-stream",
+      file_size: file_size ?? 0,
+      storage_path,
+    })
+    .select("id, filename, mime_type, file_size, storage_path, created_at")
+    .single();
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  const storage = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+  const { data: urlData } = storage.storage.from("lesson-files").getPublicUrl(storage_path);
+
+  return applyCookies(
+    NextResponse.json({ file: { ...data, public_url: urlData.publicUrl } })
+  );
+}
+
 export async function DELETE(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
   const userId = await requireAuth(supabase);

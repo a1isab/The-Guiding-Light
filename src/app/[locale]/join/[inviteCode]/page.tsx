@@ -66,6 +66,12 @@ export default function JoinPage() {
           return;
         }
 
+        // Invalidate the invite code so only one student can use it
+        await supabase
+          .from("classes")
+          .update({ invite_expires_at: new Date().toISOString() })
+          .eq("id", cls.id);
+
         setStatus("success");
         setClassName(cls.name);
       } catch (err) {

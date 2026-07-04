@@ -61,7 +61,7 @@ export async function PATCH(request: NextRequest) {
   const userId = await requireAuth(supabase);
   if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { id, title, content, videoUrl, duration, orderIndex } = await request.json();
+  const { id, title, content, quizSourceContent, videoUrl, duration, orderIndex } = await request.json();
   if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
 
   const lesson = (await supabase
@@ -79,6 +79,7 @@ export async function PATCH(request: NextRequest) {
   const updates: Record<string, unknown> = {};
   if (title !== undefined) updates.title = title.trim();
   if (content !== undefined) updates.content = content;
+  if (quizSourceContent !== undefined) updates.quiz_source_content = quizSourceContent;
   if (videoUrl !== undefined) updates.video_url = videoUrl;
   if (duration !== undefined) updates.duration = duration;
   if (orderIndex !== undefined) updates.order_index = orderIndex;

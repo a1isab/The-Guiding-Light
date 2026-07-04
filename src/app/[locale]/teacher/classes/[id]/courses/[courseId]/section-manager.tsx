@@ -12,6 +12,7 @@ import {
   FileText,
   Film,
 } from "lucide-react";
+import { TemplatePicker } from "@/components/teacher/template-picker";
 
 interface Section {
   id: string;
@@ -48,6 +49,7 @@ export function SectionManager({
   const [newSectionTitle, setNewSectionTitle] = useState("");
   const [sectionOrder, setSectionOrder] = useState(sections.length + 1);
   const [newLesson, setNewLesson] = useState<{ sectionId: string; title: string } | null>(null);
+  const [templatePicker, setTemplatePicker] = useState<string | null>(null);
   const [addingSection, setAddingSection] = useState(false);
   const [deleting, setDeleting] = useState<string | null>(null);
 
@@ -197,7 +199,7 @@ export function SectionManager({
                   </div>
                 ) : (
                   <button
-                    onClick={() => setNewLesson({ sectionId: section.id, title: "" })}
+                    onClick={() => setTemplatePicker(section.id)}
                     className="flex w-full items-center gap-2 px-5 py-3 text-sm text-zinc-500 hover:text-zinc-300 hover:bg-zinc-900/30 transition-colors"
                   >
                     <Plus className="h-3.5 w-3.5" />
@@ -252,6 +254,14 @@ export function SectionManager({
           <Plus className="h-4 w-4" />
           {t("add_section")}
         </button>
+      )}
+
+      {templatePicker && (
+        <TemplatePicker
+          sectionId={templatePicker}
+          onClose={() => setTemplatePicker(null)}
+          onCreated={() => { setTemplatePicker(null); router.refresh(); }}
+        />
       )}
     </div>
   );

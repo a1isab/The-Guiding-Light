@@ -162,10 +162,22 @@ export interface TeacherLesson {
   section_id: string;
   title: string;
   content: string | null;
+  quiz_source_content: string | null;
   video_url: string | null;
   duration: number | null;
   order_index: number;
   created_at: string;
+}
+
+export interface TeacherLessonTemplate {
+  id: string;
+  teacher_id: string | null;
+  is_official: boolean;
+  name: string;
+  description: string | null;
+  content: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface TeacherVideoAsset {

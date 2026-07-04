@@ -3,8 +3,7 @@ import { createServiceClient, createServerSupabaseClient } from "@/lib/supabase-
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { CompleteButton } from "./complete-button";
-import { QuizViewer } from "@/components/teacher/quiz-viewer";
+import { LessonContentView } from "./lesson-content-view";
 
 export const dynamic = "force-dynamic";
 
@@ -28,12 +27,14 @@ export default async function StudentLessonPage({
 
   if (!lesson) notFound();
 
-  const isCompleted = !!(await service
+  const { data: progress } = await service
     .from("progress")
-    .select("id")
+    .select("content_viewed_at")
     .eq("user_id", user.id)
     .eq("lesson_id", lessonId)
-    .single()).data;
+    .maybeSingle();
+
+  const contentViewedAt = progress?.content_viewed_at ?? null;
 
   const { count: quizCount } = await service
     .from("teacher_quiz_questions")
@@ -73,7 +74,7 @@ export default async function StudentLessonPage({
         {(await getTranslations("dashboard"))("back")}
       </Link>
 
-      <article className="prose prose-invert max-w-none">
+      <article>
         <h1 className="font-amiri text-2xl font-bold text-zinc-100 mb-6">{lesson.title}</h1>
 
         {lesson.video_url && (
@@ -87,11 +88,13 @@ export default async function StudentLessonPage({
           </div>
         )}
 
-        {lesson.content && (
-          <div className="text-zinc-300 leading-relaxed whitespace-pre-wrap">
-            {lesson.content}
-          </div>
-        )}
+        <LessonContentView
+          lessonId={lessonId}
+          lessonContent={lesson.content}
+          videoUrl={lesson.video_url}
+          initialViewedAt={contentViewedAt}
+          hasQuiz={hasQuiz}
+        />
       </article>
 
       {lessonFiles && lessonFiles.length > 0 && (
@@ -121,14 +124,6 @@ export default async function StudentLessonPage({
           </div>
         </div>
       )}
-
-      <div className="mt-10 pt-8 border-t border-zinc-800">
-        {hasQuiz ? (
-          <QuizViewer lessonId={lessonId} />
-        ) : (
-          <CompleteButton lessonId={lessonId} classId={classId} courseId={courseId} initialCompleted={isCompleted} />
-        )}
-      </div>
     </div>
   );
 }

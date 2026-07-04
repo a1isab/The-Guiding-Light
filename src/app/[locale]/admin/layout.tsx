@@ -1,6 +1,8 @@
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
-import { LayoutDashboard, BookOpen, Users, Key, LogOut } from "lucide-react";
+import { redirect } from "next/navigation";
+import { createServerSupabaseClient } from "@/lib/supabase-server";
+import { LayoutDashboard, BookOpen, Users, Key, FileText, LogOut } from "lucide-react";
 
 export default async function AdminLayout({
   children,
@@ -10,6 +12,13 @@ export default async function AdminLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const supabase = await createServerSupabaseClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect(`/${locale}/auth/login`);
+
+  const { data: role } = await supabase.rpc("get_user_role");
+  if (role !== "admin") redirect(`/${locale}/dashboard`);
+
   const t = await getTranslations("admin");
 
   const nav = [
@@ -17,6 +26,7 @@ export default async function AdminLayout({
     { href: `/${locale}/admin/courses`, label: t("courses"), icon: BookOpen },
     { href: `/${locale}/admin/users`, label: t("users"), icon: Users },
     { href: `/${locale}/admin/invites`, label: t("invites"), icon: Key },
+    { href: `/${locale}/admin/templates`, label: "Templates", icon: FileText },
   ];
 
   return (
