@@ -25,6 +25,7 @@ export default async function TeacherLayout({
             <Link
               key={item.href}
               href={item.href}
+              data-testid={item.href.includes("/teacher/classes") ? "nav-classes" : "nav-teacher-dashboard"}
               className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200 transition-all"
             >
               <item.icon className="h-4 w-4" />

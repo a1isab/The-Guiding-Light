@@ -44,16 +44,20 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const { error } = await supabase.from("teacher_lessons").insert({
-    section_id: sectionId,
-    title: title.trim(),
-    content: content ?? null,
-    video_url: videoUrl ?? null,
-    order_index: orderIndex ?? 0,
-  });
+  const { data, error } = await supabase
+    .from("teacher_lessons")
+    .insert({
+      section_id: sectionId,
+      title: title.trim(),
+      content: content ?? null,
+      video_url: videoUrl ?? null,
+      order_index: orderIndex ?? 0,
+    })
+    .select("id")
+    .single();
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return applyCookies(NextResponse.json({ ok: true }));
+  return applyCookies(NextResponse.json({ id: (data as { id: string }).id }));
 }
 
 export async function PATCH(request: NextRequest) {

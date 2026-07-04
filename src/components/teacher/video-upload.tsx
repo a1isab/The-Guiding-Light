@@ -143,6 +143,7 @@ export function VideoUpload({
         </div>
       ) : (
         <div
+          data-testid="video-upload-area"
           onClick={() => inputRef.current?.click()}
           onDragEnter={handleDragEnter}
           onDragLeave={handleDragLeave}
@@ -182,6 +183,7 @@ export function VideoUpload({
       <input
         ref={inputRef}
         type="file"
+        data-testid="video-input"
         accept={ACCEPTED.join(",")}
         className="hidden"
         onChange={(e) => {

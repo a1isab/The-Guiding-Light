@@ -48,6 +48,7 @@ export function LessonContentView({
         <div className="mt-6">
           <button
             onClick={handleMarkViewed}
+            data-testid="mark-viewed"
             disabled={viewing}
             className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-6 py-3 text-sm font-medium text-white hover:bg-emerald-400 disabled:opacity-50 transition-all"
           >
@@ -61,7 +62,7 @@ export function LessonContentView({
         {hasQuiz && viewedAt ? (
           <QuizViewer lessonId={lessonId} />
         ) : hasQuiz && !viewedAt ? (
-          <p className="text-sm text-zinc-500">Mark the content as viewed above to unlock the quiz.</p>
+          <p data-testid="quiz-locked" className="text-sm text-zinc-500">Mark the content as viewed above to unlock the quiz.</p>
         ) : (
           <p className="text-sm text-zinc-500">No quiz for this lesson.</p>
         )}

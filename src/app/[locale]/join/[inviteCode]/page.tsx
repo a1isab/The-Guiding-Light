@@ -94,12 +94,13 @@ export default function JoinPage() {
         )}
 
         {status === "success" && (
-          <div>
+          <div data-testid="join-success">
             <CheckCircle className="h-10 w-10 text-emerald-400 mx-auto mb-4" />
             <h2 className="font-amiri text-lg font-bold text-zinc-100 mb-2">{t("join_success_title")}</h2>
             <p className="text-sm text-zinc-400 mb-6">{t("join_success_msg", { name: className })}</p>
             <button
               onClick={() => router.push(`/${params.locale}/dashboard`)}
+              data-testid="go-to-dashboard"
               className="rounded-xl bg-emerald-500 px-6 py-2.5 text-sm font-medium text-white hover:bg-emerald-400 transition-all"
             >
               {t("go_to_dashboard")}
@@ -108,12 +109,13 @@ export default function JoinPage() {
         )}
 
         {status === "exists" && (
-          <div>
+          <div data-testid="join-exists">
             <CheckCircle className="h-10 w-10 text-amber-400 mx-auto mb-4" />
             <h2 className="font-amiri text-lg font-bold text-zinc-100 mb-2">{t("join_exists_title")}</h2>
             <p className="text-sm text-zinc-400 mb-6">{t("join_exists_msg", { name: className })}</p>
             <button
               onClick={() => router.push(`/${params.locale}/dashboard`)}
+              data-testid="go-to-dashboard"
               className="rounded-xl bg-emerald-500 px-6 py-2.5 text-sm font-medium text-white hover:bg-emerald-400 transition-all"
             >
               {t("go_to_dashboard")}
@@ -122,7 +124,7 @@ export default function JoinPage() {
         )}
 
         {status === "expired" && (
-          <div>
+          <div data-testid="join-expired">
             <XCircle className="h-10 w-10 text-red-400 mx-auto mb-4" />
             <h2 className="font-amiri text-lg font-bold text-zinc-100 mb-2">{t("join_expired_title")}</h2>
             <p className="text-sm text-zinc-400">{t("join_expired_msg", { name: className })}</p>
@@ -130,7 +132,7 @@ export default function JoinPage() {
         )}
 
         {status === "error" && (
-          <div>
+          <div data-testid="join-error">
             <XCircle className="h-10 w-10 text-red-400 mx-auto mb-4" />
             <h2 className="font-amiri text-lg font-bold text-zinc-100 mb-2">{t("join_error_title")}</h2>
             <p className="text-sm text-zinc-400">{errorMsg}</p>

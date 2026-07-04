@@ -45,6 +45,7 @@ function LoginForm() {
         </label>
         <input
           id="email"
+          data-testid="login-email"
           type="email"
           required
           value={email}
@@ -60,6 +61,7 @@ function LoginForm() {
         </label>
         <input
           id="password"
+          data-testid="login-password"
           type="password"
           required
           value={password}
@@ -69,11 +71,12 @@ function LoginForm() {
       </div>
 
       {error && (
-        <p className="text-sm text-red-400">{error}</p>
+        <p data-testid="login-error" className="text-sm text-red-400">{error}</p>
       )}
 
       <button
         type="submit"
+        data-testid="login-submit"
         disabled={loading}
         className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-emerald-400 disabled:opacity-50 transition-all"
       >

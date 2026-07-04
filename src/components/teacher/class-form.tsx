@@ -62,6 +62,7 @@ export function ClassForm({ defaultValues, classId, onSave, locale }: Props) {
         <label className="block text-sm font-medium text-zinc-400 mb-1">{t("class_name")}</label>
         <input
           type="text"
+          data-testid="class-name-input"
           required
           value={form.name}
           onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
@@ -73,6 +74,7 @@ export function ClassForm({ defaultValues, classId, onSave, locale }: Props) {
         <label className="block text-sm font-medium text-zinc-400 mb-1">{t("class_description")}</label>
         <textarea
           rows={3}
+          data-testid="class-description"
           value={form.description}
           onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
           className="w-full rounded-xl border border-zinc-700 bg-zinc-900/50 px-3 py-2.5 text-sm text-zinc-100 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
@@ -84,6 +86,7 @@ export function ClassForm({ defaultValues, classId, onSave, locale }: Props) {
       <div className="flex gap-3">
         <button
           type="submit"
+          data-testid="class-submit"
           disabled={loading}
           className="rounded-xl bg-emerald-500 px-6 py-2.5 text-sm font-medium text-white hover:bg-emerald-400 disabled:opacity-50 transition-all"
         >

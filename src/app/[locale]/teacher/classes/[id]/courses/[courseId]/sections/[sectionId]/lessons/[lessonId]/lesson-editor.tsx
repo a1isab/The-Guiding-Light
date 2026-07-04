@@ -91,10 +91,11 @@ export function LessonEditor({
   if (preview) {
     return (
       <div className="space-y-6">
-        <div className="flex items-center justify-between rounded-xl border border-emerald-700 bg-emerald-500/10 px-4 py-3">
+        <div data-testid="preview-banner" className="flex items-center justify-between rounded-xl border border-emerald-700 bg-emerald-500/10 px-4 py-3">
           <p className="text-sm text-emerald-400 font-medium">Preview Mode – Students will see this page</p>
           <button
             onClick={() => setPreview(false)}
+            data-testid="back-to-edit"
             className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-700 px-3 py-1.5 text-xs text-zinc-300 hover:bg-zinc-800 transition-all"
           >
             <EyeOff className="h-3.5 w-3.5" />
@@ -129,6 +130,7 @@ export function LessonEditor({
         <div className="flex items-center gap-2">
           <button
             onClick={() => setTemplateDialog(true)}
+            data-testid="save-template"
             className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-700 px-3 py-1.5 text-xs text-zinc-400 hover:text-zinc-200 transition-all"
           >
             <Save className="h-3.5 w-3.5" />
@@ -136,6 +138,7 @@ export function LessonEditor({
           </button>
           <button
             onClick={handleSave}
+            data-testid="save-lesson"
             disabled={saving}
             className="rounded-xl bg-emerald-500 px-6 py-2.5 text-sm font-medium text-white hover:bg-emerald-400 disabled:opacity-50 transition-all"
           >
@@ -143,6 +146,7 @@ export function LessonEditor({
           </button>
           <button
             onClick={() => setPreview(true)}
+            data-testid="preview-toggle"
             className="inline-flex items-center gap-1.5 rounded-xl border border-zinc-700 px-4 py-2.5 text-sm text-zinc-300 hover:bg-zinc-800 transition-all"
           >
             <Eye className="h-4 w-4" />
@@ -155,6 +159,7 @@ export function LessonEditor({
         <label className="block text-sm font-medium text-zinc-400 mb-1">{t("lesson_title")}</label>
         <input
           type="text"
+          data-testid="lesson-title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           className="w-full rounded-xl border border-zinc-700 bg-zinc-900/50 px-3 py-2.5 text-sm text-zinc-100 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
@@ -181,6 +186,7 @@ export function LessonEditor({
           />
           <button
             onClick={() => setQuizSourceContent(content)}
+            data-testid="copy-from-content"
             className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-700 px-3 py-1.5 text-xs text-zinc-400 hover:text-zinc-200 transition-all"
           >
             <Copy className="h-3.5 w-3.5" />
@@ -236,13 +242,14 @@ export function LessonEditor({
       {error && <p className="text-sm text-red-400">{error}</p>}
 
       {templateDialog && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+        <div data-testid="template-dialog" className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
           <div className="w-full max-w-md rounded-2xl border border-zinc-700 bg-zinc-900 p-6 space-y-4">
             <h3 className="text-sm font-medium text-zinc-200">Save as Template</h3>
             <div>
               <label className="block text-xs text-zinc-500 mb-1">Name</label>
               <input
                 type="text"
+                data-testid="template-name"
                 value={templateName}
                 onChange={(e) => setTemplateName(e.target.value)}
                 className="w-full rounded-xl border border-zinc-700 bg-zinc-800/50 px-3 py-2 text-sm text-zinc-100 focus:border-emerald-500 focus:outline-none"
@@ -253,6 +260,7 @@ export function LessonEditor({
               <label className="block text-xs text-zinc-500 mb-1">Description (optional)</label>
               <textarea
                 rows={3}
+                data-testid="template-desc"
                 value={templateDesc}
                 onChange={(e) => setTemplateDesc(e.target.value)}
                 className="w-full rounded-xl border border-zinc-700 bg-zinc-800/50 px-3 py-2 text-sm text-zinc-100 focus:border-emerald-500 focus:outline-none"
@@ -268,6 +276,7 @@ export function LessonEditor({
               </button>
               <button
                 onClick={handleSaveTemplate}
+                data-testid="template-save"
                 disabled={savingTemplate || !templateName.trim()}
                 className="rounded-lg bg-emerald-600 px-4 py-2 text-xs text-white hover:bg-emerald-500 disabled:opacity-50 transition-all"
               >

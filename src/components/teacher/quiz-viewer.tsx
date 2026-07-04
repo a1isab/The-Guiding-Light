@@ -139,7 +139,7 @@ export function QuizViewer({ lessonId }: { lessonId: string }) {
   // Locked
   if (status?.locked) {
     return (
-      <div className="rounded-xl border border-amber-800 bg-amber-500/10 p-6 text-center">
+      <div data-testid="quiz-locked" className="rounded-xl border border-amber-800 bg-amber-500/10 p-6 text-center">
         <Clock className="h-8 w-8 text-amber-400 mx-auto mb-2" />
         <p className="text-sm font-medium text-amber-400">Locked</p>
         <p className="text-xs text-zinc-400 mt-1">
@@ -152,7 +152,7 @@ export function QuizViewer({ lessonId }: { lessonId: string }) {
   // Submitted result
   if (submitted && result) {
     return (
-      <div className={`rounded-xl border p-6 text-center ${
+      <div data-testid="quiz-result" className={`rounded-xl border p-6 text-center ${
         result.passed ? "border-emerald-800 bg-emerald-500/10" : "border-red-800 bg-red-500/10"
       }`}>
         {result.passed
@@ -214,10 +214,11 @@ export function QuizViewer({ lessonId }: { lessonId: string }) {
         </div>
       ))}
 
-      {error && <p className="text-sm text-red-400">{error}</p>}
+      {error && <p data-testid="quiz-error" className="text-sm text-red-400">{error}</p>}
 
       <button
         onClick={handleSubmit}
+        data-testid="submit-quiz"
         disabled={submitting}
         className="w-full rounded-xl bg-emerald-600 px-6 py-3 text-sm font-medium text-white hover:bg-emerald-500 disabled:opacity-50 transition-all"
       >

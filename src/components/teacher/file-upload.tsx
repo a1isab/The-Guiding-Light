@@ -189,6 +189,7 @@ export function FileUpload({ lessonId }: { lessonId: string }) {
   return (
     <div className="space-y-3">
       <div
+        data-testid="file-upload-area"
         onClick={() => inputRef.current?.click()}
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
@@ -219,6 +220,7 @@ export function FileUpload({ lessonId }: { lessonId: string }) {
       <input
         ref={inputRef}
         type="file"
+        data-testid="file-input"
         accept=".pdf,.doc,.docx,.txt"
         className="hidden"
         onChange={(e) => {
@@ -250,6 +252,7 @@ export function FileUpload({ lessonId }: { lessonId: string }) {
               </div>
               <button
                 onClick={() => handleDelete(f.id, f.storage_path ?? "")}
+                data-testid={`delete-file-${f.id}`}
                 className="flex-shrink-0 rounded p-1 text-zinc-600 hover:text-red-400 transition-colors"
               >
                 <X className="h-3.5 w-3.5" />

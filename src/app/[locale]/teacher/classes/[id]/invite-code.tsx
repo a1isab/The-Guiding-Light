@@ -45,11 +45,12 @@ export function InviteCodeDisplay({
     <div className="rounded-2xl border border-zinc-800 bg-[#111111] p-5">
       <h3 className="text-sm font-medium text-zinc-400 mb-3">{t("invite_code")}</h3>
       <div className="flex items-center gap-3">
-        <code className="flex-1 rounded-xl border border-zinc-700 bg-zinc-900/50 px-4 py-3 text-lg font-mono font-bold tracking-wider text-emerald-400 select-all">
+        <code data-testid="invite-code-value" className="flex-1 rounded-xl border border-zinc-700 bg-zinc-900/50 px-4 py-3 text-lg font-mono font-bold tracking-wider text-emerald-400 select-all">
           {currentCode}
         </code>
         <button
           onClick={handleCopy}
+          data-testid="btn-copy-invite"
           className="rounded-xl border border-zinc-700 p-3 text-zinc-400 hover:text-zinc-200 hover:border-zinc-500 transition-all"
           title={t("copy_link")}
         >
@@ -61,6 +62,7 @@ export function InviteCodeDisplay({
         </button>
         <button
           onClick={handleRegenerate}
+          data-testid="btn-regenerate-invite"
           disabled={regenerating}
           className="rounded-xl border border-zinc-700 p-3 text-zinc-400 hover:text-zinc-200 hover:border-zinc-500 transition-all disabled:opacity-50"
           title={t("regenerate")}

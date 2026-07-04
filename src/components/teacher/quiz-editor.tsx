@@ -167,6 +167,7 @@ export function QuizEditor({ lessonId, lessonContent }: { lessonId: string; less
       <div className="flex items-center gap-3">
         <button
           onClick={handleGenerate}
+          data-testid="generate-quiz"
           disabled={generating}
           className="inline-flex items-center gap-1.5 rounded-lg bg-purple-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-purple-500 disabled:opacity-50 transition-all"
         >
