@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { createServerSupabaseClient } from "@/lib/supabase-server";
+import { createServerSupabaseClient } from "@/lib/supabase";
 import Link from "next/link";
 import { Plus } from "lucide-react";
 import { ClassList } from "@/components/teacher/class-list";

@@ -122,17 +122,23 @@ export async function POST(request: NextRequest) {
   // ----- AUTO-COMPLETE LESSON IF PASSED -----
   if (passed) {
     const { data: existing } = await supabase
-      .from("progress")
+      .from("teacher_progress")
       .select("id")
-      .eq("user_id", userId)
+      .eq("student_id", userId)
       .eq("lesson_id", lessonId)
       .maybeSingle();
 
     if (!existing) {
-      await supabase.from("progress").insert({
-        user_id: userId,
+      await supabase.from("teacher_progress").insert({
+        student_id: userId,
         lesson_id: lessonId,
+        completed_at: new Date().toISOString(),
       });
+    } else {
+      await supabase
+        .from("teacher_progress")
+        .update({ completed_at: new Date().toISOString() })
+        .eq("id", existing.id);
     }
   }
 

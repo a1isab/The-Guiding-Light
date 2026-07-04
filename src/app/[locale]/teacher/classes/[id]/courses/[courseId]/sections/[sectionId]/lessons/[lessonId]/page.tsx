@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { createServiceClient } from "@/lib/supabase-server";
+import { createServiceClient } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 import { LessonEditor } from "./lesson-editor";
 

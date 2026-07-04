@@ -26,7 +26,7 @@ export function JoinClassCard() {
     setError("");
 
     try {
-      const res = await fetch("/api/teacher/invites/validate", {
+      const res = await fetch("/api/student/invites/validate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code: trimmed }),

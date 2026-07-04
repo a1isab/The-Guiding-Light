@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { createServiceClient } from "@/lib/supabase-server";
+import { createServiceClient } from "@/lib/supabase";
 import { UsersList } from "./users-list";
 
 export const dynamic = "force-dynamic";

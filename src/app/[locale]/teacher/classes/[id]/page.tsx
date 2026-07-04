@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { createServiceClient } from "@/lib/supabase-server";
+import { createServiceClient } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Users, BookOpen, Copy, ArrowLeft, BarChart3 } from "lucide-react";

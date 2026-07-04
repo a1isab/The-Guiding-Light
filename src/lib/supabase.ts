@@ -21,8 +21,11 @@ export function createServerClient() {
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   );
 }
+export { createServerClient as createServiceClient };
+export { createAuthServerClient as createServerSupabaseClient };
 
 export async function createAuthServerClient() {
+
   const cookieStore = await cookies();
 
   return createSSRClient(

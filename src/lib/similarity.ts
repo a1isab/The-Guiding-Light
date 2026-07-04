@@ -1,4 +1,4 @@
-import { createServiceClient } from "./supabase-server";
+import { createServiceClient } from "./supabase";
 
 interface SimilarLesson {
   id: string;

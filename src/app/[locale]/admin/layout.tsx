@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { createServerSupabaseClient } from "@/lib/supabase-server";
+import { createServerSupabaseClient } from "@/lib/supabase";
 import { LayoutDashboard, BookOpen, Users, Key, FileText, LogOut } from "lucide-react";
 
 export default async function AdminLayout({

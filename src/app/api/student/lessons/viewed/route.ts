@@ -11,6 +11,27 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "lessonId required" }, { status: 400 });
   }
 
+  // Detect if this is a teacher lesson or public lesson
+  const { data: teacherLesson } = await supabase
+    .from("teacher_lessons")
+    .select("id")
+    .eq("id", lessonId)
+    .maybeSingle();
+
+  if (teacherLesson) {
+    const { error } = await supabase.from("teacher_progress").upsert(
+      {
+        student_id: userId,
+        lesson_id: lessonId,
+        content_viewed_at: new Date().toISOString(),
+      },
+      { onConflict: "student_id, lesson_id" }
+    );
+
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    return applyCookies(NextResponse.json({ ok: true }));
+  }
+
   const { error } = await supabase.from("progress").upsert(
     {
       user_id: userId,

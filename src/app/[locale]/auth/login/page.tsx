@@ -68,6 +68,14 @@ function LoginForm() {
           onChange={(e) => setPassword(e.target.value)}
           className="mt-1 block w-full rounded-xl border border-zinc-700 bg-zinc-900/50 px-3 py-2.5 text-sm text-zinc-100 placeholder-zinc-500 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
         />
+        <div className="mt-1 flex justify-end">
+          <Link
+            href={`/${locale}/auth/forgot-password`}
+            className="text-xs text-zinc-500 hover:text-emerald-400 transition-colors"
+          >
+            Forgot password?
+          </Link>
+        </div>
       </div>
 
       {error && (
