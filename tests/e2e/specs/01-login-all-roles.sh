@@ -1,3 +1,7 @@
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "$ROOT_DIR/config.sh"
+source "$ROOT_DIR/helpers/login.sh"
+
 name="01-login-all-roles"
 echo "=== Test: $name - Login all three roles ==="
 setup_screenshot_dir "$name"

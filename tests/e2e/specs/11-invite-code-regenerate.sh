@@ -1,3 +1,7 @@
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "$ROOT_DIR/config.sh"
+source "$ROOT_DIR/helpers/login.sh"
+
 name="11-invite-code-regenerate"
 echo "=== Test: $name - Teacher regenerates invite code ==="
 setup_screenshot_dir "$name"

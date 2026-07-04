@@ -1,3 +1,7 @@
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "$ROOT_DIR/config.sh"
+source "$ROOT_DIR/helpers/login.sh"
+
 name="10-admin-role-guard"
 echo "=== Test: $name - Non-admin cannot access admin area ==="
 setup_screenshot_dir "$name"

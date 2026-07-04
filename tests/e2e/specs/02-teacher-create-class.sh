@@ -1,3 +1,7 @@
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "$ROOT_DIR/config.sh"
+source "$ROOT_DIR/helpers/login.sh"
+
 name="02-teacher-create-class"
 echo "=== Test: $name - Teacher creates a new class ==="
 setup_screenshot_dir "$name"

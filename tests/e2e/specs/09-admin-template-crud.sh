@@ -1,3 +1,7 @@
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "$ROOT_DIR/config.sh"
+source "$ROOT_DIR/helpers/login.sh"
+
 name="09-admin-template-crud"
 echo "=== Test: $name - Admin manages lesson templates ==="
 setup_screenshot_dir "$name"

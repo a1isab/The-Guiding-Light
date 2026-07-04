@@ -1,3 +1,7 @@
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "$ROOT_DIR/config.sh"
+source "$ROOT_DIR/helpers/login.sh"
+
 name="04-teacher-file-upload"
 echo "=== Test: $name - Teacher uploads a file to lesson ==="
 setup_screenshot_dir "$name"

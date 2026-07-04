@@ -1,3 +1,7 @@
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "$ROOT_DIR/config.sh"
+source "$ROOT_DIR/helpers/login.sh"
+
 name="05-teacher-preview-mode"
 echo "=== Test: $name - Teacher previews a lesson ==="
 setup_screenshot_dir "$name"

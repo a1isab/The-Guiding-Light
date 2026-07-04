@@ -1,3 +1,7 @@
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "$ROOT_DIR/config.sh"
+source "$ROOT_DIR/helpers/login.sh"
+
 name="07-student-join-class"
 echo "=== Test: $name - Student joins a class via invite code ==="
 setup_screenshot_dir "$name"
