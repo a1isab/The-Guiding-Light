@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
 
   const { data: role } = await supabase.rpc("get_user_role");
   const isOwner = cls.teacher_id === userId;
-  const isAdmin = role === "admin";
+  const isAdmin = role?.includes("admin");
 
   if (!isOwner && !isAdmin) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });

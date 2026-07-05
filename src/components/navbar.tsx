@@ -19,7 +19,7 @@ export function Navbar() {
   const t = useTranslations("nav");
   const pathname = usePathname();
   const [user, setUser] = useState<User | null>(null);
-  const [userRole, setUserRole] = useState<string | null>(null);
+  const [userRole, setUserRole] = useState<string[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -40,7 +40,7 @@ export function Navbar() {
       setUser(user);
       if (user) {
         supabase.rpc("get_user_role").then(({ data }) => {
-          setUserRole((data as string) ?? null);
+          setUserRole((data as string[]) ?? null);
         });
       }
       setLoading(false);
@@ -142,7 +142,7 @@ export function Navbar() {
               >
                 {t("dashboard")}
               </Link>
-              {(userRole === "admin" || userRole === "teacher") && (
+              {(userRole?.includes("admin") || userRole?.includes("teacher")) && (
                 <>
                   <Link
                     href={"/" + currentLocale + "/teacher"}
@@ -189,7 +189,7 @@ export function Navbar() {
                     >
                       {t("dashboard")}
                     </Link>
-              {(userRole === "admin" || userRole === "teacher") && (
+              {(userRole?.includes("admin") || userRole?.includes("teacher")) && (
                 <>
                   <Link
                     href={"/" + currentLocale + "/teacher"}
@@ -287,7 +287,7 @@ export function Navbar() {
                   {t("dashboard")}
                 </Link>
               )}
-              {(userRole === "admin" || userRole === "teacher") && (
+              {(userRole?.includes("admin") || userRole?.includes("teacher")) && (
                 <>
                   <Link
                     href={"/" + currentLocale + "/teacher"}

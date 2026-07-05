@@ -27,7 +27,7 @@ async function authorizeBySection(supabase: ReturnType<typeof createServerClient
   if (cls.teacher_id === userId) return true;
 
   const { data: role } = await supabase.rpc("get_user_role");
-  return role === "admin";
+  return role?.includes("admin") ?? false;
 }
 
 export async function POST(request: NextRequest) {
@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
     .single()).data as { teacher_id: string } | null;
 
   const { data: role } = await supabase.rpc("get_user_role");
-  if (!cls || (cls.teacher_id !== userId && role !== "admin")) {
+  if (!cls || (cls.teacher_id !== userId && !role?.includes("admin"))) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 

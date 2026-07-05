@@ -28,9 +28,9 @@ export async function GET(request: NextRequest) {
 
   // Check if user is teacher/owner
   const { data: role } = await supabase.rpc("get_user_role");
-  let isTeacher = role === "admin";
+  let isTeacher = role?.includes("admin") ?? false;
 
-  if (role === "teacher") {
+  if (role?.includes("teacher")) {
     const section = (await supabase
       .from("teacher_sections")
       .select("course_id")

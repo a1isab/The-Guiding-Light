@@ -17,7 +17,7 @@ export default async function AdminLayout({
   if (!user) redirect(`/${locale}/auth/login`);
 
   const { data: role } = await supabase.rpc("get_user_role");
-  if (role !== "admin") redirect(`/${locale}/dashboard`);
+  if (!role?.includes("admin")) redirect(`/${locale}/dashboard`);
 
   const t = await getTranslations("admin");
 

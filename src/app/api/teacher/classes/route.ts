@@ -4,7 +4,7 @@ import { createServerClient } from "@supabase/ssr";
 
 async function isAdmin(supabase: ReturnType<typeof createServerClient>): Promise<boolean> {
   const { data: role } = await supabase.rpc("get_user_role");
-  return role === "admin";
+  return role?.includes("admin") ?? false;
 }
 
 export async function POST(request: NextRequest) {

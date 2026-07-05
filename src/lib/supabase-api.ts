@@ -34,9 +34,9 @@ export function createApiSupabaseClient(request: NextRequest) {
 
 export type ApiSupabase = ReturnType<typeof createApiSupabaseClient>;
 
-export async function getUserRole(supabase: ReturnType<typeof createServerClient>): Promise<string | null> {
+export async function getUserRole(supabase: ReturnType<typeof createServerClient>): Promise<string[] | null> {
   const { data: role } = await supabase.rpc("get_user_role");
-  return role as string | null;
+  return role as string[] | null;
 }
 
 export async function requireAuth(supabase: ReturnType<typeof createServerClient>): Promise<string | null> {
@@ -49,7 +49,7 @@ export async function requireTeacher(supabase: ReturnType<typeof createServerCli
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return null;
   const role = await getUserRole(supabase);
-  if (role !== "teacher" && role !== "admin") return null;
+  if (!role?.includes("teacher") && !role?.includes("admin")) return null;
   return user.id;
 }
 
@@ -57,6 +57,6 @@ export async function requireAdmin(supabase: ReturnType<typeof createServerClien
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return null;
   const role = await getUserRole(supabase);
-  if (role !== "admin") return null;
+  if (!role?.includes("admin")) return null;
   return user.id;
 }

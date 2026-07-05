@@ -9,17 +9,22 @@ const users = [
   {
     email: "admin@theguidinglight.com",
     password: "Admin123!",
-    role: "admin" as const,
+    roles: ["admin", "teacher"],
   },
   {
     email: "teacher@theguidinglight.com",
     password: "Teacher123!",
-    role: "teacher" as const,
+    roles: ["teacher"],
   },
   {
     email: "student@theguidinglight.com",
     password: "Student123!",
-    role: "student" as const,
+    roles: ["student"],
+  },
+  {
+    email: "heyamer123@gmail.com",
+    password: "Admin123!",
+    roles: ["admin", "teacher"],
   },
 ];
 
@@ -38,13 +43,13 @@ async function seedUsers() {
     if (existing) {
       const { error: profileError } = await supabase
         .from("profiles")
-        .update({ role: u.role })
+        .update({ role: u.roles })
         .eq("user_id", existing.id);
 
       if (profileError) {
         console.error(`  ❌ ${u.email}: profile update failed — ${profileError.message}`);
       } else {
-        console.log(`  ✅ ${u.email} (${u.role}) — already existed, role updated`);
+        console.log(`  ✅ ${u.email} (${u.roles.join(", ")}) — already existed, role updated`);
       }
       continue;
     }
@@ -62,13 +67,13 @@ async function seedUsers() {
 
     const { error: profileError } = await supabase
       .from("profiles")
-      .update({ role: u.role })
+      .update({ role: u.roles })
       .eq("user_id", newUser.user.id);
 
     if (profileError) {
       console.error(`  ❌ ${u.email}: profile update failed — ${profileError.message}`);
     } else {
-      console.log(`  ✅ ${u.email} (${u.role}) — created`);
+      console.log(`  ✅ ${u.email} (${u.roles.join(", ")}) — created`);
     }
   }
 

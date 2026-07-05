@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
 
   if (!cls || cls.teacher_id !== teacherId) {
     const { data: role } = await supabase.rpc("get_user_role");
-    if (role !== "admin") {
+    if (!role?.includes("admin")) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
   }

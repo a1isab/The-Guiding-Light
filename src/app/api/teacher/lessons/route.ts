@@ -27,7 +27,7 @@ async function authorizeBySection(supabase: ReturnType<typeof createServerClient
   if (cls.teacher_id === userId) return true;
 
   const { data: role } = await supabase.rpc("get_user_role");
-  return role === "admin";
+  return role?.includes("admin") ?? false;
 }
 
 export async function POST(request: NextRequest) {
