@@ -100,7 +100,9 @@ export async function proxy(request: NextRequest) {
       url.pathname = "/" + locale + "/auth/login";
       url.searchParams.set("redirect", actualPath);
       const redirectRes = NextResponse.redirect(url);
+      const cookieNames = request.cookies.getAll().map((c) => c.name);
       redirectRes.headers.set("x-debug", "no-user");
+      redirectRes.headers.set("x-debug-cookie-names", cookieNames.join(", ") || "(none)");
       return redirectRes;
     }
 
