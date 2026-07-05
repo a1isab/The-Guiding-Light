@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { headers } from "next/headers";
+import { cookies } from "next/headers";
 import { LayoutDashboard, BookOpen, Users, Key, FileText, LogOut } from "lucide-react";
 
 export default async function AdminLayout({
@@ -12,12 +12,12 @@ export default async function AdminLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const headersList = await headers();
-  const userId = headersList.get("x-user-id");
+  const cookieStore = await cookies();
+  const userId = cookieStore.get("x-user-id")?.value;
   if (!userId) redirect(`/${locale}/auth/login`);
 
-  const rolesHeader = headersList.get("x-user-roles");
-  const role: string[] | null = rolesHeader ? JSON.parse(rolesHeader) : null;
+  const rolesCookie = cookieStore.get("x-user-roles")?.value;
+  const role: string[] | null = rolesCookie ? JSON.parse(rolesCookie) : null;
   if (!role?.includes("admin")) redirect(`/${locale}/dashboard`);
 
   const t = await getTranslations("admin");

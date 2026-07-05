@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { createServiceClient } from "@/lib/supabase";
-import { headers } from "next/headers";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import type { Profile, Progress, Subscription, UserBadge } from "@/lib/types";
@@ -17,12 +17,12 @@ export default async function DashboardPage({
 }) {
   const { locale } = await params;
   const t = await getTranslations("dashboard");
-  const headersList = await headers();
-  const userId = headersList.get("x-user-id");
+  const cookieStore = await cookies();
+  const userId = cookieStore.get("x-user-id")?.value;
   if (!userId) redirect(`/${locale}/auth/login`);
 
-  const rolesHeader = headersList.get("x-user-roles");
-  const role: string[] | null = rolesHeader ? JSON.parse(rolesHeader) : null;
+  const rolesCookie = cookieStore.get("x-user-roles")?.value;
+  const role: string[] | null = rolesCookie ? JSON.parse(rolesCookie) : null;
 
   if (role?.includes("admin")) redirect(`/${locale}/admin`);
   if (role?.includes("teacher")) redirect(`/${locale}/teacher`);

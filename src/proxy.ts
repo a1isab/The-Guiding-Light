@@ -112,18 +112,41 @@ export async function proxy(request: NextRequest) {
       }
     }
 
-    const requestHeaders = new Headers(request.headers);
-    requestHeaders.set("x-user-id", user.id);
-    requestHeaders.set("x-debug-user", user.id);
+    // Set user info as response cookies (NOT request headers) so we NEVER
+    // overwrite supabaseResponse and lose the auth cookies that setAll() wrote.
+    // Server Components read these via the cookies() API.
+    const cookieMaxAge = 60 * 60; // 1 hour
+    supabaseResponse.cookies.set("x-user-id", user.id, {
+      path: "/",
+      maxAge: cookieMaxAge,
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+    });
+    supabaseResponse.cookies.set("x-debug", "user:" + user.id, {
+      path: "/",
+      maxAge: cookieMaxAge,
+      httpOnly: false,
+    });
     if (role) {
-      requestHeaders.set("x-user-roles", JSON.stringify(role));
+      supabaseResponse.cookies.set("x-user-roles", JSON.stringify(role), {
+        path: "/",
+        maxAge: cookieMaxAge,
+        httpOnly: true,
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+      });
     }
-    supabaseResponse = NextResponse.next({
-      request: { headers: requestHeaders },
+
+    // Debug: log cookie names present in the request
+    const allCookieNames = request.cookies.getAll().map((c) => c.name).join(",");
+    supabaseResponse.cookies.set("x-debug-cookies", allCookieNames, {
+      path: "/",
+      maxAge: 60,
+      httpOnly: false,
     });
 
     supabaseResponse.headers.set("X-NEXT-INTL-LOCALE", locale);
-    supabaseResponse.headers.set("x-debug", "user:" + user.id);
     return supabaseResponse;
   }
 
