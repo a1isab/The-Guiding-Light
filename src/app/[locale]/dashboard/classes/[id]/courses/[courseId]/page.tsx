@@ -1,6 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { createServiceClient } from "@/lib/supabase";
-import { cookies } from "next/headers";
+import { createServiceClient, createServerSupabaseClient } from "@/lib/supabase";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, ChevronDown, FileText, Film, CheckCircle } from "lucide-react";
@@ -14,8 +13,9 @@ export default async function StudentCoursePage({
 }) {
   const { locale, id: classId, courseId } = await params;
   const t = await getTranslations("dashboard");
-  const cookieStore = await cookies();
-  const userId = cookieStore.get("x-user-id")?.value;
+  const supabase = await createServerSupabaseClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  const userId = user?.id;
   if (!userId) redirect(`/${locale}/auth/login`);
 
   const service = createServiceClient();

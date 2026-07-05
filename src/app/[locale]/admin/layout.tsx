@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
+import { createServerSupabaseClient } from "@/lib/supabase";
 import { LayoutDashboard, BookOpen, Users, Key, FileText, LogOut } from "lucide-react";
 
 export default async function AdminLayout({
@@ -12,12 +12,12 @@ export default async function AdminLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const cookieStore = await cookies();
-  const userId = cookieStore.get("x-user-id")?.value;
-  if (!userId) redirect(`/${locale}/auth/login`);
+  const supabase = await createServerSupabaseClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect(`/${locale}/auth/login`);
 
-  const rolesCookie = cookieStore.get("x-user-roles")?.value;
-  const role: string[] | null = rolesCookie ? JSON.parse(rolesCookie) : null;
+  const { data: roleRaw } = await supabase.rpc("get_user_roles");
+  const role: string[] | null = roleRaw as string[] | null;
   if (!role?.includes("admin")) redirect(`/${locale}/dashboard`);
 
   const t = await getTranslations("admin");
