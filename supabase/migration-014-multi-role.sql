@@ -40,29 +40,39 @@ DROP POLICY IF EXISTS "Admins can read all teacher progress" ON teacher_progress
 
 -- ============================================================
 -- PHASE 2: Change column type and update function
+-- (idempotent — skips if already text[])
 -- ============================================================
 
-ALTER TABLE profiles
-  ALTER COLUMN role DROP DEFAULT;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'profiles'
+      AND column_name = 'role'
+      AND data_type = 'ARRAY'
+  ) THEN
+    ALTER TABLE profiles ALTER COLUMN role DROP DEFAULT;
 
-ALTER TABLE profiles
-  ALTER COLUMN role TYPE text[]
-  USING CASE
-    WHEN role = 'student' THEN ARRAY['student']
-    WHEN role = 'teacher' THEN ARRAY['teacher']
-    WHEN role = 'admin' THEN ARRAY['admin']
-    ELSE ARRAY['student']
-  END;
+    ALTER TABLE profiles
+      ALTER COLUMN role TYPE text[]
+      USING CASE
+        WHEN role = 'student' THEN ARRAY['student']
+        WHEN role = 'teacher' THEN ARRAY['teacher']
+        WHEN role = 'admin' THEN ARRAY['admin']
+        ELSE ARRAY['student']
+      END;
 
-ALTER TABLE profiles
-  DROP CONSTRAINT IF EXISTS profiles_role_check;
+    ALTER TABLE profiles
+      DROP CONSTRAINT IF EXISTS profiles_role_check;
 
-ALTER TABLE profiles
-  ADD CONSTRAINT profiles_role_check
-  CHECK (role <@ ARRAY['student', 'teacher', 'admin']::text[]);
+    ALTER TABLE profiles
+      ADD CONSTRAINT profiles_role_check
+      CHECK (role <@ ARRAY['student', 'teacher', 'admin']::text[]);
 
-ALTER TABLE profiles
-  ALTER COLUMN role SET DEFAULT ARRAY['student'];
+    ALTER TABLE profiles
+      ALTER COLUMN role SET DEFAULT ARRAY['student'];
+  END IF;
+END $$;
 
 -- Update get_user_role() to return text[]
 CREATE OR REPLACE FUNCTION get_user_role()
