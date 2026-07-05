@@ -102,12 +102,21 @@ export async function proxy(request: NextRequest) {
       return NextResponse.redirect(url);
     }
 
+    const { data: role } = await supabase.rpc("get_user_roles");
+
     if (isAdmin) {
-      const { data: role } = await supabase.rpc("get_user_roles");
       if (!role?.includes("admin") && !role?.includes("teacher")) {
         return NextResponse.redirect(new URL(`/${locale}/dashboard`, request.url));
       }
     }
+
+    const requestHeaders = new Headers(request.headers);
+    requestHeaders.set("x-user-id", user.id);
+    if (role) {
+      requestHeaders.set("x-user-roles", JSON.stringify(role));
+    }
+    const newRequest = new Request(request, { headers: requestHeaders });
+    supabaseResponse = NextResponse.next({ request: newRequest });
 
     supabaseResponse.headers.set("X-NEXT-INTL-LOCALE", locale);
     return supabaseResponse;

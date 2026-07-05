@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
-import { createServiceClient, createServerSupabaseClient } from "@/lib/supabase";
+import { createServiceClient } from "@/lib/supabase";
+import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
@@ -13,9 +14,9 @@ export default async function StudentLessonPage({
   params: Promise<{ locale: string; id: string; courseId: string; lessonId: string }>;
 }) {
   const { locale, id: classId, courseId, lessonId } = await params;
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect(`/${locale}/auth/login`);
+  const headersList = await headers();
+  const userId = headersList.get("x-user-id");
+  if (!userId) redirect(`/${locale}/auth/login`);
 
   const service = createServiceClient();
 
@@ -30,7 +31,7 @@ export default async function StudentLessonPage({
   const { data: progress } = await service
     .from("progress")
     .select("content_viewed_at")
-    .eq("user_id", user.id)
+    .eq("user_id", userId)
     .eq("lesson_id", lessonId)
     .maybeSingle();
 

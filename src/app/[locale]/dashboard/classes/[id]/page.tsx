@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
-import { createServiceClient, createServerSupabaseClient } from "@/lib/supabase";
+import { createServiceClient } from "@/lib/supabase";
+import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, BookOpen } from "lucide-react";
@@ -13,9 +14,9 @@ export default async function StudentClassPage({
 }) {
   const { locale, id } = await params;
   const t = await getTranslations("dashboard");
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect(`/${locale}/auth/login`);
+  const headersList = await headers();
+  const userId = headersList.get("x-user-id");
+  if (!userId) redirect(`/${locale}/auth/login`);
 
   const service = createServiceClient();
 
@@ -23,14 +24,14 @@ export default async function StudentClassPage({
     .from("class_members")
     .select("id")
     .eq("class_id", id)
-    .eq("student_id", user.id)
+    .eq("student_id", userId)
     .single();
 
   if (!membership) {
     const { data: profile } = await service
       .from("profiles")
       .select("role")
-      .eq("user_id", user.id)
+      .eq("user_id", userId)
       .single<{ role: string }>();
     if (profile?.role !== "admin") notFound();
   }

@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
-import { createServiceClient, createServerSupabaseClient } from "@/lib/supabase";
+import { createServiceClient } from "@/lib/supabase";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import type { Profile, Progress, Subscription, UserBadge } from "@/lib/types";
@@ -16,12 +17,12 @@ export default async function DashboardPage({
 }) {
   const { locale } = await params;
   const t = await getTranslations("dashboard");
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const headersList = await headers();
+  const userId = headersList.get("x-user-id");
+  if (!userId) redirect(`/${locale}/auth/login`);
 
-  if (!user) redirect(`/${locale}/auth/login`);
-
-  const { data: role } = await supabase.rpc("get_user_roles");
+  const rolesHeader = headersList.get("x-user-roles");
+  const role: string[] | null = rolesHeader ? JSON.parse(rolesHeader) : null;
 
   if (role?.includes("admin")) redirect(`/${locale}/admin`);
   if (role?.includes("teacher")) redirect(`/${locale}/teacher`);
@@ -31,19 +32,19 @@ export default async function DashboardPage({
   const { data: profile } = await service
     .from("profiles")
     .select("*")
-    .eq("user_id", user.id)
+    .eq("user_id", userId)
     .single<Profile>();
 
   const { data: sub } = await service
     .from("subscriptions")
     .select("*")
-    .eq("user_id", user.id)
+    .eq("user_id", userId)
     .single<Subscription>();
 
   const { data: progressData } = await service
     .from("progress")
     .select("*")
-    .eq("user_id", user.id);
+    .eq("user_id", userId);
 
   const completedIds = new Set(progressData?.map((p: Progress) => p.lesson_id) || []);
 
@@ -60,12 +61,12 @@ export default async function DashboardPage({
   const { data: userBadges } = await service
     .from("user_badges")
     .select("*")
-    .eq("user_id", user.id);
+    .eq("user_id", userId);
 
   const { data: myMemberships } = await service
     .from("class_members")
     .select("class_id, joined_at")
-    .eq("student_id", user.id);
+    .eq("student_id", userId);
 
   const myClassIds = myMemberships?.map((m) => m.class_id) ?? [];
 
@@ -112,7 +113,7 @@ export default async function DashboardPage({
     <div className="mx-auto max-w-5xl px-4 py-12">
       <div>
         <h1 className="font-amiri text-3xl font-bold text-zinc-100">
-          {t("welcome_back")}{profile ? `, ${user.email?.split("@")[0]}` : ""}!
+          {t("welcome_back")}{profile ? `, ${"Learner"}` : ""}!
         </h1>
         <p className="mt-1 text-zinc-500">{t("subtitle")}</p>
       </div>

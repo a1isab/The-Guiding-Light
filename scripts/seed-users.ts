@@ -41,6 +41,17 @@ async function seedUsers() {
     const existing = authMap.get(u.email);
 
     if (existing) {
+      const { error: passwordError } = await supabase.auth.admin.updateUserById(
+        existing.id,
+        { password: u.password }
+      );
+
+      if (passwordError) {
+        console.error(`  ❌ ${u.email}: password update failed — ${passwordError.message}`);
+      } else {
+        console.log(`  ✅ ${u.email}: password updated`);
+      }
+
       const { error: profileError } = await supabase
         .from("profiles")
         .update({ role: u.roles[0], roles: u.roles })
