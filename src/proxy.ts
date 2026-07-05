@@ -100,9 +100,24 @@ export async function proxy(request: NextRequest) {
       url.pathname = "/" + locale + "/auth/login";
       url.searchParams.set("redirect", actualPath);
       const redirectRes = NextResponse.redirect(url);
-      const cookieNames = request.cookies.getAll().map((c) => c.name);
-      redirectRes.headers.set("x-debug", "no-user");
+
+      const allCookies = request.cookies.getAll();
+      const cookieNames = allCookies.map((c) => c.name);
+      const authCookies = allCookies.filter((c) => c.name.includes("auth-token"));
+
       redirectRes.headers.set("x-debug-cookie-names", cookieNames.join(", ") || "(none)");
+
+      if (authCookies.length > 0) {
+        const authInfo = authCookies
+          .map(
+            (c) =>
+              `${c.name}: prefix=${c.value.startsWith("base64-")}, len=${c.value.length}`,
+          )
+          .join(" | ");
+        redirectRes.headers.set("x-debug-auth-cookies", authInfo);
+      } else {
+        redirectRes.headers.set("x-debug-auth-cookies", "NONE");
+      }
       return redirectRes;
     }
 
