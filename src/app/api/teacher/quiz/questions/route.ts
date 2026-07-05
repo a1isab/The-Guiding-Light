@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
   }
 
   // Check if user is teacher/owner
-  const { data: role } = await supabase.rpc("get_user_role");
+  const { data: role } = await supabase.rpc("get_user_roles");
   let isTeacher = role?.includes("admin") ?? false;
 
   if (role?.includes("teacher")) {

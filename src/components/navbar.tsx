@@ -39,7 +39,7 @@ export function Navbar() {
     supabase.auth.getUser().then(({ data: { user } }) => {
       setUser(user);
       if (user) {
-        supabase.rpc("get_user_role").then(({ data }) => {
+        supabase.rpc("get_user_roles").then(({ data }) => {
           setUserRole((data as string[]) ?? null);
         });
       }

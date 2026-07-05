@@ -49,7 +49,7 @@ export async function proxy(request: NextRequest) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
       }
 
-      const { data: role } = await supabase.rpc("get_user_role");
+      const { data: role } = await supabase.rpc("get_user_roles");
       if (!role?.includes("admin") && !role?.includes("teacher")) {
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
@@ -103,7 +103,7 @@ export async function proxy(request: NextRequest) {
     }
 
     if (isAdmin) {
-      const { data: role } = await supabase.rpc("get_user_role");
+      const { data: role } = await supabase.rpc("get_user_roles");
       if (!role?.includes("admin") && !role?.includes("teacher")) {
         return NextResponse.redirect(new URL(`/${locale}/dashboard`, request.url));
       }

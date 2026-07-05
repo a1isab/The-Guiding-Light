@@ -21,7 +21,7 @@ export default async function DashboardPage({
 
   if (!user) redirect(`/${locale}/auth/login`);
 
-  const { data: role } = await supabase.rpc("get_user_role");
+  const { data: role } = await supabase.rpc("get_user_roles");
 
   if (role?.includes("admin")) redirect(`/${locale}/admin`);
   if (role?.includes("teacher")) redirect(`/${locale}/teacher`);

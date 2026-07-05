@@ -43,7 +43,7 @@ async function seedUsers() {
     if (existing) {
       const { error: profileError } = await supabase
         .from("profiles")
-        .update({ role: u.roles })
+        .update({ role: u.roles[0], roles: u.roles })
         .eq("user_id", existing.id);
 
       if (profileError) {
@@ -67,7 +67,7 @@ async function seedUsers() {
 
     const { error: profileError } = await supabase
       .from("profiles")
-      .update({ role: u.roles })
+      .update({ role: u.roles[0], roles: u.roles })
       .eq("user_id", newUser.user.id);
 
     if (profileError) {

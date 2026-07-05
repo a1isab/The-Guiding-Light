@@ -94,7 +94,7 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: "File not found" }, { status: 404 });
   }
 
-  const { data: role } = await supabase.rpc("get_user_role");
+  const { data: role } = await supabase.rpc("get_user_roles");
   const isOwner = file.teacher_id === userId;
   const isAdmin = role?.includes("admin");
 

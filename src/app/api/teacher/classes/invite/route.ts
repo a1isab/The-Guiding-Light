@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Class not found" }, { status: 404 });
   }
 
-  const { data: role } = await supabase.rpc("get_user_role");
+  const { data: role } = await supabase.rpc("get_user_roles");
   const isOwner = cls.teacher_id === userId;
   const isAdmin = role?.includes("admin");
 

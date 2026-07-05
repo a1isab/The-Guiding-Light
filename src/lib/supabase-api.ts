@@ -35,7 +35,7 @@ export function createApiSupabaseClient(request: NextRequest) {
 export type ApiSupabase = ReturnType<typeof createApiSupabaseClient>;
 
 export async function getUserRole(supabase: ReturnType<typeof createServerClient>): Promise<string[] | null> {
-  const { data: role } = await supabase.rpc("get_user_role");
+  const { data: role } = await supabase.rpc("get_user_roles");
   return role as string[] | null;
 }
 

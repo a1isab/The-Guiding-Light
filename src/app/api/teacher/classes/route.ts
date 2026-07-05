@@ -3,7 +3,7 @@ import { createApiSupabaseClient, requireTeacher } from "@/lib/supabase-api";
 import { createServerClient } from "@supabase/ssr";
 
 async function isAdmin(supabase: ReturnType<typeof createServerClient>): Promise<boolean> {
-  const { data: role } = await supabase.rpc("get_user_role");
+  const { data: role } = await supabase.rpc("get_user_roles");
   return role?.includes("admin") ?? false;
 }
 
