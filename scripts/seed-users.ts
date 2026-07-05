@@ -8,17 +8,17 @@ const supabase = createClient(
 const users = [
   {
     email: "admin@theguidinglight.com",
-    password: "admin123",
+    password: "Admin123!",
     role: "admin" as const,
   },
   {
     email: "teacher@theguidinglight.com",
-    password: "teacher123",
+    password: "Teacher123!",
     role: "teacher" as const,
   },
   {
     email: "student@theguidinglight.com",
-    password: "student123",
+    password: "Student123!",
     role: "student" as const,
   },
 ];
