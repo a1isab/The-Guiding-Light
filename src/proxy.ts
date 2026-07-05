@@ -99,7 +99,9 @@ export async function proxy(request: NextRequest) {
       const url = request.nextUrl.clone();
       url.pathname = "/" + locale + "/auth/login";
       url.searchParams.set("redirect", actualPath);
-      return NextResponse.redirect(url);
+      const redirectRes = NextResponse.redirect(url);
+      redirectRes.headers.set("x-debug", "no-user");
+      return redirectRes;
     }
 
     const { data: role } = await supabase.rpc("get_user_roles");
@@ -112,13 +114,16 @@ export async function proxy(request: NextRequest) {
 
     const requestHeaders = new Headers(request.headers);
     requestHeaders.set("x-user-id", user.id);
+    requestHeaders.set("x-debug-user", user.id);
     if (role) {
       requestHeaders.set("x-user-roles", JSON.stringify(role));
     }
-    const newRequest = new Request(request, { headers: requestHeaders });
-    supabaseResponse = NextResponse.next({ request: newRequest });
+    supabaseResponse = NextResponse.next({
+      request: { headers: requestHeaders },
+    });
 
     supabaseResponse.headers.set("X-NEXT-INTL-LOCALE", locale);
+    supabaseResponse.headers.set("x-debug", "user:" + user.id);
     return supabaseResponse;
   }
 

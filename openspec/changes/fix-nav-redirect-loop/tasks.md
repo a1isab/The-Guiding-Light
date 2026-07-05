@@ -20,8 +20,8 @@ pm run seed:users\ and verify console output shows password update confirmation 
 
 ## 4. Clean Up and Verify
 
-- [ ] 4.1 Run \
+- [x] 4.1 Build passes with 0 errors \
 pm run build\ and fix any TypeScript errors
-- [ ] 4.2 Verify login flow: login as \heyamer123@gmail.com\, confirm navigation to teacher page and all protected links work without redirect to login
-- [ ] 4.3 Verify admin user (\dmin@theguidinglight.com\) can access all protected paths
-- [ ] 4.4 Verify student user (\student@theguidinglight.com\) can access dashboard but is redirected away from admin paths
+- [ ] 4.2 Login as \heyamer123@gmail.com\ (password: \Admin123!\), navigate to teacher + admin paths — verify no redirect to login
+- [ ] 4.3 Login as \admin@theguidinglight.com\ (password: \Admin123!\), verify admin access
+- [ ] 4.4 Login as \student@theguidinglight.com\ (password: \Student123!\), verify dashboard works, admin/teacher redirects to dashboard
