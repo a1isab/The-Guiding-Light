@@ -1,5 +1,9 @@
 -- Multi-role support: change profiles.role from single text to text array
 
+-- 0. Drop default first (can't auto-cast text default to text[])
+ALTER TABLE profiles
+  ALTER COLUMN role DROP DEFAULT;
+
 -- 1. Change column type from text to text[]
 ALTER TABLE profiles
   ALTER COLUMN role TYPE text[]
