@@ -105,19 +105,15 @@ export async function proxy(request: NextRequest) {
       const cookieNames = allCookies.map((c) => c.name);
       const authCookies = allCookies.filter((c) => c.name.includes("auth-token"));
 
-      redirectRes.headers.set("x-debug-cookie-names", cookieNames.join(", ") || "(none)");
-
+      let debugMsg = cookieNames.length > 0 ? cookieNames.join(", ") : "(none)";
       if (authCookies.length > 0) {
-        const authInfo = authCookies
-          .map(
-            (c) =>
-              `${c.name}: prefix=${c.value.startsWith("base64-")}, len=${c.value.length}`,
-          )
-          .join(" | ");
-        redirectRes.headers.set("x-debug-auth-cookies", authInfo);
+        debugMsg += " || AUTH: " + authCookies
+          .map((c) => `${c.name}[prefix=${c.value.startsWith("base64-")},len=${c.value.length}]`)
+          .join(", ");
       } else {
-        redirectRes.headers.set("x-debug-auth-cookies", "NONE");
+        debugMsg += " || AUTH: NONE-FOUND";
       }
+      redirectRes.headers.set("x-debug-cookie-names", debugMsg);
       return redirectRes;
     }
 
