@@ -122,49 +122,53 @@ export function Navbar() {
 
           {loading ? null : user ? (
             <>
-              <Link
-                href={"/" + currentLocale + "/courses"}
-                className={`text-sm font-medium ${
-                  pathname.includes("/courses")
-                    ? "text-emerald-400"
-                    : "text-zinc-400 hover:text-zinc-200"
-                }`}
-              >
-                {t("courses")}
-              </Link>
-              <Link
-                href={"/" + currentLocale + "/dashboard"}
-                className={`text-sm font-medium ${
-                  pathname.includes("/dashboard")
-                    ? "text-emerald-400"
-                    : "text-zinc-400 hover:text-zinc-200"
-                }`}
-              >
-                {t("dashboard")}
-              </Link>
-              {(userRole?.includes("admin") || userRole?.includes("teacher")) && (
-                <>
-                  <Link
-                    href={"/" + currentLocale + "/teacher"}
-                    className={`text-sm font-medium ${
-                      pathname.includes("/teacher")
-                        ? "text-emerald-400"
-                        : "text-zinc-400 hover:text-zinc-200"
-                    }`}
-                  >
-                    Teacher
-                  </Link>
-                  <Link
-                    href={"/" + currentLocale + "/admin"}
-                    className={`text-sm font-medium ${
-                      pathname.includes("/admin")
-                        ? "text-emerald-400"
-                        : "text-zinc-400 hover:text-zinc-200"
-                    }`}
-                  >
-                    Admin
-                  </Link>
-                </>
+              {!userRole?.includes("teacher") && (
+                <Link
+                  href={"/" + currentLocale + "/courses"}
+                  className={`text-sm font-medium ${
+                    pathname.includes("/courses")
+                      ? "text-emerald-400"
+                      : "text-zinc-400 hover:text-zinc-200"
+                  }`}
+                >
+                  {t("courses")}
+                </Link>
+              )}
+              {!userRole?.includes("teacher") && (
+                <Link
+                  href={"/" + currentLocale + "/dashboard"}
+                  className={`text-sm font-medium ${
+                    pathname.includes("/dashboard")
+                      ? "text-emerald-400"
+                      : "text-zinc-400 hover:text-zinc-200"
+                  }`}
+                >
+                  {t("dashboard")}
+                </Link>
+              )}
+              {(userRole?.includes("teacher") || userRole?.includes("admin")) && (
+                <Link
+                  href={"/" + currentLocale + "/teacher"}
+                  className={`text-sm font-medium ${
+                    pathname.includes("/teacher")
+                      ? "text-emerald-400"
+                      : "text-zinc-400 hover:text-zinc-200"
+                  }`}
+                >
+                  Teacher
+                </Link>
+              )}
+              {userRole?.includes("admin") && (
+                <Link
+                  href={"/" + currentLocale + "/admin"}
+                  className={`text-sm font-medium ${
+                    pathname.includes("/admin")
+                      ? "text-emerald-400"
+                      : "text-zinc-400 hover:text-zinc-200"
+                  }`}
+                >
+                  Admin
+                </Link>
               )}
               <div className="relative">
                 <button
@@ -183,27 +187,29 @@ export function Navbar() {
                     <p className="px-4 py-2 text-xs text-zinc-500 truncate border-b border-zinc-800">
                       {user.email}
                     </p>
-                    <Link
-                      href={"/" + currentLocale + "/dashboard"}
-                      className="block px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800"
-                    >
-                      {t("dashboard")}
-                    </Link>
-              {(userRole?.includes("admin") || userRole?.includes("teacher")) && (
-                <>
-                  <Link
-                    href={"/" + currentLocale + "/teacher"}
-                    className="block px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800"
-                  >
-                    Teacher
-                  </Link>
-                  <Link
-                    href={"/" + currentLocale + "/admin"}
-                    className="block px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800"
-                  >
-                    Admin
-                  </Link>
-                </>
+                    {!userRole?.includes("teacher") && (
+                      <Link
+                        href={"/" + currentLocale + "/dashboard"}
+                        className="block px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800"
+                      >
+                        {t("dashboard")}
+                      </Link>
+                    )}
+              {(userRole?.includes("teacher") || userRole?.includes("admin")) && (
+                <Link
+                  href={"/" + currentLocale + "/teacher"}
+                  className="block px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800"
+                >
+                  Teacher
+                </Link>
+              )}
+              {userRole?.includes("admin") && (
+                <Link
+                  href={"/" + currentLocale + "/admin"}
+                  className="block px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800"
+                >
+                  Admin
+                </Link>
               )}
                     <a
                       href={"/" + currentLocale + "/auth/logout"}
@@ -271,14 +277,16 @@ export function Navbar() {
                 ))}
               </div>
 
-              <Link
-                href={"/" + currentLocale + "/courses"}
-                className="text-zinc-300 hover:text-emerald-400 text-lg font-medium"
-                onClick={() => setMobileOpen(false)}
-              >
-                {t("courses")}
-              </Link>
-              {user && (
+              {!userRole?.includes("teacher") && (
+                <Link
+                  href={"/" + currentLocale + "/courses"}
+                  className="text-zinc-300 hover:text-emerald-400 text-lg font-medium"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {t("courses")}
+                </Link>
+              )}
+              {user && !userRole?.includes("teacher") && (
                 <Link
                   href={"/" + currentLocale + "/dashboard"}
                   className="text-zinc-300 hover:text-emerald-400 text-lg font-medium"
@@ -287,23 +295,23 @@ export function Navbar() {
                   {t("dashboard")}
                 </Link>
               )}
-              {(userRole?.includes("admin") || userRole?.includes("teacher")) && (
-                <>
-                  <Link
-                    href={"/" + currentLocale + "/teacher"}
-                    className="text-zinc-300 hover:text-emerald-400 text-lg font-medium"
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    Teacher
-                  </Link>
-                  <Link
-                    href={"/" + currentLocale + "/admin"}
-                    className="text-zinc-300 hover:text-emerald-400 text-lg font-medium"
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    Admin
-                  </Link>
-                </>
+              {(userRole?.includes("teacher") || userRole?.includes("admin")) && (
+                <Link
+                  href={"/" + currentLocale + "/teacher"}
+                  className="text-zinc-300 hover:text-emerald-400 text-lg font-medium"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Teacher
+                </Link>
+              )}
+              {userRole?.includes("admin") && (
+                <Link
+                  href={"/" + currentLocale + "/admin"}
+                  className="text-zinc-300 hover:text-emerald-400 text-lg font-medium"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Admin
+                </Link>
               )}
               {user ? (
                 <a
