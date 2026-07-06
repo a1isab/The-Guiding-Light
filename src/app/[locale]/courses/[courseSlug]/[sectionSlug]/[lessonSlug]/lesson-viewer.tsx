@@ -1,15 +1,18 @@
 "use client";
 
 import { useTranslations, useLocale } from "next-intl";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import type { Lesson, Locale } from "@/lib/types";
 import { getTranslation } from "@/lib/types";
 import { Quiz } from "@/components/quiz";
 import { BadgeNotification } from "@/components/badge-notification";
+import { Confetti } from "@/components/confetti";
 import { createClient } from "@/lib/supabase-client";
 import { awardSectionBadge } from "@/lib/badges";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { updateStreak } from "@/lib/streak";
+import { scanAndAwardBadges } from "@/lib/badges";
+import { ChevronLeft, ChevronRight, Flame, X } from "lucide-react";
 
 type Stage = "content" | "quiz" | "complete";
 
@@ -32,7 +35,13 @@ export function LessonViewer({
   const locale = useLocale() as Locale;
   const [stage, setStage] = useState<Stage>("content");
   const [newBadge, setNewBadge] = useState<string | null>(null);
+  const [streakMilestone, setStreakMilestone] = useState<number | null>(null);
+  const [showConfetti, setShowConfetti] = useState(false);
   const supabase = createClient();
+
+  useEffect(() => {
+    if (stage === "complete") setShowConfetti(true);
+  }, [stage]);
 
   async function handleComplete() {
     if (!userId) return;
@@ -42,9 +51,19 @@ export function LessonViewer({
     });
     setStage("complete");
 
-    const result = await awardSectionBadge(userId, lesson.id);
-    if (result.earned) {
-      setNewBadge(result.sectionTitle);
+    const [badgeResult, streakResult, newBadges] = await Promise.all([
+      awardSectionBadge(userId, lesson.id),
+      updateStreak(userId),
+      scanAndAwardBadges(userId),
+    ]);
+
+    if (badgeResult.earned) {
+      setNewBadge(badgeResult.sectionTitle);
+    } else if (newBadges.length > 0) {
+      setNewBadge(newBadges[0]);
+    }
+    if (streakResult.milestone) {
+      setStreakMilestone(streakResult.milestone);
     }
   }
 
@@ -94,11 +113,29 @@ export function LessonViewer({
 
       {stage === "complete" && (
         <div className="mt-8 rounded-2xl border border-emerald-800 bg-emerald-900/20 p-8 text-center">
+          {showConfetti && <Confetti />}
           <p className="text-5xl mb-4">🎉</p>
           <p className="text-emerald-400 text-2xl font-bold">{t("complete_title")}</p>
           <p className="text-zinc-400 mt-2">
             {t("complete_msg")}
           </p>
+          <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+            {nextLesson ? (
+              <Link
+                href={`/${locale}/courses/${courseSlug}/${sectionSlug}/${nextLesson.slug}`}
+                className="inline-flex items-center gap-2 rounded-2xl bg-emerald-500 px-6 py-3 text-sm font-medium text-white shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all hover:bg-emerald-400"
+              >
+                {t("continue_to_next")} <ChevronRight className="h-4 w-4" />
+              </Link>
+            ) : (
+              <Link
+                href={`/${locale}/courses/${courseSlug}/${sectionSlug}`}
+                className="inline-flex items-center gap-2 rounded-2xl border border-zinc-700 bg-zinc-800 px-6 py-3 text-sm font-medium text-zinc-200 transition-all hover:bg-zinc-700"
+              >
+                {t("back_to_section")}
+              </Link>
+            )}
+          </div>
         </div>
       )}
 
@@ -133,6 +170,68 @@ export function LessonViewer({
           onClose={() => setNewBadge(null)}
         />
       )}
+
+      {streakMilestone && (
+        <StreakMilestoneNotification
+          days={streakMilestone}
+          onClose={() => setStreakMilestone(null)}
+        />
+      )}
     </>
+  );
+}
+
+function StreakMilestoneNotification({
+  days,
+  onClose,
+}: {
+  days: number;
+  onClose: () => void;
+}) {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    requestAnimationFrame(() => setVisible(true));
+    const timer = setTimeout(() => {
+      setVisible(false);
+      setTimeout(onClose, 300);
+    }, 4000);
+    return () => clearTimeout(timer);
+  }, [onClose]);
+
+  return (
+    <div
+      className={`fixed bottom-6 right-6 z-50 max-w-sm rounded-2xl border border-amber-800 bg-amber-900/30 backdrop-blur-lg p-5 shadow-[0_0_30px_rgba(245,158,11,0.15)] transition-all duration-300 ${
+        visible
+          ? "translate-y-0 opacity-100"
+          : "translate-y-4 opacity-0"
+      }`}
+    >
+      <button
+        onClick={() => {
+          setVisible(false);
+          setTimeout(onClose, 300);
+        }}
+        className="absolute right-3 top-3 text-zinc-500 hover:text-zinc-300"
+      >
+        <X className="h-4 w-4" />
+      </button>
+      <div className="flex items-start gap-4">
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-amber-500/20">
+          <Flame className="h-6 w-6 text-amber-400" />
+        </div>
+        <div>
+          <p className="text-xs font-medium uppercase tracking-wider text-amber-400">
+            {days}-Day Streak!
+          </p>
+          <p className="mt-1 text-sm font-medium text-zinc-100">
+            Keep going! You&apos;re on fire!
+          </p>
+          <p className="mt-0.5 text-xs text-zinc-400">
+            Come back tomorrow to keep your streak alive.
+          </p>
+        </div>
+      </div>
+    </div>
   );
 }

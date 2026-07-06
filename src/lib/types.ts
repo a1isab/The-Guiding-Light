@@ -5,6 +5,7 @@ export interface Profile {
   role: Role;
   level: "beginner" | "intermediate" | "advanced";
   streak: number;
+  last_activity_at: string | null;
   onboarded: boolean;
   created_at: string;
 }

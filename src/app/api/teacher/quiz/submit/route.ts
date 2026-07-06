@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createApiSupabaseClient, requireAuth } from "@/lib/supabase-api";
+import { updateStreak } from "@/lib/streak";
 
 const PASS_THRESHOLD = 0.6;
 const MAX_ATTEMPTS_IN_WINDOW = 3;
@@ -140,6 +141,9 @@ export async function POST(request: NextRequest) {
         .update({ completed_at: new Date().toISOString() })
         .eq("id", existing.id);
     }
+
+    // Update streak on pass (fire-and-forget, don't block response)
+    updateStreak(userId, supabase as any).catch(() => {});
   }
 
   return applyCookies(

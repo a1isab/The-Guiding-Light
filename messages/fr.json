@@ -53,12 +53,14 @@
     "welcome_back": "Content de te revoir",
     "subtitle": "Continuez votre voyage d’apprentissage islamique.",
     "lessons_completed": "Leçons terminées",
+    "studied_today": "Étudié aujourd'hui",
     "current_streak": "Série actuelle",
     "your_plan": "Votre forfait",
     "premium": "Prime",
     "free": "Gratuit",
     "overall_progress": "Progrès global",
     "progress_detail": "{completed} of {total} lessons completed",
+    "lessons_remaining": "leçons restantes",
     "continue_learning": "Continuer l'apprentissage",
     "upgrade_premium": "Passer à Premium",
     "sign_out": "se déconnecter",
@@ -142,7 +144,9 @@
     "take_quiz": "Répondre au quiz →",
     "sign_in_quiz": "Connectez-vous pour répondre au quiz et suivre vos progrès.",
     "complete_title": "Leçon terminée !",
-    "complete_msg": "Qu'Allah bénisse vos efforts."
+    "complete_msg": "Qu'Allah bénisse vos efforts.",
+    "continue_to_next": "Passer à la leçon suivante",
+    "back_to_section": "Retour à la section"
   },
   "quiz": {
     "loading": "Chargement du quiz...",
@@ -162,12 +166,32 @@
     "submit_quiz": "Soumettre le quiz",
     "submitting": "Soumission..."
   },
+  "streak": {
+    "current": "Série actuelle",
+    "days": "{count} jours",
+    "at_risk": "Étudiez aujourd'hui pour garder votre série",
+    "milestone_title": "Série de {days} jours !",
+    "milestone_msg": "Continuez ! Vous assurez !",
+    "milestone_sub": "Revenez demain pour garder votre série en vie."
+  },
   "badge": {
     "earned": "Badge obtenu",
     "completed": "terminé",
     "all_done": "Toutes les leçons de cette section sont terminées !",
     "achievements": "Réalisations",
-    "locked": "Verrouillé"
+    "locked": "Verrouillé",
+    "first_lesson_title": "Première leçon",
+    "first_lesson_desc": "Terminez votre première leçon",
+    "lessons_10_title": "Chercheur de savoir",
+    "lessons_10_desc": "Terminez 10 leçons",
+    "lessons_50_title": "Savant dévoué",
+    "lessons_50_desc": "Terminez 50 leçons",
+    "streak_7_title": "Guerrier de la semaine",
+    "streak_7_desc": "Maintenez une série de 7 jours",
+    "streak_30_title": "Maître mensuel",
+    "streak_30_desc": "Maintenez une série de 30 jours",
+    "quiz_ace_title": "As du quiz",
+    "quiz_ace_desc": "Obtenez 100% à n'importe quel quiz"
   },
   "video": {
     "not_available": "Vidéo pas encore disponible",

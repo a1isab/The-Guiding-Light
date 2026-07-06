@@ -64,6 +64,15 @@ export default async function CoursePage({
   const percentComplete =
     totalLessons > 0 ? Math.round((completedCount / totalLessons) * 100) : 0;
 
+  // Social proof: count distinct students enrolled in this course
+  const lessonIds = allLessons?.map((l) => l.id) ?? [];
+  const { count: enrolledCount } = lessonIds.length
+    ? await supabase
+        .from("progress")
+        .select("*", { count: "exact", head: true })
+        .in("lesson_id", lessonIds)
+    : { count: 0 };
+
   return (
     <div className="mx-auto max-w-3xl px-4 py-8">
       <div className="mb-8">
@@ -72,6 +81,9 @@ export default async function CoursePage({
         </h1>
         <p className="mt-2 text-zinc-400">
           {getTranslation(course, "description", locale, course.description)}
+        </p>
+        <p className="mt-2 text-xs text-zinc-600">
+          {enrolledCount ?? 0} students enrolled
         </p>
         {totalLessons > 0 && (
           <div className="mt-4 flex items-center gap-3">

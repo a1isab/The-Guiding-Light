@@ -53,12 +53,14 @@
     "welcome_back": "مرحبًا بعودتك",
     "subtitle": "مواصلة رحلتك للتعلم الإسلامي.",
     "lessons_completed": "اكتملت الدروس",
+    "studied_today": "درست اليوم",
     "current_streak": "الخط الحالي",
     "your_plan": "خطتك",
     "premium": "غالي",
     "free": "حر",
     "overall_progress": "التقدم الشامل",
     "progress_detail": "{completed} من {total} الدروس المكتملة",
+    "lessons_remaining": "الدروس المتبقية",
     "continue_learning": "مواصلة التعلم",
     "upgrade_premium": "الترقية إلى بريميوم",
     "sign_out": "تسجيل الخروج",
@@ -142,7 +144,9 @@
     "take_quiz": "خذ الاختبار →",
     "sign_in_quiz": "قم بتسجيل الدخول لإجراء الاختبار وتتبع تقدمك.",
     "complete_title": "اكتمل الدرس!",
-    "complete_msg": "بارك الله في جهودكم."
+    "complete_msg": "بارك الله في جهودكم.",
+    "continue_to_next": "استمر إلى الدرس التالي",
+    "back_to_section": "العودة إلى القسم"
   },
   "quiz": {
     "loading": "جارٍ تحميل الاختبار...",
@@ -162,12 +166,32 @@
     "submit_quiz": "إرسال الاختبار",
     "submitting": "جارٍ الإرسال..."
   },
+  "streak": {
+    "current": "المواظبة الحالية",
+    "days": "{count} أيام",
+    "at_risk": "ادرس اليوم للحفاظ على مواظبتك",
+    "milestone_title": "{days} أيام متتالية!",
+    "milestone_msg": "استمر! أداؤك رائع!",
+    "milestone_sub": "عد غدًا للحفاظ على استمراريتك."
+  },
   "badge": {
     "earned": "تم الحصول على الشارة",
     "completed": "مكتمل",
     "all_done": "جميع الدروس في هذا القسم مكتملة!",
     "achievements": "الإنجازات",
-    "locked": "مقفل"
+    "locked": "مقفل",
+    "first_lesson_title": "الدرس الأول",
+    "first_lesson_desc": "أكمل درسك الأول",
+    "lessons_10_title": "باحث عن العلم",
+    "lessons_10_desc": "أكمل 10 دروس",
+    "lessons_50_title": "عالم مخلص",
+    "lessons_50_desc": "أكمل 50 درسًا",
+    "streak_7_title": "محارب الأسبوع",
+    "streak_7_desc": "حافظ على المواظبة لمدة 7 أيام",
+    "streak_30_title": "سيد الشهر",
+    "streak_30_desc": "حافظ على المواظبة لمدة 30 يومًا",
+    "quiz_ace_title": "بطل الاختبار",
+    "quiz_ace_desc": "احصل على 100% في أي اختبار"
   },
   "video": {
     "not_available": "الفيديو غير متوفر بعد",

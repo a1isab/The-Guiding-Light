@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase-client";
+import { BADGE_DEFINITIONS, isDynamicBadgeKey } from "@/lib/badge-definitions";
 
 export async function awardSectionBadge(
   userId: string,
@@ -55,4 +56,58 @@ export async function awardSectionBadge(
   });
 
   return { earned: true, sectionTitle: section?.title ?? null };
+}
+
+export async function awardBadge(
+  userId: string,
+  badgeKey: string,
+  supabase?: any
+): Promise<boolean> {
+  const client = supabase ?? createClient();
+
+  const { data: existing } = await client
+    .from("user_badges")
+    .select("id")
+    .eq("user_id", userId)
+    .eq("badge_key", badgeKey)
+    .maybeSingle();
+
+  if (existing) return false;
+
+  await client.from("user_badges").insert({
+    user_id: userId,
+    badge_key: badgeKey,
+  });
+
+  return true;
+}
+
+export async function scanAndAwardBadges(
+  userId: string,
+  supabase?: any
+): Promise<string[]> {
+  const client = supabase ?? createClient();
+  const earned: string[] = [];
+
+  const { data: existingBadges } = await client
+    .from("user_badges")
+    .select("badge_key")
+    .eq("user_id", userId);
+
+  const held = new Set(existingBadges?.map((b: any) => b.badge_key) ?? []);
+
+  for (const def of BADGE_DEFINITIONS) {
+    if (held.has(def.key)) continue;
+
+    const passed = await def.condition(userId, client);
+    if (passed) {
+      await client.from("user_badges").insert({
+        user_id: userId,
+        badge_key: def.key,
+      });
+      earned.push(def.key);
+    }
+  }
+
+  return earned;
 }

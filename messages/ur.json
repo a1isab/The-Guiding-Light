@@ -53,12 +53,14 @@
     "welcome_back": "دوبارہ خوش آمدید",
     "subtitle": "اسلامی تعلیم کا سفر جاری رکھیں۔",
     "lessons_completed": "اسباق مکمل ہو گئے۔",
+    "studied_today": "آج مطالعہ کیا",
     "current_streak": "موجودہ اسٹریک",
     "your_plan": "آپ کا منصوبہ",
     "premium": "پریمیم",
     "free": "مفت",
     "overall_progress": "مجموعی پیشرفت",
     "progress_detail": "{total} میں سے {completed} اسباق مکمل ہوئے۔",
+    "lessons_remaining": "اسباق باقی ہیں",
     "continue_learning": "سیکھنا جاری رکھیں",
     "upgrade_premium": "پریمیم میں اپ گریڈ کریں۔",
     "sign_out": "سائن آؤٹ کریں۔",
@@ -142,7 +144,9 @@
     "take_quiz": "کوئز لیں →",
     "sign_in_quiz": "کوئز لینے اور اپنی پیشرفت کو ٹریک کرنے کے لیے سائن ان کریں۔",
     "complete_title": "سبق مکمل!",
-    "complete_msg": "اللہ آپ کی کوششوں میں برکت دے۔"
+    "complete_msg": "اللہ آپ کی کوششوں میں برکت دے۔",
+    "continue_to_next": "اگلے سبق پر جائیں",
+    "back_to_section": "سیکشن پر واپس جائیں"
   },
   "quiz": {
     "loading": "کوئز لوڈ ہو رہا ہے...",
@@ -162,12 +166,32 @@
     "submit_quiz": "کوئز جمع کروائیں",
     "submitting": "جمع کروا رہے ہیں..."
   },
+  "streak": {
+    "current": "موجودہ تسلسل",
+    "days": "{count} دن",
+    "at_risk": "اپنے تسلسل کو برقرار رکھنے کے لیے آج مطالعہ کریں",
+    "milestone_title": "{days} دن کا تسلسل!",
+    "milestone_msg": "لگے رہیں! آپ زبردست ہیں!",
+    "milestone_sub": "کل واپس آئیں تاکہ اپنا تسلسل برقرار رکھ سکیں۔"
+  },
   "badge": {
     "earned": "بیج حاصل ہوا",
     "completed": "مکمل",
     "all_done": "اس سیکشن کے تمام اسباق مکمل ہو گئے!",
     "achievements": "کامیابیاں",
-    "locked": "مقفل"
+    "locked": "مقفل",
+    "first_lesson_title": "پہلا سبق",
+    "first_lesson_desc": "اپنا پہلا سبق مکمل کریں",
+    "lessons_10_title": "علم کے متلاشی",
+    "lessons_10_desc": "10 اسباق مکمل کریں",
+    "lessons_50_title": "سرشار عالم",
+    "lessons_50_desc": "50 اسباق مکمل کریں",
+    "streak_7_title": "ہفتے کا جنگجو",
+    "streak_7_desc": "7 دن کا تسلسل برقرار رکھیں",
+    "streak_30_title": "ماہانہ ماہر",
+    "streak_30_desc": "30 دن کا تسلسل برقرار رکھیں",
+    "quiz_ace_title": "کوئز کا ماہر",
+    "quiz_ace_desc": "کسی بھی کوئز میں 100% اسکور کریں"
   },
   "video": {
     "not_available": "ویڈیو ابھی دستیاب نہیں ہے۔",

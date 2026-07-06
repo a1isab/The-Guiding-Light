@@ -53,12 +53,14 @@
     "welcome_back": "Welcome back",
     "subtitle": "Continue your journey of Islamic learning.",
     "lessons_completed": "Lessons Completed",
+    "studied_today": "Studied today",
     "current_streak": "Current Streak",
     "your_plan": "Your Plan",
     "premium": "Premium",
     "free": "Free",
     "overall_progress": "Overall Progress",
     "progress_detail": "{completed} of {total} lessons completed",
+    "lessons_remaining": "lessons remaining",
     "continue_learning": "Continue Learning",
     "upgrade_premium": "Upgrade to Premium",
     "sign_out": "Sign out",
@@ -142,7 +144,9 @@
     "take_quiz": "Take Quiz →",
     "sign_in_quiz": "Sign in to take the quiz and track your progress.",
     "complete_title": "Lesson Complete!",
-    "complete_msg": "May Allah bless your efforts."
+    "complete_msg": "May Allah bless your efforts.",
+    "continue_to_next": "Continue to Next Lesson",
+    "back_to_section": "Back to Section"
   },
   "quiz": {
     "loading": "Loading quiz...",
@@ -162,12 +166,32 @@
     "submit_quiz": "Submit Quiz",
     "submitting": "Submitting..."
   },
+  "streak": {
+    "current": "Current Streak",
+    "days": "{count} days",
+    "at_risk": "Study today to keep your streak",
+    "milestone_title": "{days}-Day Streak!",
+    "milestone_msg": "Keep going! You're on fire!",
+    "milestone_sub": "Come back tomorrow to keep your streak alive."
+  },
   "badge": {
     "earned": "Badge Earned",
     "completed": "completed",
     "all_done": "All lessons in this section are done!",
     "achievements": "Achievements",
-    "locked": "Locked"
+    "locked": "Locked",
+    "first_lesson_title": "First Lesson",
+    "first_lesson_desc": "Complete your first lesson",
+    "lessons_10_title": "Knowledge Seeker",
+    "lessons_10_desc": "Complete 10 lessons",
+    "lessons_50_title": "Dedicated Scholar",
+    "lessons_50_desc": "Complete 50 lessons",
+    "streak_7_title": "Week Warrior",
+    "streak_7_desc": "Maintain a 7-day streak",
+    "streak_30_title": "Monthly Master",
+    "streak_30_desc": "Maintain a 30-day streak",
+    "quiz_ace_title": "Quiz Ace",
+    "quiz_ace_desc": "Score 100% on any quiz"
   },
   "video": {
     "not_available": "Video not yet available",

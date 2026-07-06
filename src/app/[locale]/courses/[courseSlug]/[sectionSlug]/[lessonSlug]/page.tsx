@@ -58,6 +58,12 @@ export default async function LessonPage({
   const sb = await createServerSupabaseClient();
   const { data: { user } } = await sb.auth.getUser();
 
+  // Social proof: count students who completed this lesson
+  const { count: lessonCompletedCount } = await supabase
+    .from("progress")
+    .select("*", { count: "exact", head: true })
+    .eq("lesson_id", lesson.id);
+
   return (
     <div className="mx-auto max-w-3xl px-4 py-8">
       <nav className="mb-6 flex items-center gap-2 text-sm text-zinc-500">
@@ -75,6 +81,10 @@ export default async function LessonPage({
       <h1 className="font-amiri text-3xl font-bold text-zinc-100">
         {getTranslation(lesson, "title", locale, lesson.title)}
       </h1>
+
+      <p className="mt-1 text-xs text-zinc-600">
+        {lessonCompletedCount ?? 0} students completed this lesson
+      </p>
 
       <VideoPlayer src={lesson.video_url} />
 
