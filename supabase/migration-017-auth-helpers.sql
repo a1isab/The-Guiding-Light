@@ -15,7 +15,8 @@ BEGIN
       AND raw_user_meta_data->>'role' = 'teacher'
   ) THEN
     UPDATE public.profiles
-    SET role = 'teacher'
+    SET role = 'teacher',
+        roles = ARRAY['teacher']
     FROM auth.users
     WHERE auth.users.id = profiles.user_id
       AND auth.users.email = p_email;
