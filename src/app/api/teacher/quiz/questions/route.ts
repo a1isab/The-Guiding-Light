@@ -5,14 +5,14 @@ export async function GET(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
   const userId = await requireAuth(supabase);
   if (!userId) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return applyCookies(NextResponse.json({ error: "Unauthorized" }, { status: 401 }));
   }
 
   const { searchParams } = new URL(request.url);
   const lessonId = searchParams.get("lessonId");
 
   if (!lessonId) {
-    return NextResponse.json({ error: "lessonId required" }, { status: 400 });
+    return applyCookies(NextResponse.json({ error: "lessonId required" }, { status: 400 }));
   }
 
   // Determine if the user is the teacher/owner of this lesson's class
@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     .single()).data as { section_id: string } | null;
 
   if (!lesson) {
-    return NextResponse.json({ error: "Lesson not found" }, { status: 404 });
+    return applyCookies(NextResponse.json({ error: "Lesson not found" }, { status: 404 }));
   }
 
   // Check if user is teacher/owner
@@ -82,7 +82,7 @@ export async function GET(request: NextRequest) {
           .single();
 
         if (!membership) {
-          return NextResponse.json({ error: "Not enrolled in this class" }, { status: 403 });
+          return applyCookies(NextResponse.json({ error: "Not enrolled in this class" }, { status: 403 }));
         }
       }
     }

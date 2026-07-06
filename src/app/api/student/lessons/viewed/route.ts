@@ -4,7 +4,7 @@ import { createApiSupabaseClient, requireAuth } from "@/lib/supabase-api";
 export async function POST(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
   const userId = await requireAuth(supabase);
-  if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!userId) return applyCookies(NextResponse.json({ error: "Unauthorized" }, { status: 401 }));
 
   const { lessonId } = await request.json();
   if (!lessonId) {
@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
       { onConflict: "student_id, lesson_id" }
     );
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return applyCookies(NextResponse.json({ error: error.message }, { status: 500 }));
     return applyCookies(NextResponse.json({ ok: true }));
   }
 
@@ -41,6 +41,6 @@ export async function POST(request: NextRequest) {
     { onConflict: "user_id, lesson_id" }
   );
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) return applyCookies(NextResponse.json({ error: error.message }, { status: 500 }));
   return applyCookies(NextResponse.json({ ok: true }));
 }

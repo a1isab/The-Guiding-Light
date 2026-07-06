@@ -4,7 +4,7 @@ import { createApiSupabaseClient, requireTeacher } from "@/lib/supabase-api";
 export async function GET(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
   const userId = await requireTeacher(supabase);
-  if (!userId) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  if (!userId) return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
 
   const { data } = await supabase
     .from("teacher_lesson_templates")
@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
   const userId = await requireTeacher(supabase);
-  if (!userId) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  if (!userId) return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
 
   const { name, description, content } = await request.json();
   if (!name || !content) {

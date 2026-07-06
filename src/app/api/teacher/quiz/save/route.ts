@@ -5,7 +5,7 @@ export async function POST(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
   const teacherId = await requireTeacher(supabase);
   if (!teacherId) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
   }
 
   const { lessonId, questions } = await request.json();
@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
   if (!cls || cls.teacher_id !== teacherId) {
     const { data: role } = await supabase.rpc("get_user_roles");
     if (!role?.includes("admin")) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
     }
   }
 

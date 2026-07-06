@@ -7,7 +7,7 @@ export async function DELETE(
 ) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
   const userId = await requireTeacher(supabase);
-  if (!userId) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  if (!userId) return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
 
   const { id } = await params;
 
@@ -17,9 +17,9 @@ export async function DELETE(
     .eq("id", id)
     .single();
 
-  if (!template) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  if (!template) return applyCookies(NextResponse.json({ error: "Not found" }, { status: 404 }));
   if (template.teacher_id !== userId) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
   }
 
   const { error } = await supabase.from("teacher_lesson_templates").delete().eq("id", id);

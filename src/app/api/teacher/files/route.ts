@@ -6,14 +6,14 @@ export async function GET(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
   const userId = await requireAuth(supabase);
   if (!userId) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return applyCookies(NextResponse.json({ error: "Unauthorized" }, { status: 401 }));
   }
 
   const { searchParams } = new URL(request.url);
   const lessonId = searchParams.get("lessonId");
 
   if (!lessonId) {
-    return NextResponse.json({ error: "lessonId required" }, { status: 400 });
+    return applyCookies(NextResponse.json({ error: "lessonId required" }, { status: 400 }));
   }
 
   const { data: files, error } = await supabase
@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     .order("created_at", { ascending: false });
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return applyCookies(NextResponse.json({ error: error.message }, { status: 500 }));
   }
 
   return applyCookies(NextResponse.json({ files: files ?? [] }));
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
   const userId = await requireAuth(supabase);
   if (!userId) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return applyCookies(NextResponse.json({ error: "Unauthorized" }, { status: 401 }));
   }
 
   const { lessonId, filename, mime_type, file_size, storage_path } = await request.json();
@@ -73,14 +73,14 @@ export async function DELETE(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
   const userId = await requireAuth(supabase);
   if (!userId) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return applyCookies(NextResponse.json({ error: "Unauthorized" }, { status: 401 }));
   }
 
   const { searchParams } = new URL(request.url);
   const id = searchParams.get("id");
 
   if (!id) {
-    return NextResponse.json({ error: "id required" }, { status: 400 });
+    return applyCookies(NextResponse.json({ error: "id required" }, { status: 400 }));
   }
 
   // Get file record to verify ownership and get storage path
@@ -91,7 +91,7 @@ export async function DELETE(request: NextRequest) {
     .single();
 
   if (fetchError || !file) {
-    return NextResponse.json({ error: "File not found" }, { status: 404 });
+    return applyCookies(NextResponse.json({ error: "File not found" }, { status: 404 }));
   }
 
   const { data: role } = await supabase.rpc("get_user_roles");
@@ -99,7 +99,7 @@ export async function DELETE(request: NextRequest) {
   const isAdmin = role?.includes("admin");
 
   if (!isOwner && !isAdmin) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
   }
 
   // Delete from storage

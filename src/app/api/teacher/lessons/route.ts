@@ -33,15 +33,15 @@ async function authorizeBySection(supabase: ReturnType<typeof createServerClient
 export async function POST(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
   const userId = await requireAuth(supabase);
-  if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!userId) return applyCookies(NextResponse.json({ error: "Unauthorized" }, { status: 401 }));
 
   const { sectionId, title, orderIndex, content, videoUrl } = await request.json();
   if (!sectionId || !title) {
-    return NextResponse.json({ error: "sectionId and title required" }, { status: 400 });
+    return applyCookies(NextResponse.json({ error: "sectionId and title required" }, { status: 400 }));
   }
 
   if (!(await authorizeBySection(supabase, sectionId, userId))) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
   }
 
   const { data, error } = await supabase
@@ -56,17 +56,17 @@ export async function POST(request: NextRequest) {
     .select("id")
     .single();
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) return applyCookies(NextResponse.json({ error: error.message }, { status: 500 }));
   return applyCookies(NextResponse.json({ id: (data as { id: string }).id }));
 }
 
 export async function PATCH(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
   const userId = await requireAuth(supabase);
-  if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!userId) return applyCookies(NextResponse.json({ error: "Unauthorized" }, { status: 401 }));
 
   const { id, title, content, quizSourceContent, videoUrl, duration, orderIndex } = await request.json();
-  if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
+  if (!id) return applyCookies(NextResponse.json({ error: "id required" }, { status: 400 }));
 
   const lesson = (await supabase
     .from("teacher_lessons")
@@ -74,10 +74,10 @@ export async function PATCH(request: NextRequest) {
     .eq("id", id)
     .single()).data as { section_id: string } | null;
 
-  if (!lesson) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  if (!lesson) return applyCookies(NextResponse.json({ error: "Not found" }, { status: 404 }));
 
   if (!(await authorizeBySection(supabase, lesson.section_id, userId))) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
   }
 
   const updates: Record<string, unknown> = {};
@@ -89,18 +89,18 @@ export async function PATCH(request: NextRequest) {
   if (orderIndex !== undefined) updates.order_index = orderIndex;
 
   const { error } = await supabase.from("teacher_lessons").update(updates).eq("id", id);
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) return applyCookies(NextResponse.json({ error: error.message }, { status: 500 }));
   return applyCookies(NextResponse.json({ ok: true }));
 }
 
 export async function DELETE(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
   const userId = await requireAuth(supabase);
-  if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!userId) return applyCookies(NextResponse.json({ error: "Unauthorized" }, { status: 401 }));
 
   const { searchParams } = new URL(request.url);
   const id = searchParams.get("id");
-  if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
+  if (!id) return applyCookies(NextResponse.json({ error: "id required" }, { status: 400 }));
 
   const lesson = (await supabase
     .from("teacher_lessons")
@@ -108,10 +108,10 @@ export async function DELETE(request: NextRequest) {
     .eq("id", id)
     .single()).data as { section_id: string } | null;
 
-  if (!lesson) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  if (!lesson) return applyCookies(NextResponse.json({ error: "Not found" }, { status: 404 }));
 
   if (!(await authorizeBySection(supabase, lesson.section_id, userId))) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
   }
 
   const { error } = await supabase.from("teacher_lessons").delete().eq("id", id);

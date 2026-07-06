@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
   const teacherId = await requireTeacher(supabase);
   if (!teacherId) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
   }
 
   const { name, description } = await request.json();
@@ -36,7 +36,7 @@ export async function PATCH(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
   const teacherId = await requireTeacher(supabase);
   if (!teacherId) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
   }
 
   const { id, name, description } = await request.json();
@@ -51,7 +51,7 @@ export async function PATCH(request: NextRequest) {
     .single()).data as { teacher_id: string } | null;
 
   if (!cls || (cls.teacher_id !== teacherId && !(await isAdmin(supabase)))) {
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
+    return applyCookies(NextResponse.json({ error: "Not found" }, { status: 404 }));
   }
 
   const { error } = await supabase
@@ -70,7 +70,7 @@ export async function DELETE(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
   const teacherId = await requireTeacher(supabase);
   if (!teacherId) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
   }
 
   const { searchParams } = new URL(request.url);
@@ -86,7 +86,7 @@ export async function DELETE(request: NextRequest) {
     .single()).data as { teacher_id: string } | null;
 
   if (!cls || (cls.teacher_id !== teacherId && !(await isAdmin(supabase)))) {
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
+    return applyCookies(NextResponse.json({ error: "Not found" }, { status: 404 }));
   }
 
   const { error } = await supabase.from("classes").delete().eq("id", id);

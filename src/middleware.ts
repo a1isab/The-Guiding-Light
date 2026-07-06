@@ -6,7 +6,7 @@ import { routing } from "../i18n/routing";
 const intlMiddleware = createIntlMiddleware(routing);
 const PROTECTED_PATHS = ["/dashboard", "/teacher", "/admin"];
 
-export async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   // ─── API routes: skip intl middleware to avoid locale prefix redirect ───

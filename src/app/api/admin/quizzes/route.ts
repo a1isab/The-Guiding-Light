@@ -5,12 +5,12 @@ export async function POST(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
   const teacherId = await requireTeacher(supabase);
   if (!teacherId) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
   }
 
   const { lessonSlug } = await request.json();
   if (!lessonSlug) {
-    return NextResponse.json({ error: "lessonSlug required" }, { status: 400 });
+    return applyCookies(NextResponse.json({ error: "lessonSlug required" }, { status: 400 }));
   }
 
   const { data: lesson, error: lessonError } = await supabase
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
     .single();
 
   if (lessonError || !lesson) {
-    return NextResponse.json({ error: "Lesson not found" }, { status: 404 });
+    return applyCookies(NextResponse.json({ error: "Lesson not found" }, { status: 404 }));
   }
 
   const questions = [
@@ -45,12 +45,12 @@ export async function DELETE(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
   const teacherId = await requireTeacher(supabase);
   if (!teacherId) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
   }
 
   const { lessonId } = await request.json();
   if (!lessonId) {
-    return NextResponse.json({ error: "lessonId required" }, { status: 400 });
+    return applyCookies(NextResponse.json({ error: "lessonId required" }, { status: 400 }));
   }
 
   const { error } = await supabase.rpc("e2e_delete_quiz", {

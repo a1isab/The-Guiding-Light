@@ -10,13 +10,13 @@ export async function POST(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
   const userId = await requireAuth(supabase);
   if (!userId) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return applyCookies(NextResponse.json({ error: "Unauthorized" }, { status: 401 }));
   }
 
   const { lessonId, answers } = await request.json();
 
   if (!lessonId || !Array.isArray(answers)) {
-    return NextResponse.json({ error: "lessonId and answers array required" }, { status: 400 });
+    return applyCookies(NextResponse.json({ error: "lessonId and answers array required" }, { status: 400 }));
   }
 
   // Verify lesson exists
@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     .single()).data as { id: string } | null;
 
   if (!lesson) {
-    return NextResponse.json({ error: "Lesson not found" }, { status: 404 });
+    return applyCookies(NextResponse.json({ error: "Lesson not found" }, { status: 404 }));
   }
 
   // ----- LOCKOUT CHECK -----
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
     .order("completed_at", { ascending: true });
 
   if (countError) {
-    return NextResponse.json({ error: countError.message }, { status: 500 });
+    return applyCookies(NextResponse.json({ error: countError.message }, { status: 500 }));
   }
 
   const failCount = recentAttempts?.length ?? 0;
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
     .maybeSingle();
 
   if (passedAttempt) {
-    return NextResponse.json({ error: "Already passed this quiz" }, { status: 400 });
+    return applyCookies(NextResponse.json({ error: "Already passed this quiz" }, { status: 400 }));
   }
 
   if (failCount >= MAX_ATTEMPTS_IN_WINDOW) {
@@ -66,14 +66,14 @@ export async function POST(request: NextRequest) {
     const retryAt = new Date(new Date(earliestAttempt).getTime() + LOCKOUT_MINUTES * 60 * 1000);
     const retryAfter = Math.ceil((retryAt.getTime() - Date.now()) / 1000);
 
-    return NextResponse.json(
+    return applyCookies(NextResponse.json(
       {
         locked: true,
         message: `Too many failed attempts. Try again in ${Math.ceil(retryAfter / 60)} minutes.`,
         retryAfter,
       },
       { status: 429 }
-    );
+    ));
   }
 
   // ----- FETCH QUESTIONS -----
@@ -84,15 +84,15 @@ export async function POST(request: NextRequest) {
     .order("order_index", { ascending: true });
 
   if (qError || !questions || questions.length === 0) {
-    return NextResponse.json({ error: "No quiz questions found" }, { status: 404 });
+    return applyCookies(NextResponse.json({ error: "No quiz questions found" }, { status: 404 }));
   }
 
   // ----- SCORE -----
   if (answers.length !== questions.length) {
-    return NextResponse.json(
+    return applyCookies(NextResponse.json(
       { error: `Expected ${questions.length} answers, got ${answers.length}` },
       { status: 400 }
-    );
+    ));
   }
 
   let score = 0;
@@ -117,7 +117,7 @@ export async function POST(request: NextRequest) {
     });
 
   if (insertError) {
-    return NextResponse.json({ error: insertError.message }, { status: 500 });
+    return applyCookies(NextResponse.json({ error: insertError.message }, { status: 500 }));
   }
 
   // ----- AUTO-COMPLETE LESSON IF PASSED -----
