@@ -125,7 +125,15 @@
     "invite_code": "Teacher Invite Code",
     "invite_code_placeholder": "Enter your invite code",
     "invite_code_required": "Please enter your teacher invite code",
-    "invalid_invite_code": "Invalid or already used invite code"
+    "invalid_invite_code": "Invalid or already used invite code",
+    "otp_title": "Enter verification code",
+    "otp_subtitle": "We sent a 6-digit code to {email}",
+    "otp_verify": "Verifying...",
+    "otp_error": "Invalid code. Please try again.",
+    "otp_resend": "Resend code",
+    "otp_resend_in": "Resend in {seconds}s",
+    "otp_resend_sent": "Code resent!",
+    "otp_fallback": "Can't find the code? Click the confirmation link sent to your email instead."
   },
   "courses": {
     "title": "All Courses",
