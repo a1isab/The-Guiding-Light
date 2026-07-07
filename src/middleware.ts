@@ -2,7 +2,6 @@ import { type NextRequest, NextResponse } from "next/server";
 import createIntlMiddleware from "next-intl/middleware";
 import { createServerClient } from "@supabase/ssr";
 import { routing } from "../i18n/routing";
-import { getUserRole } from "@/lib/supabase-api";
 
 const intlMiddleware = createIntlMiddleware(routing);
 const PROTECTED_PATHS = ["/dashboard", "/teacher", "/admin"];
@@ -41,11 +40,9 @@ export async function middleware(request: NextRequest) {
       }
     );
 
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
-      const roles = await getUserRole(supabase);
-      intlResponse.headers.set("x-user-id", user.id);
-      intlResponse.headers.set("x-user-roles", JSON.stringify(roles ?? []));
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session?.user) {
+      intlResponse.headers.set("x-user-id", session.user.id);
     }
   }
 
