@@ -51,9 +51,14 @@ export async function createAuthServerClient() {
           return cookieStore.getAll();
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => {
-            cookieStore.set(name, value, options);
-          });
+          try {
+            cookiesToSet.forEach(({ name, value, options }) => {
+              cookieStore.set(name, value, options);
+            });
+          } catch {
+            // Ignored — setAll is called during Server Component render
+            // when the middleware already handled cookie refresh.
+          }
         },
       },
     }

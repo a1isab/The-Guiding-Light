@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { createServerSupabaseClient } from "@/lib/supabase";
 import { getUserRole } from "@/lib/supabase-api";
 import { LayoutDashboard, Users, LogOut } from "lucide-react";
@@ -14,13 +15,28 @@ export default async function TeacherLayout({
 }) {
   const { locale } = await params;
 
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect(`/${locale}/auth/login`);
-  const role = await getUserRole(supabase);
+  // Auth check from middleware-propagated headers
+  const headersList = await headers();
+  const headerUserId = headersList.get("x-user-id");
+  const headerRoles = headersList.get("x-user-roles");
 
-  if (!role?.includes("teacher") && !role?.includes("admin")) {
-    redirect(`/${locale}/dashboard`);
+  const userId = headerUserId;
+  const role: string[] | null = headerRoles ? (JSON.parse(headerRoles) as string[]) : null;
+
+  if (!userId || !role) {
+    const supabase = await createServerSupabaseClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) redirect(`/${locale}/auth/login`);
+    if (!role) {
+      const r = await getUserRole(supabase);
+      if (!r?.includes("teacher") && !r?.includes("admin")) {
+        redirect(`/${locale}/dashboard`);
+      }
+    }
+  } else {
+    if (!role.includes("teacher") && !role.includes("admin")) {
+      redirect(`/${locale}/dashboard`);
+    }
   }
 
   const t = await getTranslations("teacher");
