@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { createServerSupabaseClient } from "@/lib/supabase";
 import { getUserRole } from "@/lib/supabase-api";
 import { LayoutDashboard, BookOpen, Users, Key, FileText, LogOut } from "lucide-react";
@@ -13,11 +14,27 @@ export default async function AdminLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect(`/${locale}/auth/login`);
 
-  const role = await getUserRole(supabase);
+  // Read auth from middleware-propagated headers (fallback to supabase client)
+  const headersList = await headers();
+  const headerUserId = headersList.get("x-user-id");
+  const headerRoles = headersList.get("x-user-roles");
+
+  let userId: string | null = headerUserId ?? null;
+  let role: string[] | null = null;
+
+  if (headerRoles) {
+    try { role = JSON.parse(headerRoles) as string[]; } catch { role = null; }
+  }
+
+  if (!userId || !role) {
+    const supabase = await createServerSupabaseClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) redirect(`/${locale}/auth/login`);
+    userId = user.id;
+    role = await getUserRole(supabase);
+  }
+
   if (!role?.includes("admin")) redirect(`/${locale}/dashboard`);
 
   const t = await getTranslations("admin");

@@ -39,7 +39,7 @@ export async function getUserRole(supabase: ReturnType<typeof createServerClient
   if (error) {
     console.warn("get_user_roles RPC failed, falling back to profiles.role:", error.message);
   }
-  if (role) return role as string[];
+  if (role && role.length > 0) return role as string[];
 
   const { data: profile } = await supabase
     .from("profiles")
