@@ -1,16 +1,11 @@
-## 1. Cookie Encoding Fix
+## 1. Fix Double Token Refresh
 
-- [x] 1.1 Add `cookieEncoding: "base64url"` to `createBrowserClient()` in `src/lib/supabase-client.ts`
-- [x] 1.2 Remove debug `console.log` statements from `src/app/api/teacher/classes/route.ts`
+- [x] 1.1 Remove `getSession()` and all auth cookie handling from `src/middleware.ts`
+- [x] 1.2 Keep i18n routing only — middleware should not touch Supabase auth
 
-## 2. Verification
+## 2. Verify
 
-- [x] 2.1 E2E test confirms fresh login + create class returns 200 (cookies in correct `base64-` format)
-- [ ] 2.2 Existing teachers with stale cookies must clear cookies and log in again (or wait for token refresh to upgrade cookies)
-- [ ] 2.3 Create a quick note so deployment instructions include "clear cookies" step for existing users
-- [ ] 2.4 Run `npm run build` — zero TypeScript/ESLint errors
-
-## 3. Cleanup
-
-- [ ] 3.1 Remove exploratory test scripts: `fix-teacher-roles.ts`, `debug-teacher-roles.ts`, `test-api-route*.ts`, `test-raw-json-cookie.ts`
-- [ ] 3.2 Reset git history — the initial migration-018 direction was wrong; squash or discard those commits
+- [x] 2.1 Run `npm run build` — zero TypeScript/ESLint errors
+- [ ] 2.2 Deploy to `the-guiding-light.vercel.app` and test refresh logout is fixed
+- [ ] 2.3 Confirm creating a class returns 200 and class page loads
+- [ ] 2.4 Confirm no regressions on dashboard, teacher, and admin pages
