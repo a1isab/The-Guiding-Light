@@ -17,9 +17,8 @@ export async function middleware(request: NextRequest) {
   intlResponse.headers.set("X-NEXT-INTL-LOCALE", locale);
 
   // ─── Auth header propagation for protected routes ───
-  // Middleware refreshes the session and writes cookies to the response.
-  // Server Components read the headers instead of calling getUser()
-  // themselves (Next.js 16 does not allow cookie writes during render).
+  // Uses getSession() (no network) to avoid timeouts. Server Components
+  // and API routes handle token refresh via getUser() with try/catch.
   const pathWithoutLocale = "/" + pathname.split("/").slice(2).join("/");
   const isProtected = PROTECTED_PATHS.some((p) => pathWithoutLocale.startsWith(p));
 
