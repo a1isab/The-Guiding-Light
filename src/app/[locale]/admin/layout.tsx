@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createServerSupabaseClient } from "@/lib/supabase";
+import { getUserRole } from "@/lib/supabase-api";
 import { LayoutDashboard, BookOpen, Users, Key, FileText, LogOut } from "lucide-react";
 
 export default async function AdminLayout({
@@ -16,8 +17,7 @@ export default async function AdminLayout({
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect(`/${locale}/auth/login`);
 
-  const { data: roleRaw } = await supabase.rpc("get_user_roles");
-  const role: string[] | null = roleRaw as string[] | null;
+  const role = await getUserRole(supabase);
   if (!role?.includes("admin")) redirect(`/${locale}/dashboard`);
 
   const t = await getTranslations("admin");

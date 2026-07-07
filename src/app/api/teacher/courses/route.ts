@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createApiSupabaseClient, requireTeacher } from "@/lib/supabase-api";
+import { createApiSupabaseClient, requireTeacher, getUserRole } from "@/lib/supabase-api";
 
 export async function POST(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
     .eq("id", classId)
     .single()).data as { teacher_id: string } | null;
 
-  const { data: role } = await supabase.rpc("get_user_roles");
+  const role = await getUserRole(supabase);
   if (!cls || (cls.teacher_id !== teacherId && !role?.includes("admin"))) {
     return applyCookies(NextResponse.json({ error: "Not found" }, { status: 404 }));
   }

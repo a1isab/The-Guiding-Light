@@ -57,9 +57,15 @@ export async function requireAuth(supabase: ReturnType<typeof createServerClient
 
 export async function requireTeacher(supabase: ReturnType<typeof createServerClient>): Promise<string | null> {
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
+  if (!user) {
+    console.warn("[requireTeacher] getUser() returned null — session may be expired");
+    return null;
+  }
   const role = await getUserRole(supabase);
-  if (!role?.includes("teacher") && !role?.includes("admin")) return null;
+  if (!role?.includes("teacher") && !role?.includes("admin")) {
+    console.warn("[requireTeacher] user", user.id, "has role", role, "— not teacher/admin");
+    return null;
+  }
   return user.id;
 }
 

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { createClient } from "@/lib/supabase-client";
+import { createClient, getUserRoleClient } from "@/lib/supabase-client";
 import type { User } from "@supabase/supabase-js";
 import { Logo } from "./logo";
 
@@ -39,9 +39,7 @@ export function Navbar() {
     supabase.auth.getUser().then(({ data: { user } }) => {
       setUser(user);
       if (user) {
-        supabase.rpc("get_user_roles").then(({ data }) => {
-          setUserRole((data as string[]) ?? null);
-        });
+        getUserRoleClient(supabase).then(setUserRole);
       }
       setLoading(false);
     });
@@ -51,9 +49,7 @@ export function Navbar() {
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
       if (session?.user) {
-        supabase.rpc("get_user_roles").then(({ data }) => {
-          setUserRole((data as string[]) ?? null);
-        });
+        getUserRoleClient(supabase).then(setUserRole);
       } else {
         setUserRole(null);
       }

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createApiSupabaseClient, requireAuth } from "@/lib/supabase-api";
+import { createApiSupabaseClient, requireAuth, getUserRole } from "@/lib/supabase-api";
 
 export async function GET(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
@@ -89,7 +89,7 @@ export async function DELETE(request: NextRequest) {
     return applyCookies(NextResponse.json({ error: "File not found" }, { status: 404 }));
   }
 
-  const { data: role } = await supabase.rpc("get_user_roles");
+  const role = await getUserRole(supabase);
   const isOwner = file.teacher_id === userId;
   const isAdmin = role?.includes("admin");
 

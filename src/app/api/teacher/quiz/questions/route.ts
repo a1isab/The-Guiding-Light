@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createApiSupabaseClient, requireAuth } from "@/lib/supabase-api";
+import { createApiSupabaseClient, requireAuth, getUserRole } from "@/lib/supabase-api";
 
 export async function GET(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
   }
 
   // Check if user is teacher/owner
-  const { data: role } = await supabase.rpc("get_user_roles");
+  const role = await getUserRole(supabase);
   let isTeacher = role?.includes("admin") ?? false;
 
   if (role?.includes("teacher")) {
@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
   }
 
   // Enrolled student check
-  if (!isTeacher && role === "student") {
+  if (!isTeacher && !role?.includes("teacher") && !role?.includes("admin")) {
     const section = (await supabase
       .from("teacher_sections")
       .select("course_id")

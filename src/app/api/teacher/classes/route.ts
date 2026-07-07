@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createApiSupabaseClient, requireTeacher } from "@/lib/supabase-api";
+import { createApiSupabaseClient, requireTeacher, getUserRole } from "@/lib/supabase-api";
 import { createServerClient } from "@supabase/ssr";
 
 async function isAdmin(supabase: ReturnType<typeof createServerClient>): Promise<boolean> {
-  const { data: role } = await supabase.rpc("get_user_roles");
+  const role = await getUserRole(supabase);
   return role?.includes("admin") ?? false;
 }
 

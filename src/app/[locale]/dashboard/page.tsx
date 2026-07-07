@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { headers } from "next/headers";
 import type { Profile, Progress, Subscription, UserBadge } from "@/lib/types";
+import { getUserRole } from "@/lib/supabase-api";
 import { BookOpen, Flame, Crown, TrendingUp, LogOut, Users, AlertTriangle } from "lucide-react";
 import { BadgeGrid } from "@/components/badge-grid";
 import { JoinClassCard } from "@/components/join-class-card";
@@ -35,8 +36,7 @@ export default async function DashboardPage({
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) redirect(`/${locale}/auth/login`);
     userId = user.id;
-    const { data: roleRaw } = await supabase.rpc("get_user_roles");
-    role = roleRaw as string[] | null;
+    role = await getUserRole(supabase);
   }
 
   if (role?.includes("admin")) redirect(`/${locale}/admin`);

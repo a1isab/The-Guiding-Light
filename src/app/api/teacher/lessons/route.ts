@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createApiSupabaseClient, requireAuth } from "@/lib/supabase-api";
+import { createApiSupabaseClient, requireAuth, getUserRole } from "@/lib/supabase-api";
 import { createServerClient } from "@supabase/ssr";
 
 async function authorizeBySection(supabase: ReturnType<typeof createServerClient>, sectionId: string, userId: string): Promise<boolean> {
@@ -26,7 +26,7 @@ async function authorizeBySection(supabase: ReturnType<typeof createServerClient
 
   if (cls.teacher_id === userId) return true;
 
-  const { data: role } = await supabase.rpc("get_user_roles");
+  const role = await getUserRole(supabase);
   return role?.includes("admin") ?? false;
 }
 
