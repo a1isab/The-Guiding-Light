@@ -30,7 +30,7 @@ export default async function DashboardPage({
     try { role = JSON.parse(headerRoles) as string[]; } catch { role = null; }
   }
 
-  if (!userId) {
+  if (!userId || !role) {
     const { createServerSupabaseClient } = await import("@/lib/supabase");
     const supabase = await createServerSupabaseClient();
     const { data: { user } } = await supabase.auth.getUser();
