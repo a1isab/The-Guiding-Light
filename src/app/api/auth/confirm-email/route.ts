@@ -10,6 +10,9 @@ export async function POST(request: NextRequest) {
     }
 
     const supabase = createAdminClient();
+    if (!supabase) {
+      return NextResponse.json({ error: "Admin client not configured" }, { status: 500 });
+    }
 
     const { error } = await supabase.rpc("auth_confirm_user", {
       p_email: email,

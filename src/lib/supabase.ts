@@ -2,22 +2,25 @@ import { createClient } from "@supabase/supabase-js";
 import { createServerClient as createSSRClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
-function getServiceRoleKey(): string {
+function getServiceRoleKey(): string | null {
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!key) {
-    throw new Error(
+    console.warn(
       "SUPABASE_SERVICE_ROLE_KEY is not set. " +
       "Add it to .env.local from your Supabase project dashboard: " +
       "Project Settings → API → service_role key"
     );
+    return null;
   }
   return key;
 }
 
 export function createAdminClient() {
+  const serviceRoleKey = getServiceRoleKey();
+  if (!serviceRoleKey) return null;
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    getServiceRoleKey(),
+    serviceRoleKey,
     {
       auth: {
         autoRefreshToken: false,

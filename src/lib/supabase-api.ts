@@ -35,8 +35,18 @@ export function createApiSupabaseClient(request: NextRequest) {
 export type ApiSupabase = ReturnType<typeof createApiSupabaseClient>;
 
 export async function getUserRole(supabase: ReturnType<typeof createServerClient>): Promise<string[] | null> {
-  const { data: role } = await supabase.rpc("get_user_roles");
-  return role as string[] | null;
+  const { data: role, error } = await supabase.rpc("get_user_roles");
+  if (error) {
+    console.warn("get_user_roles RPC failed, falling back to profiles.role:", error.message);
+  }
+  if (role) return role as string[];
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .maybeSingle();
+  if (!profile?.role) return null;
+  return [profile.role];
 }
 
 export async function requireAuth(supabase: ReturnType<typeof createServerClient>): Promise<string | null> {
