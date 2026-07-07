@@ -1,7 +1,7 @@
 # Tasks
 
 - [x] **Task 1: Refactor middleware RPC call to use profiles.role fallback**
-  `src/middleware.ts:44` — replaced with `getUserRole(supabase)`
+  `src/middleware.ts:44` — replaced with `getUserRole(supabase)` (later reverted to `getSession()` to fix double-refresh)
 
 - [x] **Task 2: Refactor navbar RPC calls to use profiles.role fallback**
   `src/components/navbar.tsx:42,54` — added `getUserRoleClient()` helper in `supabase-client.ts`
@@ -28,8 +28,18 @@
 - [x] **Task 6: Fix confirm-email endpoint to use authenticated client fallback**
   Falls back to user's session if admin client unavailable
 
-- [x] **Task 7: Extend middleware to API routes**
-  Added API route handling to middleware for cookie refresh + removed API exclusion from matcher
+- [x] **Task 7: Fix session loss on reload (double token refresh)**
+  **Root cause**: Middleware called `getUser()` → consumed refresh token.
+  Server Component then called `getUser()` → tried to use already-consumed
+  refresh token → failed → returned null → user appeared logged out.
+  **Fix**: Middleware uses `getSession()` (passive, no refresh) instead of
+  `getUser()`. Server Components and API routes handle the single refresh.
 
-- [x] **Task 8: Add diagnostic logging for session drops**
-  Added `console.warn` to `requireTeacher()` capturing whether getUser() or role check fails
+- [x] **Task 8: Add auth guard to teacher layout**
+  Teacher layout now checks `x-user-id` header (or falls back to
+  `getUser()`), then checks teacher/admin role. Redirects to login or
+  dashboard if unauthorized.
+
+- [x] **Task 9: Add diagnostic logging for session drops**
+  Added `console.warn` to `requireTeacher()` capturing whether getUser()
+  or role check fails
