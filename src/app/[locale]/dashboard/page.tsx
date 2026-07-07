@@ -210,7 +210,7 @@ export default async function DashboardPage({
       <div>
         <div className="flex items-center gap-3">
           <h1 className="font-amiri text-3xl font-bold text-zinc-100">
-            {greeting}{profile ? `, ${"Learner"}` : ""}!
+            {greeting}{profile ? `, ${t("student")}` : ""}!
           </h1>
           {studiedToday && (
             <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-medium text-emerald-400">
@@ -320,7 +320,7 @@ export default async function DashboardPage({
       {nextLesson && (
         <div className="mt-8 rounded-2xl border border-emerald-800/30 bg-emerald-900/10 p-6">
           <p className="text-xs font-medium uppercase tracking-wider text-emerald-400 mb-2">
-            Continue Learning
+            {t("continue_learning")}
           </p>
           <Link
             href={`/${locale}/courses/${nextLesson.courseSlug}/${nextLesson.sectionSlug}/${nextLesson.slug}`}
@@ -360,7 +360,7 @@ export default async function DashboardPage({
                   <div>
                     <p className="text-sm font-semibold text-zinc-200">{cls.name}</p>
                     <p className="text-xs text-zinc-500">
-                      {courseCounts[cls.id] ?? 0} {(t as any)("courses") ?? "courses"}
+                       {courseCounts[cls.id] ?? 0} {"courses"}
                     </p>
                   </div>
                 </div>

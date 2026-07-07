@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createApiSupabaseClient, requireAuth } from "@/lib/supabase-api";
-import { createClient } from "@supabase/supabase-js";
 
 export async function GET(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
@@ -58,11 +57,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  const storage = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
-  );
-  const { data: urlData } = storage.storage.from("lesson-files").getPublicUrl(storage_path);
+  const { data: urlData } = supabase.storage.from("lesson-files").getPublicUrl(storage_path);
 
   return applyCookies(
     NextResponse.json({ file: { ...data, public_url: urlData.publicUrl } })
@@ -102,13 +97,7 @@ export async function DELETE(request: NextRequest) {
     return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
   }
 
-  // Delete from storage
-  const storage = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
-  );
-
-  const { error: storageError } = await storage.storage
+  const { error: storageError } = await supabase.storage
     .from("lesson-files")
     .remove([file.storage_path]);
 

@@ -50,6 +50,13 @@ export function Navbar() {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
+      if (session?.user) {
+        supabase.rpc("get_user_roles").then(({ data }) => {
+          setUserRole((data as string[]) ?? null);
+        });
+      } else {
+        setUserRole(null);
+      }
     });
 
     return () => subscription.unsubscribe();

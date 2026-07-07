@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase-client";
-import { BADGE_DEFINITIONS, isDynamicBadgeKey } from "@/lib/badge-definitions";
+import { BADGE_DEFINITIONS } from "@/lib/badge-definitions";
 
 export async function awardSectionBadge(
   userId: string,

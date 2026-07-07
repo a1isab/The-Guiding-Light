@@ -18,7 +18,6 @@
     "why_title": "Pourquoi la lumière directrice ?",
     "feature_structured_title": "Cours structurés",
     "feature_structured_desc": "Cours organisés du débutant au avancé, couvrant la Aqida, le Fiqh, l'arabe et plus encore.",
-
     "feature_free_title": "Gratuit pour tous",
     "feature_free_desc": "Les cours de base sont entièrement gratuits. Les fonctionnalités Premium sont facultatives et abordables.",
     "how_title": "Comment ça marche",
@@ -70,7 +69,8 @@
     "join_class": "Rejoindre une classe",
     "invite_code_placeholder": "Entrez le code d'invitation",
     "join": "Rejoindre",
-    "lesson_files": "Fichiers de la leçon"
+    "lesson_files": "Fichiers de la leçon",
+    "student": "Student"
   },
   "pricing": {
     "title": "Tarification simple et transparente",
@@ -133,7 +133,26 @@
     "otp_resend": "Renvoyer le code",
     "otp_resend_in": "Renvoyer dans {seconds}s",
     "otp_resend_sent": "Code renvoyé !",
-    "otp_fallback": "Vous ne trouvez pas le code ? Cliquez plutôt sur le lien de confirmation envoyé à votre adresse e-mail."
+    "otp_fallback": "Vous ne trouvez pas le code ? Cliquez plutôt sur le lien de confirmation envoyé à votre adresse e-mail.",
+    "forgot_password": "Forgot password?",
+    "forgot_password_title": "Reset password",
+    "forgot_password_subtitle": "Enter your email and we'll send you a reset link",
+    "forgot_password_sent_title": "Check your email",
+    "forgot_password_sent_msg": "We sent a password reset link to {email}",
+    "forgot_password_send": "Send reset link",
+    "forgot_password_sending": "Sending...",
+    "forgot_password_back": "Back to login",
+    "reset_password_title": "Set new password",
+    "reset_password_subtitle": "Enter your new password below",
+    "reset_password_new": "New password",
+    "reset_password_confirm": "Confirm new password",
+    "reset_password_button": "Reset password",
+    "reset_password_loading": "Resetting...",
+    "reset_password_too_short": "Password must be at least 6 characters.",
+    "reset_password_mismatch": "Passwords do not match.",
+    "signup_confirm_failed": "Account created but confirmation failed. Try signing in.",
+    "signup_sign_in_prompt": "Account created. Please sign in.",
+    "email_label": "Email"
   },
   "courses": {
     "title": "Tous les cours",

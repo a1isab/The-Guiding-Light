@@ -3,14 +3,12 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { createClient } from "@/lib/supabase-client";
 import { CheckCircle, XCircle, Loader2 } from "lucide-react";
 
 export default function JoinPage() {
   const params = useParams<{ locale: string; inviteCode: string }>();
   const router = useRouter();
   const t = useTranslations("teacher");
-  const supabase = createClient();
 
   const [status, setStatus] = useState<"loading" | "success" | "error" | "expired" | "exists">("loading");
   const [className, setClassName] = useState("");
@@ -19,61 +17,36 @@ export default function JoinPage() {
   useEffect(() => {
     async function join() {
       try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) {
-          router.push(`/${params.locale}/auth/login?redirect=/join/${params.inviteCode}`);
-          return;
-        }
+        const res = await fetch("/api/classes/join", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ inviteCode: params.inviteCode }),
+        });
 
-        const { data: cls, error: clsErr } = await supabase
-          .from("classes")
-          .select("id, name, invite_expires_at")
-          .eq("invite_code", params.inviteCode.toUpperCase())
-          .single();
+        const data = await res.json();
 
-        if (clsErr || !cls) {
+        if (!res.ok) {
+          if (res.status === 401) {
+            router.push(`/${params.locale}/auth/login?redirect=/join/${params.inviteCode}`);
+            return;
+          }
+          if (res.status === 410) {
+            setStatus("expired");
+            setClassName(data.className ?? "");
+            return;
+          }
+          if (res.status === 409) {
+            setStatus("exists");
+            setClassName(data.className ?? "");
+            return;
+          }
           setStatus("error");
-          setErrorMsg(t("join_invalid_code"));
+          setErrorMsg(data.error ?? t("join_error"));
           return;
         }
-
-        if (cls.invite_expires_at && new Date(cls.invite_expires_at) < new Date()) {
-          setStatus("expired");
-          setClassName(cls.name);
-          return;
-        }
-
-        const { data: existing } = await supabase
-          .from("class_members")
-          .select("id")
-          .eq("class_id", cls.id)
-          .eq("student_id", user.id)
-          .single();
-
-        if (existing) {
-          setStatus("exists");
-          setClassName(cls.name);
-          return;
-        }
-
-        const { error: joinErr } = await supabase
-          .from("class_members")
-          .insert({ class_id: cls.id, student_id: user.id });
-
-        if (joinErr) {
-          setStatus("error");
-          setErrorMsg(joinErr.message);
-          return;
-        }
-
-        // Invalidate the invite code so only one student can use it
-        await supabase
-          .from("classes")
-          .update({ invite_expires_at: new Date().toISOString() })
-          .eq("id", cls.id);
 
         setStatus("success");
-        setClassName(cls.name);
+        setClassName(data.className);
       } catch (err) {
         setStatus("error");
         setErrorMsg(t("join_error"));
@@ -81,7 +54,7 @@ export default function JoinPage() {
     }
 
     join();
-  }, [params.locale, params.inviteCode, supabase, router, t]);
+  }, [params.locale, params.inviteCode, router, t]);
 
   return (
     <div className="flex min-h-[60vh] items-center justify-center">

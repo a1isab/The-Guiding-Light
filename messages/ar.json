@@ -18,7 +18,6 @@
     "why_title": "لماذا الضوء الهادي؟",
     "feature_structured_title": "الدورات المنظمة",
     "feature_structured_desc": "دروس منسقة من المبتدئين إلى المتقدمين، تغطي العقيدة والفقه والعربية والمزيد.",
-
     "feature_free_title": "مجاني للجميع",
     "feature_free_desc": "الدورات الأساسية مجانية تماما. الميزات المميزة اختيارية وبأسعار معقولة.",
     "how_title": "كيف يعمل",
@@ -70,7 +69,8 @@
     "join_class": "انضم إلى فصل",
     "invite_code_placeholder": "أدخل رمز الدعوة",
     "join": "انضمام",
-    "lesson_files": "ملفات الدرس"
+    "lesson_files": "ملفات الدرس",
+    "student": "Student"
   },
   "pricing": {
     "title": "تسعير بسيط وشفاف",
@@ -133,7 +133,26 @@
     "otp_resend": "إعادة إرسال الرمز",
     "otp_resend_in": "إعادة الإرسال بعد {seconds}ث",
     "otp_resend_sent": "تم إعادة إرسال الرمز!",
-    "otp_fallback": "لا يمكنك العثور على الرمز؟ انقر على رابط التأكيد المرسل إلى بريدك الإلكتروني بدلاً من ذلك."
+    "otp_fallback": "لا يمكنك العثور على الرمز؟ انقر على رابط التأكيد المرسل إلى بريدك الإلكتروني بدلاً من ذلك.",
+    "forgot_password": "Forgot password?",
+    "forgot_password_title": "Reset password",
+    "forgot_password_subtitle": "Enter your email and we'll send you a reset link",
+    "forgot_password_sent_title": "Check your email",
+    "forgot_password_sent_msg": "We sent a password reset link to {email}",
+    "forgot_password_send": "Send reset link",
+    "forgot_password_sending": "Sending...",
+    "forgot_password_back": "Back to login",
+    "reset_password_title": "Set new password",
+    "reset_password_subtitle": "Enter your new password below",
+    "reset_password_new": "New password",
+    "reset_password_confirm": "Confirm new password",
+    "reset_password_button": "Reset password",
+    "reset_password_loading": "Resetting...",
+    "reset_password_too_short": "Password must be at least 6 characters.",
+    "reset_password_mismatch": "Passwords do not match.",
+    "signup_confirm_failed": "Account created but confirmation failed. Try signing in.",
+    "signup_sign_in_prompt": "Account created. Please sign in.",
+    "email_label": "Email"
   },
   "courses": {
     "title": "جميع الدورات",

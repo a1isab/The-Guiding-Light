@@ -73,7 +73,7 @@ function LoginForm() {
             href={`/${locale}/auth/forgot-password`}
             className="text-xs text-zinc-500 hover:text-emerald-400 transition-colors"
           >
-            Forgot password?
+            {t("forgot_password")}
           </Link>
         </div>
       </div>

@@ -9,11 +9,6 @@ const PROTECTED_PATHS = ["/dashboard", "/teacher", "/admin"];
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
-  // ─── API routes: skip intl middleware to avoid locale prefix redirect ───
-  if (pathname.startsWith("/api/")) {
-    return NextResponse.next();
-  }
-
   // ─── Intl middleware first ───
   const intlResponse = await intlMiddleware(request);
   if (intlResponse.headers.get("location")) return intlResponse;
@@ -56,6 +51,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    "/((?!api/|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };

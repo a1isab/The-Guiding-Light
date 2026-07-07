@@ -79,7 +79,7 @@ export default function SignUpPage() {
     });
 
     if (!confirmRes.ok) {
-      setError("Account created but confirmation failed. Try signing in.");
+      setError(t("signup_confirm_failed"));
       setLoading(false);
       return;
     }
@@ -90,7 +90,7 @@ export default function SignUpPage() {
     });
 
     if (signInError) {
-      setError("Account created. Please sign in.");
+      setError(t("signup_sign_in_prompt"));
       setLoading(false);
       return;
     }
