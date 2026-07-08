@@ -34,19 +34,35 @@ export function createApiSupabaseClient(request: NextRequest) {
 
 export type ApiSupabase = ReturnType<typeof createApiSupabaseClient>;
 
-export async function getUserRole(supabase: ReturnType<typeof createServerClient>): Promise<string[] | null> {
-  const { data: role, error } = await supabase.rpc("get_user_roles");
-  if (error) {
-    console.warn("get_user_roles RPC failed, falling back to profiles.role:", error.message);
-  }
-  if (role && role.length > 0) return role as string[];
+export async function getUserRole(supabase: ReturnType<typeof createServerClient>): Promise<string[]> {
+  try {
+    const { data: roles, error: rpcError } = await supabase.rpc("get_user_roles");
+    if (rpcError) {
+      console.warn("get_user_roles RPC failed, falling back to profiles.role:", rpcError.message);
+    }
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .maybeSingle();
-  if (!profile?.role) return null;
-  return [profile.role];
+    if (Array.isArray(roles) && roles.length > 0) {
+      return roles;
+    }
+
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError || !user) return [];
+
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+
+    if (profile?.role) {
+      return [profile.role];
+    }
+
+    return [];
+  } catch (error) {
+    console.error("Error in getUserRole fallback helper:", error);
+    return [];
+  }
 }
 
 export async function requireAuth(supabase: ReturnType<typeof createServerClient>): Promise<string | null> {
