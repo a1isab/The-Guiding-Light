@@ -11,7 +11,16 @@ export async function POST(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
   const teacherId = await requireTeacher(supabase);
   if (!teacherId) {
-    return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
+    const { data: { user } } = await supabase.auth.getUser();
+    const role = await getUserRole(supabase);
+    return applyCookies(NextResponse.json({
+      error: "Forbidden",
+      debug: {
+        userExists: !!user,
+        userId: user?.id ?? null,
+        role,
+      },
+    }, { status: 403 }));
   }
 
   const { name, description } = await request.json();
