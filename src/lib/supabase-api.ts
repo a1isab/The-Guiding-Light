@@ -34,7 +34,10 @@ export function createApiSupabaseClient(request: NextRequest) {
 
 export type ApiSupabase = ReturnType<typeof createApiSupabaseClient>;
 
-export async function getUserRole(supabase: ReturnType<typeof createServerClient>): Promise<string[]> {
+export async function getUserRole(
+  supabase: ReturnType<typeof createServerClient>,
+  existingUser?: { id: string },
+): Promise<string[]> {
   try {
     const { data: roles, error: rpcError } = await supabase.rpc("get_user_roles");
     if (rpcError) {
@@ -42,27 +45,62 @@ export async function getUserRole(supabase: ReturnType<typeof createServerClient
     }
 
     if (Array.isArray(roles) && roles.length > 0) {
+      if (!roles.includes("teacher") && !roles.includes("admin")) {
+        return await supplementWithLegacyRole(supabase, roles, existingUser);
+      }
       return roles;
     }
 
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    if (authError || !user) return [];
-
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("role")
-      .eq("id", user.id)
-      .single();
-
-    if (profile?.role) {
-      return [profile.role];
-    }
-
-    return [];
+    return await getLegacyRoleOnly(supabase, existingUser);
   } catch (error) {
-    console.error("Error in getUserRole fallback helper:", error);
+    console.error("Error in getUserRole:", error);
     return [];
   }
+}
+
+async function supplementWithLegacyRole(
+  supabase: ReturnType<typeof createServerClient>,
+  roles: string[],
+  existingUser?: { id: string },
+): Promise<string[]> {
+  let userId = existingUser?.id;
+  if (!userId) {
+    const { data: { user }, error } = await supabase.auth.getUser();
+    if (error || !user) return roles;
+    userId = user.id;
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", userId)
+    .single();
+
+  if (profile?.role && !roles.includes(profile.role)) {
+    return [...roles, profile.role];
+  }
+  return roles;
+}
+
+async function getLegacyRoleOnly(
+  supabase: ReturnType<typeof createServerClient>,
+  existingUser?: { id: string },
+): Promise<string[]> {
+  let userId = existingUser?.id;
+  if (!userId) {
+    const { data: { user }, error } = await supabase.auth.getUser();
+    if (error || !user) return [];
+    userId = user.id;
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", userId)
+    .single();
+
+  if (profile?.role) return [profile.role];
+  return [];
 }
 
 export async function requireAuth(supabase: ReturnType<typeof createServerClient>): Promise<string | null> {
@@ -77,7 +115,7 @@ export async function requireTeacher(supabase: ReturnType<typeof createServerCli
     console.warn("[requireTeacher] getUser() returned null — session may be expired");
     return null;
   }
-  const role = await getUserRole(supabase);
+  const role = await getUserRole(supabase, user);
   if (!role?.includes("teacher") && !role?.includes("admin")) {
     console.warn("[requireTeacher] user", user.id, "has role", role, "— not teacher/admin");
     return null;
@@ -88,7 +126,7 @@ export async function requireTeacher(supabase: ReturnType<typeof createServerCli
 export async function requireAdmin(supabase: ReturnType<typeof createServerClient>): Promise<string | null> {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return null;
-  const role = await getUserRole(supabase);
+  const role = await getUserRole(supabase, user);
   if (!role?.includes("admin")) return null;
   return user.id;
 }
