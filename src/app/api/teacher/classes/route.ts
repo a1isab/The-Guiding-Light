@@ -7,27 +7,17 @@ async function isAdmin(supabase: ReturnType<typeof createServerClient>): Promise
   return role?.includes("admin") ?? false;
 }
 
+function extractBearerToken(request: NextRequest): string | undefined {
+  const auth = request.headers.get("authorization");
+  if (auth?.startsWith("Bearer ")) return auth.slice(7);
+}
+
 export async function POST(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
-  const teacherId = await requireTeacher(supabase);
+  const jwt = extractBearerToken(request);
+  const teacherId = await requireTeacher(supabase, jwt);
   if (!teacherId) {
-    const { data: { user } } = await supabase.auth.getUser();
-    const role = await getUserRole(supabase);
-    const allCookies = request.cookies.getAll();
-    const cookieNames = allCookies.map(c => c.name);
-    const rawCookie = request.headers.get("cookie");
-    return applyCookies(NextResponse.json({
-      error: "Forbidden",
-      debug: {
-        userExists: !!user,
-        userId: user?.id ?? null,
-        role,
-        cookieNames,
-        hasRawCookie: !!rawCookie,
-        rawCookiePrefix: rawCookie ? rawCookie.substring(0, 50) + "..." : null,
-        hasAuthCookie: cookieNames.some(n => n.includes("sb-") || n.includes("supabase")),
-      },
-    }, { status: 403 }));
+    return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
   }
 
   const { name, description } = await request.json();
@@ -50,7 +40,8 @@ export async function POST(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
-  const teacherId = await requireTeacher(supabase);
+  const jwt = extractBearerToken(request);
+  const teacherId = await requireTeacher(supabase, jwt);
   if (!teacherId) {
     return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
   }
@@ -84,7 +75,8 @@ export async function PATCH(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
-  const teacherId = await requireTeacher(supabase);
+  const jwt = extractBearerToken(request);
+  const teacherId = await requireTeacher(supabase, jwt);
   if (!teacherId) {
     return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
   }

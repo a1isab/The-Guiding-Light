@@ -1,8 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
+import { createClient } from "@/lib/supabase-client";
 
 interface Props {
   defaultValues?: {
@@ -19,10 +20,18 @@ export function ClassForm({ defaultValues, classId, onSave, locale }: Props) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [token, setToken] = useState<string | null>(null);
   const [form, setForm] = useState({
     name: defaultValues?.name ?? "",
     description: defaultValues?.description ?? "",
   });
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setToken(session?.access_token ?? null);
+    });
+  }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -30,9 +39,14 @@ export function ClassForm({ defaultValues, classId, onSave, locale }: Props) {
     setError("");
 
     try {
+      const headers: Record<string, string> = { "Content-Type": "application/json" };
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
       const res = await fetch("/api/teacher/classes", {
         method: classId ? "PATCH" : "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
+        credentials: "include",
         body: JSON.stringify(classId ? { ...form, id: classId } : form),
       });
 

@@ -109,8 +109,13 @@ export async function requireAuth(supabase: ReturnType<typeof createServerClient
   return user.id;
 }
 
-export async function requireTeacher(supabase: ReturnType<typeof createServerClient>): Promise<string | null> {
-  const { data: { user } } = await supabase.auth.getUser();
+export async function requireTeacher(
+  supabase: ReturnType<typeof createServerClient>,
+  jwt?: string,
+): Promise<string | null> {
+  const { data: { user } } = jwt
+    ? await supabase.auth.getUser(jwt)
+    : await supabase.auth.getUser();
   if (!user) {
     console.warn("[requireTeacher] getUser() returned null — session may be expired");
     return null;
@@ -123,8 +128,13 @@ export async function requireTeacher(supabase: ReturnType<typeof createServerCli
   return user.id;
 }
 
-export async function requireAdmin(supabase: ReturnType<typeof createServerClient>): Promise<string | null> {
-  const { data: { user } } = await supabase.auth.getUser();
+export async function requireAdmin(
+  supabase: ReturnType<typeof createServerClient>,
+  jwt?: string,
+): Promise<string | null> {
+  const { data: { user } } = jwt
+    ? await supabase.auth.getUser(jwt)
+    : await supabase.auth.getUser();
   if (!user) return null;
   const role = await getUserRole(supabase, user);
   if (!role?.includes("admin")) return null;
