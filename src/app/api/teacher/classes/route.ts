@@ -17,18 +17,7 @@ export async function POST(request: NextRequest) {
   const jwt = extractBearerToken(request);
   const teacherId = await requireTeacher(supabase, jwt);
   if (!teacherId) {
-    const { data: { user } } = jwt
-      ? await supabase.auth.getUser(jwt)
-      : await supabase.auth.getUser();
-    return applyCookies(NextResponse.json({
-      error: "Forbidden",
-      debug: {
-        hasToken: !!jwt,
-        tokenPrefix: jwt ? jwt.substring(0, 20) + "..." : null,
-        userFromToken: !!user,
-        userId: user?.id ?? null,
-      },
-    }, { status: 403 }));
+    return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
   }
 
   const { name, description } = await request.json();

@@ -3,9 +3,9 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { createClient } from "@/lib/supabase-client";
 
 interface Props {
+  accessToken: string | null;
   defaultValues?: {
     name: string;
     description: string;
@@ -15,7 +15,7 @@ interface Props {
   locale?: string;
 }
 
-export function ClassForm({ defaultValues, classId, onSave, locale }: Props) {
+export function ClassForm({ accessToken, defaultValues, classId, onSave, locale }: Props) {
   const t = useTranslations("teacher");
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -30,13 +30,10 @@ export function ClassForm({ defaultValues, classId, onSave, locale }: Props) {
     setLoading(true);
     setError("");
 
-    const supabase = createClient();
-    const { data: { session } } = await supabase.auth.getSession();
-
     try {
       const headers: Record<string, string> = { "Content-Type": "application/json" };
-      if (session?.access_token) {
-        headers["Authorization"] = `Bearer ${session.access_token}`;
+      if (accessToken) {
+        headers["Authorization"] = `Bearer ${accessToken}`;
       }
       const res = await fetch("/api/teacher/classes", {
         method: classId ? "PATCH" : "POST",
