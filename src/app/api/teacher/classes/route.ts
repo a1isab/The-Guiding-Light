@@ -13,12 +13,15 @@ export async function POST(request: NextRequest) {
   if (!teacherId) {
     const { data: { user } } = await supabase.auth.getUser();
     const role = await getUserRole(supabase);
+    const cookieNames = request.cookies.getAll().map(c => c.name);
     return applyCookies(NextResponse.json({
       error: "Forbidden",
       debug: {
         userExists: !!user,
         userId: user?.id ?? null,
         role,
+        cookieNames,
+        hasAuthCookie: cookieNames.some(n => n.includes("sb-") || n.includes("supabase")),
       },
     }, { status: 403 }));
   }
