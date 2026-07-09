@@ -2,7 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 
 export function createApiSupabaseClient(request: NextRequest) {
-  const cookiesToSet: { name: string; value: string; options?: Record<string, unknown> }[] = [];
+  const cookiesToSet: { name: string; value: string; options: any }[] = [];
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -13,9 +13,9 @@ export function createApiSupabaseClient(request: NextRequest) {
           return request.cookies.getAll();
         },
         setAll(cookies) {
-          cookiesToSet.push(...cookies);
-          cookies.forEach(({ name, value }) => {
-            request.cookies.set(name, value);
+          cookies.forEach((cookie) => {
+            cookiesToSet.push(cookie);
+            request.cookies.set(cookie.name, cookie.value);
           });
         },
       },
