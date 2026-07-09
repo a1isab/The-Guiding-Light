@@ -8,6 +8,7 @@ const intlMiddleware = createIntlMiddleware(routing);
 const PROTECTED_PATHS = ["/dashboard", "/teacher", "/admin"];
 
 export async function middleware(request: NextRequest) {
+  console.log(`[DEBUG] Middleware processing: ${request.nextUrl.pathname}`);
   const pathname = request.nextUrl.pathname;
 
   // ─── Intl middleware first ───
