@@ -116,13 +116,13 @@ export async function requireTeacher(
   supabase: ReturnType<typeof createServerClient>,
   jwt?: string,
 ): Promise<string | null> {
-  console.log("[DEBUG] requireTeacher: calling getUser()");
+  console.log("[DEBUG] requireTeacher: calling getUser()", jwt ? "with JWT" : "without JWT");
   const { data: { user }, error: userError } = jwt
     ? await supabase.auth.getUser(jwt)
     : await supabase.auth.getUser();
   
   if (userError) {
-    console.warn("[requireTeacher] getUser() returned error:", userError.message);
+    console.warn("[requireTeacher] getUser() returned error:", userError.message, "Code:", (userError as any).status);
     return null;
   }
   if (!user) {
