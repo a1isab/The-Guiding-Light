@@ -13,10 +13,12 @@ function extractBearerToken(request: NextRequest): string | undefined {
 }
 
 export async function POST(request: NextRequest) {
+  console.log("[DEBUG] API /api/teacher/classes POST handler reached");
   const { supabase, applyCookies } = createApiSupabaseClient(request);
   const jwt = extractBearerToken(request);
   const teacherId = await requireTeacher(supabase, jwt);
   if (!teacherId) {
+    console.log("[DEBUG] API /api/teacher/classes POST: requireTeacher failed");
     return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
   }
 
