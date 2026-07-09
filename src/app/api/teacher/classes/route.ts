@@ -14,30 +14,35 @@ function extractBearerToken(request: NextRequest): string | undefined {
 
 export async function POST(request: NextRequest) {
   console.log("[DEBUG] API /api/teacher/classes POST handler reached");
-  const { supabase, applyCookies } = createApiSupabaseClient(request);
-  const jwt = extractBearerToken(request);
-  const teacherId = await requireTeacher(supabase, jwt);
-  if (!teacherId) {
-    console.log("[DEBUG] API /api/teacher/classes POST: requireTeacher failed");
-    return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
+  try {
+    const { supabase, applyCookies } = createApiSupabaseClient(request);
+    const jwt = extractBearerToken(request);
+    const teacherId = await requireTeacher(supabase, jwt);
+    if (!teacherId) {
+      console.log("[DEBUG] API /api/teacher/classes POST: requireTeacher failed");
+      return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
+    }
+
+    const { name, description } = await request.json();
+    if (!name || typeof name !== "string" || !name.trim()) {
+      return NextResponse.json({ error: "Name is required" }, { status: 400 });
+    }
+
+    const { data, error } = await supabase
+      .from("classes")
+      .insert({ teacher_id: teacherId, name: name.trim(), description: description?.trim() || null })
+      .select("id")
+      .single();
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return applyCookies(NextResponse.json({ id: data.id }));
+  } catch (error: any) {
+    console.error("[DEBUG] API /api/teacher/classes POST crashed:", error.message, error.stack);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
-
-  const { name, description } = await request.json();
-  if (!name || typeof name !== "string" || !name.trim()) {
-    return NextResponse.json({ error: "Name is required" }, { status: 400 });
-  }
-
-  const { data, error } = await supabase
-    .from("classes")
-    .insert({ teacher_id: teacherId, name: name.trim(), description: description?.trim() || null })
-    .select("id")
-    .single();
-
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
-
-  return applyCookies(NextResponse.json({ id: data.id }));
 }
 
 export async function PATCH(request: NextRequest) {
