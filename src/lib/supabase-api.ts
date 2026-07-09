@@ -113,13 +113,15 @@ export async function requireTeacher(
   supabase: ReturnType<typeof createServerClient>,
   jwt?: string,
 ): Promise<string | null> {
-  const { data: { user } } = jwt
+  const { data: { user }, error: userError } = jwt
     ? await supabase.auth.getUser(jwt)
     : await supabase.auth.getUser();
-  if (!user) {
-    console.warn("[requireTeacher] getUser() returned null — session may be expired");
+  
+  if (userError || !user) {
+    console.warn("[requireTeacher] getUser() returned error or null:", userError?.message);
     return null;
   }
+  
   const role = await getUserRole(supabase, user);
   if (!role?.includes("teacher") && !role?.includes("admin")) {
     console.warn("[requireTeacher] user", user.id, "has role", role, "— not teacher/admin");
