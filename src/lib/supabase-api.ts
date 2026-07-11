@@ -116,7 +116,14 @@ export async function requireTeacher(
   supabase: ReturnType<typeof createServerClient>,
   jwt?: string,
 ): Promise<string | null> {
-  console.log("[DEBUG] requireTeacher: calling getUser()", jwt ? "with JWT" : "without JWT");
+  console.log("[DEBUG] requireTeacher: calling getUser()", jwt ? `with JWT (length: ${jwt.length})` : "without JWT");
+  
+  if (jwt) {
+     // Check if JWT is a valid format (roughly)
+     const parts = jwt.split('.');
+     console.log(`[DEBUG] JWT format valid: ${parts.length === 3}`);
+  }
+
   const { data: { user }, error: userError } = jwt
     ? await supabase.auth.getUser(jwt)
     : await supabase.auth.getUser();
