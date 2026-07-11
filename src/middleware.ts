@@ -8,7 +8,7 @@ const intlMiddleware = createIntlMiddleware(routing);
 const PROTECTED_PATHS = ["/dashboard", "/teacher", "/admin"];
 
 export async function middleware(request: NextRequest) {
-  console.log(`[DEBUG] Middleware processing: ${request.nextUrl.pathname}`);
+  console.log(`[DEBUG] Middleware processing: ${request.nextUrl.pathname}, Cookies: ${request.cookies.getAll().map(c => c.name).join(', ')}`);
   const pathname = request.nextUrl.pathname;
 
   // ─── Intl middleware first ───
@@ -45,6 +45,7 @@ export async function middleware(request: NextRequest) {
     const { data: { session } } = await supabase.auth.getSession();
     if (session?.user) {
       intlResponse.headers.set("x-user-id", session.user.id);
+      console.log(`[DEBUG] Middleware: Session found for user ${session.user.id}`);
 
       // Resolve roles only when token is fresh (avoids failed RPC with expired token).
       // SCs fall back to getUser() + getUserRole() when headers are absent.
@@ -56,6 +57,8 @@ export async function middleware(request: NextRequest) {
           intlResponse.headers.set("x-user-roles", JSON.stringify(roles));
         }
       }
+    } else {
+        console.log(`[DEBUG] Middleware: No session found for path ${pathname}`);
     }
   }
 
