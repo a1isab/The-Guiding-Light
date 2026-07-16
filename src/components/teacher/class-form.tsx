@@ -3,9 +3,9 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { useAccessToken } from "@/components/providers/token-provider";
 
 interface Props {
-  accessToken: string | null;
   defaultValues?: {
     name: string;
     description: string;
@@ -15,9 +15,10 @@ interface Props {
   locale?: string;
 }
 
-export function ClassForm({ accessToken, defaultValues, classId, onSave, locale }: Props) {
+export function ClassForm({ defaultValues, classId, onSave, locale }: Props) {
   const t = useTranslations("teacher");
   const router = useRouter();
+  const token = useAccessToken();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [form, setForm] = useState({
@@ -32,8 +33,8 @@ export function ClassForm({ accessToken, defaultValues, classId, onSave, locale 
 
     try {
       const headers: Record<string, string> = { "Content-Type": "application/json" };
-      if (accessToken) {
-        headers["Authorization"] = `Bearer ${accessToken}`;
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
       }
       const res = await fetch("/api/teacher/classes", {
         method: classId ? "PATCH" : "POST",
