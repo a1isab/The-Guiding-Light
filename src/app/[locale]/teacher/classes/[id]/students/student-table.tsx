@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { useAccessToken } from "@/components/providers/token-provider";
 import { Trash2 } from "lucide-react";
 
 interface Member {
@@ -22,14 +23,18 @@ export function StudentTable({
 }) {
   const t = useTranslations("teacher");
   const router = useRouter();
+  const token = useAccessToken();
   const [removing, setRemoving] = useState<string | null>(null);
 
   async function handleRemove(studentId: string) {
     if (!confirm(t("remove_student_confirm"))) return;
     setRemoving(studentId);
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    if (token) headers["Authorization"] = `Bearer ${token}`;
     const res = await fetch("/api/teacher/classes/members", {
       method: "DELETE",
-      headers: { "Content-Type": "application/json" },
+      headers,
+      credentials: "omit",
       body: JSON.stringify({ classId, studentId }),
     });
     if (res.ok) {

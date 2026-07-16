@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { useAccessToken } from "@/components/providers/token-provider";
 import Link from "next/link";
 import {
   ChevronDown,
@@ -43,6 +44,7 @@ export function SectionManager({
 }) {
   const t = useTranslations("teacher");
   const router = useRouter();
+  const token = useAccessToken();
   const [expandedSections, setExpanded] = useState<Set<string>>(
     () => new Set(sections.map((s) => s.id))
   );
@@ -64,9 +66,12 @@ export function SectionManager({
 
   async function addSection() {
     if (!newSectionTitle.trim()) return;
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    if (token) headers["Authorization"] = `Bearer ${token}`;
     const res = await fetch("/api/teacher/sections", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers,
+      credentials: "omit",
       body: JSON.stringify({ courseId, title: newSectionTitle.trim(), orderIndex: sectionOrder }),
     });
     if (res.ok) {
@@ -80,7 +85,9 @@ export function SectionManager({
   async function deleteSection(id: string) {
     if (!confirm(t("delete_section_confirm"))) return;
     setDeleting(id);
-    await fetch(`/api/teacher/sections?id=${id}`, { method: "DELETE" });
+    const headers: Record<string, string> = {};
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+    await fetch(`/api/teacher/sections?id=${id}`, { method: "DELETE", headers, credentials: "omit" });
     setDeleting(null);
     router.refresh();
   }
@@ -88,9 +95,12 @@ export function SectionManager({
   async function addLesson(sectionId: string) {
     if (!newLesson || !newLesson.title.trim()) return;
     const lessons = lessonsBySection[sectionId] ?? [];
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    if (token) headers["Authorization"] = `Bearer ${token}`;
     const res = await fetch("/api/teacher/lessons", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers,
+      credentials: "omit",
       body: JSON.stringify({
         sectionId,
         title: newLesson.title.trim(),
@@ -105,7 +115,9 @@ export function SectionManager({
 
   async function deleteLesson(id: string) {
     if (!confirm(t("delete_lesson_confirm"))) return;
-    await fetch(`/api/teacher/lessons?id=${id}`, { method: "DELETE" });
+    const headers: Record<string, string> = {};
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+    await fetch(`/api/teacher/lessons?id=${id}`, { method: "DELETE", headers, credentials: "omit" });
     router.refresh();
   }
 

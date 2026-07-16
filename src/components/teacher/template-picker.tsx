@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useAccessToken } from "@/components/providers/token-provider";
 import { Loader2, BookTemplate, FileText } from "lucide-react";
 
 interface Template {
@@ -20,6 +21,7 @@ export function TemplatePicker({
   onClose: () => void;
   onCreated: () => void;
 }) {
+  const token = useAccessToken();
   const [templates, setTemplates] = useState<Template[]>([]);
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
@@ -28,12 +30,14 @@ export function TemplatePicker({
 
   useEffect(() => {
     (async () => {
-      const res = await fetch("/api/teacher/templates");
+      const headers: Record<string, string> = {};
+      if (token) headers["Authorization"] = `Bearer ${token}`;
+      const res = await fetch("/api/teacher/templates", { headers });
       const data = await res.json();
       setTemplates(data.templates ?? []);
       setLoading(false);
     })();
-  }, []);
+  }, [token]);
 
   async function createLesson(content: string) {
     if (!title.trim()) {
@@ -43,9 +47,12 @@ export function TemplatePicker({
     setCreating(true);
     setError("");
 
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    if (token) headers["Authorization"] = `Bearer ${token}`;
     const res = await fetch("/api/teacher/lessons", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers,
+      credentials: "omit",
       body: JSON.stringify({
         sectionId,
         title: title.trim(),

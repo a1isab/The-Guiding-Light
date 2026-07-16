@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createApiSupabaseClient, requireAuth, getUserRole } from "@/lib/supabase-api";
+import { createApiSupabaseClient, requireAuth, getUserRole, extractBearerToken } from "@/lib/supabase-api";
 import { createServerClient } from "@supabase/ssr";
 
 async function authorizeBySection(supabase: ReturnType<typeof createServerClient>, sectionId: string, userId: string): Promise<boolean> {
@@ -32,7 +32,8 @@ async function authorizeBySection(supabase: ReturnType<typeof createServerClient
 
 export async function POST(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
-  const userId = await requireAuth(supabase);
+  const jwt = extractBearerToken(request);
+  const userId = await requireAuth(supabase, jwt);
   if (!userId) return applyCookies(NextResponse.json({ error: "Unauthorized" }, { status: 401 }));
 
   const { sectionId, title, orderIndex, content, videoUrl } = await request.json();
@@ -62,7 +63,8 @@ export async function POST(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
-  const userId = await requireAuth(supabase);
+  const jwt = extractBearerToken(request);
+  const userId = await requireAuth(supabase, jwt);
   if (!userId) return applyCookies(NextResponse.json({ error: "Unauthorized" }, { status: 401 }));
 
   const { id, title, content, quizSourceContent, videoUrl, duration, orderIndex } = await request.json();
@@ -95,7 +97,8 @@ export async function PATCH(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
-  const userId = await requireAuth(supabase);
+  const jwt = extractBearerToken(request);
+  const userId = await requireAuth(supabase, jwt);
   if (!userId) return applyCookies(NextResponse.json({ error: "Unauthorized" }, { status: 401 }));
 
   const { searchParams } = new URL(request.url);

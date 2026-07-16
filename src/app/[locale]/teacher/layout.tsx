@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { createServerSupabaseClient } from "@/lib/supabase";
 import { getUserRole } from "@/lib/supabase-api";
+import { TokenProvider } from "@/components/providers/token-provider";
 import { LayoutDashboard, Users, LogOut } from "lucide-react";
 
 export default async function TeacherLayout({
@@ -20,26 +21,19 @@ export default async function TeacherLayout({
   const headerUserId = headersList.get("x-user-id");
   const headerRoles = headersList.get("x-user-roles");
 
-  const userId = headerUserId;
-  const role: string[] | null = headerRoles ? (JSON.parse(headerRoles) as string[]) : null;
+  const supabase = await createServerSupabaseClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect(`/${locale}/auth/login`);
 
-  if (!userId || !role) {
-    const supabase = await createServerSupabaseClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) redirect(`/${locale}/auth/login`);
-    if (!role) {
-      const r = await getUserRole(supabase);
-      if (!r?.includes("teacher") && !r?.includes("admin")) {
-        redirect(`/${locale}/dashboard`);
-      }
-    }
-  } else {
-    if (!role.includes("teacher") && !role.includes("admin")) {
-      redirect(`/${locale}/dashboard`);
-    }
+  const role = await getUserRole(supabase);
+  if (!role?.includes("teacher") && !role?.includes("admin")) {
+    redirect(`/${locale}/dashboard`);
   }
 
   const t = await getTranslations("teacher");
+
+  const { data: { session } } = await supabase.auth.getSession();
+  const accessToken = session?.access_token ?? null;
 
   const nav = [
     { href: `/${locale}/teacher`, label: t("dashboard"), icon: LayoutDashboard },
@@ -72,9 +66,11 @@ export default async function TeacherLayout({
           </Link>
         </div>
       </aside>
-      <main className="flex-1 overflow-auto">
-        <div className="mx-auto max-w-6xl px-4 py-8">{children}</div>
-      </main>
+      <TokenProvider token={accessToken}>
+        <main className="flex-1 overflow-auto">
+          <div className="mx-auto max-w-6xl px-4 py-8">{children}</div>
+        </main>
+      </TokenProvider>
     </div>
   );
 }

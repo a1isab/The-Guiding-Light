@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createApiSupabaseClient, requireTeacher } from "@/lib/supabase-api";
+import { createApiSupabaseClient, requireTeacher, extractBearerToken } from "@/lib/supabase-api";
 
 export async function GET(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
-  const userId = await requireTeacher(supabase);
+  const jwt = extractBearerToken(request);
+  const userId = await requireTeacher(supabase, jwt);
   if (!userId) return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
 
   const { data } = await supabase
@@ -17,7 +18,8 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
-  const userId = await requireTeacher(supabase);
+  const jwt = extractBearerToken(request);
+  const userId = await requireTeacher(supabase, jwt);
   if (!userId) return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
 
   const { name, description, content } = await request.json();

@@ -1,16 +1,21 @@
 import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 
+export function extractBearerToken(request: NextRequest): string | undefined {
+  const auth = request.headers.get("authorization");
+  if (auth?.startsWith("Bearer ")) return auth.slice(7);
+}
+
 export function createApiSupabaseClient(request: NextRequest) {
   const cookiesToSet: { name: string; value: string; options: any }[] = [];
 
   const allCookies = request.cookies.getAll();
-  console.log("[DEBUG] createApiSupabaseClient: cookies found:", allCookies.map(c => c.name));
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
+      cookieEncoding: "base64url",
       cookies: {
         getAll() {
           return allCookies;
@@ -106,8 +111,13 @@ async function getLegacyRoleOnly(
   return [];
 }
 
-export async function requireAuth(supabase: ReturnType<typeof createServerClient>): Promise<string | null> {
-  const { data: { user } } = await supabase.auth.getUser();
+export async function requireAuth(
+  supabase: ReturnType<typeof createServerClient>,
+  jwt?: string,
+): Promise<string | null> {
+  const { data: { user } } = jwt
+    ? await supabase.auth.getUser(jwt)
+    : await supabase.auth.getUser();
   if (!user) return null;
   return user.id;
 }
@@ -116,36 +126,14 @@ export async function requireTeacher(
   supabase: ReturnType<typeof createServerClient>,
   jwt?: string,
 ): Promise<string | null> {
-  console.log("[DEBUG] requireTeacher: calling getUser()", jwt ? `with JWT (length: ${jwt.length})` : "without JWT");
-  
-  if (jwt) {
-     // Check if JWT is a valid format (roughly)
-     const parts = jwt.split('.');
-     console.log(`[DEBUG] JWT format valid: ${parts.length === 3}`);
-  }
-
   const { data: { user }, error: userError } = jwt
     ? await supabase.auth.getUser(jwt)
     : await supabase.auth.getUser();
   
-  if (userError) {
-    console.warn("[requireTeacher] getUser() returned error:", userError.message, "Code:", (userError as any).status);
-    return null;
-  }
-  if (!user) {
-    console.warn("[requireTeacher] getUser() returned null — no user");
-    return null;
-  }
-  
-  console.log("[DEBUG] requireTeacher: getUser() succeeded, user:", user.id);
+  if (userError || !user) return null;
   
   const role = await getUserRole(supabase, user);
-  console.log("[DEBUG] requireTeacher: getUserRole() returned:", role);
-  
-  if (!role?.includes("teacher") && !role?.includes("admin")) {
-    console.warn("[requireTeacher] user", user.id, "has role", role, "— not teacher/admin");
-    return null;
-  }
+  if (!role?.includes("teacher") && !role?.includes("admin")) return null;
   return user.id;
 }
 
