@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useAccessToken } from "@/components/providers/token-provider";
+import { getClientAccessToken } from "@/lib/supabase-client";
 import { Loader2, BookTemplate, FileText } from "lucide-react";
 
 interface Template {
@@ -21,7 +21,6 @@ export function TemplatePicker({
   onClose: () => void;
   onCreated: () => void;
 }) {
-  const token = useAccessToken();
   const [templates, setTemplates] = useState<Template[]>([]);
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
@@ -30,6 +29,7 @@ export function TemplatePicker({
 
   useEffect(() => {
     (async () => {
+      const token = await getClientAccessToken();
       const headers: Record<string, string> = {};
       if (token) headers["Authorization"] = `Bearer ${token}`;
       const res = await fetch("/api/teacher/templates", { headers });
@@ -37,7 +37,7 @@ export function TemplatePicker({
       setTemplates(data.templates ?? []);
       setLoading(false);
     })();
-  }, [token]);
+  }, []);
 
   async function createLesson(content: string) {
     if (!title.trim()) {
@@ -47,6 +47,7 @@ export function TemplatePicker({
     setCreating(true);
     setError("");
 
+    const token = await getClientAccessToken();
     const headers: Record<string, string> = { "Content-Type": "application/json" };
     if (token) headers["Authorization"] = `Bearer ${token}`;
     const res = await fetch("/api/teacher/lessons", {

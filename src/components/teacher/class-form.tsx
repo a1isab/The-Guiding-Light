@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { useAccessToken } from "@/components/providers/token-provider";
+import { createClient } from "@/lib/supabase-client";
 
 interface Props {
   defaultValues?: {
@@ -18,7 +18,6 @@ interface Props {
 export function ClassForm({ defaultValues, classId, onSave, locale }: Props) {
   const t = useTranslations("teacher");
   const router = useRouter();
-  const token = useAccessToken();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [form, setForm] = useState({
@@ -32,6 +31,10 @@ export function ClassForm({ defaultValues, classId, onSave, locale }: Props) {
     setError("");
 
     try {
+      const supabase = createClient();
+      const { data: { session } } = await supabase.auth.getSession();
+      const token = session?.access_token;
+
       const headers: Record<string, string> = { "Content-Type": "application/json" };
       if (token) {
         headers["Authorization"] = `Bearer ${token}`;

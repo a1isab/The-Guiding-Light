@@ -9,6 +9,12 @@ export function createClient() {
   );
 }
 
+export async function getClientAccessToken(): Promise<string | null> {
+  const supabase = createClient();
+  const { data: { session } } = await supabase.auth.getSession();
+  return session?.access_token ?? null;
+}
+
 export async function getUserRoleClient(supabase: SupabaseClient): Promise<string[] | null> {
   const { data: role, error } = await supabase.rpc("get_user_roles");
   if (role && role.length > 0) return role as string[];

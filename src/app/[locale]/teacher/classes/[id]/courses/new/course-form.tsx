@@ -3,12 +3,11 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { useAccessToken } from "@/components/providers/token-provider";
+import { getClientAccessToken } from "@/lib/supabase-client";
 
 export function CreateCourseForm({ classId, locale }: { classId: string; locale: string }) {
   const t = useTranslations("teacher");
   const router = useRouter();
-  const token = useAccessToken();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [title, setTitle] = useState("");
@@ -19,6 +18,7 @@ export function CreateCourseForm({ classId, locale }: { classId: string; locale:
     setLoading(true);
     setError("");
 
+    const token = await getClientAccessToken();
     const headers: Record<string, string> = { "Content-Type": "application/json" };
     if (token) headers["Authorization"] = `Bearer ${token}`;
     const res = await fetch("/api/teacher/courses", {
