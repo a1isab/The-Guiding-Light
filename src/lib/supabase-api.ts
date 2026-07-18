@@ -47,6 +47,7 @@ export async function getUserRole(
   existingUser?: { id: string },
 ): Promise<string[]> {
   try {
+    console.log("[DEBUG getUserRole] calling get_user_roles RPC, user:", existingUser?.id);
     const { data: roles, error: rpcError } = await supabase.rpc("get_user_roles");
     if (rpcError) {
       console.warn("get_user_roles RPC failed, falling back to profiles.role:", rpcError.message);
@@ -129,11 +130,19 @@ export async function requireTeacher(
   const { data: { user }, error: userError } = jwt
     ? await supabase.auth.getUser(jwt)
     : await supabase.auth.getUser();
-  
-  if (userError || !user) return null;
-  
+
+  if (userError) console.log("[DEBUG requireTeacher] getUser error:", userError.message);
+  if (!user) {
+    console.log("[DEBUG requireTeacher] no user returned", jwt ? "(with JWT)" : "(without JWT)");
+    return null;
+  }
+
   const role = await getUserRole(supabase, user);
-  if (!role?.includes("teacher") && !role?.includes("admin")) return null;
+  console.log("[DEBUG requireTeacher] user:", user.id, "role:", role);
+  if (!role?.includes("teacher") && !role?.includes("admin")) {
+    console.log("[DEBUG requireTeacher] role check failed, role =", role);
+    return null;
+  }
   return user.id;
 }
 
