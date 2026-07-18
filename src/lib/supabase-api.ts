@@ -22,7 +22,7 @@ export function createApiSupabaseClient(request: NextRequest) {
           cookiesToSet.forEach(({ name, value, options }) => {
             request.cookies.set(name, value);
             mutableResponse = NextResponse.next({ request: { headers: request.headers } });
-            mutableResponse.cookies.set(name, value, options);
+            mutableResponse.cookies.set(name, value, { ...options, path: "/" });
           });
         },
       },
