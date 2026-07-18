@@ -35,9 +35,18 @@ export function ClassForm({ defaultValues, classId, onSave, locale }: Props) {
       const { data: { session } } = await supabase.auth.getSession();
       const token = session?.access_token;
 
+      console.error("=== FRONTEND DIAGNOSIS ===", {
+        hasToken: !!token,
+        tokenPrefix: token ? token.substring(0, 10) + "..." : null,
+        hasSession: !!session,
+        cookies: document.cookie,
+      });
+
       const headers: Record<string, string> = { "Content-Type": "application/json" };
       if (token) {
         headers["Authorization"] = `Bearer ${token}`;
+      } else {
+        console.error("=== FRONTEND DIAGNOSIS: NO TOKEN ===");
       }
       const res = await fetch("/api/teacher/classes", {
         method: classId ? "PATCH" : "POST",
