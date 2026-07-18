@@ -126,23 +126,53 @@ export async function requireTeacher(
   supabase: ReturnType<typeof createServerClient>,
   jwt?: string,
 ): Promise<string | null> {
-  const { data: { user }, error: userError } = jwt
-    ? await supabase.auth.getUser(jwt)
-    : await supabase.auth.getUser();
+  try {
+    const { data: { user }, error: userError } = jwt
+      ? await supabase.auth.getUser(jwt)
+      : await supabase.auth.getUser();
 
-  if (userError) console.log("[DEBUG requireTeacher] getUser error:", userError.message);
-  if (!user) {
-    console.log("[DEBUG requireTeacher] no user returned", jwt ? "(with JWT)" : "(without JWT)");
+    if (userError) {
+      console.error("=== DIAGNOSIS: SUPABASE AUTH ERROR ===", userError.message, userError.status);
+      return null;
+    }
+    if (!user) {
+      console.error("=== DIAGNOSIS: NO USER FOUND FOR THIS JWT ===", jwt ? "JWT provided" : "no JWT");
+      return null;
+    }
+
+    const { data: profile, error: dbError } = await supabase
+      .from("profiles")
+      .select("role, roles")
+      .eq("id", user.id)
+      .single();
+
+    if (dbError) {
+      console.error("=== DIAGNOSIS: DATABASE ROLE FETCH FAILED ===", dbError.message, dbError.code);
+      return null;
+    }
+
+    console.log("=== DIAGNOSIS: SUCCESS ===", {
+      userId: user.id,
+      dbRoleField: profile?.role,
+      dbRolesArrayField: profile?.roles,
+    });
+
+    const hasRole =
+      profile?.role === "teacher" ||
+      profile?.role === "admin" ||
+      profile?.roles?.includes?.("teacher") ||
+      profile?.roles?.includes?.("admin");
+
+    if (!hasRole) {
+      console.error("=== DIAGNOSIS: ROLE CHECK FAILED ===", { role: profile?.role, roles: profile?.roles });
+      return null;
+    }
+
+    return user.id;
+  } catch (e: any) {
+    console.error("=== DIAGNOSIS: CRASH IN requireTeacher ===", e.message);
     return null;
   }
-
-  const role = await getUserRole(supabase, user);
-  console.log("[DEBUG requireTeacher] user:", user.id, "role:", role);
-  if (!role?.includes("teacher") && !role?.includes("admin")) {
-    console.log("[DEBUG requireTeacher] role check failed, role =", role);
-    return null;
-  }
-  return user.id;
 }
 
 export async function requireAdmin(
