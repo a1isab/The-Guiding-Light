@@ -20,10 +20,20 @@ function LoginForm() {
     setError("");
     setLoading(true);
 
-    const { error: signInError } = await supabase.auth.signInWithPassword({
+    const { data, error: signInError } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
+
+    if (!signInError) {
+      console.error("=== LOGIN DIAGNOSIS ===", {
+        hasSession: !!data?.session,
+        hasAccessToken: !!data?.session?.access_token,
+        sessionUser: data?.session?.user?.email,
+        cookiesAfterSignIn: document.cookie,
+        cookieCount: document.cookie.split(";").filter(c => c.trim()).length,
+      });
+    }
 
     setLoading(false);
 
