@@ -7,9 +7,7 @@ export function extractBearerToken(request: NextRequest): string | undefined {
 }
 
 export function createApiSupabaseClient(request: NextRequest) {
-  const cookiesToSet: { name: string; value: string; options: any }[] = [];
-
-  const allCookies = request.cookies.getAll();
+  let mutableResponse = NextResponse.next({ request: { headers: request.headers } });
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -18,12 +16,13 @@ export function createApiSupabaseClient(request: NextRequest) {
       cookieEncoding: "base64url",
       cookies: {
         getAll() {
-          return allCookies;
+          return request.cookies.getAll();
         },
-        setAll(cookies) {
-          cookies.forEach((cookie) => {
-            cookiesToSet.push(cookie);
-            request.cookies.set(cookie.name, cookie.value);
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) => {
+            request.cookies.set(name, value);
+            mutableResponse = NextResponse.next({ request: { headers: request.headers } });
+            mutableResponse.cookies.set(name, value, options);
           });
         },
       },
@@ -31,8 +30,8 @@ export function createApiSupabaseClient(request: NextRequest) {
   );
 
   function applyCookies(response: NextResponse): NextResponse {
-    cookiesToSet.forEach(({ name, value, options }) => {
-      response.cookies.set(name, value, options);
+    mutableResponse.cookies.getAll().forEach((cookie) => {
+      response.cookies.set(cookie.name, cookie.value, cookie);
     });
     return response;
   }

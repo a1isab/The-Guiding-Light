@@ -43,7 +43,10 @@ export async function middleware(request: NextRequest) {
       }
     );
 
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+    if (sessionError) {
+      console.log(`[DEBUG] Middleware: getSession error:`, sessionError.message);
+    }
     if (session?.user) {
       intlResponse.headers.set("x-user-id", session.user.id);
       console.log(`[DEBUG] Middleware: Session found for user ${session.user.id}`);
