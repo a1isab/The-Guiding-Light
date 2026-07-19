@@ -72,34 +72,12 @@ export default function SignUpPage() {
       return;
     }
 
-    const confirmRes = await fetch("/api/auth/confirm-email", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
-    });
+    const code = Array.from({ length: 6 }, () => Math.floor(Math.random() * 10)).join("");
 
-    if (!confirmRes.ok) {
-      setError(t("signup_confirm_failed"));
-      setLoading(false);
-      return;
-    }
-
-    const { error: signInError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (signInError) {
-      setError(t("signup_sign_in_prompt"));
-      setLoading(false);
-      return;
-    }
-
-    setLoading(false);
-    setSuccess(true);
-    setTimeout(() => {
-      router.push(`/${locale}/dashboard`);
-    }, 1000);
+    sessionStorage.setItem("sv_email", email);
+    sessionStorage.setItem("sv_code", code);
+    sessionStorage.setItem("sv_password", password);
+    router.push(`/${locale}/auth/verify`);
   }
 
   if (success) {

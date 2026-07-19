@@ -153,6 +153,14 @@
     "reset_password_mismatch": "Passwords do not match.",
     "signup_confirm_failed": "Account created but confirmation failed. Try signing in.",
     "signup_sign_in_prompt": "Account created. Please sign in.",
+    "verify_title": "Verify your email",
+    "verify_subtitle": "Enter the verification code to activate your account",
+    "verify_code_label": "Your verification code",
+    "verify_enter_code": "Enter the 6-digit code below",
+    "verify_button": "Verify & Sign in",
+    "verifying": "Verifying...",
+    "verify_code_incomplete": "Please enter all 6 digits",
+    "verify_failed": "Invalid or expired code. Please try again.",
     "email_label": "Email"
   },
   "courses": {

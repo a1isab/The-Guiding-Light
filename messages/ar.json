@@ -152,6 +152,14 @@
     "reset_password_mismatch": "Passwords do not match.",
     "signup_confirm_failed": "Account created but confirmation failed. Try signing in.",
     "signup_sign_in_prompt": "Account created. Please sign in.",
+    "verify_title": "تحقق من بريدك الإلكتروني",
+    "verify_subtitle": "أدخل رمز التحقق لتفعيل حسابك",
+    "verify_code_label": "رمز التحقق الخاص بك",
+    "verify_enter_code": "أدخل الرمز المكون من 6 أرقام أدناه",
+    "verify_button": "تحقق وسجل الدخول",
+    "verifying": "جارٍ التحقق...",
+    "verify_code_incomplete": "يرجى إدخال جميع الأرقام الستة",
+    "verify_failed": "رمز غير صالح أو منتهي الصلاحية. حاول مرة أخرى.",
     "email_label": "Email"
   },
   "courses": {

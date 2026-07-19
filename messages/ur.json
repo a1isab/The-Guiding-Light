@@ -152,6 +152,14 @@
     "reset_password_mismatch": "Passwords do not match.",
     "signup_confirm_failed": "Account created but confirmation failed. Try signing in.",
     "signup_sign_in_prompt": "Account created. Please sign in.",
+    "verify_title": "اپنی ای میل کی تصدیق کریں",
+    "verify_subtitle": "اپنا اکاؤنٹ چالو کرنے کے لیے تصدیقی کوڈ درج کریں",
+    "verify_code_label": "آپ کا تصدیقی کوڈ",
+    "verify_enter_code": "نیچے 6 ہندسوں کا کوڈ درج کریں",
+    "verify_button": "تصدیق کریں اور سائن ان کریں",
+    "verifying": "تصدیق ہو رہی ہے...",
+    "verify_code_incomplete": "براہ کرم تمام 6 ہندسے درج کریں",
+    "verify_failed": "غلط یا میعاد ختم شدہ کوڈ۔ براہ کرم دوبارہ کوشش کریں۔",
     "email_label": "Email"
   },
   "courses": {
