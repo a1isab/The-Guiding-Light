@@ -54,7 +54,12 @@ export async function createAuthServerClient() {
         setAll(cookiesToSet) {
           try {
             cookiesToSet.forEach(({ name, value, options }) => {
-              cookieStore.set(name, value, { ...options, path: "/" });
+              cookieStore.set(name, value, {
+                ...options,
+                path: "/",
+                sameSite: "lax",
+                secure: process.env.NODE_ENV === "production",
+              });
             });
           } catch {
             // Ignored — setAll is called during Server Component render
