@@ -76,7 +76,7 @@ export default async function CoursePage({
   return (
     <div className="mx-auto max-w-3xl px-4 py-8">
       <div className="mb-8">
-        <h1 className="font-amiri text-3xl font-bold text-zinc-100">
+        <h1 data-testid="course-title" className="font-amiri text-3xl font-bold text-zinc-100">
           {getTranslation(course, "title", locale, course.title)}
         </h1>
         <p className="mt-2 text-zinc-400">

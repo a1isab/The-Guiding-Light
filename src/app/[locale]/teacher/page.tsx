@@ -48,6 +48,7 @@ export default async function TeacherDashboardPage({
         <h1 className="font-amiri text-2xl font-bold text-zinc-100">{t("dashboard")}</h1>
         <Link
           href={`/${locale}/teacher/classes/new`}
+          data-testid="new-class"
           className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-emerald-400 transition-all"
         >
           <Plus className="h-4 w-4" />
@@ -57,7 +58,7 @@ export default async function TeacherDashboardPage({
 
       <div className="grid gap-4 sm:grid-cols-3 mb-8">
         {stats.map((stat) => (
-          <div key={stat.label} className="rounded-2xl border border-zinc-800 bg-[#111111] p-5">
+          <div key={stat.label} data-testid={`stat-${stat.label.toLowerCase().replace(/\s+/g, "-")}`} className="rounded-2xl border border-zinc-800 bg-[#111111] p-5">
             <div className="flex items-center gap-3">
               <div className={`rounded-xl p-2.5 ${stat.color}`}>
                 <stat.icon className="h-5 w-5" />

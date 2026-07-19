@@ -72,6 +72,7 @@ export default async function StudentClassPage({
           {courses.map((course, idx) => (
             <Link
               key={course.id}
+              data-testid={`class-course-card-${course.id}`}
               href={`/${locale}/dashboard/classes/${id}/courses/${course.id}`}
               className="rounded-2xl border border-zinc-800 bg-[#111111] p-5 hover:border-zinc-700 transition-all"
             >

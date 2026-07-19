@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createApiSupabaseClient, requireAuth, getUserRole, extractBearerToken } from "@/lib/supabase-api";
+import crypto from "crypto";
 
 export async function POST(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
@@ -32,9 +33,7 @@ export async function POST(request: NextRequest) {
     return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
   }
 
-  const newCode = Array.from({ length: 9 }, () =>
-    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"[Math.floor(Math.random() * 36)]
-  ).join("");
+  const newCode = crypto.randomBytes(5).toString("hex").toUpperCase();
 
   const { data, error } = await supabase
     .from("classes")

@@ -48,7 +48,7 @@ export function UsersList({ users }: { users: UserProfile[] }) {
           </thead>
           <tbody className="divide-y divide-zinc-800/50">
             {users.map((u) => (
-              <tr key={u.user_id} className="text-sm text-zinc-300">
+              <tr key={u.user_id} data-testid={`user-row-${u.user_id}`} className="text-sm text-zinc-300">
                 <td className="px-5 py-4">{u.email || "—"}</td>
                 <td className="px-5 py-4">
                   <span
@@ -70,6 +70,7 @@ export function UsersList({ users }: { users: UserProfile[] }) {
                 <td className="px-5 py-4">
                   <select
                     value={u.role}
+                    data-testid={`role-select-${u.user_id}`}
                     onChange={(e) => changeRole(u.user_id, e.target.value as Role)}
                     disabled={updating === u.user_id}
                     className="rounded-lg border border-zinc-700 bg-zinc-900 px-2 py-1 text-xs text-zinc-300 focus:border-emerald-500 focus:outline-none disabled:opacity-50"

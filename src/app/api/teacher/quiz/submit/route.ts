@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createApiSupabaseClient, requireAuth } from "@/lib/supabase-api";
+import { createApiSupabaseClient, requireAuth, extractBearerToken } from "@/lib/supabase-api";
 import { updateStreak } from "@/lib/streak";
 
 const PASS_THRESHOLD = 0.6;
@@ -8,7 +8,8 @@ const LOCKOUT_MINUTES = 30;
 
 export async function POST(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
-  const userId = await requireAuth(supabase);
+  const jwt = extractBearerToken(request);
+  const userId = await requireAuth(supabase, jwt);
   if (!userId) {
     return applyCookies(NextResponse.json({ error: "Unauthorized" }, { status: 401 }));
   }
@@ -97,7 +98,7 @@ export async function POST(request: NextRequest) {
 
   let score = 0;
   for (let i = 0; i < questions.length; i++) {
-    if (answers[i] === questions[i].correct_index) {
+    if (Number(answers[i]) === Number(questions[i].correct_index)) {
       score++;
     }
   }

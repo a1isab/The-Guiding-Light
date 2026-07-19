@@ -46,7 +46,7 @@ export function StudentTable({
   return (
     <div className="divide-y divide-zinc-800/50">
       {members.map((m) => (
-        <div key={m.student_id} className="flex items-center justify-between px-5 py-3">
+        <div key={m.student_id} data-testid={`student-row-${m.student_id}`} className="flex items-center justify-between px-5 py-3">
           <div>
             <p className="text-sm text-zinc-300">{m.student_id}</p>
             <p className="text-xs text-zinc-600">
@@ -55,6 +55,7 @@ export function StudentTable({
           </div>
           <button
             onClick={() => handleRemove(m.student_id)}
+            data-testid={`remove-student-${m.student_id}`}
             disabled={removing === m.student_id}
             className="rounded-lg p-1.5 text-red-400 hover:bg-red-900/20 transition-all disabled:opacity-50"
           >

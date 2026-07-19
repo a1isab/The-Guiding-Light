@@ -134,7 +134,7 @@ export function TemplateManager() {
             <h2 className="text-sm font-medium text-zinc-200">
               {editing ? "Edit Template" : "New Template"}
             </h2>
-            <button onClick={cancelEdit} className="text-zinc-500 hover:text-zinc-300">
+            <button data-testid="template-cancel" onClick={cancelEdit} className="text-zinc-500 hover:text-zinc-300">
               <X className="h-4 w-4" />
             </button>
           </div>
@@ -168,7 +168,7 @@ export function TemplateManager() {
             <MarkdownEditor value={content} onChange={setContent} minHeight={250} />
           </div>
 
-          {error && <p className="text-xs text-red-400">{error}</p>}
+          {error && <p data-testid="template-error" className="text-xs text-red-400">{error}</p>}
 
           <div className="flex justify-end gap-3">
             <button
@@ -190,7 +190,7 @@ export function TemplateManager() {
       )}
 
       {templates.length === 0 && !creating ? (
-        <p className="text-sm text-zinc-500">No templates yet. Create your first official template.</p>
+        <p data-testid="templates-empty" className="text-sm text-zinc-500">No templates yet. Create your first official template.</p>
       ) : (
         <div className="space-y-2">
           {templates.map((t) => (

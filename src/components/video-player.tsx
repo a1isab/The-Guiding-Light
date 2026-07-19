@@ -100,7 +100,7 @@ export function VideoPlayer({ src }: { src?: string | null }) {
 
   if (!videoId) {
     return (
-      <div className="mt-6 overflow-hidden rounded-2xl border border-zinc-800 bg-[#111111]">
+      <div data-testid="lesson-video" className="mt-6 overflow-hidden rounded-2xl border border-zinc-800 bg-[#111111]">
         <div className="flex aspect-video items-center justify-center bg-zinc-900">
           <div className="text-center">
             <Film className="mx-auto h-12 w-12 text-zinc-700" />
@@ -120,7 +120,7 @@ export function VideoPlayer({ src }: { src?: string | null }) {
   }
 
   return (
-    <div className="mt-6 overflow-hidden rounded-2xl border border-zinc-800 bg-[#111111]">
+    <div data-testid="lesson-video" className="mt-6 overflow-hidden rounded-2xl border border-zinc-800 bg-[#111111]">
       <div className="relative aspect-video">
         <div ref={containerRef} className={`h-full w-full ${ended ? "invisible" : ""}`} />
         {!ready && !ended && (

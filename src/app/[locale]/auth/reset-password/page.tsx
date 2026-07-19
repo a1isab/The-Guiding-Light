@@ -64,6 +64,7 @@ export default function ResetPasswordPage() {
               </label>
               <input
                 id="password"
+                data-testid="reset-password"
                 type="password"
                 required
                 minLength={6}
@@ -79,6 +80,7 @@ export default function ResetPasswordPage() {
               </label>
               <input
                 id="confirm"
+                data-testid="reset-confirm"
                 type="password"
                 required
                 minLength={6}
@@ -89,7 +91,7 @@ export default function ResetPasswordPage() {
             </div>
 
             {error && (
-              <p className="text-sm text-red-400">{error}</p>
+              <p data-testid="reset-error" className="text-sm text-red-400">{error}</p>
             )}
 
             <button

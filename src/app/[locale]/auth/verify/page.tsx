@@ -64,10 +64,12 @@ export default function VerifyPage() {
     setVerifying(true);
     setError("");
 
+    const token = sessionStorage.getItem("sv_token");
+
     const res = await fetch("/api/auth/verify-code", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ email, token }),
     });
 
     if (!res.ok) {
@@ -92,6 +94,7 @@ export default function VerifyPage() {
     sessionStorage.removeItem("sv_email");
     sessionStorage.removeItem("sv_code");
     sessionStorage.removeItem("sv_password");
+    sessionStorage.removeItem("sv_token");
 
     router.push(`/${locale}/dashboard`);
   }
@@ -120,7 +123,7 @@ export default function VerifyPage() {
 
           <div className="mb-4 rounded-xl border border-zinc-700 bg-zinc-900/50 p-4 text-center">
             <p className="text-xs text-zinc-500 mb-1">{t("verify_code_label")}</p>
-            <p className="text-3xl font-bold tracking-[0.3em] text-emerald-400 font-mono">
+            <p data-testid="verify-displayed-code" className="text-3xl font-bold tracking-[0.3em] text-emerald-400 font-mono">
               {expectedCode}
             </p>
           </div>
@@ -133,6 +136,7 @@ export default function VerifyPage() {
               {code.map((digit, i) => (
                 <input
                   key={i}
+                  data-testid={`verify-code-input-${i}`}
                   ref={(el) => { inputRefs.current[i] = el; }}
                   type="text"
                   inputMode="numeric"
@@ -146,10 +150,11 @@ export default function VerifyPage() {
             </div>
 
             {error && (
-              <p className="text-sm text-red-400 text-center">{error}</p>
+              <p data-testid="verify-error" className="text-sm text-red-400 text-center">{error}</p>
             )}
 
             <button
+              data-testid="verify-submit"
               onClick={handleSubmit}
               disabled={verifying}
               className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-emerald-400 disabled:opacity-50 transition-all"

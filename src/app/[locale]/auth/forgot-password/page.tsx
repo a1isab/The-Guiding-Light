@@ -43,7 +43,7 @@ export default function ForgotPasswordPage() {
             <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500/10">
               <Mail className="h-6 w-6 text-emerald-400" />
             </div>
-            <h1 className="font-amiri text-2xl font-bold text-zinc-100 mb-2">{t("forgot_password_sent_title")}</h1>
+            <h1 data-testid="forgot-sent" className="font-amiri text-2xl font-bold text-zinc-100 mb-2">{t("forgot_password_sent_title")}</h1>
             <p className="text-sm text-zinc-500">
               {t("forgot_password_sent_msg", { email })}
             </p>
@@ -80,6 +80,7 @@ export default function ForgotPasswordPage() {
               </label>
               <input
                 id="email"
+                data-testid="forgot-email"
                 type="email"
                 required
                 value={email}
@@ -90,11 +91,12 @@ export default function ForgotPasswordPage() {
             </div>
 
             {error && (
-              <p className="text-sm text-red-400">{error}</p>
+              <p data-testid="forgot-error" className="text-sm text-red-400">{error}</p>
             )}
 
             <button
               type="submit"
+              data-testid="forgot-submit"
               disabled={loading}
               className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-emerald-400 disabled:opacity-50 transition-all"
             >

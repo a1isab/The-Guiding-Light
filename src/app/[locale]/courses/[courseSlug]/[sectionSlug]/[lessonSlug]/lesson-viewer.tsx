@@ -72,7 +72,7 @@ export function LessonViewer({
       <div className="mt-6 space-y-8">
         {stage === "content" && (
           <div>
-            <div className="space-y-4 text-zinc-300 leading-relaxed">
+            <div data-testid="lesson-content" className="space-y-4 text-zinc-300 leading-relaxed">
               {getTranslation(lesson, "content", locale, lesson.content).split("\n").map((paragraph, i) => (
                 <p key={i}>{paragraph}</p>
               ))}
@@ -88,6 +88,7 @@ export function LessonViewer({
             )}
 
             <button
+              data-testid="take-quiz"
               onClick={() => setStage("quiz")}
               className="mt-6 bg-emerald-500 hover:bg-emerald-400 text-white rounded-2xl px-6 py-3 text-sm font-medium shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all"
             >
@@ -122,7 +123,8 @@ export function LessonViewer({
           <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
             {nextLesson ? (
               <Link
-                href={`/${locale}/courses/${courseSlug}/${sectionSlug}/${nextLesson.slug}`}
+                data-testid="next-lesson"
+              href={`/${locale}/courses/${courseSlug}/${sectionSlug}/${nextLesson.slug}`}
                 className="inline-flex items-center gap-2 rounded-2xl bg-emerald-500 px-6 py-3 text-sm font-medium text-white shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all hover:bg-emerald-400"
               >
                 {t("continue_to_next")} <ChevronRight className="h-4 w-4" />
@@ -142,6 +144,7 @@ export function LessonViewer({
       <div className="mt-12 flex items-center justify-between border-t border-zinc-800 pt-6">
         {prevLesson ? (
           <Link
+            data-testid="prev-lesson"
             href={`/${locale}/courses/${courseSlug}/${sectionSlug}/${prevLesson.slug}`}
             className="flex items-center gap-2 text-sm text-emerald-400 hover:text-emerald-300 transition-colors"
           >

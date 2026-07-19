@@ -80,7 +80,7 @@ export default async function StudentCoursePage({
         {sections?.map((section) => {
           const sectionLessons = lessonsBySection[section.id] ?? [];
           return (
-            <div key={section.id} className="rounded-2xl border border-zinc-800 bg-[#111111] overflow-hidden">
+            <div key={section.id} data-testid={`section-${section.id}`} className="rounded-2xl border border-zinc-800 bg-[#111111] overflow-hidden">
               <div className="flex items-center justify-between px-5 py-4">
                 <div className="flex items-center gap-3">
                   <ChevronDown className="h-4 w-4 text-zinc-500" />
@@ -94,6 +94,7 @@ export default async function StudentCoursePage({
                   return (
                     <Link
                       key={lesson.id}
+                      data-testid={`curriculum-lesson-${lesson.id}`}
                       href={`/${locale}/dashboard/classes/${classId}/courses/${courseId}/lessons/${lesson.id}`}
                       className="flex items-center gap-3 px-5 py-3 hover:bg-zinc-900/30 transition-colors"
                     >

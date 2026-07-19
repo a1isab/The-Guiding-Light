@@ -1,12 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
+import { consumeProof } from "../generate-code/route";
 
 export async function POST(request: NextRequest) {
   try {
-    const { email } = await request.json();
+    const { email, token } = await request.json();
 
     if (!email || typeof email !== "string") {
       return NextResponse.json({ error: "Email is required" }, { status: 400 });
+    }
+
+    if (!token || typeof token !== "string") {
+      return NextResponse.json({ error: "Proof token is required" }, { status: 401 });
+    }
+
+    if (!consumeProof(token, email)) {
+      return NextResponse.json({ error: "Invalid or expired proof token" }, { status: 401 });
     }
 
     const admin = createAdminClient();

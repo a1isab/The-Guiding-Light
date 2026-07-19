@@ -34,7 +34,7 @@ export function AdminCourseList({ courses, locale }: { courses: Course[]; locale
 
   if (courses.length === 0) {
     return (
-      <div className="rounded-2xl border border-zinc-800 bg-[#111111] p-12 text-center">
+      <div data-testid="courses-empty" className="rounded-2xl border border-zinc-800 bg-[#111111] p-12 text-center">
         <p className="text-zinc-500">{t("no_courses")}</p>
       </div>
     );
@@ -45,6 +45,7 @@ export function AdminCourseList({ courses, locale }: { courses: Course[]; locale
       {courses.map((course) => (
         <div
           key={course.id}
+          data-testid={`course-row-${course.slug}`}
           className="flex items-center justify-between rounded-2xl border border-zinc-800 bg-[#111111] p-4"
         >
           <div className="min-w-0 flex-1">
@@ -65,12 +66,14 @@ export function AdminCourseList({ courses, locale }: { courses: Course[]; locale
           <div className="flex items-center gap-2 shrink-0 ml-4">
             <Link
               href={`/${locale}/admin/courses/${course.slug}`}
+              data-testid={`view-course-${course.slug}`}
               className="rounded-lg border border-zinc-700 p-2 text-zinc-400 hover:text-zinc-200 hover:border-zinc-500 transition-all"
             >
               <ExternalLink className="h-4 w-4" />
             </Link>
             <Link
               href={`/${locale}/admin/courses/${course.slug}/edit`}
+              data-testid={`edit-course-${course.slug}`}
               className="rounded-lg border border-zinc-700 p-2 text-zinc-400 hover:text-zinc-200 hover:border-zinc-500 transition-all"
             >
               <Pencil className="h-4 w-4" />
@@ -78,6 +81,7 @@ export function AdminCourseList({ courses, locale }: { courses: Course[]; locale
             <button
               onClick={() => handleDelete(course.id)}
               disabled={deleting === course.id}
+              data-testid={`delete-course-${course.slug}`}
               className="rounded-lg border border-zinc-700 p-2 text-red-400 hover:bg-red-900/20 hover:border-red-700 transition-all disabled:opacity-50"
             >
               <Trash2 className="h-4 w-4" />

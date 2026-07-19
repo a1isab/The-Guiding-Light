@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createApiSupabaseClient, requireAuth } from "@/lib/supabase-api";
+import { createApiSupabaseClient, requireAuth, extractBearerToken } from "@/lib/supabase-api";
 
 export async function POST(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
-  const userId = await requireAuth(supabase);
+  const jwt = extractBearerToken(request);
+  const userId = await requireAuth(supabase, jwt);
   if (!userId) return applyCookies(NextResponse.json({ error: "Unauthorized" }, { status: 401 }));
 
   const { lessonId } = await request.json();

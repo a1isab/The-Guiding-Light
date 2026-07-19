@@ -57,6 +57,7 @@ export function CourseCurriculum({
         return (
           <div
             key={section.id}
+            data-testid={`curriculum-section-${section.id}`}
             className="rounded-2xl border border-zinc-800 bg-[#111111] overflow-hidden"
           >
             <button
@@ -92,6 +93,7 @@ export function CourseCurriculum({
                   return (
                     <Link
                       key={lesson.id}
+                      data-testid={`curriculum-lesson-${lesson.id}`}
                       href={`/${locale}/courses/${courseSlug}/${section.slug}/${lesson.slug}`}
                       className="flex items-center justify-between px-6 py-4 hover:bg-zinc-900/30 transition-colors"
                     >

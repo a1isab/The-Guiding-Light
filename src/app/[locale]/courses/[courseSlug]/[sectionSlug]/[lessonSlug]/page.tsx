@@ -78,7 +78,7 @@ export default async function LessonPage({
         </span>
       </nav>
 
-      <h1 className="font-amiri text-3xl font-bold text-zinc-100">
+      <h1 data-testid="lesson-title" className="font-amiri text-3xl font-bold text-zinc-100">
         {getTranslation(lesson, "title", locale, lesson.title)}
       </h1>
 

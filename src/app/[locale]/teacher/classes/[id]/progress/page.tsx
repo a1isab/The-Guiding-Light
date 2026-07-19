@@ -150,7 +150,7 @@ export default async function ClassProgressPage({
         </p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
+          <table data-testid="progress-matrix" className="w-full text-left text-sm">
             <thead>
               <tr className="border-b border-zinc-800">
                 <th className="px-3 py-2 text-zinc-400 font-medium min-w-[200px]">{t("student")}</th>
@@ -175,7 +175,7 @@ export default async function ClassProgressPage({
                 const completed = totalCompleted(student.user_id);
                 const pct = totalLessons ? Math.round((completed / totalLessons) * 100) : 0;
                 return (
-                  <tr key={student.user_id} className="border-b border-zinc-800 hover:bg-zinc-900/30">
+                  <tr key={student.user_id} data-testid={`progress-row-${student.user_id}`} className="border-b border-zinc-800 hover:bg-zinc-900/30">
                     <td className="px-3 py-2.5 text-zinc-300 max-w-[200px] truncate">
                       {emailMap.get(student.user_id) ?? student.user_id}
                     </td>
@@ -186,7 +186,7 @@ export default async function ClassProgressPage({
                           const scoreKey = `${student.user_id}:${lesson.id}`;
                           const quizScore = bestScoreMap.get(scoreKey);
                           return (
-                            <td key={lesson.id} className="px-2 py-2.5 text-center">
+                            <td key={lesson.id} data-testid={`completion-${student.user_id}-${lesson.id}`} className="px-2 py-2.5 text-center">
                               {quizScore ? (
                                 <span className={`text-xs font-medium ${done ? "text-emerald-400" : "text-amber-400"}`}>
                                   {quizScore}

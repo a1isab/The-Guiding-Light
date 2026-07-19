@@ -65,7 +65,7 @@ export default async function ClassDetailPage({
 
       <div className="flex items-start justify-between mb-8">
         <div>
-          <h1 className="font-amiri text-2xl font-bold text-zinc-100">{cls.name}</h1>
+          <h1 data-testid="class-heading" className="font-amiri text-2xl font-bold text-zinc-100">{cls.name}</h1>
           {cls.description && (
             <p className="text-sm text-zinc-500 mt-1">{cls.description}</p>
           )}
@@ -88,6 +88,7 @@ export default async function ClassDetailPage({
       {/* Progress Link */}
       <div className="mt-6">
         <Link
+          data-testid="view-progress"
           href={`/${locale}/teacher/classes/${id}/progress`}
           className="flex items-center gap-2 rounded-xl border border-zinc-800 bg-[#111111] px-4 py-3 hover:bg-zinc-900/30 transition-colors"
         >
@@ -102,7 +103,7 @@ export default async function ClassDetailPage({
       {/* Students */}
       <div className="mt-8 rounded-2xl border border-zinc-800 bg-[#111111] overflow-hidden">
         <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-800">
-          <h2 className="text-sm font-semibold text-zinc-300">{t("students")}</h2>
+          <h2 data-testid="students-heading" className="text-sm font-semibold text-zinc-300">{t("students")}</h2>
           <span className="text-xs text-zinc-500">{members?.length ?? 0}</span>
         </div>
         <StudentTable members={enrichedMembers} locale={locale} classId={id} />
@@ -111,8 +112,9 @@ export default async function ClassDetailPage({
       {/* Courses */}
       <div className="mt-8">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-sm font-semibold text-zinc-300">{t("courses")}</h2>
+          <h2 data-testid="courses-heading" className="text-sm font-semibold text-zinc-300">{t("courses")}</h2>
           <Link
+            data-testid="new-course-link"
             href={`/${locale}/teacher/classes/${id}/courses/new`}
             className="inline-flex items-center gap-1 rounded-lg bg-emerald-500 px-3 py-1.5 text-xs font-medium text-white hover:bg-emerald-400 transition-all"
           >

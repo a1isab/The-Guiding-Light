@@ -47,7 +47,7 @@ export function JoinClassCard() {
   }
 
   return (
-    <div className="mt-8 rounded-2xl border border-zinc-800 bg-[#111111] p-6">
+    <div data-testid="join-class-card" className="mt-8 rounded-2xl border border-zinc-800 bg-[#111111] p-6">
       <h2 className="font-amiri text-xl font-bold text-zinc-100 mb-4">
         {t("join_class")}
       </h2>

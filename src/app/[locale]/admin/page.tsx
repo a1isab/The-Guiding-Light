@@ -38,10 +38,10 @@ export default async function AdminDashboardPage({
     .limit(10);
 
   const stats = [
-    { label: t("total_users"), value: totalUsers ?? 0, icon: Users, color: "bg-blue-500/10 text-blue-400" },
-    { label: t("new_users"), value: newUsers ?? 0, icon: TrendingUp, color: "bg-emerald-500/10 text-emerald-400" },
-    { label: t("lessons_completed"), value: totalCompleted ?? 0, icon: CheckCircle, color: "bg-amber-500/10 text-amber-400" },
-    { label: t("total_courses"), value: totalCourses ?? 0, icon: BookOpen, color: "bg-purple-500/10 text-purple-400" },
+    { key: "total-users", label: t("total_users"), value: totalUsers ?? 0, icon: Users, color: "bg-blue-500/10 text-blue-400" },
+    { key: "new-users", label: t("new_users"), value: newUsers ?? 0, icon: TrendingUp, color: "bg-emerald-500/10 text-emerald-400" },
+    { key: "lessons-completed", label: t("lessons_completed"), value: totalCompleted ?? 0, icon: CheckCircle, color: "bg-amber-500/10 text-amber-400" },
+    { key: "total-courses", label: t("total_courses"), value: totalCourses ?? 0, icon: BookOpen, color: "bg-purple-500/10 text-purple-400" },
   ];
 
   return (
@@ -50,7 +50,7 @@ export default async function AdminDashboardPage({
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((s) => (
-          <div key={s.label} className="rounded-2xl border border-zinc-800 bg-[#111111] p-5">
+          <div key={s.key} data-testid={`stat-${s.key}`} className="rounded-2xl border border-zinc-800 bg-[#111111] p-5">
             <div className="flex items-center gap-3">
               <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${s.color}`}>
                 <s.icon className="h-5 w-5" />
@@ -64,10 +64,10 @@ export default async function AdminDashboardPage({
         ))}
       </div>
 
-      <div className="mt-8 rounded-2xl border border-zinc-800 bg-[#111111] p-6">
+      <div data-testid="recent-activity" className="mt-8 rounded-2xl border border-zinc-800 bg-[#111111] p-6">
         <h2 className="font-amiri text-lg font-bold text-zinc-100 mb-4">{t("recent_activity")}</h2>
         {recentProgress && recentProgress.length > 0 ? (
-          <div className="space-y-3">
+          <div data-testid="recent-activity-list" className="space-y-3">
             {recentProgress.map((p, i) => (
               <div key={i} className="flex items-center gap-3 text-sm">
                 <div className="h-2 w-2 rounded-full bg-emerald-500 shrink-0" />

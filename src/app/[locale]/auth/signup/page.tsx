@@ -72,11 +72,26 @@ export default function SignUpPage() {
       return;
     }
 
+    const codeRes = await fetch("/api/auth/generate-code", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+
+    if (!codeRes.ok) {
+      setError(t("signup_confirm_failed"));
+      setLoading(false);
+      return;
+    }
+
+    const { token } = await codeRes.json();
+
     const code = Array.from({ length: 6 }, () => Math.floor(Math.random() * 10)).join("");
 
     sessionStorage.setItem("sv_email", email);
     sessionStorage.setItem("sv_code", code);
     sessionStorage.setItem("sv_password", password);
+    sessionStorage.setItem("sv_token", token);
     router.push(`/${locale}/auth/verify`);
   }
 
@@ -119,6 +134,7 @@ export default function SignUpPage() {
               </label>
               <input
                 id="email"
+                data-testid="signup-email"
                 type="email"
                 required
                 value={email}
@@ -134,6 +150,7 @@ export default function SignUpPage() {
               </label>
               <input
                 id="password"
+                data-testid="signup-password"
                 type="password"
                 required
                 minLength={6}
@@ -151,6 +168,7 @@ export default function SignUpPage() {
               <div className="grid grid-cols-2 gap-3">
                 <button
                   type="button"
+                  data-testid="signup-role-student"
                   onClick={() => setRole("student")}
                   className={`flex items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-medium transition-all ${
                     role === "student"
@@ -163,6 +181,7 @@ export default function SignUpPage() {
                 </button>
                 <button
                   type="button"
+                  data-testid="signup-role-teacher"
                   onClick={() => setRole("teacher")}
                   className={`flex items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-medium transition-all ${
                     role === "teacher"
@@ -185,6 +204,7 @@ export default function SignUpPage() {
                   <KeyRound className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
                   <input
                     id="inviteCode"
+                    data-testid="signup-invite-code"
                     type="text"
                     required
                     value={inviteCode}
@@ -197,11 +217,12 @@ export default function SignUpPage() {
             )}
 
             {error && (
-              <p className="text-sm text-red-400">{error}</p>
+              <p data-testid="signup-error" className="text-sm text-red-400">{error}</p>
             )}
 
             <button
               type="submit"
+              data-testid="signup-submit"
               disabled={loading}
               className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-emerald-400 disabled:opacity-50 transition-all"
             >

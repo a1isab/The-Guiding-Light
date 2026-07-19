@@ -222,7 +222,7 @@ export default async function DashboardPage({
       </div>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-3">
-        <div className="rounded-2xl border border-zinc-800 bg-[#111111] p-6">
+        <div data-testid="stat-lessons" className="rounded-2xl border border-zinc-800 bg-[#111111] p-6">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10">
               <BookOpen className="h-5 w-5 text-emerald-400" />
@@ -233,7 +233,7 @@ export default async function DashboardPage({
             </div>
           </div>
         </div>
-        <div className={`rounded-2xl border p-6 ${streakAtRisk ? "border-zinc-800 bg-[#111111]" : "border-amber-800/30 bg-amber-900/5"}`}>
+        <div data-testid="stat-streak" className={`rounded-2xl border p-6 ${streakAtRisk ? "border-zinc-800 bg-[#111111]" : "border-amber-800/30 bg-amber-900/5"}`}>
           <div className="flex items-center gap-3">
             <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${streakAtRisk ? "bg-zinc-800" : "bg-amber-500/20"}`}>
               <Flame className={`h-5 w-5 ${streakAtRisk ? "text-zinc-600" : "text-amber-300"}`} />
@@ -252,7 +252,7 @@ export default async function DashboardPage({
             </div>
           </div>
         </div>
-        <div className="rounded-2xl border border-zinc-800 bg-[#111111] p-6">
+        <div data-testid="stat-plan" className="rounded-2xl border border-zinc-800 bg-[#111111] p-6">
           <div className="flex items-center gap-3">
             <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${isPremium ? "bg-amber-500/10" : "bg-zinc-800"}`}>
               <Crown className={`h-5 w-5 ${isPremium ? "text-amber-400" : "text-zinc-500"}`} />
@@ -318,7 +318,7 @@ export default async function DashboardPage({
       )}
 
       {nextLesson && (
-        <div className="mt-8 rounded-2xl border border-emerald-800/30 bg-emerald-900/10 p-6">
+        <div data-testid="continue-learning" className="mt-8 rounded-2xl border border-emerald-800/30 bg-emerald-900/10 p-6">
           <p className="text-xs font-medium uppercase tracking-wider text-emerald-400 mb-2">
             {t("continue_learning")}
           </p>
@@ -350,6 +350,7 @@ export default async function DashboardPage({
             {myClasses.map((cls) => (
               <Link
                 key={cls.id}
+                data-testid={`class-card-${cls.id}`}
                 href={`/${locale}/dashboard/classes/${cls.id}`}
                 className="rounded-2xl border border-zinc-800 bg-[#111111] p-5 hover:border-zinc-700 transition-all"
               >

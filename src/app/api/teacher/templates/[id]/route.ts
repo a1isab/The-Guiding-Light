@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createApiSupabaseClient, requireTeacher } from "@/lib/supabase-api";
+import { createApiSupabaseClient, requireTeacher, extractBearerToken } from "@/lib/supabase-api";
 
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
-  const userId = await requireTeacher(supabase);
+  const jwt = extractBearerToken(request);
+  const userId = await requireTeacher(supabase, jwt);
   if (!userId) return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
 
   const { id } = await params;

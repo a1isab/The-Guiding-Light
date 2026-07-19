@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createApiSupabaseClient, requireTeacher } from "@/lib/supabase-api";
+import { createApiSupabaseClient, requireTeacher, extractBearerToken } from "@/lib/supabase-api";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_API_KEY!);
@@ -29,7 +29,8 @@ Generate exactly ${count} questions. Make them educational, not trick questions.
 export async function POST(request: NextRequest) {
   try {
     const { supabase, applyCookies } = createApiSupabaseClient(request);
-    const teacherId = await requireTeacher(supabase);
+    const jwt = extractBearerToken(request);
+    const teacherId = await requireTeacher(supabase, jwt);
     if (!teacherId) {
       return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
     }

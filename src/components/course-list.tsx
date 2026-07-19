@@ -54,6 +54,7 @@ export function CourseList({ courses, courseLessonCount, courseHasVideo }: Props
           return (
             <Link
               key={course.id}
+              data-testid={`course-card-${course.slug}`}
               href={`/${locale}/courses/${course.slug}`}
               className="group rounded-2xl border border-zinc-800 bg-[#111111] p-6 transition-all hover:border-emerald-800/50 hover:shadow-[0_0_30px_rgba(16,185,129,0.1)]"
             >

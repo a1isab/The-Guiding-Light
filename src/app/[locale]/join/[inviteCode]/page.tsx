@@ -73,7 +73,7 @@ export default function JoinPage() {
             <p className="text-sm text-zinc-400 mb-6">{t("join_success_msg", { name: className })}</p>
             <button
               onClick={() => router.push(`/${params.locale}/dashboard`)}
-              data-testid="go-to-dashboard"
+              data-testid="join-go-to-dashboard"
               className="rounded-xl bg-emerald-500 px-6 py-2.5 text-sm font-medium text-white hover:bg-emerald-400 transition-all"
             >
               {t("go_to_dashboard")}
@@ -88,7 +88,7 @@ export default function JoinPage() {
             <p className="text-sm text-zinc-400 mb-6">{t("join_exists_msg", { name: className })}</p>
             <button
               onClick={() => router.push(`/${params.locale}/dashboard`)}
-              data-testid="go-to-dashboard"
+              data-testid="join-go-to-dashboard-exists"
               className="rounded-xl bg-emerald-500 px-6 py-2.5 text-sm font-medium text-white hover:bg-emerald-400 transition-all"
             >
               {t("go_to_dashboard")}

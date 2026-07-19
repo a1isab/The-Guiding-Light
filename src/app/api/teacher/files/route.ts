@@ -42,6 +42,25 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "lessonId, filename, and storage_path required" }, { status: 400 });
   }
 
+  const lesson = (await supabase.from("teacher_lessons").select("section_id").eq("id", lessonId).single()).data as { section_id: string } | null;
+  if (!lesson) return applyCookies(NextResponse.json({ error: "Lesson not found" }, { status: 404 }));
+
+  const section = (await supabase.from("teacher_sections").select("course_id").eq("id", lesson.section_id).single()).data as { course_id: string } | null;
+  if (!section) return applyCookies(NextResponse.json({ error: "Section not found" }, { status: 404 }));
+
+  const course = (await supabase.from("teacher_courses").select("class_id").eq("id", section.course_id).single()).data as { class_id: string } | null;
+  if (!course) return applyCookies(NextResponse.json({ error: "Course not found" }, { status: 404 }));
+
+  const cls = (await supabase.from("classes").select("teacher_id").eq("id", course.class_id).single()).data as { teacher_id: string } | null;
+  if (!cls) return applyCookies(NextResponse.json({ error: "Class not found" }, { status: 404 }));
+
+  const role = await getUserRole(supabase);
+  const isOwner = cls.teacher_id === userId;
+  const isAdmin = role?.includes("admin");
+  if (!isOwner && !isAdmin) {
+    return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
+  }
+
   const { data, error } = await supabase
     .from("teacher_lesson_files")
     .insert({
