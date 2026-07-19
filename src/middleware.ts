@@ -16,12 +16,17 @@ export async function middleware(request: NextRequest) {
   if (intlResponse.headers.get("location")) return intlResponse;
 
   const locale: string = intlResponse.headers.get("X-NEXT-INTL-LOCALE") || routing.defaultLocale;
-  intlResponse.headers.set("X-NEXT-INTL-LOCALE", locale);
+
+  // ─── Mutable response for cookie chaining ───
+  // Must be a fresh NextResponse.next() so setAll can reassign it safely
+  // when Supabase refreshes the session token. Returning the same live
+  // variable at the end ensures refreshed cookies reach the browser.
+  let response = NextResponse.next({
+    request: { headers: request.headers },
+  });
+  response.headers.set("X-NEXT-INTL-LOCALE", locale);
 
   // ─── Auth header propagation for protected routes ───
-  // Uses getSession() (no network, reads cookie) then resolves roles via
-  // a single RPC call only when the session is not expired.
-  // Server Components and API routes handle token refresh on fallback.
   const pathWithoutLocale = "/" + pathname.split("/").slice(2).join("/");
   const isProtected = PROTECTED_PATHS.some((p) => pathWithoutLocale.startsWith(p));
 
@@ -36,7 +41,13 @@ export async function middleware(request: NextRequest) {
           setAll(cookiesToSet) {
             cookiesToSet.forEach(({ name, value, options }) => {
               request.cookies.set(name, value);
-              intlResponse.cookies.set(name, value, {
+            });
+            response = NextResponse.next({
+              request: { headers: request.headers },
+            });
+            response.headers.set("X-NEXT-INTL-LOCALE", locale);
+            cookiesToSet.forEach(({ name, value, options }) => {
+              response.cookies.set(name, value, {
                 ...options,
                 path: "/",
                 sameSite: "lax",
@@ -53,17 +64,15 @@ export async function middleware(request: NextRequest) {
       console.log(`[DEBUG] Middleware: getSession error:`, sessionError.message);
     }
     if (session?.user) {
-      intlResponse.headers.set("x-user-id", session.user.id);
+      response.headers.set("x-user-id", session.user.id);
       console.log(`[DEBUG] Middleware: Session found for user ${session.user.id}`);
 
-      // Resolve roles only when token is fresh (avoids failed RPC with expired token).
-      // SCs fall back to getUser() + getUserRole() when headers are absent.
       const now = Math.floor(Date.now() / 1000);
       const isExpired = !!session.expires_at && session.expires_at < now;
       if (!isExpired) {
         const roles = await getUserRole(supabase);
         if (roles && roles.length > 0) {
-          intlResponse.headers.set("x-user-roles", JSON.stringify(roles));
+          response.headers.set("x-user-roles", JSON.stringify(roles));
         }
       }
     } else {
@@ -71,7 +80,7 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  return intlResponse;
+  return response;
 }
 
 export const config = {
