@@ -4,7 +4,6 @@ import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { createServerSupabaseClient } from "@/lib/supabase";
 import { getUserRole } from "@/lib/supabase-api";
-import { TokenProvider } from "@/components/providers/token-provider";
 import { LayoutDashboard, Users, LogOut } from "lucide-react";
 
 export default async function TeacherLayout({
@@ -31,9 +30,6 @@ export default async function TeacherLayout({
   }
 
   const t = await getTranslations("teacher");
-
-  const { data: { session } } = await supabase.auth.getSession();
-  const accessToken = session?.access_token ?? null;
 
   const nav = [
     { href: `/${locale}/teacher`, label: t("dashboard"), icon: LayoutDashboard },
@@ -66,11 +62,9 @@ export default async function TeacherLayout({
           </Link>
         </div>
       </aside>
-      <TokenProvider token={accessToken}>
-        <main className="flex-1 overflow-auto">
-          <div className="mx-auto max-w-6xl px-4 py-8">{children}</div>
-        </main>
-      </TokenProvider>
+      <main className="flex-1 overflow-auto">
+        <div className="mx-auto max-w-6xl px-4 py-8">{children}</div>
+      </main>
     </div>
   );
 }

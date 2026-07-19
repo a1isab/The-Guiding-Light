@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { getClientAccessToken } from "@/lib/supabase-client";
 import { Trash2 } from "lucide-react";
 
 interface Member {
@@ -28,13 +27,10 @@ export function StudentTable({
   async function handleRemove(studentId: string) {
     if (!confirm(t("remove_student_confirm"))) return;
     setRemoving(studentId);
-    const token = await getClientAccessToken();
-    const headers: Record<string, string> = { "Content-Type": "application/json" };
-    if (token) headers["Authorization"] = `Bearer ${token}`;
     const res = await fetch("/api/teacher/classes/members", {
       method: "DELETE",
-      headers,
-      credentials: "omit",
+      headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
       body: JSON.stringify({ classId, studentId }),
     });
     if (res.ok) {

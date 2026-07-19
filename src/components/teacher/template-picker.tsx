@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getClientAccessToken } from "@/lib/supabase-client";
 import { Loader2, BookTemplate, FileText } from "lucide-react";
 
 interface Template {
@@ -29,10 +28,7 @@ export function TemplatePicker({
 
   useEffect(() => {
     (async () => {
-      const token = await getClientAccessToken();
-      const headers: Record<string, string> = {};
-      if (token) headers["Authorization"] = `Bearer ${token}`;
-      const res = await fetch("/api/teacher/templates", { headers });
+      const res = await fetch("/api/teacher/templates", { credentials: "same-origin" });
       const data = await res.json();
       setTemplates(data.templates ?? []);
       setLoading(false);
@@ -47,13 +43,10 @@ export function TemplatePicker({
     setCreating(true);
     setError("");
 
-    const token = await getClientAccessToken();
-    const headers: Record<string, string> = { "Content-Type": "application/json" };
-    if (token) headers["Authorization"] = `Bearer ${token}`;
     const res = await fetch("/api/teacher/lessons", {
       method: "POST",
-      headers,
-      credentials: "omit",
+      headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
       body: JSON.stringify({
         sectionId,
         title: title.trim(),

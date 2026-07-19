@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { getClientAccessToken } from "@/lib/supabase-client";
 import { Copy, RotateCcw } from "lucide-react";
 
 export function InviteCodeDisplay({
@@ -30,13 +29,10 @@ export function InviteCodeDisplay({
   async function handleRegenerate() {
     if (!confirm(t("regenerate_confirm"))) return;
     setRegenerating(true);
-    const token = await getClientAccessToken();
-    const headers: Record<string, string> = { "Content-Type": "application/json" };
-    if (token) headers["Authorization"] = `Bearer ${token}`;
     const res = await fetch("/api/teacher/classes/invite", {
       method: "POST",
-      headers,
-      credentials: "omit",
+      headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
       body: JSON.stringify({ classId }),
     });
     const data = await res.json();

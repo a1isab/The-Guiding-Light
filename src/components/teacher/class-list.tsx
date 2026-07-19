@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
-import { getClientAccessToken } from "@/lib/supabase-client";
 import { Users, Trash2, ExternalLink } from "lucide-react";
 
 interface ClassItem {
@@ -25,10 +24,11 @@ export function ClassList({ classes }: { classes: ClassItem[] }) {
   async function handleDelete(id: string) {
     if (!confirm(t("delete_confirm"))) return;
     setDeleting(id);
-    const token = await getClientAccessToken();
-    const headers: Record<string, string> = { "Content-Type": "application/json" };
-    if (token) headers["Authorization"] = `Bearer ${token}`;
-    const res = await fetch(`/api/teacher/classes?id=${id}`, { method: "DELETE", headers, credentials: "omit" });
+    const res = await fetch(`/api/teacher/classes?id=${id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
+    });
     if (res.ok) {
       router.refresh();
     }
