@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { createClient, getUserRoleClient } from "@/lib/supabase-client";
 import type { User } from "@supabase/supabase-js";
+import { SignOutButton } from "@/components/auth/sign-out-button";
 import { Logo } from "./logo";
 
 const LOCALES = [
@@ -214,12 +215,7 @@ export function Navbar() {
                   Admin
                 </Link>
               )}
-                    <a
-                      href={"/" + currentLocale + "/auth/logout"}
-                      className="block px-4 py-2 text-sm text-red-400 hover:bg-zinc-800"
-                    >
-                      {t("sign_out")}
-                    </a>
+                    <SignOutButton className="block w-full px-4 py-2 text-sm text-red-400 hover:bg-zinc-800 text-left" />
                   </div>
                 )}
               </div>
@@ -317,12 +313,7 @@ export function Navbar() {
                 </Link>
               )}
               {user ? (
-                <a
-                  href={"/" + currentLocale + "/auth/logout"}
-                  className="text-red-400 text-lg font-medium mt-4"
-                >
-                  {t("sign_out")}
-                </a>
+                <SignOutButton className="text-red-400 text-lg font-medium mt-4" />
               ) : (
                 <>
                   <Link

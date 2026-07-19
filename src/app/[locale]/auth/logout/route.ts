@@ -1,14 +1,13 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { createServerClient as createSSRClient } from "@supabase/ssr";
 
-export async function GET(request: NextRequest) {
-  const url = new URL(request.url);
-  const origin = url.origin;
+function getLocale(url: URL): string {
   const pathParts = url.pathname.split("/").filter(Boolean);
-  const locale = pathParts.length > 0 && /^[a-z]{2}(-[A-Z]{2})?$/.test(pathParts[0]) ? pathParts[0] : "en";
-  const supabaseResponse = NextResponse.redirect(new URL(`/${locale}`, origin));
+  return pathParts.length > 0 && /^[a-z]{2}(-[A-Z]{2})?$/.test(pathParts[0]) ? pathParts[0] : "en";
+}
 
-  const supabase = createSSRClient(
+function createSupabase(request: NextRequest, response: NextResponse) {
+  return createSSRClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
@@ -20,13 +19,27 @@ export async function GET(request: NextRequest) {
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value, options }) => {
             request.cookies.set(name, value);
-            supabaseResponse.cookies.set(name, value, { ...options, path: "/" });
+            response.cookies.set(name, value, { ...options, path: "/" });
           });
         },
       },
     }
   );
+}
 
+export async function GET(request: NextRequest) {
+  const url = new URL(request.url);
+  const locale = getLocale(url);
+  return NextResponse.redirect(new URL(`/${locale}`, url.origin));
+}
+
+export async function POST(request: NextRequest) {
+  const url = new URL(request.url);
+  const locale = getLocale(url);
+  const origin = url.origin;
+  const supabaseResponse = NextResponse.redirect(new URL(`/${locale}`, origin));
+
+  const supabase = createSupabase(request, supabaseResponse);
   await supabase.auth.signOut();
 
   return supabaseResponse;

@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { createServerSupabaseClient } from "@/lib/supabase";
 import { getUserRole } from "@/lib/supabase-api";
+import { SignOutButton } from "@/components/auth/sign-out-button";
 import { LayoutDashboard, Users, LogOut } from "lucide-react";
 
 export default async function TeacherLayout({
@@ -53,13 +54,10 @@ export default async function TeacherLayout({
           ))}
         </div>
         <div className="mt-auto pt-4 border-t border-zinc-800">
-          <Link
-            href={`/${locale}/auth/logout`}
-            className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium text-red-400 hover:bg-zinc-800 transition-all"
-          >
+          <SignOutButton className="flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium text-red-400 hover:bg-zinc-800 transition-all">
             <LogOut className="h-4 w-4" />
             {t("sign_out")}
-          </Link>
+          </SignOutButton>
         </div>
       </aside>
       <main className="flex-1 overflow-auto">
