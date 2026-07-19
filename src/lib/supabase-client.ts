@@ -16,14 +16,21 @@ export function createClient() {
   );
 }
 
-export async function getUserRoleClient(supabase: SupabaseClient): Promise<string[] | null> {
+export async function getUserRoleClient(supabase: SupabaseClient, userId?: string): Promise<string[] | null> {
   const { data: role, error } = await supabase.rpc("get_user_roles");
   if (role && role.length > 0) return role as string[];
   if (error) console.warn("get_user_roles RPC failed, falling back:", error.message);
 
+  if (!userId) {
+    const { data: { user } } = await supabase.auth.getUser();
+    userId = user?.id;
+    if (!userId) return null;
+  }
+
   const { data: profile } = await supabase
     .from("profiles")
     .select("role")
+    .eq("user_id", userId)
     .maybeSingle();
   if (!profile?.role) return null;
   return [profile.role];

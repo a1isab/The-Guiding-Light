@@ -86,7 +86,7 @@ async function supplementWithLegacyRole(
   const { data: profile } = await supabase
     .from("profiles")
     .select("role")
-    .eq("id", userId)
+    .eq("user_id", userId)
     .single();
 
   if (profile?.role && !roles.includes(profile.role)) {
@@ -109,7 +109,7 @@ async function getLegacyRoleOnly(
   const { data: profile } = await supabase
     .from("profiles")
     .select("role")
-    .eq("id", userId)
+    .eq("user_id", userId)
     .single();
 
   if (profile?.role) return [profile.role];
@@ -148,7 +148,7 @@ export async function requireTeacher(
     const { data: profile, error: dbError } = await supabase
       .from("profiles")
       .select("role, roles")
-      .eq("id", user.id)
+      .eq("user_id", user.id)
       .single();
 
     if (dbError) {
