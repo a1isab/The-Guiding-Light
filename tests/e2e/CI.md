@@ -27,6 +27,23 @@ The tests use pre-seeded Supabase accounts. Ensure these exist before running:
 
 Run `npm run seed:users` to seed/create them.
 
+## Running Locally
+
+The correct command is:
+
+```bash
+npm run test:e2e
+```
+
+This runs Playwright in headed mode (browser visible) without any debug features.
+
+**Avoid these flags unless intentionally debugging:**
+- `--ui` — opens Playwright UI Mode with a test runner panel, shows a blank browser until you click "Resume"
+- `--debug` — opens Playwright Inspector, pauses at every step, requires clicking "Resume" to continue
+- `PWDEBUG=1` — same as `--debug`
+
+If you see a blank browser with a "Resume" button, you're running in UI mode or debug mode. Kill it and use `npm run test:e2e` instead.
+
 ## Known Instability
 
 Some tests are sensitive to environment state:
@@ -36,3 +53,4 @@ Some tests are sensitive to environment state:
 - **UI course creation (teacher 6.4)**: Fails if the course API route doesn't receive proper auth cookies.
 - **Empty state checks (6.10)**: Depends on whether the teacher has existing classes.
 - **Stat card testids (7.1)**: Should be stable now that testids use static keys instead of translated labels.
+- **Email-triggering tests removed**: Signup-flow tests (student signup via UI, teacher signup with invite code), verify-page tests (correct/wrong code), and forgot-password test have been removed from `auth.spec.ts` because Supabase's free tier enforces strict email quotas. These tests will be re-added when SMTP is configured or the Supabase plan is upgraded.

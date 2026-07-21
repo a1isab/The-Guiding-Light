@@ -35,7 +35,13 @@ function createSupabase(request: NextRequest, response: NextResponse) {
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
   const locale = getLocale(url);
-  return NextResponse.redirect(new URL(`/${locale}`, url.origin));
+  const origin = url.origin;
+  const response = NextResponse.redirect(new URL(`/${locale}`, origin));
+
+  const supabase = createSupabase(request, response);
+  await supabase.auth.signOut();
+
+  return response;
 }
 
 export async function POST(request: NextRequest) {
