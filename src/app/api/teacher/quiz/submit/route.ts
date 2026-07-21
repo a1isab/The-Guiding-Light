@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createApiSupabaseClient, requireAuth, extractBearerToken } from "@/lib/supabase-api";
+import { createAdminClient } from "@/lib/supabase";
 import { updateStreak } from "@/lib/streak";
 
 const PASS_THRESHOLD = 0.6;
@@ -20,8 +21,9 @@ export async function POST(request: NextRequest) {
     return applyCookies(NextResponse.json({ error: "lessonId and answers array required" }, { status: 400 }));
   }
 
-  // Verify lesson exists
-  const lesson = (await supabase
+  const dataClient = createAdminClient() ?? supabase;
+
+  const lesson = (await dataClient
     .from("teacher_lessons")
     .select("id")
     .eq("id", lessonId)
@@ -31,10 +33,9 @@ export async function POST(request: NextRequest) {
     return applyCookies(NextResponse.json({ error: "Lesson not found" }, { status: 404 }));
   }
 
-  // ----- LOCKOUT CHECK -----
   const windowStart = new Date(Date.now() - LOCKOUT_MINUTES * 60 * 1000).toISOString();
 
-  const { data: recentAttempts, error: countError } = await supabase
+  const { data: recentAttempts, error: countError } = await dataClient
     .from("teacher_quiz_attempts")
     .select("completed_at")
     .eq("lesson_id", lessonId)
@@ -49,8 +50,7 @@ export async function POST(request: NextRequest) {
 
   const failCount = recentAttempts?.length ?? 0;
 
-  // Check if already passed
-  const { data: passedAttempt } = await supabase
+  const { data: passedAttempt } = await dataClient
     .from("teacher_quiz_attempts")
     .select("id")
     .eq("lesson_id", lessonId)
@@ -77,8 +77,7 @@ export async function POST(request: NextRequest) {
     ));
   }
 
-  // ----- FETCH QUESTIONS -----
-  const { data: questions, error: qError } = await supabase
+  const { data: questions, error: qError } = await dataClient
     .from("teacher_quiz_questions")
     .select("id, correct_index")
     .eq("lesson_id", lessonId)
@@ -88,7 +87,6 @@ export async function POST(request: NextRequest) {
     return applyCookies(NextResponse.json({ error: "No quiz questions found" }, { status: 404 }));
   }
 
-  // ----- SCORE -----
   if (answers.length !== questions.length) {
     return applyCookies(NextResponse.json(
       { error: `Expected ${questions.length} answers, got ${answers.length}` },
@@ -106,8 +104,7 @@ export async function POST(request: NextRequest) {
   const total = questions.length;
   const passed = score / total >= PASS_THRESHOLD;
 
-  // ----- RECORD ATTEMPT -----
-  const { error: insertError } = await supabase
+  const { error: insertError } = await dataClient
     .from("teacher_quiz_attempts")
     .insert({
       lesson_id: lessonId,
@@ -121,9 +118,8 @@ export async function POST(request: NextRequest) {
     return applyCookies(NextResponse.json({ error: insertError.message }, { status: 500 }));
   }
 
-  // ----- AUTO-COMPLETE LESSON IF PASSED -----
   if (passed) {
-    const { data: existing } = await supabase
+    const { data: existing } = await dataClient
       .from("teacher_progress")
       .select("id")
       .eq("student_id", userId)
@@ -131,20 +127,19 @@ export async function POST(request: NextRequest) {
       .maybeSingle();
 
     if (!existing) {
-      await supabase.from("teacher_progress").insert({
+      await dataClient.from("teacher_progress").insert({
         student_id: userId,
         lesson_id: lessonId,
         completed_at: new Date().toISOString(),
       });
     } else {
-      await supabase
+      await dataClient
         .from("teacher_progress")
         .update({ completed_at: new Date().toISOString() })
         .eq("id", existing.id);
     }
 
-    // Update streak on pass (fire-and-forget, don't block response)
-    updateStreak(userId, supabase as any).catch(() => {});
+    updateStreak(userId, dataClient as any).catch(() => {});
   }
 
   return applyCookies(

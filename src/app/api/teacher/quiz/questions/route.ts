@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createApiSupabaseClient, requireAuth, getUserRole, extractBearerToken } from "@/lib/supabase-api";
+import { createAdminClient } from "@/lib/supabase";
 
 export async function GET(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
@@ -16,8 +17,9 @@ export async function GET(request: NextRequest) {
     return applyCookies(NextResponse.json({ error: "lessonId required" }, { status: 400 }));
   }
 
-  // Determine if the user is the teacher/owner of this lesson's class
-  const lesson = (await supabase
+  const dataClient = createAdminClient() ?? supabase;
+
+  const lesson = (await dataClient
     .from("teacher_lessons")
     .select("section_id")
     .eq("id", lessonId)
@@ -27,26 +29,25 @@ export async function GET(request: NextRequest) {
     return applyCookies(NextResponse.json({ error: "Lesson not found" }, { status: 404 }));
   }
 
-  // Check if user is teacher/owner
   const role = await getUserRole(supabase);
   let isTeacher = role?.includes("admin") ?? false;
 
   if (role?.includes("teacher")) {
-    const section = (await supabase
+    const section = (await dataClient
       .from("teacher_sections")
       .select("course_id")
       .eq("id", lesson.section_id)
       .single()).data as { course_id: string } | null;
 
     if (section) {
-      const course = (await supabase
+      const course = (await dataClient
         .from("teacher_courses")
         .select("class_id")
         .eq("id", section.course_id)
         .single()).data as { class_id: string } | null;
 
       if (course) {
-        const cls = (await supabase
+        const cls = (await dataClient
           .from("classes")
           .select("teacher_id")
           .eq("id", course.class_id)
@@ -59,23 +60,22 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  // Enrolled student check
   if (!isTeacher && !role?.includes("teacher") && !role?.includes("admin")) {
-    const section = (await supabase
+    const section = (await dataClient
       .from("teacher_sections")
       .select("course_id")
       .eq("id", lesson.section_id)
       .single()).data as { course_id: string } | null;
 
     if (section) {
-      const course = (await supabase
+      const course = (await dataClient
         .from("teacher_courses")
         .select("class_id")
         .eq("id", section.course_id)
         .single()).data as { class_id: string } | null;
 
       if (course) {
-        const { data: membership } = await supabase
+        const { data: membership } = await dataClient
           .from("class_members")
           .select("id")
           .eq("class_id", course.class_id)
@@ -89,12 +89,11 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  // Fetch questions
   const selectCols = isTeacher
     ? "id, question, options, correct_index, order_index"
     : "id, question, options, order_index";
 
-  const { data: questions, error } = await supabase
+  const { data: questions, error } = await dataClient
     .from("teacher_quiz_questions")
     .select(selectCols)
     .eq("lesson_id", lessonId)

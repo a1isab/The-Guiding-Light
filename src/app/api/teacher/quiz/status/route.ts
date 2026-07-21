@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createApiSupabaseClient, requireAuth, extractBearerToken } from "@/lib/supabase-api";
+import { createAdminClient } from "@/lib/supabase";
 
 const MAX_ATTEMPTS_IN_WINDOW = 3;
 const LOCKOUT_MINUTES = 30;
@@ -19,8 +20,9 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "lessonId required" }, { status: 400 });
   }
 
-  // Check if already passed
-  const { data: passedAttempt } = await supabase
+  const dataClient = createAdminClient() ?? supabase;
+
+  const { data: passedAttempt } = await dataClient
     .from("teacher_quiz_attempts")
     .select("score, total")
     .eq("lesson_id", lessonId)
@@ -41,17 +43,15 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  // Count total attempts
-  const { count: totalAttempts } = await supabase
+  const { count: totalAttempts } = await dataClient
     .from("teacher_quiz_attempts")
     .select("*", { count: "exact", head: true })
     .eq("lesson_id", lessonId)
     .eq("student_id", userId);
 
-  // Count recent failures in lockout window
   const windowStart = new Date(Date.now() - LOCKOUT_MINUTES * 60 * 1000).toISOString();
 
-  const { data: recentFails } = await supabase
+  const { data: recentFails } = await dataClient
     .from("teacher_quiz_attempts")
     .select("completed_at")
     .eq("lesson_id", lessonId)

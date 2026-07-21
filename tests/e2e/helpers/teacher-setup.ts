@@ -63,7 +63,7 @@ export async function setupTeacherLesson(page: Page): Promise<TestData> {
   await page.getByTestId("class-name-input").fill(`E2E Class ${ts}`);
   await page.getByTestId("class-description").fill(`Auto-created by E2E test ${ts}`);
   await page.getByTestId("class-submit").click();
-  await page.waitForURL(/\/en\/teacher\/classes\//);
+  await page.waitForURL(/\/en\/teacher\/classes\/[0-9a-f]{8}-/);
   await page.waitForLoadState("networkidle");
   const classId = page.url().split("/classes/")[1]?.split(/[?#/]/)[0];
   if (!classId) throw new Error("Could not extract classId");
