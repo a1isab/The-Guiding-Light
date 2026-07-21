@@ -12,15 +12,41 @@ export interface TestData {
   inviteCode: string;
 }
 
+function decodeSupabaseCookie(cookieValue: string): { access_token: string } | null {
+  try {
+    const b64 = cookieValue.replace(/^base64-/, "");
+    return JSON.parse(atob(b64));
+  } catch {
+    return null;
+  }
+}
+
+async function getCookieValue(page: Page, keyPattern: string): Promise<string | null> {
+  return page.evaluate((pattern) => {
+    const cookies = document.cookie.split("; ").reduce((acc: Record<string, string>, c) => {
+      const [k, ...v] = c.split("=");
+      acc[k] = v.join("=");
+      return acc;
+    }, {});
+    const key = Object.keys(cookies).find((k) => k.includes(pattern));
+    return key ? cookies[key] : null;
+  }, keyPattern) as Promise<string | null>;
+}
+
 async function apiPost(page: Page, url: string, body: Record<string, unknown>): Promise<Record<string, unknown>> {
-  return page.evaluate(async ([u, b]) => {
-    const res = await fetch(u, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(b),
-    });
-    return res.json();
-  }, [url, body] as const);
+  const raw = await getCookieValue(page, "-auth-token");
+  const parsed = raw ? decodeSupabaseCookie(raw) : null;
+  const token = parsed?.access_token;
+
+  return page.evaluate(
+    async ([u, b, t]) => {
+      const headers: Record<string, string> = { "Content-Type": "application/json" };
+      if (t) headers["Authorization"] = `Bearer ${t}`;
+      const res = await fetch(u, { method: "POST", headers, body: JSON.stringify(b) });
+      return res.json();
+    },
+    [url, body, token ?? ""] as const
+  );
 }
 
 export async function setupTeacherLesson(page: Page): Promise<TestData> {
@@ -63,7 +89,6 @@ export async function setupTeacherLesson(page: Page): Promise<TestData> {
   if (!lessonData.id) throw new Error("Lesson creation failed: " + JSON.stringify(lessonData));
   const lessonId = lessonData.id as string;
 
-  // Regenerate invite code to ensure it's valid, and capture it
   const inviteData = await apiPost(page, "/api/teacher/classes/invite", { classId });
   const inviteCode = (inviteData.invite_code as string) ?? "";
   if (!inviteCode) throw new Error("Invite code regeneration failed: " + JSON.stringify(inviteData));

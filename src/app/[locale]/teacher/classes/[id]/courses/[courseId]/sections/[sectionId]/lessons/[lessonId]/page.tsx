@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { createServiceClient } from "@/lib/supabase";
+import { createServerSupabaseClient } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 import { LessonEditor } from "./lesson-editor";
 
@@ -13,7 +13,7 @@ export default async function LessonEditPage({
   const { locale, id: classId, courseId, sectionId, lessonId } = await params;
   const t = await getTranslations("teacher");
 
-  const supabase = createServiceClient();
+  const supabase = await createServerSupabaseClient();
 
   const { data: lesson } = await supabase
     .from("teacher_lessons")
