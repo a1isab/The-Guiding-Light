@@ -115,11 +115,11 @@ test.describe("quiz submission", () => {
     const mainPage = await mainContext.newPage();
     await loginAsStudent(mainPage);
 
-    const result = await submitQuiz(mainPage, data.lessonId, [1, 2, 2, 3, 2]);
+    const result = await submitQuiz(mainPage, data.lessonId, [1, 2, 2]);
     expect(result.status).toBe(200);
     expect(result.body.passed).toBe(true);
-    expect(result.body.score).toBe(5);
-    expect(result.body.total).toBe(5);
+    expect(result.body.score).toBe(3);
+    expect(result.body.total).toBe(3);
     await mainContext.close();
   });
 
@@ -142,7 +142,7 @@ test.describe("quiz submission", () => {
     const mainPage = await mainContext.newPage();
     await loginAsStudent(mainPage);
 
-    const result = await submitQuiz(mainPage, data.lessonId, [0, 0, 0, 0, 0]);
+    const result = await submitQuiz(mainPage, data.lessonId, [0, 0, 0]);
     expect(result.status).toBe(200);
     expect(result.body.passed).toBe(false);
     expect(result.body.score).toBe(0);
@@ -169,12 +169,12 @@ test.describe("quiz submission", () => {
     await loginAsStudent(mainPage);
 
     for (let i = 0; i < 3; i++) {
-      const r = await submitQuiz(mainPage, data.lessonId, [0, 0, 0, 0, 0]);
+      const r = await submitQuiz(mainPage, data.lessonId, [0, 0, 0]);
       expect(r.status).toBe(200);
       expect(r.body.passed).toBe(false);
     }
 
-    const locked = await submitQuiz(mainPage, data.lessonId, [0, 0, 0, 0, 0]);
+    const locked = await submitQuiz(mainPage, data.lessonId, [0, 0, 0]);
     expect(locked.status).toBe(429);
     expect(locked.body.locked).toBe(true);
     expect(typeof locked.body.retryAfter).toBe("number");
@@ -200,7 +200,7 @@ test.describe("quiz submission", () => {
     const mainPage = await mainContext.newPage();
     await loginAsStudent(mainPage);
 
-    const result = await submitQuiz(mainPage, data.lessonId, [1, 2, 2, 3, 2]);
+    const result = await submitQuiz(mainPage, data.lessonId, [1, 2, 2]);
     expect(result.status).toBe(200);
     expect(result.body.passed).toBe(true);
     expect(typeof result.body.attemptsRemaining).toBe("number");

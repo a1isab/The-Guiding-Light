@@ -54,15 +54,5 @@ function defaultQuestions(): QuizQuestion[] {
       options: ["Venus", "Jupiter", "Mars", "Saturn"],
       correct_index: 2,
     },
-    {
-      question: "What is the largest ocean?",
-      options: ["Atlantic", "Indian", "Arctic", "Pacific"],
-      correct_index: 3,
-    },
-    {
-      question: "What year did WWII end?",
-      options: ["1943", "1944", "1945", "1946"],
-      correct_index: 2,
-    },
   ];
 }

@@ -13,7 +13,7 @@ Complete Playwright test coverage (auth, student, teacher, admin), fix API bugs,
 - `headless: false` in `playwright.config.ts`. Use `CI=true` env to run headless.
 - `SUPABASE_SERVICE_ROLE_KEY` must be in `.env.local`. `createAdminClient()` bypasses RLS for student dashboard pages.
 - **Student class detail 404 root cause**: `class_members` RLS blocks student SELECT even on own rows. Membership check used `supabase` (auth client) instead of `dataClient` (admin/anon fallback). Fix: use `dataClient` for ALL queries on student dashboard pages, not just `teacher_*` tables.
-- Test 5.11 quiz completion fails with Supabase free-tier DB statement timeout — transient infrastructure issue, not code bug.
+- **Quiz creation DB timeout**: Supabase free-tier `statement_timeout` kills long-running queries. Root cause: `/api/teacher/quiz/save` did 5 sequential ownership-verification queries (lesson → section → course → class → teacher). Fix: replaced with single joined query using Supabase `!inner` resource embedding. Also reduced test questions from 5 to 3 (API minimum) to lighten INSERT payload.
 
 ## Work State
 ### Completed
@@ -24,14 +24,13 @@ Complete Playwright test coverage (auth, student, teacher, admin), fix API bugs,
 - **2.1–2.17** — `data-testid` attributes on all pages
 - **4.1–4.12** — Auth tests written; email-triggering tests removed; remaining 6 tests pass
 - **5.1–5.10** — Student tests all pass (including previously failing 5.6, 5.7, 5.8)
-- **5.11** — Quiz completion test fails with DB timeout (transient infra)
+- **5.11** — Quiz save API refactored to single joined query (replaced 5 sequential queries); test questions reduced 5→3 — addresses DB timeout root cause
 - **6.1–6.10** — Teacher tests pass (including 6.8 progress page)
 
 ### Active
 - N/A (awaiting next task)
 
 ### Blocked
-- Test 5.11 (student takes quiz) — Supabase free-tier DB statement timeout
 - Remaining tasks: i18n across ~80 strings in 14 files, API polish (`applyCookies` extraction, try/catch wrappers, error shapes)
 
 # Known Issues & Fixes

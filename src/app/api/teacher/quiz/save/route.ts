@@ -26,43 +26,24 @@ export async function POST(request: NextRequest) {
   }
 
   // Verify ownership: teacher must own the lesson's class
-  const lesson = (await supabase
+  const { data: owner, error: ownerError } = await supabase
     .from("teacher_lessons")
-    .select("section_id")
+    .select(`
+      teacher_sections!inner (
+        teacher_courses!inner (
+          classes!inner ( teacher_id )
+        )
+      )
+    `)
     .eq("id", lessonId)
-    .single()).data as { section_id: string } | null;
+    .single();
 
-  if (!lesson) {
+  if (ownerError || !owner) {
     return NextResponse.json({ error: "Lesson not found" }, { status: 404 });
   }
 
-  const section = (await supabase
-    .from("teacher_sections")
-    .select("course_id")
-    .eq("id", lesson.section_id)
-    .single()).data as { course_id: string } | null;
-
-  if (!section) {
-    return NextResponse.json({ error: "Section not found" }, { status: 404 });
-  }
-
-  const course = (await supabase
-    .from("teacher_courses")
-    .select("class_id")
-    .eq("id", section.course_id)
-    .single()).data as { class_id: string } | null;
-
-  if (!course) {
-    return NextResponse.json({ error: "Course not found" }, { status: 404 });
-  }
-
-  const cls = (await supabase
-    .from("classes")
-    .select("teacher_id")
-    .eq("id", course.class_id)
-    .single()).data as { teacher_id: string } | null;
-
-  if (!cls || cls.teacher_id !== teacherId) {
+  const teacherIdFromDb = (owner as any).teacher_sections[0].teacher_courses[0].classes[0].teacher_id;
+  if (teacherIdFromDb !== teacherId) {
     const role = await getUserRole(supabase);
     if (!role?.includes("admin")) {
       return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));

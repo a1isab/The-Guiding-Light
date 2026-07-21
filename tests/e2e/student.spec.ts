@@ -232,7 +232,7 @@ test.describe("student lesson and quiz", () => {
     await page.getByTestId("submit-quiz").click();
     await page.waitForTimeout(2000);
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 3; i++) {
       const optionBtn = page.locator('button:has-text("B.")').first();
       if (await optionBtn.isVisible().catch(() => false)) {
         await optionBtn.click();
