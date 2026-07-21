@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createApiSupabaseClient, requireAuth, extractBearerToken } from "@/lib/supabase-api";
+import { createApiSupabaseClient, requireAuth, extractBearerToken, withErrorHandling } from "@/lib/supabase-api";
 import { createAdminClient } from "@/lib/supabase";
 import { updateStreak } from "@/lib/streak";
 
@@ -7,7 +7,7 @@ const PASS_THRESHOLD = 0.6;
 const MAX_ATTEMPTS_IN_WINDOW = 3;
 const LOCKOUT_MINUTES = 30;
 
-export async function POST(request: NextRequest) {
+export const POST = withErrorHandling(async (request: NextRequest) => {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
   const jwt = extractBearerToken(request);
   const userId = await requireAuth(supabase, jwt);
@@ -150,4 +150,4 @@ export async function POST(request: NextRequest) {
       attemptsRemaining: Math.max(0, MAX_ATTEMPTS_IN_WINDOW - failCount - 1),
     })
   );
-}
+});

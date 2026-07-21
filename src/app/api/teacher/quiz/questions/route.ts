@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createApiSupabaseClient, requireAuth, getUserRole, extractBearerToken } from "@/lib/supabase-api";
+import { createApiSupabaseClient, requireAuth, getUserRole, extractBearerToken, withErrorHandling } from "@/lib/supabase-api";
 import { createAdminClient } from "@/lib/supabase";
 
-export async function GET(request: NextRequest) {
+export const GET = withErrorHandling(async (request: NextRequest) => {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
   const jwt = extractBearerToken(request);
   const userId = await requireAuth(supabase, jwt);
@@ -100,8 +100,8 @@ export async function GET(request: NextRequest) {
     .order("order_index", { ascending: true });
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return applyCookies(NextResponse.json({ error: error.message }, { status: 500 }));
   }
 
   return applyCookies(NextResponse.json({ questions: questions ?? [] }));
-}
+});

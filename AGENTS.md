@@ -14,6 +14,8 @@ Complete Playwright test coverage (auth, student, teacher, admin), fix API bugs,
 - `SUPABASE_SERVICE_ROLE_KEY` must be in `.env.local`. `createAdminClient()` bypasses RLS for student dashboard pages.
 - **Student class detail 404 root cause**: `class_members` RLS blocks student SELECT even on own rows. Membership check used `supabase` (auth client) instead of `dataClient` (admin/anon fallback). Fix: use `dataClient` for ALL queries on student dashboard pages, not just `teacher_*` tables.
 - **Quiz creation DB timeout**: Supabase free-tier `statement_timeout` kills long-running queries. Root cause: `/api/teacher/quiz/save` did 5 sequential ownership-verification queries (lesson → section → course → class → teacher). Fix: replaced with single joined query using Supabase `!inner` resource embedding. Also reduced test questions from 5 to 3 (API minimum) to lighten INSERT payload.
+- **Quiz RLS bypass pattern**: All student-facing quiz API routes (`questions`, `status`, `submit`) use `createAdminClient()` for DB queries. RLS on `teacher_quiz_questions`, `teacher_quiz_attempts`, and `teacher_progress` blocks student SELECT even for enrolled students. Auth check uses student's client; data queries use admin client.
+- **Test setup `waitForURL` race**: `waitForURL(/\/en\/teacher\/classes\//)` matches `/en/teacher/classes/new` (the current page) before the form POST redirects. Fix: use UUID pattern `waitForURL(/\/en\/teacher\/classes\/[0-9a-f]{8}-/)`. Affects `setupTeacherLesson` in `teacher-setup.ts`.
 
 ## Work State
 ### Completed

@@ -46,6 +46,25 @@ export function createApiSupabaseClient(request: NextRequest) {
 
 export type ApiSupabase = ReturnType<typeof createApiSupabaseClient>;
 
+type RouteHandler = (
+  request: NextRequest,
+  context?: { params: Promise<Record<string, string>> },
+) => Promise<NextResponse>;
+
+export function withErrorHandling(handler: RouteHandler): RouteHandler {
+  return async (request, context) => {
+    try {
+      return await handler(request, context);
+    } catch (error: any) {
+      console.error(`[API] Unhandled error in ${request.nextUrl.pathname}:`, error);
+      return NextResponse.json(
+        { error: "Internal server error" },
+        { status: 500 },
+      );
+    }
+  };
+}
+
 export async function getUserRole(
   supabase: ReturnType<typeof createServerClient>,
   existingUser?: { id: string },

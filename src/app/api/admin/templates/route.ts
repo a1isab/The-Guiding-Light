@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createApiSupabaseClient, requireAdmin } from "@/lib/supabase-api";
+import { createApiSupabaseClient, requireAdmin, withErrorHandling } from "@/lib/supabase-api";
 
-export async function GET(request: NextRequest) {
+export const GET = withErrorHandling(async (request: NextRequest) => {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
   const userId = await requireAdmin(supabase);
-  if (!userId) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  if (!userId) return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
 
   const { data } = await supabase
     .from("teacher_lesson_templates")
@@ -13,16 +13,16 @@ export async function GET(request: NextRequest) {
     .order("name");
 
   return applyCookies(NextResponse.json({ templates: data ?? [] }));
-}
+});
 
-export async function POST(request: NextRequest) {
+export const POST = withErrorHandling(async (request: NextRequest) => {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
   const userId = await requireAdmin(supabase);
-  if (!userId) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  if (!userId) return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
 
   const { name, description, content } = await request.json();
   if (!name || !content) {
-    return NextResponse.json({ error: "name and content required" }, { status: 400 });
+    return applyCookies(NextResponse.json({ error: "name and content required" }, { status: 400 }));
   }
 
   const { data, error } = await supabase
@@ -37,17 +37,17 @@ export async function POST(request: NextRequest) {
     .select("id")
     .single();
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) return applyCookies(NextResponse.json({ error: error.message }, { status: 500 }));
   return applyCookies(NextResponse.json({ ok: true, id: data?.id }));
-}
+});
 
-export async function PATCH(request: NextRequest) {
+export const PATCH = withErrorHandling(async (request: NextRequest) => {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
   const userId = await requireAdmin(supabase);
-  if (!userId) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  if (!userId) return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
 
   const { id, name, description, content } = await request.json();
-  if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
+  if (!id) return applyCookies(NextResponse.json({ error: "id required" }, { status: 400 }));
 
   const updates: Record<string, unknown> = { updated_at: new Date().toISOString() };
   if (name !== undefined) updates.name = name.trim();
@@ -55,20 +55,20 @@ export async function PATCH(request: NextRequest) {
   if (content !== undefined) updates.content = content;
 
   const { error } = await supabase.from("teacher_lesson_templates").update(updates).eq("id", id);
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) return applyCookies(NextResponse.json({ error: error.message }, { status: 500 }));
   return applyCookies(NextResponse.json({ ok: true }));
-}
+});
 
-export async function DELETE(request: NextRequest) {
+export const DELETE = withErrorHandling(async (request: NextRequest) => {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
   const userId = await requireAdmin(supabase);
-  if (!userId) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  if (!userId) return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
 
   const { searchParams } = new URL(request.url);
   const id = searchParams.get("id");
-  if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
+  if (!id) return applyCookies(NextResponse.json({ error: "id required" }, { status: 400 }));
 
   const { error } = await supabase.from("teacher_lesson_templates").delete().eq("id", id);
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) return applyCookies(NextResponse.json({ error: error.message }, { status: 500 }));
   return applyCookies(NextResponse.json({ ok: true }));
-}
+});

@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createApiSupabaseClient, requireAuth, extractBearerToken } from "@/lib/supabase-api";
+import { createApiSupabaseClient, requireAuth, extractBearerToken, withErrorHandling } from "@/lib/supabase-api";
 import { createAdminClient } from "@/lib/supabase";
 
 const MAX_ATTEMPTS_IN_WINDOW = 3;
 const LOCKOUT_MINUTES = 30;
 
-export async function GET(request: NextRequest) {
+export const GET = withErrorHandling(async (request: NextRequest) => {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
   const jwt = extractBearerToken(request);
   const userId = await requireAuth(supabase, jwt);
@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
   const lessonId = searchParams.get("lessonId");
 
   if (!lessonId) {
-    return NextResponse.json({ error: "lessonId required" }, { status: 400 });
+    return applyCookies(NextResponse.json({ error: "lessonId required" }, { status: 400 }));
   }
 
   const dataClient = createAdminClient() ?? supabase;
@@ -81,4 +81,4 @@ export async function GET(request: NextRequest) {
       attemptsRemaining: locked ? 0 : Math.max(0, MAX_ATTEMPTS_IN_WINDOW - failCount),
     })
   );
-}
+});
