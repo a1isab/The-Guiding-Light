@@ -229,16 +229,15 @@ test.describe("student lesson and quiz", () => {
     await page.getByTestId("mark-viewed").click();
     await page.waitForLoadState("networkidle");
 
+    // Correct answers: Q1=4 (index 1), Q2=Paris (index 2), Q3=Mars (index 2)
+    const correctAnswers = ["4", "Paris", "Mars"];
+    for (let i = 0; i < correctAnswers.length; i++) {
+      await page.locator(`label:has(input[name="q-${i}"])`).filter({ hasText: correctAnswers[i] }).click();
+      await page.waitForTimeout(300);
+    }
+
     await page.getByTestId("submit-quiz").click();
     await page.waitForTimeout(2000);
-
-    for (let i = 0; i < 3; i++) {
-      const optionBtn = page.locator('button:has-text("B.")').first();
-      if (await optionBtn.isVisible().catch(() => false)) {
-        await optionBtn.click();
-        await page.waitForTimeout(500);
-      }
-    }
 
     await expect(page.getByText("Lesson Complete!")).toBeVisible({ timeout: 15000 });
   });

@@ -11,30 +11,38 @@ export async function createQuizQuestions(
   lessonId: string,
   questions: QuizQuestion[] = defaultQuestions()
 ): Promise<void> {
-  const ok = await teacherPage.evaluate(
-    async ([lid, qs]) => {
-      const res = await fetch("/api/teacher/quiz/save", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          lessonId: lid,
-          questions: qs.map((q) => ({
-            question: q.question,
-            options: q.options,
-            correctIndex: q.correct_index,
-          })),
-        }),
-      });
-      if (!res.ok) {
-        const body = await res.text();
-        throw new Error(`Failed to create quiz questions (${res.status}): ${body}`);
-      }
-      return true;
-    },
-    [lessonId, questions] as const
-  );
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      const ok = await teacherPage.evaluate(
+        async ([lid, qs]) => {
+          const res = await fetch("/api/teacher/quiz/save", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              lessonId: lid,
+              questions: qs.map((q) => ({
+                question: q.question,
+                options: q.options,
+                correctIndex: q.correct_index,
+              })),
+            }),
+          });
+          if (!res.ok) {
+            const body = await res.text();
+            throw new Error(`Failed to create quiz questions (${res.status}): ${body}`);
+          }
+          return true;
+        },
+        [lessonId, questions] as const
+      );
 
-  if (!ok) throw new Error("Failed to create quiz questions");
+      if (!ok) throw new Error("Failed to create quiz questions");
+      return;
+    } catch (e) {
+      if (attempt === 3) throw e;
+      await new Promise(r => setTimeout(r, 3000));
+    }
+  }
 }
 
 function defaultQuestions(): QuizQuestion[] {

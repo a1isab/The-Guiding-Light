@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createApiSupabaseClient, requireTeacher, getUserRole, extractBearerToken } from "@/lib/supabase-api";
+import { createAdminClient } from "@/lib/supabase";
 
 export async function POST(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
@@ -26,32 +27,53 @@ export async function POST(request: NextRequest) {
   }
 
   // Verify ownership: teacher must own the lesson's class
-  const { data: owner, error: ownerError } = await supabase
+  const lesson = (await supabase
     .from("teacher_lessons")
-    .select(`
-      teacher_sections!inner (
-        teacher_courses!inner (
-          classes!inner ( teacher_id )
-        )
-      )
-    `)
+    .select("section_id")
     .eq("id", lessonId)
-    .single();
+    .single()).data as { section_id: string } | null;
 
-  if (ownerError || !owner) {
+  if (!lesson) {
     return NextResponse.json({ error: "Lesson not found" }, { status: 404 });
   }
 
-  const teacherIdFromDb = (owner as any).teacher_sections[0].teacher_courses[0].classes[0].teacher_id;
-  if (teacherIdFromDb !== teacherId) {
+  const section = (await supabase
+    .from("teacher_sections")
+    .select("course_id")
+    .eq("id", lesson.section_id)
+    .single()).data as { course_id: string } | null;
+
+  if (!section) {
+    return NextResponse.json({ error: "Section not found" }, { status: 404 });
+  }
+
+  const course = (await supabase
+    .from("teacher_courses")
+    .select("class_id")
+    .eq("id", section.course_id)
+    .single()).data as { class_id: string } | null;
+
+  if (!course) {
+    return NextResponse.json({ error: "Course not found" }, { status: 404 });
+  }
+
+  const cls = (await supabase
+    .from("classes")
+    .select("teacher_id")
+    .eq("id", course.class_id)
+    .single()).data as { teacher_id: string } | null;
+
+  if (!cls || cls.teacher_id !== teacherId) {
     const role = await getUserRole(supabase);
     if (!role?.includes("admin")) {
       return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
     }
   }
 
-  // Delete existing questions and insert new ones
-  const { error: deleteError } = await supabase
+  // Use service-role client for DELETE + INSERT to bypass RLS
+  const dataClient = createAdminClient() ?? supabase;
+
+  const { error: deleteError } = await dataClient
     .from("teacher_quiz_questions")
     .delete()
     .eq("lesson_id", lessonId);
@@ -68,7 +90,7 @@ export async function POST(request: NextRequest) {
     order_index: i,
   }));
 
-  const { data, error } = await supabase
+  const { data, error } = await dataClient
     .from("teacher_quiz_questions")
     .insert(rows)
     .select("id, question, options, order_index");
