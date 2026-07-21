@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { createServiceClient, createServerSupabaseClient } from "@/lib/supabase";
+import { createAdminClient, createServerSupabaseClient } from "@/lib/supabase";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
@@ -18,9 +18,9 @@ export default async function StudentLessonPage({
   const userId = user?.id;
   if (!userId) redirect(`/${locale}/auth/login`);
 
-  const service = createServiceClient();
+  const dataClient = createAdminClient() ?? supabase;
 
-  const { data: lesson } = await service
+  const { data: lesson } = await dataClient
     .from("teacher_lessons")
     .select("*")
     .eq("id", lessonId)
@@ -28,7 +28,7 @@ export default async function StudentLessonPage({
 
   if (!lesson) notFound();
 
-  const { data: progress } = await service
+  const { data: progress } = await supabase
     .from("progress")
     .select("content_viewed_at")
     .eq("user_id", userId)
@@ -37,14 +37,14 @@ export default async function StudentLessonPage({
 
   const contentViewedAt = progress?.content_viewed_at ?? null;
 
-  const { count: quizCount } = await service
+  const { count: quizCount } = await dataClient
     .from("teacher_quiz_questions")
     .select("*", { count: "exact", head: true })
     .eq("lesson_id", lessonId);
 
   const hasQuiz = (quizCount ?? 0) > 0;
 
-  const { data: lessonFiles } = await service
+  const { data: lessonFiles } = await dataClient
     .from("teacher_lesson_files")
     .select("*")
     .eq("lesson_id", lessonId)

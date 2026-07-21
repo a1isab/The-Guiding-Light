@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { createServiceClient } from "@/lib/supabase";
+import { createServerSupabaseClient } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, CheckCircle, MinusCircle } from "lucide-react";
@@ -13,7 +13,7 @@ export default async function ClassProgressPage({
 }) {
   const { locale, id } = await params;
   const t = await getTranslations("teacher");
-  const supabase = createServiceClient();
+  const supabase = await createServerSupabaseClient();
 
   const { data: cls } = await supabase
     .from("classes")

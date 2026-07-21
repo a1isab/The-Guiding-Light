@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { createServiceClient, createServerSupabaseClient } from "@/lib/supabase";
+import { createAdminClient, createServerSupabaseClient } from "@/lib/supabase";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, ChevronDown, FileText, Film, CheckCircle } from "lucide-react";
@@ -18,9 +18,9 @@ export default async function StudentCoursePage({
   const userId = user?.id;
   if (!userId) redirect(`/${locale}/auth/login`);
 
-  const service = createServiceClient();
+  const dataClient = createAdminClient() ?? supabase;
 
-  const { data: course } = await service
+  const { data: course } = await dataClient
     .from("teacher_courses")
     .select("*")
     .eq("id", courseId)
@@ -28,7 +28,7 @@ export default async function StudentCoursePage({
 
   if (!course) notFound();
 
-  const { data: sections } = await service
+  const { data: sections } = await dataClient
     .from("teacher_sections")
     .select("*")
     .eq("course_id", courseId)
@@ -37,7 +37,7 @@ export default async function StudentCoursePage({
   const sectionIds = sections?.map((s) => s.id) ?? [];
 
   const { data: lessons } = sectionIds.length
-    ? await service
+    ? await dataClient
         .from("teacher_lessons")
         .select("*")
         .in("section_id", sectionIds)
@@ -52,7 +52,7 @@ export default async function StudentCoursePage({
     lessonsBySection[lesson.section_id].push(lesson);
   }
 
-  const { data: progressData } = await service
+  const { data: progressData } = await supabase
     .from("progress")
     .select("lesson_id")
     .eq("user_id", userId);

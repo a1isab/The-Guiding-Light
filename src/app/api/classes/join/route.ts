@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createAdminClient } from "@/lib/supabase";
 import { createApiSupabaseClient, requireAuth, extractBearerToken } from "@/lib/supabase-api";
 
 export async function POST(request: NextRequest) {
@@ -15,11 +16,19 @@ export async function POST(request: NextRequest) {
       return applyCookies(NextResponse.json({ error: "Invite code is required" }, { status: 400 }));
     }
 
-    const { data: cls, error: clsErr } = await supabase
-      .from("classes")
-      .select("id, name, invite_expires_at")
-      .eq("invite_code", inviteCode.toUpperCase())
-      .single();
+    // Use admin client to bypass RLS on classes (student not yet a member)
+    const admin = createAdminClient();
+    const { data: cls, error: clsErr } = admin
+      ? await admin
+          .from("classes")
+          .select("id, name, invite_expires_at")
+          .eq("invite_code", inviteCode.toUpperCase())
+          .single()
+      : await supabase
+          .from("classes")
+          .select("id, name, invite_expires_at")
+          .eq("invite_code", inviteCode.toUpperCase())
+          .single();
 
     if (clsErr || !cls) {
       return applyCookies(NextResponse.json({ error: "Invalid invite code" }, { status: 404 }));

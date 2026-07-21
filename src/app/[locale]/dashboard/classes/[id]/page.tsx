@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { createServiceClient, createServerSupabaseClient } from "@/lib/supabase";
+import { createAdminClient, createServerSupabaseClient } from "@/lib/supabase";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, BookOpen } from "lucide-react";
@@ -18,9 +18,9 @@ export default async function StudentClassPage({
   const userId = user?.id;
   if (!userId) redirect(`/${locale}/auth/login`);
 
-  const service = createServiceClient();
+  const dataClient = createAdminClient() ?? supabase;
 
-  const { data: membership } = await service
+  const { data: membership } = await dataClient
     .from("class_members")
     .select("id")
     .eq("class_id", id)
@@ -28,7 +28,7 @@ export default async function StudentClassPage({
     .single();
 
   if (!membership) {
-    const { data: profile } = await service
+    const { data: profile } = await dataClient
       .from("profiles")
       .select("role")
       .eq("user_id", userId)
@@ -36,7 +36,7 @@ export default async function StudentClassPage({
     if (profile?.role !== "admin") notFound();
   }
 
-  const { data: cls } = await service
+  const { data: cls } = await dataClient
     .from("classes")
     .select("*")
     .eq("id", id)
@@ -44,7 +44,7 @@ export default async function StudentClassPage({
 
   if (!cls) notFound();
 
-  const { data: courses } = await service
+  const { data: courses } = await dataClient
     .from("teacher_courses")
     .select("id, title, description")
     .eq("class_id", id)
