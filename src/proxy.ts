@@ -7,7 +7,7 @@ import { routing } from "../i18n/routing";
 const intlMiddleware = createIntlMiddleware(routing);
 const PROTECTED_PATHS = ["/dashboard", "/teacher", "/admin"];
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   console.log(`[DEBUG] Middleware processing: ${request.nextUrl.pathname}, Cookies: ${request.cookies.getAll().map(c => c.name).join(', ')}`);
   const pathname = request.nextUrl.pathname;
 
