@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createApiSupabaseClient, requireAuth, extractBearerToken, withErrorHandling } from "@/lib/supabase-api";
 import { createAdminClient } from "@/lib/supabase";
 import { updateStreak } from "@/lib/streak";
+import { scanAndAwardBadges } from "@/lib/badges";
 
 const PASS_THRESHOLD = 0.6;
 const MAX_ATTEMPTS_IN_WINDOW = 3;
@@ -140,6 +141,7 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
     }
 
     updateStreak(userId, dataClient as any).catch(() => {});
+    scanAndAwardBadges(userId, dataClient as any).catch(() => {});
   }
 
   return applyCookies(

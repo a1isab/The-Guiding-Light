@@ -28,10 +28,10 @@ export default async function StudentLessonPage({
 
   if (!lesson) notFound();
 
-  const { data: progress } = await supabase
-    .from("progress")
+  const { data: progress } = await dataClient
+    .from("teacher_progress")
     .select("content_viewed_at")
-    .eq("user_id", userId)
+    .eq("student_id", userId)
     .eq("lesson_id", lessonId)
     .maybeSingle();
 

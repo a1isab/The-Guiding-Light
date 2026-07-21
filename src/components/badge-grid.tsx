@@ -37,8 +37,8 @@ export function BadgeGrid({ badges }: Props) {
   if (!hasAnyBadge) return null;
 
   return (
-    <div className="mt-8">
-      <h2 className="font-amiri text-xl font-bold text-zinc-100 mb-4">
+    <div className="mt-8" data-testid="badge-grid">
+      <h2 className="font-amiri text-xl font-bold text-zinc-100 mb-4" data-testid="achievements">
         {t("achievements")}
       </h2>
 

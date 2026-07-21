@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { createServiceClient } from "@/lib/supabase";
+import { createServiceClient, createAdminClient } from "@/lib/supabase";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { headers } from "next/headers";
@@ -42,7 +42,7 @@ export default async function DashboardPage({
   if (role?.includes("admin")) redirect(`/${locale}/admin`);
   if (role?.includes("teacher")) redirect(`/${locale}/teacher`);
 
-  const service = createServiceClient();
+  const service = createAdminClient() ?? createServiceClient();
 
   const { data: profile } = await service
     .from("profiles")
