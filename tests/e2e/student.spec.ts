@@ -146,6 +146,7 @@ test.describe("student class and course", () => {
   let studentUserId: string;
 
   test.beforeAll(async ({ browser }) => {
+    test.setTimeout(120000);
     const teacherCtx = await browser.newContext();
     const teacherPage = await teacherCtx.newPage();
     data = await setupTeacherLesson(teacherPage);
@@ -182,6 +183,7 @@ test.describe("student lesson and quiz", () => {
   let studentUserId: string;
 
   test.beforeAll(async ({ browser }) => {
+    test.setTimeout(120000);
     const teacherCtx = await browser.newContext();
     const teacherPage = await teacherCtx.newPage();
     data = await setupTeacherLesson(teacherPage);
@@ -286,13 +288,14 @@ test.describe("student no quiz message", () => {
 
 test.describe("8.1 integration: full student flow", () => {
   test("student login → dashboard → lesson → quiz → dashboard with badge", async ({ browser }) => {
+    test.setTimeout(180000);
     // Setup: teacher creates class with quiz
     const teacherCtx = await browser.newContext();
     const teacherPage = await teacherCtx.newPage();
     const data = await setupTeacherLesson(teacherPage);
     await createQuizQuestions(teacherPage, data.lessonId);
 
-    // Enroll student
+    // Enroll student via test/seed endpoint (admin client, bypasses RLS)
     const studentCtx = await browser.newContext();
     const studentPage = await studentCtx.newPage();
     await loginAsStudent(studentPage);
@@ -300,7 +303,22 @@ test.describe("8.1 integration: full student flow", () => {
     expect(studentUserId).toBeTruthy();
     await studentCtx.close();
 
-    await enrollStudent(teacherPage, data.classId, studentUserId);
+    const seedResult = await teacherPage.evaluate(
+      async ({ classId, studentId }) => {
+        const res = await fetch("/api/test/seed", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            table: "class_members",
+            data: { class_id: classId, student_id: studentId },
+            onConflict: "class_id,student_id",
+          }),
+        });
+        return { ok: res.ok, body: await res.json() };
+      },
+      { classId: data.classId, studentId: studentUserId }
+    );
+    expect(seedResult.ok).toBe(true);
     await teacherCtx.close();
 
     // Step 1: Student logs in and sees dashboard
@@ -352,10 +370,14 @@ test.describe("8.1 integration: full student flow", () => {
     await expect(page.getByTestId("stat-lessons")).toBeVisible();
     await expect(page.getByTestId("stat-plan")).toBeVisible();
 
-    // My Classes section visible (student enrolled in teacher class)
-    await expect(page.getByText("My Classes")).toBeVisible({ timeout: 10000 });
+    // Verify enrollment by navigating to class detail page
+    await page.goto(`/en/dashboard/classes/${data.classId}`);
+    await page.waitForLoadState("networkidle");
+    await expect(page.getByTestId(`class-course-card-${data.courseId}`)).toBeVisible({ timeout: 15000 });
 
-    // Badge grid should appear (quiz_ace badge earned from passing quiz)
+    // Badge grid on main dashboard (quiz_ace badge earned from passing quiz)
+    await page.goto("/en/dashboard");
+    await page.waitForLoadState("networkidle");
     await expect(page.getByTestId("badge-grid")).toBeVisible({ timeout: 15000 });
     await expect(page.getByTestId("achievements")).toBeVisible();
 

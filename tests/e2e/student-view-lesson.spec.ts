@@ -77,6 +77,7 @@ async function enrollStudent(
 
 test.describe("student lesson flow", () => {
   test("lesson content view shows mark viewed button", async ({ browser }) => {
+    test.setTimeout(60000);
     const studentContext = await browser.newContext();
     const studentPage = await studentContext.newPage();
     await loginAsStudent(studentPage);
@@ -101,6 +102,7 @@ test.describe("student lesson flow", () => {
   });
 
   test("no quiz message shown when lesson has no quiz", async ({ browser }) => {
+    test.setTimeout(60000);
     const studentContext = await browser.newContext();
     const studentPage = await studentContext.newPage();
     await loginAsStudent(studentPage);

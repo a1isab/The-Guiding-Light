@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createApiSupabaseClient, requireAuth, extractBearerToken } from "@/lib/supabase-api";
+import { createAdminClient } from "@/lib/supabase";
 
 export async function POST(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
@@ -12,15 +13,16 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "lessonId required" }, { status: 400 });
   }
 
-  // Detect if this is a teacher lesson or public lesson
-  const { data: teacherLesson } = await supabase
+  const dataClient = createAdminClient() ?? supabase;
+
+  const { data: teacherLesson } = await dataClient
     .from("teacher_lessons")
     .select("id")
     .eq("id", lessonId)
     .maybeSingle();
 
   if (teacherLesson) {
-    const { error } = await supabase.from("teacher_progress").upsert(
+    const { error } = await dataClient.from("teacher_progress").upsert(
       {
         student_id: userId,
         lesson_id: lessonId,

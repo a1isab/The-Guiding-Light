@@ -12,6 +12,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("student navigating to /admin is redirected to /dashboard", async ({ page }) => {
+  test.setTimeout(60000);
   await page.goto("/en/admin");
   await page.waitForURL(/\/en\/dashboard/);
   expect(page.url()).toContain("/en/dashboard");

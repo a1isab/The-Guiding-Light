@@ -58,16 +58,18 @@ test.describe("engagement features", () => {
       await page.goto(`/en/dashboard/classes/${ctx.teacher.classId}/courses/${ctx.teacher.courseId}/lessons/${ctx.teacher.lessonId}`);
       await page.waitForLoadState("networkidle");
 
-      await expect(page.getByTestId("comment-item").first()).toBeVisible({ timeout: 10000 });
+      const parentText = `Parent comment ${Date.now()}`;
+      await page.getByTestId("comment-input").fill(parentText);
+      await page.getByTestId("comment-submit").click();
+      await expect(page.getByText(parentText)).toBeVisible({ timeout: 10000 });
 
       const replyBtn = page.getByTestId("comment-reply-btn").first();
-      if (await replyBtn.isVisible()) {
-        await replyBtn.click();
-        const replyText = `Test reply ${Date.now()}`;
-        await page.getByTestId("comment-input").last().fill(replyText);
-        await page.getByTestId("comment-submit").last().click();
-        await expect(page.getByText(replyText)).toBeVisible({ timeout: 10000 });
-      }
+      await expect(replyBtn).toBeVisible({ timeout: 10000 });
+      await replyBtn.click();
+      const replyText = `Test reply ${Date.now()}`;
+      await page.getByTestId("comment-input").last().fill(replyText);
+      await page.getByTestId("comment-submit").last().click();
+      await expect(page.getByText(replyText)).toBeVisible({ timeout: 10000 });
     });
   });
 

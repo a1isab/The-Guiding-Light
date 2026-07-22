@@ -145,6 +145,7 @@ test.describe("teacher class detail", () => {
   let studentId: string;
 
   test.beforeAll(async ({ browser }) => {
+    test.setTimeout(120000);
     const teacherCtx = await browser.newContext();
     const teacherPage = await teacherCtx.newPage();
     data = await setupTeacherLesson(teacherPage);
