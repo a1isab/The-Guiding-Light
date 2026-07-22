@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Eye, EyeOff, Copy, Save, BookTemplate } from "lucide-react";
 import { VideoUpload } from "@/components/teacher/video-upload";
@@ -9,6 +9,8 @@ import { QuizEditor } from "@/components/teacher/quiz-editor";
 import { FileUpload } from "@/components/teacher/file-upload";
 import { MarkdownEditor } from "@/components/teacher/markdown-editor";
 import { MarkdownContent } from "@/components/teacher/markdown-content";
+import { AssignmentForm } from "@/components/assignment-form";
+import { SubmissionList } from "@/components/submission-list";
 
 interface Lesson {
   id: string;
@@ -42,6 +44,19 @@ export function LessonEditor({
   const [templateName, setTemplateName] = useState("");
   const [templateDesc, setTemplateDesc] = useState("");
   const [savingTemplate, setSavingTemplate] = useState(false);
+  const [assignment, setAssignment] = useState<{ id: string; title: string; description: string | null; max_score: number; due_date: string | null } | null>(null);
+  const [assignmentLoaded, setAssignmentLoaded] = useState(false);
+
+  useEffect(() => {
+    fetch(`/api/teacher/assignments?lessonId=${lesson.id}`)
+      .then((r) => r.json())
+      .then((data) => {
+        const list = data.assignments ?? [];
+        if (list.length > 0) setAssignment(list[0]);
+      })
+      .catch(() => {})
+      .finally(() => setAssignmentLoaded(true));
+  }, [lesson.id]);
 
   async function handleSave() {
     setSaving(true);
@@ -237,6 +252,29 @@ export function LessonEditor({
       <div>
         <label className="block text-sm font-medium text-zinc-400 mb-1">Quiz</label>
         <QuizEditor lessonId={lesson.id} lessonContent={quizSourceContent || content} />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-zinc-400 mb-1">Assignment</label>
+        {assignmentLoaded && (
+          <>
+            <AssignmentForm
+              lessonId={lesson.id}
+              existing={assignment ?? undefined}
+              onSaved={() => {
+                fetch(`/api/teacher/assignments?lessonId=${lesson.id}`)
+                  .then((r) => r.json())
+                  .then((data) => {
+                    const list = data.assignments ?? [];
+                    if (list.length > 0) setAssignment(list[0]);
+                  });
+              }}
+            />
+            {assignment && (
+              <SubmissionList assignmentId={assignment.id} maxScore={assignment.max_score} />
+            )}
+          </>
+        )}
       </div>
 
       {error && <p className="text-sm text-red-400">{error}</p>}

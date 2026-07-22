@@ -4,6 +4,7 @@ import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { LessonContentView } from "./lesson-content-view";
+import { BookmarkButton } from "@/components/bookmark-button";
 
 export const dynamic = "force-dynamic";
 
@@ -76,7 +77,10 @@ export default async function StudentLessonPage({
       </Link>
 
       <article>
-        <h1 className="font-amiri text-2xl font-bold text-zinc-100 mb-6">{lesson.title}</h1>
+        <div className="flex items-start justify-between mb-6">
+          <h1 className="font-amiri text-2xl font-bold text-zinc-100">{lesson.title}</h1>
+          <BookmarkButton lessonId={lessonId} />
+        </div>
 
         {lesson.video_url && (
           <div className="aspect-video rounded-2xl overflow-hidden mb-8">

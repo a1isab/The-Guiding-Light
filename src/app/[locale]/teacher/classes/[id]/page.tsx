@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Users, BookOpen, Copy, ArrowLeft, BarChart3 } from "lucide-react";
 import { InviteCodeDisplay } from "./invite-code";
 import { StudentTable } from "./students/student-table";
+import { AnnouncementSection } from "@/components/announcement-section";
 
 export const dynamic = "force-dynamic";
 
@@ -100,6 +101,21 @@ export default async function ClassDetailPage({
         </Link>
       </div>
 
+      {/* Analytics Link */}
+      <div className="mt-3">
+        <Link
+          data-testid="view-analytics"
+          href={`/${locale}/teacher/classes/${id}/analytics`}
+          className="flex items-center gap-2 rounded-xl border border-zinc-800 bg-[#111111] px-4 py-3 hover:bg-zinc-900/30 transition-colors"
+        >
+          <BarChart3 className="h-5 w-5 text-blue-400" />
+          <div>
+            <p className="text-sm text-zinc-300">Class Analytics</p>
+            <p className="text-xs text-zinc-600">View quiz scores, completion rates, and at-risk students</p>
+          </div>
+        </Link>
+      </div>
+
       {/* Students */}
       <div className="mt-8 rounded-2xl border border-zinc-800 bg-[#111111] overflow-hidden">
         <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-800">
@@ -143,6 +159,11 @@ export default async function ClassDetailPage({
             {t("no_courses")}
           </p>
         )}
+      </div>
+
+      {/* Announcements */}
+      <div className="mt-8">
+        <AnnouncementSection classId={id} />
       </div>
     </div>
   );

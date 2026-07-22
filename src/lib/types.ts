@@ -192,6 +192,79 @@ export interface TeacherVideoAsset {
   created_at: string;
 }
 
+export interface LessonComment {
+  id: string;
+  lesson_id: string;
+  user_id: string;
+  body: string;
+  parent_id: string | null;
+  created_at: string;
+  profiles?: { user_id: string; role?: string };
+}
+
+export interface Assignment {
+  id: string;
+  lesson_id: string;
+  title: string;
+  description: string | null;
+  max_score: number;
+  due_date: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Submission {
+  id: string;
+  assignment_id: string;
+  student_id: string;
+  body: string | null;
+  status: "submitted" | "graded";
+  score: number | null;
+  feedback: string | null;
+  file_urls: string[];
+  submitted_at: string;
+  graded_at: string | null;
+  created_at: string;
+}
+
+export interface Certificate {
+  id: string;
+  user_id: string;
+  course_id: string;
+  class_id: string;
+  student_name: string;
+  course_name: string;
+  teacher_name: string | null;
+  class_name: string | null;
+  custom_title: string | null;
+  custom_logo_url: string | null;
+  earned_at: string;
+  created_at: string;
+}
+
+export interface Bookmark {
+  id: string;
+  user_id: string;
+  lesson_id: string;
+  created_at: string;
+}
+
+export interface Announcement {
+  id: string;
+  class_id: string;
+  teacher_id: string;
+  title: string;
+  body: string;
+  created_at: string;
+}
+
+export interface AnnouncementRead {
+  id: string;
+  announcement_id: string;
+  student_id: string;
+  read_at: string;
+}
+
 export function getQuizQuestion(q: QuizQuestion, locale: Locale): { question: string; options: string[] } {
   if (locale === "en") return { question: q.question, options: q.options };
   const key = locale as keyof Pick<QuizQuestion, "question_ar" | "question_ur" | "question_fr">;

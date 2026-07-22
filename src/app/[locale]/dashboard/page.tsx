@@ -8,6 +8,7 @@ import { getUserRole } from "@/lib/supabase-api";
 import { BookOpen, Flame, Crown, TrendingUp, LogOut, Users, AlertTriangle } from "lucide-react";
 import { BadgeGrid } from "@/components/badge-grid";
 import { JoinClassCard } from "@/components/join-class-card";
+import { CertificatesSection } from "@/components/certificates-section";
 
 export const dynamic = "force-dynamic";
 
@@ -340,6 +341,8 @@ export default async function DashboardPage({
       )}
 
       <BadgeGrid badges={earnedBadges} />
+
+      <CertificatesSection />
 
       <JoinClassCard />
 

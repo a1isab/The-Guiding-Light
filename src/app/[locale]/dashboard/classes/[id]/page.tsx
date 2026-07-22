@@ -3,6 +3,7 @@ import { createAdminClient, createServerSupabaseClient } from "@/lib/supabase";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, BookOpen } from "lucide-react";
+import { AnnouncementBanner } from "@/components/announcement-banner";
 
 export const dynamic = "force-dynamic";
 
@@ -66,6 +67,8 @@ export default async function StudentClassPage({
           <p className="mt-1 text-zinc-500">{cls.description}</p>
         )}
       </div>
+
+      <AnnouncementBanner classId={id} />
 
       {courses && courses.length > 0 ? (
         <div className="grid gap-4 sm:grid-cols-2">
