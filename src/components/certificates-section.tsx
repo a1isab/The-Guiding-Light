@@ -28,7 +28,7 @@ export function CertificatesSection() {
   if (loading || certificates.length === 0) return null;
 
   return (
-    <div className="mt-10">
+    <div data-testid="certificates-section" className="mt-10">
       <div className="flex items-center gap-2 mb-4">
         <Award className="h-5 w-5 text-amber-400" />
         <h2 className="font-amiri text-xl font-bold text-zinc-100">Certificates</h2>

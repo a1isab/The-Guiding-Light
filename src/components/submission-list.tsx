@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CheckCircle, Clock } from "lucide-react";
 
 interface SubmissionItem {
@@ -26,15 +26,15 @@ export function SubmissionList({ assignmentId, maxScore }: SubmissionListProps) 
   const [gradeScore, setGradeScore] = useState("");
   const [gradeFeedback, setGradeFeedback] = useState("");
 
-  useState(() => {
-    fetch(`/api/teacher/assignments?lessonId=&assignmentId=${assignmentId}`)
+  useEffect(() => {
+    fetch(`/api/teacher/submissions?assignmentId=${assignmentId}`)
       .then((r) => r.json())
-      .then(() => {
-        // Fetch submissions through a different approach
-        setLoading(false);
+      .then((data) => {
+        setSubmissions(data.submissions ?? []);
       })
-      .catch(() => setLoading(false));
-  });
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [assignmentId]);
 
   async function handleGrade(submissionId: string) {
     const res = await fetch("/api/teacher/submissions/grade", {

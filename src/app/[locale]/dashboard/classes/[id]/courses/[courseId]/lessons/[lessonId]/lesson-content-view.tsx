@@ -53,7 +53,7 @@ function AssignmentSection({ lessonId }: { lessonId: string }) {
   const assignment = assignments[0];
 
   return (
-    <div className="mt-8 pt-6 border-t border-zinc-800">
+    <div data-testid="assignment-section" className="mt-8 pt-6 border-t border-zinc-800">
       <div className="flex items-center gap-2 mb-2">
         <ClipboardList className="h-5 w-5 text-emerald-400" />
         <h3 className="text-sm font-medium text-zinc-200">Assignment</h3>
