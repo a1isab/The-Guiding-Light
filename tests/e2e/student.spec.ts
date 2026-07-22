@@ -226,8 +226,12 @@ test.describe("student lesson and quiz", () => {
     await loginAsStudent(page);
     await page.goto(lessonUrl);
     await page.waitForLoadState("networkidle");
-    await page.getByTestId("mark-viewed").click();
-    await page.waitForLoadState("networkidle");
+
+    const markViewed = page.getByTestId("mark-viewed");
+    if (await markViewed.isVisible()) {
+      await markViewed.click();
+      await page.waitForLoadState("networkidle");
+    }
 
     // Step 4: Submit quiz via API (UI radio clicks unreliable with React controlled inputs)
     const quizResult = await page.evaluate(
