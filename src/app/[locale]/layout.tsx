@@ -51,17 +51,15 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <>
-      <HtmlAttributes />
-      <div
-        className={`${inter.variable} ${amiri.variable} h-full antialiased min-h-full flex flex-col bg-[#0a0a0a]`}
-      >
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          <Navbar />
-          <main className="flex-1 flex flex-col pt-16">{children}</main>
-          <Footer locale={locale} />
-        </NextIntlClientProvider>
-      </div>
-    </>
+    <div
+      className={`${inter.variable} ${amiri.variable} h-full antialiased min-h-full flex flex-col bg-[#0a0a0a]`}
+    >
+      <NextIntlClientProvider locale={locale} messages={messages}>
+        <HtmlAttributes />
+        <Navbar />
+        <main className="flex-1 flex flex-col pt-16">{children}</main>
+        <Footer locale={locale} />
+      </NextIntlClientProvider>
+    </div>
   );
 }
