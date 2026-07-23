@@ -4,9 +4,6 @@ const STUDENT_EMAIL = "student@theguidinglight.com";
 const STUDENT_PASSWORD = "Student123!";
 const TEACHER_EMAIL = "teacher@theguidinglight.com";
 const TEACHER_PASSWORD = "Teacher123!";
-const SUPABASE_URL = "https://vpqfvranmdhsxfsynvbw.supabase.co";
-const SUPABASE_ANON_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZwcWZ2cmFubWRoc3hmc3ludmJ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE4ODQxMDAsImV4cCI6MjA5NzQ2MDEwMH0.6QF9SFBcl_c5xFVKxYBduVZuXGRjDqrA_AtFyX4O_gM";
 
 function decodeSupabaseCookie(cookieValue: string): { access_token: string; user?: { id: string } } | null {
   try {
@@ -38,42 +35,28 @@ async function loginAs(page: import("@playwright/test").Page, email: string, pas
   await page.waitForLoadState("networkidle");
 }
 
-async function getAccessToken(page: import("@playwright/test").Page): Promise<string | null> {
+async function getUserId(page: import("@playwright/test").Page): Promise<string> {
   const raw = await getCookieValue(page, "-auth-token");
-  if (!raw) return null;
-  return decodeSupabaseCookie(raw)?.access_token ?? null;
+  if (!raw) throw new Error("No auth cookie found");
+  const decoded = decodeSupabaseCookie(raw);
+  if (!decoded?.user?.id) throw new Error("Could not decode user id from cookie");
+  return decoded.user.id;
 }
 
 async function setOnboarded(page: import("@playwright/test").Page, onboarded: boolean): Promise<void> {
-  const token = await getAccessToken(page);
-  expect(token).toBeTruthy();
-
-  const userIdRaw = await page.evaluate(() => {
-    const raw = document.cookie.split("; ").find((c) => c.includes("-auth-token"))?.split("=")?.slice(1)?.join("=");
-    if (!raw) return null;
-    try {
-      const b64 = raw.replace(/^base64-/, "");
-      return JSON.parse(atob(b64))?.user?.id ?? null;
-    } catch { return null; }
-  });
-
-  if (!userIdRaw) throw new Error("Could not extract userId from cookie");
-
-  await page.evaluate(
-    async ({ url, anonKey, token, uid, onboarded }) => {
-      const res = await fetch(`${url}/rest/v1/profiles?user_id=eq.${uid}`, {
-        method: "PATCH",
-        headers: {
-          apikey: anonKey,
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ onboarded, display_name: null, onboarding_data: null }),
+  const userId = await getUserId(page);
+  const res = await page.evaluate(
+    async ({ uid, onboarded }) => {
+      const r = await fetch("/api/test/onboarded", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: uid, onboarded }),
       });
-      if (!res.ok) throw new Error(`Failed to set onboarded: ${res.status} ${await res.text()}`);
+      return { ok: r.ok, body: await r.json() };
     },
-    { url: SUPABASE_URL, anonKey: SUPABASE_ANON_KEY, token: token!, uid: userIdRaw, onboarded }
+    { uid: userId, onboarded }
   );
+  if (!res.ok) throw new Error(`setOnboarded failed: ${JSON.stringify(res.body)}`);
 }
 
 test.describe.configure({ timeout: 120000 });
