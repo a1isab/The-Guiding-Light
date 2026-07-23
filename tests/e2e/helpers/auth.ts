@@ -26,15 +26,6 @@ export async function getCookieValue(page: Page, keyPattern: string): Promise<st
   }, keyPattern) as Promise<string | null>;
 }
 
-export async function loginAs(page: Page, email: string, password: string, redirectPattern: RegExp = /\/en\/(dashboard|teacher|admin)/): Promise<void> {
-  await page.goto("/en/auth/login");
-  await page.getByTestId("login-email").fill(email);
-  await page.getByTestId("login-password").fill(password);
-  await page.getByTestId("login-submit").click();
-  await page.waitForURL(redirectPattern);
-  await page.waitForLoadState("networkidle");
-}
-
 export async function getAccessToken(page: Page): Promise<string | null> {
   const raw = await getCookieValue(page, "-auth-token");
   if (!raw) return null;
@@ -45,6 +36,54 @@ export async function getUserId(page: Page): Promise<string | null> {
   const raw = await getCookieValue(page, "-auth-token");
   if (!raw) return null;
   return decodeSupabaseCookie(raw)?.user?.id ?? null;
+}
+
+export async function setOnboarded(page: Page, onboarded: boolean): Promise<void> {
+  const userId = await getUserId(page);
+  if (!userId) throw new Error("Not logged in — cannot set onboarded");
+  const res = await page.evaluate(
+    async ({ uid, onboarded }) => {
+      const r = await fetch("/api/test/onboarded", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: uid, onboarded }),
+      });
+      return { ok: r.ok, body: await r.json() };
+    },
+    { uid: userId, onboarded }
+  );
+  if (!res.ok) throw new Error(`setOnboarded failed: ${JSON.stringify(res.body)}`);
+}
+
+export async function loginAs(
+  page: Page,
+  email: string,
+  password: string,
+  redirectPattern: RegExp = /\/en\/(teacher|dashboard|admin)/
+): Promise<void> {
+  await page.goto("/en/auth/login");
+  await page.getByTestId("login-email").fill(email);
+  await page.getByTestId("login-password").fill(password);
+  await page.getByTestId("login-submit").click();
+  await page.waitForURL(/\/en\/(teacher|dashboard|admin|onboarding)/);
+  await page.waitForLoadState("networkidle");
+
+  if (page.url().includes("/onboarding")) {
+    await setOnboarded(page, true);
+    if (email.includes("admin")) await page.goto("/en/admin");
+    else if (email.includes("teacher")) await page.goto("/en/teacher");
+    else await page.goto("/en/dashboard");
+    await page.waitForLoadState("networkidle");
+  }
+}
+
+export async function loginAsForOnboarding(page: Page, email: string, password: string): Promise<void> {
+  await page.goto("/en/auth/login");
+  await page.getByTestId("login-email").fill(email);
+  await page.getByTestId("login-password").fill(password);
+  await page.getByTestId("login-submit").click();
+  await page.waitForURL(/\/en\/(teacher|dashboard|admin|onboarding)/);
+  await page.waitForLoadState("networkidle");
 }
 
 export async function enrollStudent(
@@ -69,7 +108,7 @@ export async function enrollStudent(
       });
       return res.ok;
     },
-    { url: SUPABASE_URL, anonKey: SUPABASE_ANON_KEY, token: accessToken, cid: classId, sid: studentUserId }
+    { url: SUPABASE_URL, anonKey: SUPABASE_ANON_KEY, token: accessToken!, cid: classId, sid: studentUserId }
   );
   expect(ok).toBe(true);
 }

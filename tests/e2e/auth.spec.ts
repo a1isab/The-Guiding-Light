@@ -1,16 +1,5 @@
 import { test, expect } from "@playwright/test";
-
-// ──────────────────────────────────────────────────────────────────────────────
-// NOTE: Email-triggering tests (signup, forgot-password) have been removed
-// because Supabase's free tier enforces strict email quotas.
-// When SMTP is configured or the Supabase plan is upgraded, re-enable:
-//   - signup flow (student + teacher with invite code)
-//   - verify-page (correct + wrong code)
-//   - forgot-password
-//
-// The invite-validation test is kept because the invite check runs
-// before signUp() is called — no email is sent.
-// ──────────────────────────────────────────────────────────────────────────────
+import { loginAs, setOnboarded, loginAsForOnboarding } from "./helpers/auth";
 
 const ADMIN_EMAIL = "admin@theguidinglight.com";
 const ADMIN_PASSWORD = "Admin123!";
@@ -27,19 +16,13 @@ test.describe("verify page", () => {
 
 test.describe("login flow", () => {
   test("4.2 login as admin redirects to /admin", async ({ page }) => {
-    await page.goto("/en/auth/login");
-    await page.getByTestId("login-email").fill(ADMIN_EMAIL);
-    await page.getByTestId("login-password").fill(ADMIN_PASSWORD);
-    await page.getByTestId("login-submit").click();
+    await loginAs(page, ADMIN_EMAIL, ADMIN_PASSWORD);
     await page.waitForURL(/\/en\/admin/);
     expect(page.url()).toContain("/en/admin");
   });
 
   test("4.2 login as teacher redirects to /teacher", async ({ page }) => {
-    await page.goto("/en/auth/login");
-    await page.getByTestId("login-email").fill(TEACHER_EMAIL);
-    await page.getByTestId("login-password").fill(TEACHER_PASSWORD);
-    await page.getByTestId("login-submit").click();
+    await loginAs(page, TEACHER_EMAIL, TEACHER_PASSWORD);
     await page.waitForURL(/\/en\/teacher/);
     expect(page.url()).toContain("/en/teacher");
   });
@@ -53,13 +36,10 @@ test.describe("login flow", () => {
   });
 
   test("4.4 logout clears session and redirects to login on protected page", async ({ page }) => {
-    await page.goto("/en/auth/login");
-    await page.getByTestId("login-email").fill(ADMIN_EMAIL);
-    await page.getByTestId("login-password").fill(ADMIN_PASSWORD);
-    await page.getByTestId("login-submit").click();
+    await loginAs(page, ADMIN_EMAIL, ADMIN_PASSWORD);
     await page.waitForURL(/\/en\/admin/);
 
-    await page.goto("/en/auth/logout");
+    await page.goto("/en/auth/logout", { waitUntil: "commit" });
     await page.waitForURL(/\/en(\/|$)/);
     expect(page.url()).not.toContain("/en/admin");
 

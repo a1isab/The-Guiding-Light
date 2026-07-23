@@ -1,4 +1,5 @@
 import { type Page } from "@playwright/test";
+import { loginAs, getCookieValue, decodeSupabaseCookie } from "./auth";
 
 const TEACHER_EMAIL = "teacher@theguidinglight.com";
 const TEACHER_PASSWORD = "Teacher123!";
@@ -10,27 +11,6 @@ export interface TestData {
   lessonId: string;
   locale: string;
   inviteCode: string;
-}
-
-function decodeSupabaseCookie(cookieValue: string): { access_token: string } | null {
-  try {
-    const b64 = cookieValue.replace(/^base64-/, "");
-    return JSON.parse(atob(b64));
-  } catch {
-    return null;
-  }
-}
-
-async function getCookieValue(page: Page, keyPattern: string): Promise<string | null> {
-  return page.evaluate((pattern) => {
-    const cookies = document.cookie.split("; ").reduce((acc: Record<string, string>, c) => {
-      const [k, ...v] = c.split("=");
-      acc[k] = v.join("=");
-      return acc;
-    }, {});
-    const key = Object.keys(cookies).find((k) => k.includes(pattern));
-    return key ? cookies[key] : null;
-  }, keyPattern) as Promise<string | null>;
 }
 
 async function apiPost(page: Page, url: string, body: Record<string, unknown>): Promise<Record<string, unknown>> {
@@ -53,11 +33,7 @@ export async function setupTeacherLesson(page: Page): Promise<TestData> {
   const locale = "en";
   const ts = Date.now();
 
-  await page.goto(`/${locale}/auth/login`);
-  await page.getByTestId("login-email").fill(TEACHER_EMAIL);
-  await page.getByTestId("login-password").fill(TEACHER_PASSWORD);
-  await page.getByTestId("login-submit").click();
-  await page.waitForURL(/\/en\/teacher/);
+  await loginAs(page, TEACHER_EMAIL, TEACHER_PASSWORD);
 
   await page.goto(`/${locale}/teacher/classes/new`);
   await page.getByTestId("class-name-input").fill(`E2E Class ${ts}`);

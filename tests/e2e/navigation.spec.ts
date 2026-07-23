@@ -1,79 +1,12 @@
 import { test, expect } from "@playwright/test";
 import { setupTeacherLesson, type TestData } from "./helpers/teacher-setup";
 import { createQuizQuestions } from "./helpers/quiz-setup";
+import { loginAs, getUserId, enrollStudent } from "./helpers/auth";
 
 const STUDENT_EMAIL = "student@theguidinglight.com";
 const STUDENT_PASSWORD = "Student123!";
 const TEACHER_EMAIL = "teacher@theguidinglight.com";
 const TEACHER_PASSWORD = "Teacher123!";
-const SUPABASE_URL = "https://vpqfvranmdhsxfsynvbw.supabase.co";
-const SUPABASE_ANON_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZwcWZ2cmFubWRoc3hmc3ludmJ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE4ODQxMDAsImV4cCI6MjA5NzQ2MDEwMH0.6QF9SFBcl_c5xFVKxYBduVZuXGRjDqrA_AtFyX4O_gM";
-
-function decodeSupabaseCookie(cookieValue: string): { access_token: string; user?: { id: string } } | null {
-  try {
-    const b64 = cookieValue.replace(/^base64-/, "");
-    return JSON.parse(atob(b64));
-  } catch {
-    return null;
-  }
-}
-
-async function getCookieValue(page: import("@playwright/test").Page, keyPattern: string): Promise<string | null> {
-  return page.evaluate((pattern) => {
-    const cookies = document.cookie.split("; ").reduce((acc: Record<string, string>, c) => {
-      const [k, ...v] = c.split("=");
-      acc[k] = v.join("=");
-      return acc;
-    }, {});
-    const key = Object.keys(cookies).find((k) => k.includes(pattern));
-    return key ? cookies[key] : null;
-  }, keyPattern) as Promise<string | null>;
-}
-
-async function loginAs(page: import("@playwright/test").Page, email: string, password: string): Promise<void> {
-  await page.goto("/en/auth/login");
-  await page.getByTestId("login-email").fill(email);
-  await page.getByTestId("login-password").fill(password);
-  await page.getByTestId("login-submit").click();
-  await page.waitForURL(/\/en\/(teacher|dashboard)/);
-  await page.waitForLoadState("networkidle");
-}
-
-async function getStudentUserId(page: import("@playwright/test").Page): Promise<string | null> {
-  const raw = await getCookieValue(page, "-auth-token");
-  if (!raw) return null;
-  return decodeSupabaseCookie(raw)?.user?.id ?? null;
-}
-
-async function enrollStudent(
-  teacherPage: import("@playwright/test").Page,
-  classId: string,
-  studentUserId: string
-): Promise<void> {
-  const raw = await getCookieValue(teacherPage, "-auth-token");
-  const parsed = raw ? decodeSupabaseCookie(raw) : null;
-  const token = parsed?.access_token;
-  expect(token).toBeTruthy();
-
-  const ok = await teacherPage.evaluate(
-    async ({ url, anonKey, token, cid, sid }) => {
-      const res = await fetch(`${url}/rest/v1/class_members`, {
-        method: "POST",
-        headers: {
-          apikey: anonKey,
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-          Prefer: "return=minimal",
-        },
-        body: JSON.stringify({ class_id: cid, student_id: sid }),
-      });
-      return res.ok;
-    },
-    { url: SUPABASE_URL, anonKey: SUPABASE_ANON_KEY, token: token!, cid: classId, sid: studentUserId }
-  );
-  expect(ok).toBe(true);
-}
 
 test.describe.configure({ timeout: 120000 });
 
@@ -89,7 +22,7 @@ test.describe("breadcrumbs on student pages", () => {
     const studentCtx = await browser.newContext();
     const studentPage = await studentCtx.newPage();
     await loginAs(studentPage, STUDENT_EMAIL, STUDENT_PASSWORD);
-    studentUserId = (await getStudentUserId(studentPage))!;
+    studentUserId = (await getUserId(studentPage))!;
     expect(studentUserId).toBeTruthy();
     await studentCtx.close();
 
@@ -192,7 +125,7 @@ test.describe("student curriculum collapsible sections", () => {
     const studentCtx = await browser.newContext();
     const studentPage = await studentCtx.newPage();
     await loginAs(studentPage, STUDENT_EMAIL, STUDENT_PASSWORD);
-    studentUserId = (await getStudentUserId(studentPage))!;
+    studentUserId = (await getUserId(studentPage))!;
     expect(studentUserId).toBeTruthy();
     await studentCtx.close();
 
@@ -245,7 +178,7 @@ test.describe("lesson prev/next navigation", () => {
     const studentCtx = await browser.newContext();
     const studentPage = await studentCtx.newPage();
     await loginAs(studentPage, STUDENT_EMAIL, STUDENT_PASSWORD);
-    studentUserId = (await getStudentUserId(studentPage))!;
+    studentUserId = (await getUserId(studentPage))!;
     expect(studentUserId).toBeTruthy();
     await studentCtx.close();
 
