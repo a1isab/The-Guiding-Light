@@ -50,19 +50,20 @@ export default async function LocaleLayout({
   const messages = await getMessages();
   const rtl = locale === "ar" || locale === "ur";
 
+  const langScript = `document.documentElement.lang="${locale}"; document.documentElement.dir="${rtl ? "rtl" : "ltr"}";`;
+
   return (
-    <html
-      lang={locale}
-      dir={rtl ? "rtl" : "ltr"}
-      className={`${inter.variable} ${amiri.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col bg-[#0a0a0a]" suppressHydrationWarning>
+    <>
+      <script dangerouslySetInnerHTML={{ __html: langScript }} />
+      <div
+        className={`${inter.variable} ${amiri.variable} h-full antialiased min-h-full flex flex-col bg-[#0a0a0a]`}
+      >
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Navbar />
           <main className="flex-1 flex flex-col pt-16">{children}</main>
           <Footer locale={locale} />
         </NextIntlClientProvider>
-      </body>
-    </html>
+      </div>
+    </>
   );
 }
