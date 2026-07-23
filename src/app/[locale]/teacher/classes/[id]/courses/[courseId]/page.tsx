@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { createServerSupabaseClient } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 import { SectionManager } from "./section-manager";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 
 export const dynamic = "force-dynamic";
 
@@ -21,6 +22,12 @@ export default async function CourseDetailPage({
     .single();
 
   if (!course) notFound();
+
+  const { data: cls } = await supabase
+    .from("classes")
+    .select("name")
+    .eq("id", classId)
+    .single();
 
   const { data: sections } = await supabase
     .from("teacher_sections")
@@ -44,6 +51,14 @@ export default async function CourseDetailPage({
 
   return (
     <div>
+      <Breadcrumbs
+        items={[
+          { label: t("classes"), href: `/${locale}/teacher/classes` },
+          { label: cls?.name ?? "Class", href: `/${locale}/teacher/classes/${classId}` },
+          { label: course.title },
+        ]}
+      />
+
       <div className="mb-6">
         <h1 className="font-amiri text-2xl font-bold text-zinc-100">{course.title}</h1>
         {course.description && (

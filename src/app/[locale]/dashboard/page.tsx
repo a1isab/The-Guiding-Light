@@ -51,6 +51,11 @@ export default async function DashboardPage({
     .eq("user_id", userId)
     .single<Profile>();
 
+  // Redirect to onboarding if not completed
+  if (profile && !profile.onboarded) {
+    redirect(`/${locale}/onboarding`);
+  }
+
   const { data: sub } = await service
     .from("subscriptions")
     .select("*")
@@ -211,7 +216,7 @@ export default async function DashboardPage({
       <div>
         <div className="flex items-center gap-3">
           <h1 className="font-amiri text-3xl font-bold text-zinc-100">
-            {greeting}{profile ? `, ${t("student")}` : ""}!
+            {greeting}{profile ? `, ${profile.display_name || t("student")}` : ""}!
           </h1>
           {studiedToday && (
             <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-medium text-emerald-400">

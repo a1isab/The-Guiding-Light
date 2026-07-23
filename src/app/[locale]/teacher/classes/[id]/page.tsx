@@ -2,10 +2,11 @@ import { getTranslations } from "next-intl/server";
 import { createServerSupabaseClient } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Users, BookOpen, Copy, ArrowLeft, BarChart3 } from "lucide-react";
+import { Users, BookOpen, Copy, BarChart3 } from "lucide-react";
 import { InviteCodeDisplay } from "./invite-code";
 import { StudentTable } from "./students/student-table";
 import { AnnouncementSection } from "@/components/announcement-section";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 
 export const dynamic = "force-dynamic";
 
@@ -36,7 +37,7 @@ export default async function ClassDetailPage({
   const { data: profiles } = studentIds.length
     ? await supabase
         .from("profiles")
-        .select("user_id, role")
+        .select("user_id, role, display_name")
         .in("user_id", studentIds)
     : { data: [] };
 
@@ -56,13 +57,12 @@ export default async function ClassDetailPage({
 
   return (
     <div>
-      <Link
-        href={`/${locale}/teacher/classes`}
-        className="inline-flex items-center gap-1 text-sm text-zinc-500 hover:text-zinc-300 mb-4 transition-colors"
-      >
-        <ArrowLeft className="h-4 w-4" />
-        {t("back_to_classes")}
-      </Link>
+      <Breadcrumbs
+        items={[
+          { label: t("classes"), href: `/${locale}/teacher/classes` },
+          { label: cls.name },
+        ]}
+      />
 
       <div className="flex items-start justify-between mb-8">
         <div>

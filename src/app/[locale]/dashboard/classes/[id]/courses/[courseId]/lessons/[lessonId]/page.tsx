@@ -1,10 +1,9 @@
 import { getTranslations } from "next-intl/server";
 import { createAdminClient, createServerSupabaseClient } from "@/lib/supabase";
 import { notFound, redirect } from "next/navigation";
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 import { LessonContentView } from "./lesson-content-view";
 import { BookmarkButton } from "@/components/bookmark-button";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 
 export const dynamic = "force-dynamic";
 
@@ -14,6 +13,7 @@ export default async function StudentLessonPage({
   params: Promise<{ locale: string; id: string; courseId: string; lessonId: string }>;
 }) {
   const { locale, id: classId, courseId, lessonId } = await params;
+  const t = await getTranslations("dashboard");
   const supabase = await createServerSupabaseClient();
   const { data: { user } } = await supabase.auth.getUser();
   const userId = user?.id;
@@ -28,6 +28,33 @@ export default async function StudentLessonPage({
     .single();
 
   if (!lesson) notFound();
+
+  const [{ data: cls }, { data: course }] = await Promise.all([
+    dataClient.from("classes").select("name").eq("id", classId).single(),
+    dataClient.from("teacher_courses").select("title").eq("id", courseId).single(),
+  ]);
+
+  // Fetch all lessons in the course for prev/next navigation
+  const { data: sections } = await dataClient
+    .from("teacher_sections")
+    .select("id")
+    .eq("course_id", courseId)
+    .order("order_index", { ascending: true });
+
+  const sectionIds = sections?.map((s) => s.id) ?? [];
+
+  const { data: allLessons } = sectionIds.length
+    ? await dataClient
+        .from("teacher_lessons")
+        .select("id, title, section_id, order_index")
+        .in("section_id", sectionIds)
+        .order("order_index", { ascending: true })
+    : { data: [] };
+
+  // Compute prev/next
+  const currentIndex = allLessons?.findIndex((l) => l.id === lessonId) ?? -1;
+  const prevLesson = currentIndex > 0 ? allLessons![currentIndex - 1] : null;
+  const nextLesson = currentIndex < (allLessons?.length ?? 0) - 1 ? allLessons![currentIndex + 1] : null;
 
   const { data: progress } = await dataClient
     .from("teacher_progress")
@@ -68,13 +95,14 @@ export default async function StudentLessonPage({
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-12">
-      <Link
-        href={`/${locale}/dashboard/classes/${classId}/courses/${courseId}`}
-        className="inline-flex items-center gap-1 text-sm text-zinc-500 hover:text-zinc-300 mb-6 transition-colors"
-      >
-        <ArrowLeft className="h-4 w-4" />
-        {(await getTranslations("dashboard"))("back")}
-      </Link>
+      <Breadcrumbs
+        items={[
+          { label: t("my_classes"), href: `/${locale}/dashboard` },
+          { label: cls?.name ?? "Class", href: `/${locale}/dashboard/classes/${classId}` },
+          { label: course?.title ?? "Course", href: `/${locale}/dashboard/classes/${classId}/courses/${courseId}` },
+          { label: lesson.title },
+        ]}
+      />
 
       <article>
         <div className="flex items-start justify-between mb-6">
@@ -99,6 +127,11 @@ export default async function StudentLessonPage({
           videoUrl={lesson.video_url}
           initialViewedAt={contentViewedAt}
           hasQuiz={hasQuiz}
+          prevLesson={prevLesson ? { id: prevLesson.id, title: prevLesson.title } : null}
+          nextLesson={nextLesson ? { id: nextLesson.id, title: nextLesson.title } : null}
+          classId={classId}
+          courseId={courseId}
+          locale={locale}
         />
       </article>
 

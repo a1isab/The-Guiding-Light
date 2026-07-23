@@ -7,6 +7,8 @@ export interface Profile {
   streak: number;
   last_activity_at: string | null;
   onboarded: boolean;
+  display_name: string | null;
+  onboarding_data: Record<string, unknown> | null;
   created_at: string;
 }
 

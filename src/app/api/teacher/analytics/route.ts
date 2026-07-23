@@ -97,18 +97,18 @@ export async function GET(request: NextRequest) {
     completionTimeline.push({ date: dayStr, count });
   }
 
-  const atRisk: { student_id: string; last_active: string | null }[] = [];
+  const atRisk: { student_id: string; display_name: string | null; last_active: string | null }[] = [];
   if (studentIds.length > 0) {
     const { data: profiles } = await admin
       .from("profiles")
-      .select("user_id, streak, last_activity_at")
+      .select("user_id, streak, last_activity_at, display_name")
       .in("user_id", studentIds);
 
     for (const p of profiles ?? []) {
       if ((p.streak ?? 0) === 0) {
         const lastActive = p.last_activity_at ? new Date(p.last_activity_at) : null;
         if (!lastActive || (now.getTime() - lastActive.getTime()) > 3 * 24 * 60 * 60 * 1000) {
-          atRisk.push({ student_id: p.user_id, last_active: p.last_activity_at });
+          atRisk.push({ student_id: p.user_id, display_name: p.display_name, last_active: p.last_activity_at });
         }
       }
     }

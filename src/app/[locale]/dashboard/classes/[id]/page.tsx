@@ -2,8 +2,9 @@ import { getTranslations } from "next-intl/server";
 import { createAdminClient, createServerSupabaseClient } from "@/lib/supabase";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, BookOpen } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import { AnnouncementBanner } from "@/components/announcement-banner";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 
 export const dynamic = "force-dynamic";
 
@@ -53,13 +54,12 @@ export default async function StudentClassPage({
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
-      <Link
-        href={`/${locale}/dashboard`}
-        className="inline-flex items-center gap-1 text-sm text-zinc-500 hover:text-zinc-300 mb-6 transition-colors"
-      >
-        <ArrowLeft className="h-4 w-4" />
-        {t("back")}
-      </Link>
+      <Breadcrumbs
+        items={[
+          { label: t("my_classes"), href: `/${locale}/dashboard` },
+          { label: cls.name },
+        ]}
+      />
 
       <div className="mb-8">
         <h1 className="font-amiri text-3xl font-bold text-zinc-100">{cls.name}</h1>

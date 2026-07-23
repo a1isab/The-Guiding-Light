@@ -2,7 +2,9 @@ import { getTranslations } from "next-intl/server";
 import { createAdminClient, createServerSupabaseClient } from "@/lib/supabase";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, ChevronDown, FileText, Film, CheckCircle } from "lucide-react";
+import { ChevronDown, FileText, Film, CheckCircle } from "lucide-react";
+import { Breadcrumbs } from "@/components/breadcrumbs";
+import { StudentCurriculum } from "@/components/student-curriculum";
 
 export const dynamic = "force-dynamic";
 
@@ -28,6 +30,12 @@ export default async function StudentCoursePage({
 
   if (!course) notFound();
 
+  const { data: cls } = await dataClient
+    .from("classes")
+    .select("name")
+    .eq("id", classId)
+    .single();
+
   const { data: sections } = await dataClient
     .from("teacher_sections")
     .select("*")
@@ -52,22 +60,22 @@ export default async function StudentCoursePage({
     lessonsBySection[lesson.section_id].push(lesson);
   }
 
-  const { data: progressData } = await supabase
-    .from("progress")
+  const { data: progressData } = await dataClient
+    .from("teacher_progress")
     .select("lesson_id")
-    .eq("user_id", userId);
+    .eq("student_id", userId);
 
   const completedIds = new Set(progressData?.map((p: any) => p.lesson_id) ?? []);
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-12">
-      <Link
-        href={`/${locale}/dashboard/classes/${classId}`}
-        className="inline-flex items-center gap-1 text-sm text-zinc-500 hover:text-zinc-300 mb-6 transition-colors"
-      >
-        <ArrowLeft className="h-4 w-4" />
-        {t("back")}
-      </Link>
+      <Breadcrumbs
+        items={[
+          { label: t("my_classes"), href: `/${locale}/dashboard` },
+          { label: cls?.name ?? "Class", href: `/${locale}/dashboard/classes/${classId}` },
+          { label: course.title },
+        ]}
+      />
 
       <div className="mb-8">
         <h1 className="font-amiri text-2xl font-bold text-zinc-100">{course.title}</h1>
@@ -76,51 +84,14 @@ export default async function StudentCoursePage({
         )}
       </div>
 
-      <div className="space-y-3">
-        {sections?.map((section) => {
-          const sectionLessons = lessonsBySection[section.id] ?? [];
-          return (
-            <div key={section.id} data-testid={`section-${section.id}`} className="rounded-2xl border border-zinc-800 bg-[#111111] overflow-hidden">
-              <div className="flex items-center justify-between px-5 py-4">
-                <div className="flex items-center gap-3">
-                  <ChevronDown className="h-4 w-4 text-zinc-500" />
-                  <span className="text-base font-semibold text-zinc-100">{section.title}</span>
-                  <span className="text-xs text-zinc-500">({sectionLessons.length})</span>
-                </div>
-              </div>
-              <div className="border-t border-zinc-800 divide-y divide-zinc-800/50">
-                {sectionLessons.map((lesson) => {
-                  const isCompleted = completedIds.has(lesson.id);
-                  return (
-                    <Link
-                      key={lesson.id}
-                      data-testid={`curriculum-lesson-${lesson.id}`}
-                      href={`/${locale}/dashboard/classes/${classId}/courses/${courseId}/lessons/${lesson.id}`}
-                      className="flex items-center gap-3 px-5 py-3 hover:bg-zinc-900/30 transition-colors"
-                    >
-                      {isCompleted ? (
-                        <CheckCircle className="h-4 w-4 shrink-0 text-emerald-400" />
-                      ) : lesson.video_url ? (
-                        <Film className="h-4 w-4 shrink-0 text-zinc-600" />
-                      ) : (
-                        <FileText className="h-4 w-4 shrink-0 text-zinc-600" />
-                      )}
-                      <span className={`text-sm ${isCompleted ? "text-zinc-500" : "text-zinc-300"}`}>
-                        {lesson.title}
-                      </span>
-                      {lesson.duration && (
-                        <span className="text-xs text-zinc-600 ml-auto">
-                          {Math.floor(lesson.duration / 60)}:{(lesson.duration % 60).toString().padStart(2, "0")}
-                        </span>
-                      )}
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      <StudentCurriculum
+        classId={classId}
+        courseId={courseId}
+        sections={sections ?? []}
+        lessonsBySection={lessonsBySection}
+        completedIds={completedIds}
+        locale={locale}
+      />
     </div>
   );
 }

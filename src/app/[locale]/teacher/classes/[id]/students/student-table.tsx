@@ -8,7 +8,7 @@ import { Trash2 } from "lucide-react";
 interface Member {
   student_id: string;
   joined_at: string;
-  profile?: { user_id: string; role: string } | null;
+  profile?: { user_id: string; role: string; display_name?: string | null } | null;
 }
 
 export function StudentTable({
@@ -48,7 +48,7 @@ export function StudentTable({
       {members.map((m) => (
         <div key={m.student_id} data-testid={`student-row-${m.student_id}`} className="flex items-center justify-between px-5 py-3">
           <div>
-            <p className="text-sm text-zinc-300">{m.student_id}</p>
+            <p className="text-sm text-zinc-300">{m.profile?.display_name || "Student"}</p>
             <p className="text-xs text-zinc-600">
               {t("joined")} {new Date(m.joined_at).toLocaleDateString()}
             </p>

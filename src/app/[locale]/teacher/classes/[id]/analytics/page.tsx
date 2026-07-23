@@ -12,7 +12,7 @@ interface AnalyticsData {
   atRiskCount: number;
   scoreDistribution: { range: string; count: number }[];
   completionTimeline: { date: string; count: number }[];
-  atRisk: { student_id: string; last_active: string | null }[];
+  atRisk: { student_id: string; display_name: string | null; last_active: string | null }[];
   lessonBreakdown: { lesson_id: string; title: string; completed: number; total: number; rate: number }[];
 }
 
@@ -98,7 +98,7 @@ export default function AnalyticsPage() {
           <div className="space-y-2">
             {data.atRisk.map((s) => (
               <div key={s.student_id} className="flex items-center justify-between py-1.5">
-                <span className="text-sm text-zinc-300">{s.student_id.slice(0, 8)}...</span>
+                <span className="text-sm text-zinc-300">{s.display_name || "Student"}</span>
                 <span className="text-xs text-zinc-500">
                   Last active: {s.last_active ? new Date(s.last_active).toLocaleDateString() : "Never"}
                 </span>

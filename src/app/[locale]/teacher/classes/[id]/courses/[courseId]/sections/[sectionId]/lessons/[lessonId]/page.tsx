@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { createServerSupabaseClient } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 import { LessonEditor } from "./lesson-editor";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 
 export const dynamic = "force-dynamic";
 
@@ -23,25 +24,34 @@ export default async function LessonEditPage({
 
   if (!lesson) notFound();
 
-  const { data: section } = await supabase
-    .from("teacher_sections")
-    .select("course_id")
-    .eq("id", sectionId)
-    .single();
+  const [{ data: cls }, { data: course }, { data: section }] = await Promise.all([
+    supabase.from("classes").select("name").eq("id", classId).single(),
+    supabase.from("teacher_courses").select("title").eq("id", courseId).single(),
+    supabase.from("teacher_sections").select("title, course_id").eq("id", sectionId).single(),
+  ]);
 
   let teacherId = "";
 
   if (section) {
-    const { data: course } = await supabase
+    const { data: courseData } = await supabase
       .from("teacher_courses")
       .select("teacher_id")
       .eq("id", section.course_id)
       .single();
-    if (course) teacherId = course.teacher_id ?? "";
+    if (courseData) teacherId = courseData.teacher_id ?? "";
   }
 
   return (
     <div>
+      <Breadcrumbs
+        items={[
+          { label: t("classes"), href: `/${locale}/teacher/classes` },
+          { label: cls?.name ?? "Class", href: `/${locale}/teacher/classes/${classId}` },
+          { label: course?.title ?? "Course", href: `/${locale}/teacher/classes/${classId}/courses/${courseId}` },
+          { label: lesson.title },
+        ]}
+      />
+
       <LessonEditor lesson={lesson} locale={locale} teacherId={teacherId} />
     </div>
   );

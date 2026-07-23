@@ -94,12 +94,22 @@ export function LessonContentView({
   videoUrl,
   initialViewedAt,
   hasQuiz,
+  prevLesson,
+  nextLesson,
+  classId,
+  courseId,
+  locale,
 }: {
   lessonId: string;
   lessonContent: string | null;
   videoUrl: string | null;
   initialViewedAt: string | null;
   hasQuiz: boolean;
+  prevLesson: { id: string; title: string } | null;
+  nextLesson: { id: string; title: string } | null;
+  classId: string;
+  courseId: string;
+  locale: string;
 }) {
   const router = useRouter();
   const [viewedAt, setViewedAt] = useState<string | null>(initialViewedAt);
@@ -153,6 +163,55 @@ export function LessonContentView({
       <AssignmentSection lessonId={lessonId} />
 
       <CommentThread lessonId={lessonId} />
+
+      {/* Prev/Next Navigation */}
+      <div className="mt-10 pt-8 border-t border-zinc-800 flex items-center justify-between gap-4">
+        {prevLesson ? (
+          <a
+            href={`/${locale}/dashboard/classes/${classId}/courses/${courseId}/lessons/${prevLesson.id}`}
+            data-testid="nav-prev-lesson"
+            className="flex items-center gap-2 rounded-xl border border-zinc-800 bg-[#111111] px-4 py-3 hover:border-zinc-700 transition-all"
+          >
+            <svg className="h-4 w-4 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            <div className="text-left">
+              <p className="text-xs text-zinc-500">Previous</p>
+              <p className="text-sm text-zinc-300">{prevLesson.title}</p>
+            </div>
+          </a>
+        ) : (
+          <a
+            href={`/${locale}/dashboard/classes/${classId}/courses/${courseId}`}
+            data-testid="nav-prev-lesson"
+            className="flex items-center gap-2 rounded-xl border border-zinc-800 bg-[#111111] px-4 py-3 hover:border-zinc-700 transition-all"
+          >
+            <svg className="h-4 w-4 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            <div className="text-left">
+              <p className="text-xs text-zinc-500">Back to</p>
+              <p className="text-sm text-zinc-300">Course</p>
+            </div>
+          </a>
+        )}
+
+        {nextLesson && (
+          <a
+            href={`/${locale}/dashboard/classes/${classId}/courses/${courseId}/lessons/${nextLesson.id}`}
+            data-testid="nav-next-lesson"
+            className="flex items-center gap-2 rounded-xl border border-emerald-800/50 bg-emerald-900/10 px-4 py-3 hover:border-emerald-700/50 transition-all ml-auto"
+          >
+            <div className="text-right">
+              <p className="text-xs text-emerald-500">Next</p>
+              <p className="text-sm text-emerald-300">{nextLesson.title}</p>
+            </div>
+            <svg className="h-4 w-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        )}
+      </div>
     </div>
   );
 }
