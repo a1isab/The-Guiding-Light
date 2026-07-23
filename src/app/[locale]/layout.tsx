@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import { routing } from "../../../i18n/routing";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { HtmlAttributes } from "@/components/html-attributes";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -48,13 +49,10 @@ export default async function LocaleLayout({
 
   setRequestLocale(locale);
   const messages = await getMessages();
-  const rtl = locale === "ar" || locale === "ur";
-
-  const langScript = `document.documentElement.lang="${locale}"; document.documentElement.dir="${rtl ? "rtl" : "ltr"}";`;
 
   return (
     <>
-      <script dangerouslySetInnerHTML={{ __html: langScript }} />
+      <HtmlAttributes />
       <div
         className={`${inter.variable} ${amiri.variable} h-full antialiased min-h-full flex flex-col bg-[#0a0a0a]`}
       >
