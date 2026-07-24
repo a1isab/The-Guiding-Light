@@ -7,10 +7,10 @@ const TEACHER_EMAIL = "teacher@theguidinglight.com";
 const TEACHER_PASSWORD = "Teacher123!";
 
 test.describe("verify page", () => {
-  test("4.1 verify page redirects to signup when no session data", async ({ page }) => {
+  test("4.1 verify page redirects to onboarding when no session data", async ({ page }) => {
     await page.goto("/en/auth/verify");
-    await page.waitForURL(/\/en\/auth\/signup/);
-    expect(page.url()).toContain("/en/auth/signup");
+    await page.waitForURL(/\/en\/onboarding/);
+    expect(page.url()).toContain("/en/onboarding");
   });
 });
 

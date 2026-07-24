@@ -39,19 +39,11 @@ export default function LandingPage() {
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <Link
-              href={loggedIn ? `/${locale}/courses` : `/${locale}/auth/signup`}
+              href={loggedIn ? `/${locale}/courses` : `/${locale}/onboarding`}
               className="rounded-2xl bg-emerald-500 px-8 py-3 text-base font-medium text-white shadow-[0_0_25px_rgba(16,185,129,0.3)] hover:bg-emerald-400 hover:shadow-[0_0_35px_rgba(16,185,129,0.4)] transition-all"
             >
               {loggedIn ? t("go_to_courses") : t("start_learning")}
             </Link>
-            {!loggedIn && (
-              <Link
-                href={`/${locale}/auth/login`}
-                className="rounded-2xl border border-zinc-700 bg-zinc-900/50 px-8 py-3 text-base font-medium text-zinc-300 hover:bg-zinc-800 transition-all"
-              >
-                {t("have_account")}
-              </Link>
-            )}
           </div>
         </div>
       </section>
@@ -125,7 +117,7 @@ export default function LandingPage() {
             {t("cta_desc")}
           </p>
           <Link
-            href={`/${locale}/auth/signup`}
+            href={`/${locale}/onboarding`}
             className="mt-6 inline-block rounded-2xl bg-emerald-500 px-8 py-3 text-base font-medium text-white shadow-[0_0_25px rgba(16,185,129,0.3)] hover:bg-emerald-400 transition-all"
           >
             {t("get_started_free")}

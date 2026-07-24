@@ -24,7 +24,7 @@ export default function VerifyPage() {
     const storedPassword = sessionStorage.getItem("sv_password");
 
     if (!storedEmail || !storedCode || !storedPassword) {
-      router.replace(`/${locale}/auth/signup`);
+      router.replace(`/${locale}/onboarding`);
       return;
     }
 
@@ -96,7 +96,7 @@ export default function VerifyPage() {
     sessionStorage.removeItem("sv_password");
     sessionStorage.removeItem("sv_token");
 
-    router.push(`/${locale}/dashboard`);
+    router.push(`/${locale}/onboarding`);
   }
 
   if (!email) {
