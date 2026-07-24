@@ -188,7 +188,7 @@ test.describe("onboarding redirect behavior", () => {
   test("10.10 already onboarded student is redirected from /onboarding to dashboard", async ({ page }) => {
     await loginAs(page, STUDENT_EMAIL, STUDENT_PASSWORD);
     await page.goto("/en/onboarding");
-    await page.waitForLoadState("networkidle");
+    await page.waitForURL(/\/en\/dashboard/, { timeout: 15000 });
 
     await expect(page).toHaveURL(/\/en\/dashboard/);
   });
@@ -198,7 +198,6 @@ test.describe("onboarding redirect behavior", () => {
     await setOnboarded(page, false);
 
     await page.goto("/en/dashboard");
-    await page.waitForLoadState("networkidle");
     await page.waitForURL(/\/en\/onboarding/, { timeout: 15000 });
 
     await setOnboarded(page, true);
@@ -206,6 +205,7 @@ test.describe("onboarding redirect behavior", () => {
 
   test("10.12 onboarding API requires display name", async ({ page }) => {
     await loginAs(page, STUDENT_EMAIL, STUDENT_PASSWORD);
+    await page.waitForLoadState("networkidle");
 
     const result = await page.evaluate(async () => {
       const res = await fetch("/api/onboarding", {
