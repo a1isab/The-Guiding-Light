@@ -103,8 +103,8 @@ test.describe("student class and course", () => {
     await loginAs(page, STUDENT_EMAIL, STUDENT_PASSWORD);
     await page.goto(`/en/dashboard/classes/${data.classId}/courses/${data.courseId}`);
     await page.waitForLoadState("networkidle");
-    await expect(page.getByTestId(`section-${data.sectionId}`)).toBeVisible();
-    await expect(page.getByTestId(`curriculum-lesson-${data.lessonId}`)).toBeVisible();
+    await expect(page.getByTestId(`student-section-${data.sectionId}`)).toBeVisible();
+    await expect(page.getByTestId(`student-lesson-${data.lessonId}`)).toBeVisible();
   });
 });
 
