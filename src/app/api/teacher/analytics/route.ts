@@ -54,14 +54,14 @@ export async function GET(request: NextRequest) {
     : { data: [] };
 
   const { data: quizAttempts } = lessonIds.length
-    ? await admin.from("teacher_quiz_attempts").select("student_id, lesson_id, score, total_questions, passed").in("lesson_id", lessonIds)
+    ? await admin.from("teacher_quiz_attempts").select("student_id, lesson_id, score, total, passed").in("lesson_id", lessonIds)
     : { data: [] };
 
   const totalCompletions = (progress ?? []).filter((p) => p.content_viewed_at).length;
   const totalPossible = totalStudents * lessonIds.length;
   const completionRate = totalPossible > 0 ? Math.round((totalCompletions / totalPossible) * 100) : 0;
 
-  const scores = (quizAttempts ?? []).map((a) => a.total_questions > 0 ? Math.round((a.score / a.total_questions) * 100) : 0);
+  const scores = (quizAttempts ?? []).map((a) => a.total > 0 ? Math.round((a.score / a.total) * 100) : 0);
   const avgQuizScore = scores.length > 0 ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : 0;
 
   const scoreDistribution = [

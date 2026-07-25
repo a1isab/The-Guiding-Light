@@ -81,16 +81,16 @@ export default async function ClassProgressPage({
   const lessonIds = lessons?.map((l) => l.id) ?? [];
   const { data: progressRecords } = studentIds.length && lessonIds.length
     ? await supabase
-        .from("progress")
-        .select("user_id, lesson_id, completed_at")
-        .in("user_id", studentIds)
+        .from("teacher_progress")
+        .select("student_id, lesson_id, completed_at")
+        .in("student_id", studentIds)
         .in("lesson_id", lessonIds)
     : { data: [] };
 
-  // Build completion set: Set<"userId:lessonId">
+  // Build completion set: Set<"studentId:lessonId">
   const completedSet = new Set<string>();
   for (const p of progressRecords ?? []) {
-    completedSet.add(`${p.user_id}:${p.lesson_id}`);
+    completedSet.add(`${p.student_id}:${p.lesson_id}`);
   }
 
   // Get quiz attempts for best scores

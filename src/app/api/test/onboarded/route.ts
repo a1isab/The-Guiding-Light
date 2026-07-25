@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
 
 export async function POST(request: NextRequest) {
+  if (process.env.NODE_ENV === "production") {
+    return NextResponse.json({ error: "Not available in production" }, { status: 403 });
+  }
+
   const admin = createAdminClient();
   if (!admin) return NextResponse.json({ error: "Admin client not available" }, { status: 500 });
 

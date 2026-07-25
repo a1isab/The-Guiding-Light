@@ -70,11 +70,7 @@ export async function getUserRole(
   existingUser?: { id: string },
 ): Promise<string[]> {
   try {
-    console.log("[DEBUG getUserRole] calling get_user_roles RPC, user:", existingUser?.id);
-    const { data: roles, error: rpcError } = await supabase.rpc("get_user_roles");
-    if (rpcError) {
-      console.warn("get_user_roles RPC failed, falling back to profiles.role:", rpcError.message);
-    }
+    const { data: roles } = await supabase.rpc("get_user_roles");
 
     if (Array.isArray(roles) && roles.length > 0) {
       if (!roles.includes("teacher") && !roles.includes("admin")) {
@@ -150,53 +146,26 @@ export async function requireTeacher(
   supabase: ReturnType<typeof createServerClient>,
   jwt?: string,
 ): Promise<string | null> {
-  try {
-    const { data: { user }, error: userError } = jwt
-      ? await supabase.auth.getUser(jwt)
-      : await supabase.auth.getUser();
+  const { data: { user } } = jwt
+    ? await supabase.auth.getUser(jwt)
+    : await supabase.auth.getUser();
+  if (!user) return null;
 
-    if (userError) {
-      console.error("=== DIAGNOSIS: SUPABASE AUTH ERROR ===", userError.message, userError.status);
-      return null;
-    }
-    if (!user) {
-      console.error("=== DIAGNOSIS: NO USER FOUND FOR THIS JWT ===", jwt ? "JWT provided" : "no JWT");
-      return null;
-    }
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role, roles")
+    .eq("user_id", user.id)
+    .single();
 
-    const { data: profile, error: dbError } = await supabase
-      .from("profiles")
-      .select("role, roles")
-      .eq("user_id", user.id)
-      .single();
+  const hasRole =
+    profile?.role === "teacher" ||
+    profile?.role === "admin" ||
+    profile?.roles?.includes?.("teacher") ||
+    profile?.roles?.includes?.("admin");
 
-    if (dbError) {
-      console.error("=== DIAGNOSIS: DATABASE ROLE FETCH FAILED ===", dbError.message, dbError.code);
-      return null;
-    }
+  if (!hasRole) return null;
 
-    console.log("=== DIAGNOSIS: SUCCESS ===", {
-      userId: user.id,
-      dbRoleField: profile?.role,
-      dbRolesArrayField: profile?.roles,
-    });
-
-    const hasRole =
-      profile?.role === "teacher" ||
-      profile?.role === "admin" ||
-      profile?.roles?.includes?.("teacher") ||
-      profile?.roles?.includes?.("admin");
-
-    if (!hasRole) {
-      console.error("=== DIAGNOSIS: ROLE CHECK FAILED ===", { role: profile?.role, roles: profile?.roles });
-      return null;
-    }
-
-    return user.id;
-  } catch (e: any) {
-    console.error("=== DIAGNOSIS: CRASH IN requireTeacher ===", e.message);
-    return null;
-  }
+  return user.id;
 }
 
 export async function requireAdmin(
