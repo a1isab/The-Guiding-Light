@@ -9,12 +9,6 @@ import { BookOpen, Film } from "lucide-react";
 
 const levels = ["all", "beginner", "intermediate", "advanced"] as const;
 
-const levelColors: Record<string, string> = {
-  beginner: "bg-emerald-500/10 text-emerald-400",
-  intermediate: "bg-amber-500/10 text-amber-400",
-  advanced: "bg-red-500/10 text-red-400",
-};
-
 interface Props {
   courses: Course[];
   courseLessonCount: Record<string, number>;
@@ -37,11 +31,12 @@ export function CourseList({ courses, courseLessonCount, courseHasVideo }: Props
           <button
             key={filter}
             onClick={() => setActive(filter)}
-            className={`rounded-xl border px-4 py-1.5 text-sm capitalize transition-all ${
-              active === filter
-                ? "border-emerald-500 bg-emerald-500/10 text-emerald-400"
-                : "border-zinc-800 text-zinc-400 hover:border-emerald-700 hover:text-emerald-400"
-            }`}
+            className="rounded-xl border px-4 py-1.5 text-sm capitalize transition-all"
+            style={{
+              borderColor: active === filter ? "var(--accent)" : "var(--border)",
+              background: active === filter ? "color-mix(in srgb, var(--accent) 10%, transparent)" : "transparent",
+              color: active === filter ? "var(--accent)" : "var(--text-secondary)",
+            }}
           >
             {t(filter)}
           </button>
@@ -56,26 +51,46 @@ export function CourseList({ courses, courseLessonCount, courseHasVideo }: Props
               key={course.id}
               data-testid={`course-card-${course.slug}`}
               href={`/${locale}/courses/${course.slug}`}
-              className="group rounded-2xl border border-zinc-800 bg-[#111111] p-6 transition-all hover:border-emerald-800/50 hover:shadow-[0_0_30px_rgba(16,185,129,0.1)]"
+              className="group rounded-2xl border p-6 transition-all"
+              style={{
+                borderColor: "var(--border)",
+                background: "var(--bg-surface)",
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget;
+                el.style.borderColor = "color-mix(in srgb, var(--accent) 50%, transparent)";
+                el.style.boxShadow = "0 0 30px var(--glow-hover)";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget;
+                el.style.borderColor = "var(--border)";
+                el.style.boxShadow = "none";
+              }}
             >
               <div className="flex items-start justify-between">
-                <h2 className="text-lg font-semibold text-zinc-100 group-hover:text-emerald-400 transition-colors">
+                <h2 className="text-lg font-semibold transition-colors" style={{ color: "var(--text-primary)" }}>
                   {getTranslation(course, "title", locale, course.title)}
                 </h2>
-                <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${levelColors[course.level] || levelColors.beginner}`}>
+                <span
+                  className="rounded-full px-2.5 py-0.5 text-xs font-medium"
+                  style={{
+                    background: course.level === "advanced" ? "color-mix(in srgb, var(--error) 10%, transparent)" : course.level === "intermediate" ? "color-mix(in srgb, var(--accent) 10%, transparent)" : "color-mix(in srgb, var(--success) 10%, transparent)",
+                    color: course.level === "advanced" ? "var(--error)" : course.level === "intermediate" ? "var(--accent)" : "var(--success)",
+                  }}
+                >
                   {course.level}
                 </span>
               </div>
-              <p className="mt-2 text-sm text-zinc-500 line-clamp-2">
+              <p className="mt-2 text-sm line-clamp-2" style={{ color: "var(--text-secondary)" }}>
                 {getTranslation(course, "description", locale, course.description)}
               </p>
-              <div className="mt-4 flex items-center gap-3 text-xs text-zinc-600">
+              <div className="mt-4 flex items-center gap-3 text-xs" style={{ color: "var(--text-muted)" }}>
                 <span className="flex items-center gap-1">
                   <BookOpen className="h-3.5 w-3.5" />
                   {t("lessons", { count: lessonCount })}
                 </span>
                 {courseHasVideo.has(course.id) && (
-                  <span className="flex items-center gap-1 text-emerald-500">
+                  <span className="flex items-center gap-1" style={{ color: "var(--accent)" }}>
                     <Film className="h-3.5 w-3.5" />
                     {t("video")}
                   </span>

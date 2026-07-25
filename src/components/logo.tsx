@@ -34,12 +34,16 @@ export function Logo() {
   return (
     <Link href={`/${locale}`} className="flex flex-col items-start">
       <span
-        className="font-['Amiri'] text-emerald-400 text-xl leading-none"
+        className="font-arabic text-xl leading-none"
         dir="rtl"
+        style={{ color: "var(--accent)" }}
       >
         {displayed}
       </span>
-      <span className="text-[10px] text-zinc-500 uppercase tracking-[0.2em] hidden sm:block">
+      <span
+        className="text-[10px] uppercase tracking-[0.2em] hidden sm:block"
+        style={{ color: "var(--text-muted)" }}
+      >
         {t("subtitle")}
       </span>
     </Link>

@@ -30,8 +30,8 @@ export function CertificatesSection() {
   return (
     <div data-testid="certificates-section" className="mt-10">
       <div className="flex items-center gap-2 mb-4">
-        <Award className="h-5 w-5 text-amber-400" />
-        <h2 className="font-amiri text-xl font-bold text-zinc-100">Certificates</h2>
+        <Award className="h-5 w-5" style={{ color: "var(--accent)" }} />
+        <h2 className="font-display text-xl font-bold" style={{ color: "var(--text-primary)" }}>Certificates</h2>
       </div>
       <div className="grid gap-3 sm:grid-cols-2">
         {certificates.map((cert) => (

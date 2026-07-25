@@ -33,14 +33,24 @@ export function CommentForm({ onSubmit, placeholder = "Write a comment...", comp
           onChange={(e) => setBody(e.target.value)}
           placeholder={placeholder}
           rows={compact ? 2 : 3}
-          className="w-full rounded-xl border border-zinc-700 bg-zinc-900/50 px-4 py-3 text-sm text-zinc-200 placeholder:text-zinc-600 focus:border-emerald-700 focus:outline-none resize-none"
+          className="w-full rounded-xl border px-4 py-3 text-sm resize-none"
+          style={{
+            borderColor: "var(--border)",
+            background: "color-mix(in srgb, var(--bg-surface) 50%, transparent)",
+            color: "var(--text-primary)",
+          }}
+          onFocus={(e) => { e.currentTarget.style.borderColor = "color-mix(in srgb, var(--success) 70%, transparent)"; }}
+          onBlur={(e) => { e.currentTarget.style.borderColor = "var(--border)"; }}
         />
       </div>
       <button
         data-testid="comment-submit"
         onClick={handleSubmit}
         disabled={!body.trim() || submitting}
-        className="self-end rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-emerald-400 disabled:opacity-50 transition-all"
+        className="self-end rounded-xl px-4 py-2.5 text-sm font-medium text-white disabled:opacity-50 transition-all"
+        style={{ background: "var(--accent)" }}
+        onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.9"; }}
+        onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; }}
       >
         <Send className="h-4 w-4" />
       </button>

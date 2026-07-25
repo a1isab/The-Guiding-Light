@@ -18,15 +18,18 @@ export function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
         const isLast = i === items.length - 1;
         return (
           <span key={i} className="flex items-center gap-1.5 whitespace-nowrap">
-            {i > 0 && <ChevronRight className="h-3.5 w-3.5 text-zinc-600 shrink-0" />}
+            {i > 0 && <ChevronRight className="h-3.5 w-3.5 shrink-0" style={{ color: "var(--text-muted)" }} />}
             {isLast || !item.href ? (
-              <span className="text-zinc-300 font-medium max-w-[180px] truncate">
+              <span className="font-medium max-w-[180px] truncate" style={{ color: "var(--text-primary)" }}>
                 {item.label}
               </span>
             ) : (
               <Link
                 href={item.href}
-                className="text-zinc-500 hover:text-emerald-400 transition-colors max-w-[180px] truncate"
+                className="transition-colors max-w-[180px] truncate"
+                style={{ color: "var(--text-secondary)" }}
+                onMouseEnter={(e) => { e.currentTarget.style.color = "var(--success)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-secondary)"; }}
               >
                 {item.label}
               </Link>

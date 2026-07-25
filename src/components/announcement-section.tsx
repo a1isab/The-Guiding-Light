@@ -9,7 +9,7 @@ export function AnnouncementSection({ classId }: { classId: string }) {
 
   return (
     <div>
-      <h2 className="text-sm font-semibold text-zinc-300 mb-4">Announcements</h2>
+      <h2 className="text-sm font-semibold mb-4" style={{ color: "var(--text-primary)" }}>Announcements</h2>
       <AnnouncementForm classId={classId} onPosted={() => setRefreshKey((k) => k + 1)} />
     </div>
   );

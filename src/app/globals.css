@@ -1,33 +1,175 @@
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════════════════════════════
+   NIGHT STUDY THEME — Dark Default + Light Inverse
+   ═══════════════════════════════════════════════════════════════ */
+
 :root {
-  --bg-primary: #0a0a0a;
-  --bg-surface: #111111;
-  --bg-elevated: #1a1a1a;
-  --bg-subtle: #222222;
-  --accent-emerald: #10b981;
-  --accent-emerald-dim: #065f46;
-  --accent-gold: #f59e0b;
-  --text-primary: #f4f4f5;
-  --text-secondary: #a1a1aa;
-  --text-muted: #52525b;
-  --border: #27272a;
-  --border-subtle: #18181b;
+  /* Backgrounds */
+  --bg-primary: #0A0D12;
+  --bg-surface: #13171F;
+  --bg-elevated: #1C2130;
+  --bg-subtle: #252A36;
+
+  /* Text */
+  --text-primary: #F0ECE4;
+  --text-secondary: #8B8D94;
+  --text-muted: #52566A;
+
+  /* Accent — THE guiding light */
+  --accent: #D4915E;
+  --accent-dim: #8B5E3C;
+  --accent-hover: #E5A36E;
+
+  /* Borders */
+  --border: #1C2130;
+  --border-subtle: #13171F;
+
+  /* Semantic */
+  --success: #3DD68C;
+  --error: #E05252;
+
+  /* Glow */
+  --glow-subtle: rgba(212, 145, 94, 0.06);
+  --glow-hover: rgba(212, 145, 94, 0.12);
+}
+
+[data-theme="light"] {
+  /* Backgrounds */
+  --bg-primary: #F5F1EB;
+  --bg-surface: #FFFFFF;
+  --bg-elevated: #FAF8F5;
+  --bg-subtle: #F0ECE4;
+
+  /* Text */
+  --text-primary: #1A1D24;
+  --text-secondary: #6B7280;
+  --text-muted: #9CA3AF;
+
+  /* Accent — darkened for contrast on light */
+  --accent: #B87A4A;
+  --accent-dim: #D4915E;
+  --accent-hover: #A06840;
+
+  /* Borders */
+  --border: #E5E1DB;
+  --border-subtle: #F0ECE4;
+
+  /* Semantic */
+  --success: #16A34A;
+  --error: #DC2626;
+
+  /* Glow */
+  --glow-subtle: rgba(184, 122, 74, 0.06);
+  --glow-hover: rgba(184, 122, 74, 0.12);
 }
 
 @theme inline {
   --color-background: var(--bg-primary);
   --color-foreground: var(--text-primary);
+  --color-surface: var(--bg-surface);
+  --color-elevated: var(--bg-elevated);
+  --color-subtle: var(--bg-subtle);
+  --color-accent: var(--accent);
+  --color-accent-dim: var(--accent-dim);
+  --color-accent-hover: var(--accent-hover);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-border: var(--border);
+  --color-border-subtle: var(--border-subtle);
+  --color-success: var(--success);
+  --color-error: var(--error);
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-arabic: "Amiri", serif;
+  --font-display: "Crimson Pro", Georgia, serif;
+  --font-utility: "IBM Plex Mono", ui-monospace, monospace;
+  --font-arabic: "Noto Sans Arabic", ui-sans-serif, sans-serif;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════════════════ */
 
 body {
   background: var(--bg-primary);
   color: var(--text-primary);
   font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════════════════════════════════ */
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-delay-100 { animation-delay: 0.1s; }
+.animate-delay-200 { animation-delay: 0.2s; }
+.animate-delay-300 { animation-delay: 0.3s; }
+.animate-delay-400 { animation-delay: 0.4s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in-up {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .animate-glow-pulse {
+    animation: none;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   UTILITIES
+   ═══════════════════════════════════════════════════════════════ */
 
 @utility backface-hidden {
   backface-visibility: hidden;
+}
+
+.card-glow {
+  transition: box-shadow 0.3s ease;
+}
+
+.card-glow:hover {
+  box-shadow: 0 0 40px var(--glow-hover);
+}
+
+.lamplight-glow {
+  position: relative;
+}
+
+.lamplight-glow::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 400px;
+  background: radial-gradient(ellipse, var(--glow-subtle) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
 }

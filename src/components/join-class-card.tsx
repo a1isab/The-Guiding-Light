@@ -47,8 +47,8 @@ export function JoinClassCard() {
   }
 
   return (
-    <div data-testid="join-class-card" className="mt-8 rounded-2xl border border-zinc-800 bg-[#111111] p-6">
-      <h2 className="font-amiri text-xl font-bold text-zinc-100 mb-4">
+    <div data-testid="join-class-card" className="mt-8 rounded-2xl border p-6" style={{ borderColor: "var(--border)", background: "var(--bg-surface)" }}>
+      <h2 className="font-display text-xl font-bold mb-4" style={{ color: "var(--text-primary)" }}>
         {t("join_class")}
       </h2>
       <div className="flex gap-2">
@@ -59,13 +59,23 @@ export function JoinClassCard() {
           onChange={(e) => setCode(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleJoin()}
           placeholder={t("invite_code_placeholder")}
-          className="flex-1 rounded-xl border border-zinc-700 bg-zinc-900/50 px-3 py-2.5 text-sm text-zinc-100 placeholder-zinc-600 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 uppercase"
+          className="flex-1 rounded-xl border px-3 py-2.5 text-sm uppercase"
+          style={{
+            borderColor: "var(--border)",
+            background: "color-mix(in srgb, var(--bg-surface) 50%, transparent)",
+            color: "var(--text-primary)",
+          }}
+          onFocus={(e) => { e.currentTarget.style.borderColor = "var(--accent)"; e.currentTarget.style.boxShadow = "0 0 0 1px var(--accent)"; }}
+          onBlur={(e) => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.boxShadow = "none"; }}
         />
         <button
           onClick={handleJoin}
           data-testid="join-button"
           disabled={loading}
-          className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-emerald-400 disabled:opacity-50 transition-all"
+          className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-medium text-white transition-all disabled:opacity-50"
+          style={{ background: "var(--accent)" }}
+          onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.9"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; }}
         >
           {loading ? (
             <Loader2 className="h-4 w-4 animate-spin" />
@@ -75,7 +85,7 @@ export function JoinClassCard() {
           {t("join")}
         </button>
       </div>
-      {error && <p className="mt-2 text-xs text-red-400">{error}</p>}
+      {error && <p className="mt-2 text-xs" style={{ color: "var(--error)" }}>{error}</p>}
     </div>
   );
 }

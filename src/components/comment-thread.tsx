@@ -48,26 +48,29 @@ function CommentItem({
   return (
     <div data-testid="comment-item" className="group">
       <div className="flex items-start gap-3 py-3">
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-zinc-800 text-xs font-bold text-zinc-400">
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold" style={{ background: "var(--bg-subtle)", color: "var(--text-secondary)" }}>
           {comment.author_name[0]}
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-zinc-200">{comment.author_name}</span>
+            <span className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>{comment.author_name}</span>
             {comment.author_role === "teacher" && (
-              <span className="rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-medium text-emerald-400">
+              <span className="rounded-full px-2 py-0.5 text-[10px] font-medium" style={{ background: "color-mix(in srgb, var(--success) 15%, transparent)", color: "var(--success)" }}>
                 Teacher
               </span>
             )}
-            <span className="text-xs text-zinc-600">{timeAgo(comment.created_at)}</span>
+            <span className="text-xs" style={{ color: "var(--text-muted)" }}>{timeAgo(comment.created_at)}</span>
           </div>
-          <p className="mt-1 text-sm text-zinc-300 whitespace-pre-wrap">{comment.body}</p>
+          <p className="mt-1 text-sm whitespace-pre-wrap" style={{ color: "var(--text-primary)" }}>{comment.body}</p>
           <div className="mt-2 flex items-center gap-3">
             {!comment.parent_id && comment.user_id !== currentUserId && (
               <button
                 data-testid="comment-reply-btn"
                 onClick={() => setReplying(!replying)}
-                className="flex items-center gap-1 text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
+                className="flex items-center gap-1 text-xs transition-colors"
+                style={{ color: "var(--text-secondary)" }}
+                onMouseEnter={(e) => { e.currentTarget.style.color = "var(--text-primary)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-secondary)"; }}
               >
                 <Reply className="h-3 w-3" /> Reply
               </button>
@@ -76,7 +79,10 @@ function CommentItem({
               <button
                 data-testid="comment-delete-btn"
                 onClick={() => onDelete(comment.id)}
-                className="flex items-center gap-1 text-xs text-zinc-600 hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100"
+                className="flex items-center gap-1 text-xs transition-colors opacity-0 group-hover:opacity-100"
+                style={{ color: "var(--text-muted)" }}
+                onMouseEnter={(e) => { e.currentTarget.style.color = "var(--error)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-muted)"; }}
               >
                 <Trash2 className="h-3 w-3" /> Delete
               </button>
@@ -99,27 +105,30 @@ function CommentItem({
       )}
 
       {replies.map((reply) => (
-        <div key={reply.id} className="ml-11 border-l border-zinc-800 pl-3">
+        <div key={reply.id} className="ml-11 pl-3" style={{ borderLeft: "1px solid var(--border)" }}>
           <div className="flex items-start gap-3 py-2">
-            <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-zinc-800 text-[10px] font-bold text-zinc-400">
+            <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[10px] font-bold" style={{ background: "var(--bg-subtle)", color: "var(--text-secondary)" }}>
               {reply.author_name[0]}
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
-                <span className="text-xs font-medium text-zinc-200">{reply.author_name}</span>
+                <span className="text-xs font-medium" style={{ color: "var(--text-primary)" }}>{reply.author_name}</span>
                 {reply.author_role === "teacher" && (
-                  <span className="rounded-full bg-emerald-500/15 px-1.5 py-0.5 text-[9px] font-medium text-emerald-400">
+                  <span className="rounded-full px-1.5 py-0.5 text-[9px] font-medium" style={{ background: "color-mix(in srgb, var(--success) 15%, transparent)", color: "var(--success)" }}>
                     Teacher
                   </span>
                 )}
-                <span className="text-[10px] text-zinc-600">{timeAgo(reply.created_at)}</span>
+                <span className="text-[10px]" style={{ color: "var(--text-muted)" }}>{timeAgo(reply.created_at)}</span>
               </div>
-              <p className="mt-0.5 text-xs text-zinc-300 whitespace-pre-wrap">{reply.body}</p>
+              <p className="mt-0.5 text-xs whitespace-pre-wrap" style={{ color: "var(--text-primary)" }}>{reply.body}</p>
               {reply.is_owner && (
                 <button
                   data-testid="comment-delete-btn"
                   onClick={() => onDelete(reply.id)}
-                  className="mt-1 flex items-center gap-1 text-[10px] text-zinc-600 hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100"
+                  className="mt-1 flex items-center gap-1 text-[10px] transition-colors opacity-0 group-hover:opacity-100"
+                  style={{ color: "var(--text-muted)" }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = "var(--error)"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-muted)"; }}
                 >
                   <Trash2 className="h-3 w-3" /> Delete
                 </button>
@@ -187,10 +196,10 @@ export function CommentThread({ lessonId }: CommentThreadProps) {
   }
 
   return (
-    <div className="mt-10 pt-8 border-t border-zinc-800">
+    <div className="mt-10 pt-8" style={{ borderTop: "1px solid var(--border)" }}>
       <div className="flex items-center gap-2 mb-4">
-        <MessageSquare className="h-5 w-5 text-zinc-500" />
-        <h3 className="text-sm font-medium text-zinc-300" data-testid="comments-header">
+        <MessageSquare className="h-5 w-5" style={{ color: "var(--text-secondary)" }} />
+        <h3 className="text-sm font-medium" style={{ color: "var(--text-primary)" }} data-testid="comments-header">
           Discussion ({comments.length})
         </h3>
       </div>
@@ -198,20 +207,21 @@ export function CommentThread({ lessonId }: CommentThreadProps) {
       <CommentForm onSubmit={handlePost} />
 
       {loading ? (
-        <p className="mt-4 text-xs text-zinc-600">Loading comments...</p>
+        <p className="mt-4 text-xs" style={{ color: "var(--text-muted)" }}>Loading comments...</p>
       ) : topLevel.length === 0 ? (
-        <p className="mt-4 text-xs text-zinc-600">No comments yet. Be the first to ask a question!</p>
+        <p className="mt-4 text-xs" style={{ color: "var(--text-muted)" }}>No comments yet. Be the first to ask a question!</p>
       ) : (
-        <div className="mt-4 divide-y divide-zinc-800/50">
+        <div className="mt-4">
           {topLevel.map((c) => (
-            <CommentItem
-              key={c.id}
-              comment={c}
-              replies={repliesByParent[c.id] ?? []}
-              onDelete={handleDelete}
-              onReply={handleReply}
-              currentUserId={currentUserId}
-            />
+            <div key={c.id} style={{ borderTop: "1px solid color-mix(in srgb, var(--border) 50%, transparent)" }}>
+              <CommentItem
+                comment={c}
+                replies={repliesByParent[c.id] ?? []}
+                onDelete={handleDelete}
+                onReply={handleReply}
+                currentUserId={currentUserId}
+              />
+            </div>
           ))}
         </div>
       )}

@@ -135,31 +135,33 @@ export default async function ClassProgressPage({
     <div>
       <Link
         href={`/${locale}/teacher/classes/${id}`}
-        className="inline-flex items-center gap-1 text-sm text-zinc-500 hover:text-zinc-300 mb-4 transition-colors"
+        className="inline-flex items-center gap-1 text-sm mb-4 transition-colors hover:text-[var(--text-primary)]"
+        style={{ color: 'var(--text-muted)' }}
       >
         <ArrowLeft className="h-4 w-4" />
         {t("back_to_class")}
       </Link>
 
-      <h1 className="font-amiri text-2xl font-bold text-zinc-100 mb-1">{cls.name}</h1>
-      <p className="text-sm text-zinc-500 mb-8">{t("student_progress")}</p>
+      <h1 className="font-display text-2xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>{cls.name}</h1>
+      <p className="text-sm mb-8" style={{ color: 'var(--text-muted)' }}>{t("student_progress")}</p>
 
       {!totalLessons ? (
-        <p className="text-sm text-zinc-500 text-center py-8 rounded-2xl border border-dashed border-zinc-800">
+        <p className="text-sm text-center py-8 rounded-2xl border border-dashed" style={{ color: 'var(--text-muted)', borderColor: 'var(--border)' }}>
           {t("no_lessons_in_class")}
         </p>
       ) : (
         <div className="overflow-x-auto">
           <table data-testid="progress-matrix" className="w-full text-left text-sm">
             <thead>
-              <tr className="border-b border-zinc-800">
-                <th className="px-3 py-2 text-zinc-400 font-medium min-w-[200px]">{t("student")}</th>
+              <tr className="border-b" style={{ borderColor: 'var(--border)' }}>
+                <th className="px-3 py-2 font-medium min-w-[200px]" style={{ color: 'var(--text-secondary)' }}>{t("student")}</th>
                 {courseSectionLessonMap.map((course) =>
                   course.sections.map((section) =>
                     section.lessons.map((lesson) => (
                       <th
                         key={lesson.id}
-                        className="px-2 py-2 text-zinc-500 font-normal text-xs max-w-[120px] truncate"
+                        className="px-2 py-2 font-normal text-xs max-w-[120px] truncate"
+                        style={{ color: 'var(--text-muted)' }}
                         title={lesson.title}
                       >
                         {course.title}/{lesson.title}
@@ -167,7 +169,7 @@ export default async function ClassProgressPage({
                     ))
                   )
                 )}
-                <th className="px-3 py-2 text-zinc-400 font-medium text-right">{t("completion")}</th>
+                <th className="px-3 py-2 font-medium text-right" style={{ color: 'var(--text-secondary)' }}>{t("completion")}</th>
               </tr>
             </thead>
             <tbody>
@@ -175,8 +177,8 @@ export default async function ClassProgressPage({
                 const completed = totalCompleted(student.user_id);
                 const pct = totalLessons ? Math.round((completed / totalLessons) * 100) : 0;
                 return (
-                  <tr key={student.user_id} data-testid={`progress-row-${student.user_id}`} className="border-b border-zinc-800 hover:bg-zinc-900/30">
-                    <td className="px-3 py-2.5 text-zinc-300 max-w-[200px] truncate">
+                  <tr key={student.user_id} data-testid={`progress-row-${student.user_id}`} className="border-b hover:bg-[var(--bg-elevated)]" style={{ borderColor: 'var(--border)' }}>
+                    <td className="px-3 py-2.5 max-w-[200px] truncate" style={{ color: 'var(--text-primary)' }}>
                       {emailMap.get(student.user_id) ?? student.user_id}
                     </td>
                     {courseSectionLessonMap.map((course) =>
@@ -188,13 +190,13 @@ export default async function ClassProgressPage({
                           return (
                             <td key={lesson.id} data-testid={`completion-${student.user_id}-${lesson.id}`} className="px-2 py-2.5 text-center">
                               {quizScore ? (
-                                <span className={`text-xs font-medium ${done ? "text-emerald-400" : "text-amber-400"}`}>
+                                <span className="text-xs font-medium" style={{ color: done ? 'var(--accent)' : 'var(--accent)' }}>
                                   {quizScore}
                                 </span>
                               ) : done ? (
-                                <CheckCircle className="h-4 w-4 text-emerald-400 inline-block" />
+                                <CheckCircle className="h-4 w-4 inline-block" style={{ color: 'var(--accent)' }} />
                               ) : (
-                                <MinusCircle className="h-4 w-4 text-zinc-700 inline-block" />
+                                <MinusCircle className="h-4 w-4 inline-block" style={{ color: 'var(--text-muted)' }} />
                               )}
                             </td>
                           );
@@ -202,7 +204,7 @@ export default async function ClassProgressPage({
                       )
                     )}
                     <td className="px-3 py-2.5 text-right">
-                      <span className={`text-xs font-medium ${pct === 100 ? "text-emerald-400" : "text-zinc-400"}`}>
+                      <span className="text-xs font-medium" style={{ color: pct === 100 ? 'var(--accent)' : 'var(--text-secondary)' }}>
                         {completed}/{totalLessons} ({pct}%)
                       </span>
                     </td>

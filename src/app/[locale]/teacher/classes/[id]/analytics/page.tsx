@@ -30,58 +30,68 @@ export default function AnalyticsPage() {
       .finally(() => setLoading(false));
   }, [classId]);
 
-  if (loading) return <div className="p-8 text-zinc-500">Loading analytics...</div>;
-  if (!data) return <div className="p-8 text-zinc-500">Failed to load analytics</div>;
+  if (loading) return <div className="p-8" style={{ color: 'var(--text-muted)' }}>Loading analytics...</div>;
+  if (!data) return <div className="p-8" style={{ color: 'var(--text-muted)' }}>Failed to load analytics</div>;
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10">
-      <h1 className="font-amiri text-2xl font-bold text-zinc-100 mb-8">Class Analytics</h1>
+      <h1 className="font-display text-2xl font-bold mb-8" style={{ color: 'var(--text-primary)' }}>Class Analytics</h1>
 
       <div className="grid gap-4 sm:grid-cols-4 mb-8">
-        <div data-testid="stat-total-students" className="rounded-xl border border-zinc-800 bg-[#111111] p-5">
+        <div data-testid="stat-total-students" className="rounded-xl border p-5" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-surface)' }}>
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10">
-              <Users className="h-5 w-5 text-emerald-400" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ backgroundColor: 'color-mix(in srgb, var(--accent) 10%, transparent)' }}>
+              <Users className="h-5 w-5" style={{ color: 'var(--accent)' }} />
             </div>
             <div>
-              <p className="text-xs text-zinc-500">Students</p>
-              <p className="text-2xl font-bold text-zinc-100">{data.totalStudents}</p>
+              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Students</p>
+              <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{data.totalStudents}</p>
             </div>
           </div>
         </div>
 
-        <div data-testid="stat-avg-score" className="rounded-xl border border-zinc-800 bg-[#111111] p-5">
+        <div data-testid="stat-avg-score" className="rounded-xl border p-5" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-surface)' }}>
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10">
-              <BarChart3 className="h-5 w-5 text-blue-400" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ backgroundColor: 'color-mix(in srgb, var(--accent) 10%, transparent)' }}>
+              <BarChart3 className="h-5 w-5" style={{ color: 'var(--accent)' }} />
             </div>
             <div>
-              <p className="text-xs text-zinc-500">Avg Quiz Score</p>
-              <p className="text-2xl font-bold text-zinc-100">{data.avgQuizScore}%</p>
+              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Avg Quiz Score</p>
+              <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{data.avgQuizScore}%</p>
             </div>
           </div>
         </div>
 
-        <div data-testid="stat-completion" className="rounded-xl border border-zinc-800 bg-[#111111] p-5">
+        <div data-testid="stat-completion" className="rounded-xl border p-5" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-surface)' }}>
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500/10">
-              <TrendingUp className="h-5 w-5 text-purple-400" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ backgroundColor: 'color-mix(in srgb, var(--accent) 10%, transparent)' }}>
+              <TrendingUp className="h-5 w-5" style={{ color: 'var(--accent)' }} />
             </div>
             <div>
-              <p className="text-xs text-zinc-500">Completion</p>
-              <p className="text-2xl font-bold text-zinc-100">{data.completionRate}%</p>
+              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Completion</p>
+              <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{data.completionRate}%</p>
             </div>
           </div>
         </div>
 
-        <div data-testid="stat-at-risk" className={`rounded-xl border p-5 ${data.atRiskCount > 0 ? "border-amber-800/30 bg-amber-900/5" : "border-zinc-800 bg-[#111111]"}`}>
+        <div
+          data-testid="stat-at-risk"
+          className="rounded-xl border p-5"
+          style={{
+            borderColor: data.atRiskCount > 0 ? 'color-mix(in srgb, var(--accent) 30%, transparent)' : 'var(--border)',
+            backgroundColor: data.atRiskCount > 0 ? 'color-mix(in srgb, var(--accent) 5%, transparent)' : 'var(--bg-surface)',
+          }}
+        >
           <div className="flex items-center gap-3">
-            <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${data.atRiskCount > 0 ? "bg-amber-500/10" : "bg-zinc-800"}`}>
-              <AlertTriangle className={`h-5 w-5 ${data.atRiskCount > 0 ? "text-amber-400" : "text-zinc-500"}`} />
+            <div
+              className="flex h-10 w-10 items-center justify-center rounded-xl"
+              style={{ backgroundColor: data.atRiskCount > 0 ? 'color-mix(in srgb, var(--accent) 10%, transparent)' : 'var(--bg-subtle)' }}
+            >
+              <AlertTriangle className="h-5 w-5" style={{ color: data.atRiskCount > 0 ? 'var(--accent)' : 'var(--text-muted)' }} />
             </div>
             <div>
-              <p className="text-xs text-zinc-500">At Risk</p>
-              <p className={`text-2xl font-bold ${data.atRiskCount > 0 ? "text-amber-400" : "text-zinc-100"}`}>{data.atRiskCount}</p>
+              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>At Risk</p>
+              <p className="text-2xl font-bold" style={{ color: data.atRiskCount > 0 ? 'var(--accent)' : 'var(--text-primary)' }}>{data.atRiskCount}</p>
             </div>
           </div>
         </div>
@@ -93,13 +103,13 @@ export default function AnalyticsPage() {
       </div>
 
       {data.atRisk.length > 0 && (
-        <div className="rounded-xl border border-amber-800/30 bg-amber-900/5 p-5 mb-8">
-          <h3 className="text-sm font-medium text-amber-400 mb-3">At-Risk Students</h3>
+        <div className="rounded-xl border p-5 mb-8" style={{ borderColor: 'color-mix(in srgb, var(--accent) 30%, transparent)', backgroundColor: 'color-mix(in srgb, var(--accent) 5%, transparent)' }}>
+          <h3 className="text-sm font-medium mb-3" style={{ color: 'var(--accent)' }}>At-Risk Students</h3>
           <div className="space-y-2">
             {data.atRisk.map((s) => (
               <div key={s.student_id} className="flex items-center justify-between py-1.5">
-                <span className="text-sm text-zinc-300">{s.display_name || "Student"}</span>
-                <span className="text-xs text-zinc-500">
+                <span className="text-sm" style={{ color: 'var(--text-primary)' }}>{s.display_name || "Student"}</span>
+                <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
                   Last active: {s.last_active ? new Date(s.last_active).toLocaleDateString() : "Never"}
                 </span>
               </div>
@@ -109,17 +119,17 @@ export default function AnalyticsPage() {
       )}
 
       {data.lessonBreakdown.length > 0 && (
-        <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-5">
-          <h3 className="text-sm font-medium text-zinc-300 mb-4">Lesson Completion</h3>
+        <div className="rounded-xl border p-5" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-elevated)' }}>
+          <h3 className="text-sm font-medium mb-4" style={{ color: 'var(--text-primary)' }}>Lesson Completion</h3>
           <div className="space-y-3">
             {data.lessonBreakdown.map((l) => (
               <div key={l.lesson_id}>
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-sm text-zinc-200">{l.title}</span>
-                  <span className="text-xs text-zinc-500">{l.completed}/{l.total} ({l.rate}%)</span>
+                  <span className="text-sm" style={{ color: 'var(--text-primary)' }}>{l.title}</span>
+                  <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{l.completed}/{l.total} ({l.rate}%)</span>
                 </div>
-                <div className="h-2 rounded-full bg-zinc-800">
-                  <div className="h-2 rounded-full bg-emerald-500 transition-all" style={{ width: `${l.rate}%` }} />
+                <div className="h-2 rounded-full" style={{ backgroundColor: 'var(--bg-subtle)' }}>
+                  <div className="h-2 rounded-full transition-all" style={{ width: `${l.rate}%`, backgroundColor: 'var(--accent)' }} />
                 </div>
               </div>
             ))}

@@ -40,10 +40,11 @@ export default async function TeacherClassesPage({
   return (
     <div>
       <div className="flex items-center justify-between mb-8">
-        <h1 className="font-amiri text-2xl font-bold text-zinc-100">{t("classes")}</h1>
+        <h1 className="font-display text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{t("classes")}</h1>
         <Link
           href={`/${locale}/teacher/classes/new`}
-          className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-emerald-400 transition-all"
+          className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-white hover:bg-[var(--accent)] transition-all"
+          style={{ backgroundColor: 'var(--accent)' }}
         >
           <Plus className="h-4 w-4" />
           {t("new_class")}

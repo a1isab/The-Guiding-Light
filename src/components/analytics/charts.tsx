@@ -14,17 +14,17 @@ interface CompletionTimeline {
 
 export function QuizScoreChart({ data }: { data: ScoreDistribution[] }) {
   return (
-    <div data-testid="quiz-score-chart" className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-5">
-      <h4 className="text-sm font-medium text-zinc-300 mb-4">Quiz Score Distribution</h4>
+    <div data-testid="quiz-score-chart" className="rounded-xl border p-5" style={{ borderColor: "var(--border)", background: "color-mix(in srgb, var(--bg-surface) 30%, transparent)" }}>
+      <h4 className="text-sm font-medium mb-4" style={{ color: "var(--text-primary)" }}>Quiz Score Distribution</h4>
       <ResponsiveContainer width="100%" height={200}>
         <BarChart data={data}>
-          <XAxis dataKey="range" tick={{ fontSize: 11, fill: "#71717a" }} />
-          <YAxis tick={{ fontSize: 11, fill: "#71717a" }} allowDecimals={false} />
+          <XAxis dataKey="range" tick={{ fontSize: 11, fill: "var(--text-muted)" }} />
+          <YAxis tick={{ fontSize: 11, fill: "var(--text-muted)" }} allowDecimals={false} />
           <Tooltip
-            contentStyle={{ background: "#18181b", border: "1px solid #27272a", borderRadius: "8px", fontSize: "12px" }}
-            labelStyle={{ color: "#a1a1aa" }}
+            contentStyle={{ background: "var(--bg-surface)", border: "1px solid var(--border)", borderRadius: "8px", fontSize: "12px" }}
+            labelStyle={{ color: "var(--text-secondary)" }}
           />
-          <Bar dataKey="count" fill="#10b981" radius={[4, 4, 0, 0]} />
+          <Bar dataKey="count" fill="var(--accent)" radius={[4, 4, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>
@@ -33,22 +33,22 @@ export function QuizScoreChart({ data }: { data: ScoreDistribution[] }) {
 
 export function CompletionTimelineChart({ data }: { data: CompletionTimeline[] }) {
   return (
-    <div data-testid="completion-timeline" className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-5">
-      <h4 className="text-sm font-medium text-zinc-300 mb-4">Completions (Last 30 Days)</h4>
+    <div data-testid="completion-timeline" className="rounded-xl border p-5" style={{ borderColor: "var(--border)", background: "color-mix(in srgb, var(--bg-surface) 30%, transparent)" }}>
+      <h4 className="text-sm font-medium mb-4" style={{ color: "var(--text-primary)" }}>Completions (Last 30 Days)</h4>
       <ResponsiveContainer width="100%" height={200}>
         <LineChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
+          <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
           <XAxis
             dataKey="date"
-            tick={{ fontSize: 10, fill: "#71717a" }}
+            tick={{ fontSize: 10, fill: "var(--text-muted)" }}
             tickFormatter={(v) => v.slice(5)}
           />
-          <YAxis tick={{ fontSize: 11, fill: "#71717a" }} allowDecimals={false} />
+          <YAxis tick={{ fontSize: 11, fill: "var(--text-muted)" }} allowDecimals={false} />
           <Tooltip
-            contentStyle={{ background: "#18181b", border: "1px solid #27272a", borderRadius: "8px", fontSize: "12px" }}
-            labelStyle={{ color: "#a1a1aa" }}
+            contentStyle={{ background: "var(--bg-surface)", border: "1px solid var(--border)", borderRadius: "8px", fontSize: "12px" }}
+            labelStyle={{ color: "var(--text-secondary)" }}
           />
-          <Line type="monotone" dataKey="count" stroke="#10b981" strokeWidth={2} dot={false} />
+          <Line type="monotone" dataKey="count" stroke="var(--accent)" strokeWidth={2} dot={false} />
         </LineChart>
       </ResponsiveContainer>
     </div>

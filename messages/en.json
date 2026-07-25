@@ -418,5 +418,16 @@
     "used": "Used",
     "active": "Active",
     "expired": "Expired"
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Manage your appearance and preferences.",
+    "back_to_dashboard": "Back to Dashboard",
+    "appearance": "Appearance",
+    "appearance_desc": "Choose your preferred color theme.",
+    "dark_mode": "Dark",
+    "light_mode": "Light",
+    "language": "Language",
+    "language_desc": "Select your preferred language."
   }
 }

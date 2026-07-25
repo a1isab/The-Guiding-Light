@@ -8,6 +8,7 @@ import { createClient, getUserRoleClient } from "@/lib/supabase-client";
 import type { User } from "@supabase/supabase-js";
 import { SignOutButton } from "@/components/auth/sign-out-button";
 import { Logo } from "./logo";
+import { Settings } from "lucide-react";
 
 const LOCALES = [
   { code: "en", label: "English" },
@@ -92,7 +93,13 @@ export function Navbar() {
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 h-16 bg-[#0a0a0a]/80 backdrop-blur-md border-b border-zinc-900">
+    <nav
+      className="fixed top-0 left-0 right-0 z-50 h-16 backdrop-blur-md"
+      style={{
+        backgroundColor: "color-mix(in srgb, var(--bg-primary) 80%, transparent)",
+        borderBottom: "1px solid var(--border)",
+      }}
+    >
       <div className="mx-auto h-full max-w-6xl flex items-center justify-between px-4">
         <Logo />
 
@@ -101,21 +108,30 @@ export function Navbar() {
           <div className="relative" ref={langRef}>
             <button
               onClick={() => setLangOpen(!langOpen)}
-              className="rounded-xl border border-zinc-800 px-3 py-1.5 text-xs text-zinc-400 hover:text-zinc-200 hover:border-zinc-600 transition-all"
+              className="rounded-xl px-3 py-1.5 text-xs transition-all"
+              style={{
+                border: "1px solid var(--border)",
+                color: "var(--text-secondary)",
+              }}
             >
               {LOCALES.find((l) => l.code === currentLocale)?.label || "English"}
             </button>
             {langOpen && (
-              <div className="absolute right-0 mt-2 w-36 bg-[#111111] border border-zinc-800 rounded-xl shadow-2xl py-1">
+              <div
+                className="absolute right-0 mt-2 w-36 rounded-xl shadow-2xl py-1"
+                style={{
+                  backgroundColor: "var(--bg-surface)",
+                  border: "1px solid var(--border)",
+                }}
+              >
                 {LOCALES.map((loc) => (
                   <button
                     key={loc.code}
                     onClick={() => switchLocale(loc.code)}
-                    className={`w-full text-left px-4 py-2 text-sm transition-colors ${
-                      loc.code === currentLocale
-                        ? "text-emerald-400"
-                        : "text-zinc-300 hover:bg-zinc-800"
-                    }`}
+                    className="w-full text-left px-4 py-2 text-sm transition-colors"
+                    style={{
+                      color: loc.code === currentLocale ? "var(--accent)" : "var(--text-secondary)",
+                    }}
                   >
                     {loc.label}
                   </button>
@@ -129,11 +145,10 @@ export function Navbar() {
               {!userRole?.includes("teacher") && (
                 <Link
                   href={"/" + currentLocale + "/courses"}
-                  className={`text-sm font-medium ${
-                    pathname.includes("/courses")
-                      ? "text-emerald-400"
-                      : "text-zinc-400 hover:text-zinc-200"
-                  }`}
+                  className="text-sm font-medium transition-colors"
+                  style={{
+                    color: pathname.includes("/courses") ? "var(--accent)" : "var(--text-secondary)",
+                  }}
                 >
                   {t("courses")}
                 </Link>
@@ -141,11 +156,10 @@ export function Navbar() {
               {!userRole?.includes("teacher") && (
                 <Link
                   href={"/" + currentLocale + "/dashboard"}
-                  className={`text-sm font-medium ${
-                    pathname.includes("/dashboard")
-                      ? "text-emerald-400"
-                      : "text-zinc-400 hover:text-zinc-200"
-                  }`}
+                  className="text-sm font-medium transition-colors"
+                  style={{
+                    color: pathname.includes("/dashboard") ? "var(--accent)" : "var(--text-secondary)",
+                  }}
                 >
                   {t("dashboard")}
                 </Link>
@@ -153,11 +167,10 @@ export function Navbar() {
               {(userRole?.includes("teacher") || userRole?.includes("admin")) && (
                 <Link
                   href={"/" + currentLocale + "/teacher"}
-                  className={`text-sm font-medium ${
-                    pathname.includes("/teacher")
-                      ? "text-emerald-400"
-                      : "text-zinc-400 hover:text-zinc-200"
-                  }`}
+                  className="text-sm font-medium transition-colors"
+                  style={{
+                    color: pathname.includes("/teacher") ? "var(--accent)" : "var(--text-secondary)",
+                  }}
                 >
                   Teacher
                 </Link>
@@ -165,11 +178,10 @@ export function Navbar() {
               {userRole?.includes("admin") && (
                 <Link
                   href={"/" + currentLocale + "/admin"}
-                  className={`text-sm font-medium ${
-                    pathname.includes("/admin")
-                      ? "text-emerald-400"
-                      : "text-zinc-400 hover:text-zinc-200"
-                  }`}
+                  className="text-sm font-medium transition-colors"
+                  style={{
+                    color: pathname.includes("/admin") ? "var(--accent)" : "var(--text-secondary)",
+                  }}
                 >
                   Admin
                 </Link>
@@ -177,9 +189,19 @@ export function Navbar() {
               <div className="relative">
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="flex items-center gap-2 rounded-xl bg-zinc-800 px-3 py-1.5 text-sm text-zinc-300 hover:bg-zinc-700"
+                  className="flex items-center gap-2 rounded-xl px-3 py-1.5 text-sm transition-all"
+                  style={{
+                    backgroundColor: "var(--bg-elevated)",
+                    color: "var(--text-primary)",
+                  }}
                 >
-                  <span className="h-6 w-6 rounded-full bg-emerald-900/50 flex items-center justify-center text-emerald-400 text-xs font-semibold">
+                  <span
+                    className="h-6 w-6 rounded-full flex items-center justify-center text-xs font-semibold"
+                    style={{
+                      backgroundColor: "var(--glow-subtle)",
+                      color: "var(--accent)",
+                    }}
+                  >
                     {user.email?.[0].toUpperCase()}
                   </span>
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
@@ -187,35 +209,58 @@ export function Navbar() {
                   </svg>
                 </button>
                 {dropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-[#111111] border border-zinc-800 rounded-xl shadow-2xl py-1">
-                    <p className="px-4 py-2 text-xs text-zinc-500 truncate border-b border-zinc-800">
+                  <div
+                    className="absolute right-0 mt-2 w-48 rounded-xl shadow-2xl py-1"
+                    style={{
+                      backgroundColor: "var(--bg-surface)",
+                      border: "1px solid var(--border)",
+                    }}
+                  >
+                    <p
+                      className="px-4 py-2 text-xs truncate"
+                      style={{
+                        color: "var(--text-muted)",
+                        borderBottom: "1px solid var(--border)",
+                      }}
+                    >
                       {user.email}
                     </p>
                     {!userRole?.includes("teacher") && (
                       <Link
                         href={"/" + currentLocale + "/dashboard"}
-                        className="block px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800"
+                        className="block px-4 py-2 text-sm transition-colors"
+                        style={{ color: "var(--text-secondary)" }}
                       >
                         {t("dashboard")}
                       </Link>
                     )}
-              {(userRole?.includes("teacher") || userRole?.includes("admin")) && (
-                <Link
-                  href={"/" + currentLocale + "/teacher"}
-                  className="block px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800"
-                >
-                  Teacher
-                </Link>
-              )}
-              {userRole?.includes("admin") && (
-                <Link
-                  href={"/" + currentLocale + "/admin"}
-                  className="block px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800"
-                >
-                  Admin
-                </Link>
-              )}
-                    <SignOutButton className="block w-full px-4 py-2 text-sm text-red-400 hover:bg-zinc-800 text-left" />
+                    {(userRole?.includes("teacher") || userRole?.includes("admin")) && (
+                      <Link
+                        href={"/" + currentLocale + "/teacher"}
+                        className="block px-4 py-2 text-sm transition-colors"
+                        style={{ color: "var(--text-secondary)" }}
+                      >
+                        Teacher
+                      </Link>
+                    )}
+                    {userRole?.includes("admin") && (
+                      <Link
+                        href={"/" + currentLocale + "/admin"}
+                        className="block px-4 py-2 text-sm transition-colors"
+                        style={{ color: "var(--text-secondary)" }}
+                      >
+                        Admin
+                      </Link>
+                    )}
+                    <Link
+                      href={"/" + currentLocale + "/settings"}
+                      className="flex items-center gap-2 px-4 py-2 text-sm transition-colors"
+                      style={{ color: "var(--text-secondary)" }}
+                    >
+                      <Settings className="h-4 w-4" />
+                      {t("settings")}
+                    </Link>
+                    <SignOutButton className="block w-full px-4 py-2 text-sm text-left transition-colors" style={{ color: "var(--error)" }} />
                   </div>
                 )}
               </div>
@@ -224,13 +269,15 @@ export function Navbar() {
             <>
               <Link
                 href={"/" + currentLocale + "/auth/login"}
-                className="text-sm font-medium text-zinc-400 hover:text-zinc-200"
+                className="text-sm font-medium transition-colors"
+                style={{ color: "var(--text-secondary)" }}
               >
                 {t("sign_in")}
               </Link>
               <Link
-                href={"/" + currentLocale + "/auth/signup"}
-                className="bg-emerald-500 hover:bg-emerald-400 text-white rounded-xl px-4 py-2 text-sm font-medium"
+                href={"/" + currentLocale + "/onboarding"}
+                className="rounded-xl px-4 py-2 text-sm font-medium text-white"
+                style={{ backgroundColor: "var(--accent)" }}
               >
                 {t("start_free")}
               </Link>
@@ -240,7 +287,8 @@ export function Navbar() {
 
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden text-zinc-400"
+          className="md:hidden"
+          style={{ color: "var(--text-secondary)" }}
           aria-label={t("menu")}
         >
           <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
@@ -257,7 +305,13 @@ export function Navbar() {
       {mobileOpen && (
         <div className="fixed inset-0 z-40 md:hidden">
           <div className="absolute inset-0 bg-black/50" onClick={() => setMobileOpen(false)} />
-          <div className="absolute right-0 top-0 h-full w-72 bg-[#111111] border-l border-zinc-800 p-6">
+          <div
+            className="absolute right-0 top-0 h-full w-72 p-6"
+            style={{
+              backgroundColor: "var(--bg-surface)",
+              borderLeft: "1px solid var(--border)",
+            }}
+          >
             <div className="flex flex-col gap-4 mt-12">
               {/* Language switcher in mobile */}
               <div className="flex flex-wrap gap-2 mb-4">
@@ -265,11 +319,11 @@ export function Navbar() {
                   <button
                     key={loc.code}
                     onClick={() => switchLocale(loc.code)}
-                    className={`text-sm px-3 py-1 rounded-lg border transition-colors ${
-                      loc.code === currentLocale
-                        ? "border-emerald-500 text-emerald-400"
-                        : "border-zinc-700 text-zinc-400 hover:text-zinc-200"
-                    }`}
+                    className="text-sm px-3 py-1 rounded-lg transition-colors"
+                    style={{
+                      border: `1px solid ${loc.code === currentLocale ? "var(--accent)" : "var(--border)"}`,
+                      color: loc.code === currentLocale ? "var(--accent)" : "var(--text-secondary)",
+                    }}
                   >
                     {loc.label}
                   </button>
@@ -279,7 +333,8 @@ export function Navbar() {
               {!userRole?.includes("teacher") && (
                 <Link
                   href={"/" + currentLocale + "/courses"}
-                  className="text-zinc-300 hover:text-emerald-400 text-lg font-medium"
+                  className="text-lg font-medium transition-colors"
+                  style={{ color: "var(--text-primary)" }}
                   onClick={() => setMobileOpen(false)}
                 >
                   {t("courses")}
@@ -288,7 +343,8 @@ export function Navbar() {
               {user && !userRole?.includes("teacher") && (
                 <Link
                   href={"/" + currentLocale + "/dashboard"}
-                  className="text-zinc-300 hover:text-emerald-400 text-lg font-medium"
+                  className="text-lg font-medium transition-colors"
+                  style={{ color: "var(--text-primary)" }}
                   onClick={() => setMobileOpen(false)}
                 >
                   {t("dashboard")}
@@ -297,7 +353,8 @@ export function Navbar() {
               {(userRole?.includes("teacher") || userRole?.includes("admin")) && (
                 <Link
                   href={"/" + currentLocale + "/teacher"}
-                  className="text-zinc-300 hover:text-emerald-400 text-lg font-medium"
+                  className="text-lg font-medium transition-colors"
+                  style={{ color: "var(--text-primary)" }}
                   onClick={() => setMobileOpen(false)}
                 >
                   Teacher
@@ -306,26 +363,29 @@ export function Navbar() {
               {userRole?.includes("admin") && (
                 <Link
                   href={"/" + currentLocale + "/admin"}
-                  className="text-zinc-300 hover:text-emerald-400 text-lg font-medium"
+                  className="text-lg font-medium transition-colors"
+                  style={{ color: "var(--text-primary)" }}
                   onClick={() => setMobileOpen(false)}
                 >
                   Admin
                 </Link>
               )}
               {user ? (
-                <SignOutButton className="text-red-400 text-lg font-medium mt-4" />
+                <SignOutButton className="text-lg font-medium mt-4" style={{ color: "var(--error)" }} />
               ) : (
                 <>
                   <Link
                     href={"/" + currentLocale + "/auth/login"}
-                    className="text-zinc-300 hover:text-emerald-400 text-lg font-medium"
+                    className="text-lg font-medium transition-colors"
+                    style={{ color: "var(--text-primary)" }}
                     onClick={() => setMobileOpen(false)}
                   >
                     {t("sign_in")}
                   </Link>
                   <Link
-                    href={"/" + currentLocale + "/auth/signup"}
-                    className="bg-emerald-500 text-white rounded-xl px-4 py-3 text-center font-medium mt-2"
+                    href={"/" + currentLocale + "/onboarding"}
+                    className="rounded-xl px-4 py-3 text-center font-medium text-white mt-2"
+                    style={{ backgroundColor: "var(--accent)" }}
                     onClick={() => setMobileOpen(false)}
                   >
                     {t("start_free")}
@@ -341,22 +401,35 @@ export function Navbar() {
       {showWarning && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
           <div className="absolute inset-0 bg-black/60" onClick={() => setShowWarning(false)} />
-          <div className="relative w-full max-w-md rounded-2xl border border-zinc-700 bg-[#1a1a1a] p-6 text-center shadow-2xl">
-            <h3 className="text-lg font-semibold text-zinc-100">Translation Notice</h3>
-            <p className="mt-3 text-sm text-zinc-400 leading-relaxed">
+          <div
+            className="relative w-full max-w-md rounded-2xl p-6 text-center shadow-2xl"
+            style={{
+              border: "1px solid var(--border)",
+              backgroundColor: "var(--bg-elevated)",
+            }}
+          >
+            <h3 className="text-lg font-semibold" style={{ color: "var(--text-primary)" }}>
+              Translation Notice
+            </h3>
+            <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
               Lesson content and quiz questions may use automated translations.
               Some nuances may not be fully accurate.
             </p>
             <div className="mt-6 flex gap-3 justify-center">
               <button
                 onClick={() => setShowWarning(false)}
-                className="rounded-xl border border-zinc-700 px-5 py-2 text-sm text-zinc-300 hover:bg-zinc-800 transition-colors"
+                className="rounded-xl px-5 py-2 text-sm transition-colors"
+                style={{
+                  border: "1px solid var(--border)",
+                  color: "var(--text-secondary)",
+                }}
               >
                 Cancel
               </button>
               <button
                 onClick={confirmLocale}
-                className="rounded-xl bg-emerald-500 px-5 py-2 text-sm text-white hover:bg-emerald-400 transition-colors"
+                className="rounded-xl px-5 py-2 text-sm text-white transition-colors"
+                style={{ backgroundColor: "var(--accent)" }}
               >
                 Continue
               </button>

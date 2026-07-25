@@ -37,8 +37,8 @@ export function ClassList({ classes }: { classes: ClassItem[] }) {
 
   if (classes.length === 0) {
     return (
-      <div className="rounded-2xl border border-zinc-800 bg-[#111111] p-12 text-center">
-        <p className="text-zinc-500">{t("no_classes")}</p>
+      <div className="rounded-2xl border p-12 text-center" style={{ borderColor: "var(--border)", background: "var(--bg-surface)" }}>
+        <p style={{ color: "var(--text-secondary)" }}>{t("no_classes")}</p>
       </div>
     );
   }
@@ -48,16 +48,20 @@ export function ClassList({ classes }: { classes: ClassItem[] }) {
       {classes.map((c) => (
         <div
           key={c.id}
-          className="flex items-center justify-between rounded-2xl border border-zinc-800 bg-[#111111] p-4"
+          className="flex items-center justify-between rounded-2xl border p-4"
+          style={{ borderColor: "var(--border)", background: "var(--bg-surface)" }}
         >
           <div className="min-w-0 flex-1">
             <Link
               href={`/${locale}/teacher/classes/${c.id}`}
-              className="text-base font-semibold text-zinc-100 hover:text-emerald-400 transition-colors"
+              className="text-base font-semibold transition-colors"
+              style={{ color: "var(--text-primary)" }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = "var(--accent)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-primary)"; }}
             >
               {c.name}
             </Link>
-            <div className="mt-1 flex items-center gap-3 text-xs text-zinc-500">
+            <div className="mt-1 flex items-center gap-3 text-xs" style={{ color: "var(--text-secondary)" }}>
               <span className="flex items-center gap-1">
                 <Users className="h-3 w-3" />
                 {c.student_count ?? 0}
@@ -68,14 +72,20 @@ export function ClassList({ classes }: { classes: ClassItem[] }) {
           <div className="flex items-center gap-2 shrink-0 ml-4">
             <Link
               href={`/${locale}/teacher/classes/${c.id}`}
-              className="rounded-lg border border-zinc-700 p-2 text-zinc-400 hover:text-zinc-200 hover:border-zinc-500 transition-all"
+              className="rounded-lg border p-2 transition-all"
+              style={{ borderColor: "var(--border)", color: "var(--text-secondary)" }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = "var(--text-primary)"; e.currentTarget.style.borderColor = "var(--text-secondary)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-secondary)"; e.currentTarget.style.borderColor = "var(--border)"; }}
             >
               <ExternalLink className="h-4 w-4" />
             </Link>
             <button
               onClick={() => handleDelete(c.id)}
               disabled={deleting === c.id}
-              className="rounded-lg border border-zinc-700 p-2 text-red-400 hover:bg-red-900/20 hover:border-red-700 transition-all disabled:opacity-50"
+              className="rounded-lg border p-2 transition-all disabled:opacity-50"
+              style={{ borderColor: "var(--border)", color: "var(--error)" }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = "color-mix(in srgb, var(--error) 20%, transparent)"; e.currentTarget.style.borderColor = "var(--error)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.borderColor = "var(--border)"; }}
             >
               <Trash2 className="h-4 w-4" />
             </button>

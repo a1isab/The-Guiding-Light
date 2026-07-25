@@ -33,17 +33,24 @@ export function AnnouncementForm({ classId, onPosted }: AnnouncementFormProps) {
   }
 
   return (
-    <div data-testid="announcement-form" className="rounded-xl border border-zinc-700 bg-zinc-900/50 p-5">
+    <div data-testid="announcement-form" className="rounded-xl border p-5" style={{ borderColor: "var(--border)", background: "color-mix(in srgb, var(--bg-surface) 50%, transparent)" }}>
       <div className="flex items-center gap-2 mb-4">
-        <Megaphone className="h-4 w-4 text-emerald-400" />
-        <h4 className="text-sm font-medium text-zinc-200">New Announcement</h4>
+        <Megaphone className="h-4 w-4" style={{ color: "var(--accent)" }} />
+        <h4 className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>New Announcement</h4>
       </div>
       <input
         data-testid="announcement-title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Announcement title"
-        className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-200 focus:border-emerald-700 focus:outline-none mb-3"
+        className="w-full rounded-lg border px-3 py-2 text-sm mb-3"
+        style={{
+          borderColor: "var(--border)",
+          background: "var(--bg-subtle)",
+          color: "var(--text-primary)",
+        }}
+        onFocus={(e) => { e.currentTarget.style.borderColor = "color-mix(in srgb, var(--success) 70%, transparent)"; }}
+        onBlur={(e) => { e.currentTarget.style.borderColor = "var(--border)"; }}
       />
       <textarea
         data-testid="announcement-body"
@@ -51,13 +58,23 @@ export function AnnouncementForm({ classId, onPosted }: AnnouncementFormProps) {
         onChange={(e) => setBody(e.target.value)}
         rows={3}
         placeholder="Announcement content..."
-        className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-200 focus:border-emerald-700 focus:outline-none resize-none mb-3"
+        className="w-full rounded-lg border px-3 py-2 text-sm resize-none mb-3"
+        style={{
+          borderColor: "var(--border)",
+          background: "var(--bg-subtle)",
+          color: "var(--text-primary)",
+        }}
+        onFocus={(e) => { e.currentTarget.style.borderColor = "color-mix(in srgb, var(--success) 70%, transparent)"; }}
+        onBlur={(e) => { e.currentTarget.style.borderColor = "var(--border)"; }}
       />
       <button
         data-testid="announcement-post"
         onClick={handlePost}
         disabled={!title.trim() || !body.trim() || saving}
-        className="rounded-xl bg-emerald-500 px-5 py-2 text-sm font-medium text-white hover:bg-emerald-400 disabled:opacity-50 transition-all"
+        className="rounded-xl px-5 py-2 text-sm font-medium text-white disabled:opacity-50 transition-all"
+        style={{ background: "var(--accent)" }}
+        onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.9"; }}
+        onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; }}
       >
         {saving ? "Posting..." : "Post Announcement"}
       </button>

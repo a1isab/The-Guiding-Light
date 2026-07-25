@@ -45,21 +45,21 @@ export function AnnouncementBanner({ classId }: { classId: string }) {
       {announcements.map((a) => (
         <div
           key={a.id}
-          className={`rounded-xl border p-4 ${
-            a.is_read
-              ? "border-zinc-800 bg-zinc-900/30"
-              : "border-blue-800/30 bg-blue-900/5"
-          }`}
+          className="rounded-xl border p-4"
+          style={{
+            borderColor: a.is_read ? "var(--border)" : "color-mix(in srgb, var(--accent) 30%, transparent)",
+            background: a.is_read ? "color-mix(in srgb, var(--bg-surface) 30%, transparent)" : "color-mix(in srgb, var(--accent) 5%, transparent)",
+          }}
         >
           <div className="flex items-start gap-3">
-            <Megaphone className={`h-5 w-5 mt-0.5 shrink-0 ${a.is_read ? "text-zinc-500" : "text-blue-400"}`} />
+            <Megaphone className="h-5 w-5 mt-0.5 shrink-0" style={{ color: a.is_read ? "var(--text-secondary)" : "var(--accent)" }} />
             <div className="flex-1">
               <div className="flex items-center gap-2">
-                <h4 className="text-sm font-medium text-zinc-200">{a.title}</h4>
-                {!a.is_read && <span className="h-2 w-2 rounded-full bg-blue-400" />}
+                <h4 className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>{a.title}</h4>
+                {!a.is_read && <span className="h-2 w-2 rounded-full" style={{ background: "var(--accent)" }} />}
               </div>
-              <p className="mt-1 text-xs text-zinc-400 whitespace-pre-wrap">{a.body}</p>
-              <p className="mt-2 text-[10px] text-zinc-600">{new Date(a.created_at).toLocaleDateString()}</p>
+              <p className="mt-1 text-xs whitespace-pre-wrap" style={{ color: "var(--text-secondary)" }}>{a.body}</p>
+              <p className="mt-2 text-[10px]" style={{ color: "var(--text-muted)" }}>{new Date(a.created_at).toLocaleDateString()}</p>
             </div>
           </div>
         </div>

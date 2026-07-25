@@ -106,12 +106,13 @@ export function LessonEditor({
   if (preview) {
     return (
       <div className="space-y-6">
-        <div data-testid="preview-banner" className="flex items-center justify-between rounded-xl border border-emerald-700 bg-emerald-500/10 px-4 py-3">
-          <p className="text-sm text-emerald-400 font-medium">Preview Mode – Students will see this page</p>
+        <div data-testid="preview-banner" className="flex items-center justify-between rounded-xl border px-4 py-3" style={{ borderColor: 'var(--accent)', backgroundColor: 'color-mix(in srgb, var(--accent) 10%, transparent)' }}>
+          <p className="text-sm font-medium" style={{ color: 'var(--accent)' }}>Preview Mode – Students will see this page</p>
           <button
             onClick={() => setPreview(false)}
             data-testid="back-to-edit"
-            className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-700 px-3 py-1.5 text-xs text-zinc-300 hover:bg-zinc-800 transition-all"
+            className="inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs transition-all hover:bg-[var(--bg-subtle)]"
+            style={{ borderColor: 'var(--border)', color: 'var(--text-primary)' }}
           >
             <EyeOff className="h-3.5 w-3.5" />
             Back to Edit
@@ -119,7 +120,7 @@ export function LessonEditor({
         </div>
 
         <article className="max-w-4xl">
-          <h1 className="font-amiri text-2xl font-bold text-zinc-100 mb-6">{title || "Lesson Title"}</h1>
+          <h1 className="font-display text-2xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>{title || "Lesson Title"}</h1>
 
           {videoUrl && (
             <div className="aspect-video rounded-2xl overflow-hidden mb-8">
@@ -141,12 +142,13 @@ export function LessonEditor({
   return (
     <div className="space-y-6 max-w-3xl">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-zinc-100">Lesson Editor</h2>
+        <h2 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Lesson Editor</h2>
         <div className="flex items-center gap-2">
           <button
             onClick={() => setTemplateDialog(true)}
             data-testid="save-template"
-            className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-700 px-3 py-1.5 text-xs text-zinc-400 hover:text-zinc-200 transition-all"
+            className="inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs hover:text-[var(--text-primary)] transition-all"
+            style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)' }}
           >
             <Save className="h-3.5 w-3.5" />
             Save as Template
@@ -155,14 +157,16 @@ export function LessonEditor({
             onClick={handleSave}
             data-testid="save-lesson"
             disabled={saving}
-            className="rounded-xl bg-emerald-500 px-6 py-2.5 text-sm font-medium text-white hover:bg-emerald-400 disabled:opacity-50 transition-all"
+            className="rounded-xl px-6 py-2.5 text-sm font-medium text-white hover:bg-[var(--accent)] disabled:opacity-50 transition-all"
+            style={{ backgroundColor: 'var(--accent)' }}
           >
             {saving ? t("saving") : t("save")}
           </button>
           <button
             onClick={() => setPreview(true)}
             data-testid="preview-toggle"
-            className="inline-flex items-center gap-1.5 rounded-xl border border-zinc-700 px-4 py-2.5 text-sm text-zinc-300 hover:bg-zinc-800 transition-all"
+            className="inline-flex items-center gap-1.5 rounded-xl border px-4 py-2.5 text-sm transition-all hover:bg-[var(--bg-subtle)]"
+            style={{ borderColor: 'var(--border)', color: 'var(--text-primary)' }}
           >
             <Eye className="h-4 w-4" />
             Preview
@@ -171,25 +175,26 @@ export function LessonEditor({
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-zinc-400 mb-1">{t("lesson_title")}</label>
+        <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>{t("lesson_title")}</label>
         <input
           type="text"
           data-testid="lesson-title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full rounded-xl border border-zinc-700 bg-zinc-900/50 px-3 py-2.5 text-sm text-zinc-100 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+          className="w-full rounded-xl border px-3 py-2.5 text-sm focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)]"
+          style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-elevated)', color: 'var(--text-primary)' }}
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-zinc-400 mb-1">{t("lesson_content")}</label>
+        <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>{t("lesson_content")}</label>
         <MarkdownEditor value={content} onChange={setContent} />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-zinc-400 mb-1">
+        <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>
           Quiz Source Content
-          <span className="text-xs text-zinc-500 font-normal ml-2">Required for AI Generation</span>
+          <span className="text-xs font-normal ml-2" style={{ color: 'var(--text-muted)' }}>Required for AI Generation</span>
         </label>
         <div className="space-y-2">
           <textarea
@@ -197,12 +202,14 @@ export function LessonEditor({
             value={quizSourceContent}
             onChange={(e) => setQuizSourceContent(e.target.value)}
             placeholder="Enter plain text content for AI quiz generation, or copy from lesson content above..."
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-900/50 px-3 py-2.5 text-sm text-zinc-100 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 font-mono"
+            className="w-full rounded-xl border px-3 py-2.5 text-sm focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)] font-mono"
+            style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-elevated)', color: 'var(--text-primary)' }}
           />
           <button
             onClick={() => setQuizSourceContent(content)}
             data-testid="copy-from-content"
-            className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-700 px-3 py-1.5 text-xs text-zinc-400 hover:text-zinc-200 transition-all"
+            className="inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs hover:text-[var(--text-primary)] transition-all"
+            style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)' }}
           >
             <Copy className="h-3.5 w-3.5" />
             Copy from content
@@ -211,7 +218,7 @@ export function LessonEditor({
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-zinc-400 mb-1">{t("video")}</label>
+        <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>{t("video")}</label>
         <VideoUpload
           lessonId={lesson.id}
           teacherId={teacherId}
@@ -222,40 +229,42 @@ export function LessonEditor({
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="block text-sm font-medium text-zinc-400 mb-1">{t("video_url_fallback")}</label>
+          <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>{t("video_url_fallback")}</label>
           <input
             type="url"
             value={videoUrl}
             onChange={(e) => setVideoUrl(e.target.value)}
             placeholder="https://www.youtube.com/embed/..."
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-900/50 px-3 py-2.5 text-sm text-zinc-100 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            className="w-full rounded-xl border px-3 py-2.5 text-sm focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)]"
+            style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-elevated)', color: 'var(--text-primary)' }}
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-zinc-400 mb-1">{t("duration_seconds")}</label>
+          <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>{t("duration_seconds")}</label>
           <input
             type="number"
             min={0}
             value={duration}
             onChange={(e) => setDuration(Number(e.target.value))}
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-900/50 px-3 py-2.5 text-sm text-zinc-100 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            className="w-full rounded-xl border px-3 py-2.5 text-sm focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)]"
+            style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-elevated)', color: 'var(--text-primary)' }}
           />
         </div>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-zinc-400 mb-1">Documents</label>
+        <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Documents</label>
         <FileUpload lessonId={lesson.id} />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-zinc-400 mb-1">Quiz</label>
+        <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Quiz</label>
         <QuizEditor lessonId={lesson.id} lessonContent={quizSourceContent || content} />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-zinc-400 mb-1">Assignment</label>
+        <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Assignment</label>
         {assignmentLoaded && (
           <>
             <AssignmentForm
@@ -277,38 +286,41 @@ export function LessonEditor({
         )}
       </div>
 
-      {error && <p className="text-sm text-red-400">{error}</p>}
+      {error && <p className="text-sm" style={{ color: 'var(--error)' }}>{error}</p>}
 
       {templateDialog && (
-        <div data-testid="template-dialog" className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-          <div className="w-full max-w-md rounded-2xl border border-zinc-700 bg-zinc-900 p-6 space-y-4">
-            <h3 className="text-sm font-medium text-zinc-200">Save as Template</h3>
+        <div data-testid="template-dialog" className="fixed inset-0 z-50 flex items-center justify-center" style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}>
+          <div className="w-full max-w-md rounded-2xl border p-6 space-y-4" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-elevated)' }}>
+            <h3 className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>Save as Template</h3>
             <div>
-              <label className="block text-xs text-zinc-500 mb-1">Name</label>
+              <label className="block text-xs mb-1" style={{ color: 'var(--text-muted)' }}>Name</label>
               <input
                 type="text"
                 data-testid="template-name"
                 value={templateName}
                 onChange={(e) => setTemplateName(e.target.value)}
-                className="w-full rounded-xl border border-zinc-700 bg-zinc-800/50 px-3 py-2 text-sm text-zinc-100 focus:border-emerald-500 focus:outline-none"
+                className="w-full rounded-xl border px-3 py-2 text-sm focus:border-[var(--accent)] focus:outline-none"
+                style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-subtle)', color: 'var(--text-primary)' }}
                 placeholder="My template name"
               />
             </div>
             <div>
-              <label className="block text-xs text-zinc-500 mb-1">Description (optional)</label>
+              <label className="block text-xs mb-1" style={{ color: 'var(--text-muted)' }}>Description (optional)</label>
               <textarea
                 rows={3}
                 data-testid="template-desc"
                 value={templateDesc}
                 onChange={(e) => setTemplateDesc(e.target.value)}
-                className="w-full rounded-xl border border-zinc-700 bg-zinc-800/50 px-3 py-2 text-sm text-zinc-100 focus:border-emerald-500 focus:outline-none"
+                className="w-full rounded-xl border px-3 py-2 text-sm focus:border-[var(--accent)] focus:outline-none"
+                style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-subtle)', color: 'var(--text-primary)' }}
                 placeholder="Brief description..."
               />
             </div>
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => setTemplateDialog(false)}
-                className="rounded-lg border border-zinc-700 px-4 py-2 text-xs text-zinc-400 hover:text-zinc-200 transition-all"
+                className="rounded-lg border px-4 py-2 text-xs hover:text-[var(--text-primary)] transition-all"
+                style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)' }}
               >
                 Cancel
               </button>
@@ -316,7 +328,8 @@ export function LessonEditor({
                 onClick={handleSaveTemplate}
                 data-testid="template-save"
                 disabled={savingTemplate || !templateName.trim()}
-                className="rounded-lg bg-emerald-600 px-4 py-2 text-xs text-white hover:bg-emerald-500 disabled:opacity-50 transition-all"
+                className="rounded-lg px-4 py-2 text-xs text-white hover:bg-[var(--accent)] disabled:opacity-50 transition-all"
+                style={{ backgroundColor: 'var(--accent)' }}
               >
                 {savingTemplate ? "Saving..." : "Save"}
               </button>

@@ -40,16 +40,16 @@ export function StudentTable({
   }
 
   if (members.length === 0) {
-    return <p className="px-5 py-8 text-sm text-zinc-500 text-center">{t("no_students")}</p>;
+    return <p className="px-5 py-8 text-sm text-center" style={{ color: 'var(--text-muted)' }}>{t("no_students")}</p>;
   }
 
   return (
-    <div className="divide-y divide-zinc-800/50">
+    <div className="divide-y divide-[var(--border)]">
       {members.map((m) => (
         <div key={m.student_id} data-testid={`student-row-${m.student_id}`} className="flex items-center justify-between px-5 py-3">
           <div>
-            <p className="text-sm text-zinc-300">{m.profile?.display_name || "Student"}</p>
-            <p className="text-xs text-zinc-600">
+            <p className="text-sm" style={{ color: 'var(--text-primary)' }}>{m.profile?.display_name || "Student"}</p>
+            <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
               {t("joined")} {new Date(m.joined_at).toLocaleDateString()}
             </p>
           </div>
@@ -57,7 +57,8 @@ export function StudentTable({
             onClick={() => handleRemove(m.student_id)}
             data-testid={`remove-student-${m.student_id}`}
             disabled={removing === m.student_id}
-            className="rounded-lg p-1.5 text-red-400 hover:bg-red-900/20 transition-all disabled:opacity-50"
+            className="rounded-lg p-1.5 transition-all disabled:opacity-50 hover:bg-[color-mix(in_srgb,var(--error)_20%,transparent)]"
+            style={{ color: 'var(--error)' }}
           >
             <Trash2 className="h-4 w-4" />
           </button>

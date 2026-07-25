@@ -58,36 +58,39 @@ export function CourseCurriculum({
           <div
             key={section.id}
             data-testid={`curriculum-section-${section.id}`}
-            className="rounded-2xl border border-zinc-800 bg-[#111111] overflow-hidden"
+            className="rounded-2xl border overflow-hidden"
+            style={{ borderColor: "var(--border)", background: "var(--bg-surface)" }}
           >
             <button
               onClick={() => toggle(section.id)}
-              className="flex w-full items-center justify-between px-6 py-5 text-left hover:bg-zinc-900/50 transition-colors"
+              className="flex w-full items-center justify-between px-6 py-5 text-left transition-colors"
+              style={{ background: "transparent" }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = "color-mix(in srgb, var(--bg-surface) 50%, transparent)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
             >
               <div className="flex items-center gap-4">
                 {allDone ? (
-                  <CheckCircle className="h-6 w-6 shrink-0 text-emerald-400" />
+                  <CheckCircle className="h-6 w-6 shrink-0" style={{ color: "var(--success)" }} />
                 ) : (
-                  <Circle className="h-6 w-6 shrink-0 text-zinc-600" />
+                  <Circle className="h-6 w-6 shrink-0" style={{ color: "var(--text-muted)" }} />
                 )}
                 <div>
-                  <h2 className="text-xl font-semibold text-zinc-100">
+                  <h2 className="text-xl font-semibold" style={{ color: "var(--text-primary)" }}>
                     {getTranslation(section, "title", locale, section.title)}
                   </h2>
-                  <p className="text-sm text-zinc-500 mt-0.5">
+                  <p className="text-sm mt-0.5" style={{ color: "var(--text-secondary)" }}>
                     {sectionProgress(lessons)} lessons
                   </p>
                 </div>
               </div>
               <ChevronDown
-                className={`h-5 w-5 text-zinc-400 transition-transform duration-200 ${
-                  isExpanded ? "rotate-180" : ""
-                }`}
+                className="h-5 w-5 transition-transform duration-200"
+                style={{ color: "var(--text-secondary)", transform: isExpanded ? "rotate(180deg)" : undefined }}
               />
             </button>
 
             {isExpanded && (
-              <div className="border-t border-zinc-800 divide-y divide-zinc-800/50">
+              <div className="border-t" style={{ borderColor: "var(--border)" }}>
                 {lessons.map((lesson) => {
                   const done = completedLessons.has(lesson.id);
                   return (
@@ -95,24 +98,26 @@ export function CourseCurriculum({
                       key={lesson.id}
                       data-testid={`curriculum-lesson-${lesson.id}`}
                       href={`/${locale}/courses/${courseSlug}/${section.slug}/${lesson.slug}`}
-                      className="flex items-center justify-between px-6 py-4 hover:bg-zinc-900/30 transition-colors"
+                      className="flex items-center justify-between px-6 py-4 transition-colors"
+                      style={{ borderColor: "color-mix(in srgb, var(--border) 50%, transparent)", borderBottom: "1px solid color-mix(in srgb, var(--border) 50%, transparent)" }}
+                      onMouseEnter={(e) => { e.currentTarget.style.background = "color-mix(in srgb, var(--bg-surface) 30%, transparent)"; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
                     >
                       <span className="flex items-center gap-2">
                           {lesson.video_url && (
-                            <Film className="h-3.5 w-3.5 shrink-0 text-zinc-600" />
+                            <Film className="h-3.5 w-3.5 shrink-0" style={{ color: "var(--text-muted)" }} />
                           )}
                           <span
-                            className={`text-sm ${
-                              done ? "text-zinc-400" : "text-zinc-300"
-                            }`}
+                            className="text-sm"
+                            style={{ color: done ? "var(--text-secondary)" : "var(--text-primary)" }}
                           >
                             {getTranslation(lesson, "title", locale, lesson.title)}
                           </span>
                         </span>
                       {done ? (
-                        <CheckCircle className="h-5 w-5 shrink-0 text-emerald-500" />
+                        <CheckCircle className="h-5 w-5 shrink-0" style={{ color: "var(--success)" }} />
                       ) : (
-                        <Circle className="h-5 w-5 shrink-0 text-zinc-600" />
+                        <Circle className="h-5 w-5 shrink-0" style={{ color: "var(--text-muted)" }} />
                       )}
                     </Link>
                   );

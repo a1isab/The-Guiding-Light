@@ -387,5 +387,16 @@
     "used": "Utilisé",
     "active": "Actif",
     "expired": "Expiré"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "subtitle": "Gérez votre apparence et vos préférences.",
+    "back_to_dashboard": "Retour au tableau de bord",
+    "appearance": "Apparence",
+    "appearance_desc": "Choisissez votre thème de couleurs préféré.",
+    "dark_mode": "Sombre",
+    "light_mode": "Clair",
+    "language": "Langue",
+    "language_desc": "Sélectionnez votre langue préférée."
   }
 }

@@ -195,24 +195,24 @@ export function FileUpload({ lessonId }: { lessonId: string }) {
         onDragLeave={handleDragLeave}
         onDragOver={handleDragOver}
         onDrop={handleDrop}
-        className={`flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed p-6 transition-all ${
-          dragOver
-            ? "border-emerald-500 bg-emerald-500/10"
-            : "border-zinc-700 bg-zinc-900/30 hover:border-zinc-500 hover:bg-zinc-900/50"
-        }`}
+        className="flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed p-6 transition-all"
+        style={{
+          borderColor: dragOver ? "var(--accent)" : "var(--border)",
+          background: dragOver ? "color-mix(in srgb, var(--accent) 10%, transparent)" : "color-mix(in srgb, var(--bg-surface) 30%, transparent)",
+        }}
       >
         {uploading ? (
           <div className="text-center">
-            <Loader2 className="h-6 w-6 animate-spin text-emerald-400 mx-auto mb-2" />
-            <p className="text-xs text-zinc-500">Uploading...</p>
+            <Loader2 className="h-6 w-6 animate-spin mx-auto mb-2" style={{ color: "var(--accent)" }} />
+            <p className="text-xs" style={{ color: "var(--text-secondary)" }}>Uploading...</p>
           </div>
         ) : (
           <div className="text-center">
-            <Upload className={`h-6 w-6 mx-auto mb-2 ${dragOver ? "text-emerald-400" : "text-zinc-500"}`} />
-            <p className={`text-xs ${dragOver ? "text-emerald-400" : "text-zinc-400"}`}>
+            <Upload className="h-6 w-6 mx-auto mb-2" style={{ color: dragOver ? "var(--accent)" : "var(--text-secondary)" }} />
+            <p className="text-xs" style={{ color: dragOver ? "var(--accent)" : "var(--text-secondary)" }}>
               {dragOver ? "Drop file here" : "Upload Document"}
             </p>
-            <p className="text-xs text-zinc-600 mt-1">PDF, Word, TXT — up to 50MB</p>
+            <p className="text-xs mt-1" style={{ color: "var(--text-muted)" }}>PDF, Word, TXT — up to 50MB</p>
           </div>
         )}
       </div>
@@ -230,30 +230,34 @@ export function FileUpload({ lessonId }: { lessonId: string }) {
         }}
       />
 
-      {error && <p className="text-xs text-red-400">{error}</p>}
+      {error && <p className="text-xs" style={{ color: "var(--error)" }}>{error}</p>}
 
       {loading ? (
         <div className="flex items-center justify-center py-4">
-          <Loader2 className="h-4 w-4 animate-spin text-emerald-400" />
+          <Loader2 className="h-4 w-4 animate-spin" style={{ color: "var(--accent)" }} />
         </div>
       ) : files.length > 0 ? (
         <div className="space-y-1.5">
           {files.map((f) => (
             <div
               key={f.id}
-              className="flex items-center justify-between rounded-lg border border-zinc-700 bg-zinc-900/50 px-3 py-2"
+              className="flex items-center justify-between rounded-lg border px-3 py-2"
+              style={{ borderColor: "var(--border)", background: "color-mix(in srgb, var(--bg-surface) 50%, transparent)" }}
             >
               <div className="flex items-center gap-2.5 min-w-0">
-                <FileText className="h-4 w-4 flex-shrink-0 text-emerald-400" />
+                <FileText className="h-4 w-4 flex-shrink-0" style={{ color: "var(--accent)" }} />
                 <div className="min-w-0">
-                  <p className="text-xs text-zinc-300 truncate">{f.filename}</p>
-                  <p className="text-[10px] text-zinc-600">{formatSize(f.file_size)}</p>
+                  <p className="text-xs truncate" style={{ color: "var(--text-primary)" }}>{f.filename}</p>
+                  <p className="text-[10px]" style={{ color: "var(--text-muted)" }}>{formatSize(f.file_size)}</p>
                 </div>
               </div>
               <button
                 onClick={() => handleDelete(f.id, f.storage_path ?? "")}
                 data-testid={`delete-file-${f.id}`}
-                className="flex-shrink-0 rounded p-1 text-zinc-600 hover:text-red-400 transition-colors"
+                className="flex-shrink-0 rounded p-1 transition-colors"
+                style={{ color: "var(--text-muted)" }}
+                onMouseEnter={(e) => { e.currentTarget.style.color = "var(--error)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-muted)"; }}
               >
                 <X className="h-3.5 w-3.5" />
               </button>

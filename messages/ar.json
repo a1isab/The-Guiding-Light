@@ -387,5 +387,16 @@
     "used": "مُستخدم",
     "active": "نشط",
     "expired": "منتهي الصلاحية"
+  },
+  "settings": {
+    "title": "الإعدادات",
+    "subtitle": "إدارة المظهر وتفضيلاتك.",
+    "back_to_dashboard": "العودة إلى لوحة التحكم",
+    "appearance": "المظهر",
+    "appearance_desc": "اختر نظام الألوان المفضل.",
+    "dark_mode": "داكن",
+    "light_mode": "فاتح",
+    "language": "اللغة",
+    "language_desc": "اختر لغتك المفضلة."
   }
 }

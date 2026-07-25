@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Amiri } from "next/font/google";
+import { Inter, Crimson_Pro, IBM_Plex_Mono, Noto_Sans_Arabic } from "next/font/google";
 import "../globals.css";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
@@ -15,10 +15,22 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-const amiri = Amiri({
+const crimsonPro = Crimson_Pro({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-crimson",
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-ibm-plex",
+});
+
+const notoSansArabic = Noto_Sans_Arabic({
   subsets: ["arabic"],
-  weight: ["400", "700"],
-  variable: "--font-amiri",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-noto-arabic",
 });
 
 export const metadata: Metadata = {
@@ -52,7 +64,8 @@ export default async function LocaleLayout({
 
   return (
     <div
-      className={`${inter.variable} ${amiri.variable} h-full antialiased min-h-full flex flex-col bg-[#0a0a0a]`}
+      className={`${inter.variable} ${crimsonPro.variable} ${ibmPlexMono.variable} ${notoSansArabic.variable} h-full antialiased min-h-full flex flex-col`}
+      style={{ backgroundColor: "var(--bg-primary)", color: "var(--text-primary)" }}
     >
       <NextIntlClientProvider locale={locale} messages={messages}>
         <HtmlAttributes />

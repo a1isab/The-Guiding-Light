@@ -40,53 +40,81 @@ export function AssignmentForm({ lessonId, existing, onSaved }: AssignmentFormPr
   }
 
   return (
-    <div data-testid="assignment-form" className="rounded-xl border border-zinc-700 bg-zinc-900/50 p-5 mt-4">
+    <div data-testid="assignment-form" className="rounded-xl border p-5 mt-4" style={{ borderColor: "var(--border)", background: "color-mix(in srgb, var(--bg-surface) 50%, transparent)" }}>
       <div className="flex items-center gap-2 mb-4">
-        {existing ? <Edit2 className="h-4 w-4 text-emerald-400" /> : <Plus className="h-4 w-4 text-emerald-400" />}
-        <h4 className="text-sm font-medium text-zinc-200">{existing ? "Edit Assignment" : "New Assignment"}</h4>
+        {existing ? <Edit2 className="h-4 w-4" style={{ color: "var(--accent)" }} /> : <Plus className="h-4 w-4" style={{ color: "var(--accent)" }} />}
+        <h4 className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>{existing ? "Edit Assignment" : "New Assignment"}</h4>
       </div>
 
       <div className="space-y-3">
         <div>
-          <label className="text-xs text-zinc-500 mb-1 block">Title</label>
+          <label className="text-xs mb-1 block" style={{ color: "var(--text-secondary)" }}>Title</label>
           <input
             data-testid="assignment-title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-200 focus:border-emerald-700 focus:outline-none"
+            className="w-full rounded-lg border px-3 py-2 text-sm"
+            style={{
+              borderColor: "var(--border)",
+              background: "var(--bg-subtle)",
+              color: "var(--text-primary)",
+            }}
+            onFocus={(e) => { e.currentTarget.style.borderColor = "color-mix(in srgb, var(--success) 70%, transparent)"; }}
+            onBlur={(e) => { e.currentTarget.style.borderColor = "var(--border)"; }}
             placeholder="Assignment title"
           />
         </div>
         <div>
-          <label className="text-xs text-zinc-500 mb-1 block">Description</label>
+          <label className="text-xs mb-1 block" style={{ color: "var(--text-secondary)" }}>Description</label>
           <textarea
             data-testid="assignment-description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={3}
-            className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-200 focus:border-emerald-700 focus:outline-none resize-none"
+            className="w-full rounded-lg border px-3 py-2 text-sm resize-none"
+            style={{
+              borderColor: "var(--border)",
+              background: "var(--bg-subtle)",
+              color: "var(--text-primary)",
+            }}
+            onFocus={(e) => { e.currentTarget.style.borderColor = "color-mix(in srgb, var(--success) 70%, transparent)"; }}
+            onBlur={(e) => { e.currentTarget.style.borderColor = "var(--border)"; }}
             placeholder="Instructions for students..."
           />
         </div>
         <div className="flex gap-4">
           <div className="flex-1">
-            <label className="text-xs text-zinc-500 mb-1 block">Max Score</label>
+            <label className="text-xs mb-1 block" style={{ color: "var(--text-secondary)" }}>Max Score</label>
             <input
               data-testid="assignment-max-score"
               type="number"
               value={maxScore}
               onChange={(e) => setMaxScore(Number(e.target.value))}
-              className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-200 focus:border-emerald-700 focus:outline-none"
+              className="w-full rounded-lg border px-3 py-2 text-sm"
+              style={{
+                borderColor: "var(--border)",
+                background: "var(--bg-subtle)",
+                color: "var(--text-primary)",
+              }}
+              onFocus={(e) => { e.currentTarget.style.borderColor = "color-mix(in srgb, var(--success) 70%, transparent)"; }}
+              onBlur={(e) => { e.currentTarget.style.borderColor = "var(--border)"; }}
             />
           </div>
           <div className="flex-1">
-            <label className="text-xs text-zinc-500 mb-1 block">Due Date (optional)</label>
+            <label className="text-xs mb-1 block" style={{ color: "var(--text-secondary)" }}>Due Date (optional)</label>
             <input
               data-testid="assignment-due-date"
               type="date"
               value={dueDate}
               onChange={(e) => setDueDate(e.target.value)}
-              className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-200 focus:border-emerald-700 focus:outline-none"
+              className="w-full rounded-lg border px-3 py-2 text-sm"
+              style={{
+                borderColor: "var(--border)",
+                background: "var(--bg-subtle)",
+                color: "var(--text-primary)",
+              }}
+              onFocus={(e) => { e.currentTarget.style.borderColor = "color-mix(in srgb, var(--success) 70%, transparent)"; }}
+              onBlur={(e) => { e.currentTarget.style.borderColor = "var(--border)"; }}
             />
           </div>
         </div>
@@ -96,7 +124,10 @@ export function AssignmentForm({ lessonId, existing, onSaved }: AssignmentFormPr
         data-testid="assignment-save"
         onClick={handleSave}
         disabled={!title.trim() || saving}
-        className="mt-4 rounded-xl bg-emerald-500 px-5 py-2 text-sm font-medium text-white hover:bg-emerald-400 disabled:opacity-50 transition-all"
+        className="mt-4 rounded-xl px-5 py-2 text-sm font-medium text-white disabled:opacity-50 transition-all"
+        style={{ background: "var(--accent)" }}
+        onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.9"; }}
+        onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; }}
       >
         {saving ? "Saving..." : existing ? "Update" : "Create Assignment"}
       </button>

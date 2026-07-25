@@ -41,9 +41,12 @@ export function BookmarkButton({ lessonId }: { lessonId: string }) {
     <button
       data-testid="bookmark-button"
       onClick={toggle}
-      className="inline-flex items-center gap-1.5 rounded-xl border border-zinc-700 px-3 py-1.5 text-xs text-zinc-400 hover:bg-zinc-800 transition-all"
+      className="inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs transition-all"
+      style={{ borderColor: "var(--border)", color: "var(--text-secondary)" }}
+      onMouseEnter={(e) => { e.currentTarget.style.background = "var(--bg-subtle)"; }}
+      onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
     >
-      <Bookmark className={`h-4 w-4 ${bookmarked ? "fill-emerald-400 text-emerald-400" : ""}`} />
+      <Bookmark className={`h-4 w-4 ${bookmarked ? "" : ""}`} style={bookmarked ? { color: "var(--success)", fill: "var(--success)" } : undefined} />
       {bookmarked ? "Saved" : "Save"}
     </button>
   );

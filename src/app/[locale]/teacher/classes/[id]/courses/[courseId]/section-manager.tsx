@@ -127,57 +127,59 @@ export function SectionManager({
         const lessons = lessonsBySection[section.id] ?? [];
         const isExpanded = expandedSections.has(section.id);
         return (
-          <div key={section.id} className="rounded-2xl border border-zinc-800 bg-[#111111] overflow-hidden">
+          <div key={section.id} className="rounded-2xl border overflow-hidden" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-surface)' }}>
             <div
               onClick={() => toggleSection(section.id)}
               onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') toggleSection(section.id); }}
               role="button"
               tabIndex={0}
-              className="flex w-full items-center justify-between px-5 py-4 text-left hover:bg-zinc-900/50 transition-colors cursor-pointer"
+              className="flex w-full items-center justify-between px-5 py-4 text-left hover:bg-[var(--bg-elevated)] transition-colors cursor-pointer"
             >
               <div className="flex items-center gap-3">
                 <ChevronDown
-                  className={`h-4 w-4 text-zinc-500 transition-transform ${isExpanded ? "rotate-180" : ""}`}
+                  className="h-4 w-4 transition-transform" style={{ color: 'var(--text-muted)' }}
                 />
-                <span className="text-base font-semibold text-zinc-100">{section.title}</span>
-                <span className="text-xs text-zinc-500">({lessons.length})</span>
+                <span className="text-base font-semibold" style={{ color: 'var(--text-primary)' }}>{section.title}</span>
+                <span className="text-xs" style={{ color: 'var(--text-muted)' }}>({lessons.length})</span>
               </div>
               <button
                 onClick={(e) => { e.stopPropagation(); deleteSection(section.id); }}
                 disabled={deleting === section.id}
-                className="text-red-400 hover:text-red-300 p-1 cursor-pointer"
+                className="p-1 cursor-pointer hover:text-[var(--error)]"
+                style={{ color: 'var(--error)' }}
               >
                 <Trash2 className="h-4 w-4" />
               </button>
             </div>
 
             {isExpanded && (
-              <div className="border-t border-zinc-800 divide-y divide-zinc-800/50">
+              <div className="border-t divide-y divide-[var(--border)]" style={{ borderColor: 'var(--border)' }}>
                 {lessons.map((lesson) => (
-                  <div key={lesson.id} className="flex items-center justify-between px-5 py-3 hover:bg-zinc-900/30">
+                  <div key={lesson.id} className="flex items-center justify-between px-5 py-3 hover:bg-[var(--bg-elevated)]">
                     <Link
                       href={`${baseLessonPath}/${section.id}/lessons/${lesson.id}`}
                       className="flex items-center gap-2 min-w-0 flex-1"
                     >
                       {lesson.video_url ? (
-                        <Film className="h-3.5 w-3.5 shrink-0 text-zinc-600" />
+                        <Film className="h-3.5 w-3.5 shrink-0" style={{ color: 'var(--text-muted)' }} />
                       ) : (
-                        <FileText className="h-3.5 w-3.5 shrink-0 text-zinc-600" />
+                        <FileText className="h-3.5 w-3.5 shrink-0" style={{ color: 'var(--text-muted)' }} />
                       )}
-                      <span className="text-sm text-zinc-300 hover:text-emerald-400 transition-colors">
+                      <span className="text-sm transition-colors hover:text-[var(--accent)]" style={{ color: 'var(--text-primary)' }}>
                         {lesson.title}
                       </span>
                     </Link>
                     <div className="flex items-center gap-1 shrink-0 ml-2">
                       <Link
                         href={`${baseLessonPath}/${section.id}/lessons/${lesson.id}`}
-                        className="rounded-lg p-1.5 text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800 transition-all"
+                        className="rounded-lg p-1.5 hover:text-[var(--text-primary)] hover:bg-[var(--bg-subtle)] transition-all" style={{ color: 'var(--text-muted)' }}
                       >
                         <Pencil className="h-3.5 w-3.5" />
                       </Link>
                       <button
                         onClick={() => deleteLesson(lesson.id)}
-                        className="rounded-lg p-1.5 text-red-400 hover:bg-red-900/20 transition-all"
+                        className="rounded-lg p-1.5 transition-all hover:bg-[color-mix(in_srgb,var(--error)_20%,transparent)]"
+                        style={{ color: 'var(--error)' }}
                       >
                         <Trash2 className="h-3.5 w-3.5" />
                       </button>
@@ -186,23 +188,26 @@ export function SectionManager({
                 ))}
 
                 {newLesson?.sectionId === section.id ? (
-                  <div className="flex items-center gap-2 px-5 py-3 bg-zinc-900/30">
+                  <div className="flex items-center gap-2 px-5 py-3" style={{ backgroundColor: 'var(--bg-elevated)' }}>
                     <input
                       type="text"
                       placeholder={t("lesson_title_placeholder")}
                       value={newLesson.title}
                       onChange={(e) => setNewLesson({ ...newLesson, title: e.target.value })}
-                      className="flex-1 rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-1.5 text-sm text-zinc-100 focus:border-emerald-500 focus:outline-none"
+                      className="flex-1 rounded-lg border px-3 py-1.5 text-sm focus:border-[var(--accent)] focus:outline-none"
+                      style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-elevated)', color: 'var(--text-primary)' }}
                     />
                     <button
                       onClick={() => addLesson(section.id)}
-                      className="rounded-lg bg-emerald-500 px-3 py-1.5 text-xs text-white hover:bg-emerald-400"
+                      className="rounded-lg px-3 py-1.5 text-xs text-white hover:bg-[var(--accent)]"
+                      style={{ backgroundColor: 'var(--accent)' }}
                     >
                       {t("add")}
                     </button>
                     <button
                       onClick={() => setNewLesson(null)}
-                      className="rounded-lg border border-zinc-700 px-3 py-1.5 text-xs text-zinc-400 hover:text-zinc-200"
+                      className="rounded-lg border px-3 py-1.5 text-xs hover:text-[var(--text-primary)]"
+                      style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)' }}
                     >
                       {t("cancel")}
                     </button>
@@ -210,7 +215,8 @@ export function SectionManager({
                 ) : (
                   <button
                     onClick={() => setTemplatePicker(section.id)}
-                    className="flex w-full items-center gap-2 px-5 py-3 text-sm text-zinc-500 hover:text-zinc-300 hover:bg-zinc-900/30 transition-colors"
+                    className="flex w-full items-center gap-2 px-5 py-3 text-sm hover:text-[var(--text-primary)] hover:bg-[var(--bg-elevated)] transition-colors"
+                    style={{ color: 'var(--text-muted)' }}
                   >
                     <Plus className="h-3.5 w-3.5" />
                     {t("add_lesson")}
@@ -223,34 +229,38 @@ export function SectionManager({
       })}
 
       {addingSection ? (
-        <div className="rounded-2xl border border-zinc-800 bg-[#111111] p-5">
-          <h3 className="text-sm font-medium text-zinc-300 mb-3">{t("add_section")}</h3>
+        <div className="rounded-2xl border p-5" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-surface)' }}>
+          <h3 className="text-sm font-medium mb-3" style={{ color: 'var(--text-primary)' }}>{t("add_section")}</h3>
           <div className="flex items-center gap-2 mb-3">
             <input
               type="text"
               placeholder={t("section_title_placeholder")}
               value={newSectionTitle}
               onChange={(e) => setNewSectionTitle(e.target.value)}
-              className="flex-1 rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-100 focus:border-emerald-500 focus:outline-none"
+              className="flex-1 rounded-lg border px-3 py-2 text-sm focus:border-[var(--accent)] focus:outline-none"
+              style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-elevated)', color: 'var(--text-primary)' }}
             />
             <input
               type="number"
               placeholder={t("order")}
               value={sectionOrder}
               onChange={(e) => setSectionOrder(Number(e.target.value))}
-              className="w-20 rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-100 focus:border-emerald-500 focus:outline-none"
+              className="w-20 rounded-lg border px-3 py-2 text-sm focus:border-[var(--accent)] focus:outline-none"
+              style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-elevated)', color: 'var(--text-primary)' }}
             />
           </div>
           <div className="flex gap-2">
             <button
               onClick={addSection}
-              className="rounded-lg bg-emerald-500 px-4 py-2 text-sm text-white hover:bg-emerald-400"
+              className="rounded-lg px-4 py-2 text-sm text-white hover:bg-[var(--accent)]"
+              style={{ backgroundColor: 'var(--accent)' }}
             >
               {t("save")}
             </button>
             <button
               onClick={() => setAddingSection(false)}
-              className="rounded-lg border border-zinc-700 px-4 py-2 text-sm text-zinc-400 hover:text-zinc-200"
+              className="rounded-lg border px-4 py-2 text-sm hover:text-[var(--text-primary)]"
+              style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)' }}
             >
               {t("cancel")}
             </button>
@@ -259,7 +269,8 @@ export function SectionManager({
       ) : (
         <button
           onClick={() => setAddingSection(true)}
-          className="flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-zinc-700 p-4 text-sm text-zinc-400 hover:text-zinc-200 hover:border-zinc-500 transition-all"
+          className="flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed p-4 text-sm hover:text-[var(--text-primary)] hover:border-[var(--border)] transition-all"
+          style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)' }}
         >
           <Plus className="h-4 w-4" />
           {t("add_section")}

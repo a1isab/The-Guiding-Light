@@ -14,16 +14,18 @@ export function SubmissionStatus({ submission, maxScore }: SubmissionStatusProps
   if (!submission) return null;
 
   return (
-    <div data-testid="submission-status" className="mt-3 rounded-xl border border-zinc-800 bg-zinc-900/30 p-4">
+    <div data-testid="submission-status" className="mt-3 rounded-xl border p-4" style={{ borderColor: "var(--border)", background: "color-mix(in srgb, var(--bg-surface) 30%, transparent)" }}>
       <div className="flex items-center gap-2 mb-2">
-        <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium ${
-          submission.status === "graded"
-            ? "bg-emerald-500/15 text-emerald-400"
-            : "bg-amber-500/15 text-amber-400"
-        }`}>
+        <span
+          className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium"
+          style={{
+            background: submission.status === "graded" ? "color-mix(in srgb, var(--success) 15%, transparent)" : "color-mix(in srgb, var(--accent) 15%, transparent)",
+            color: submission.status === "graded" ? "var(--success)" : "var(--accent)",
+          }}
+        >
           {submission.status === "graded" ? "Graded" : "Submitted"}
         </span>
-        <span className="text-xs text-zinc-600">
+        <span className="text-xs" style={{ color: "var(--text-muted)" }}>
           {new Date(submission.submitted_at).toLocaleDateString()}
         </span>
       </div>
@@ -31,11 +33,11 @@ export function SubmissionStatus({ submission, maxScore }: SubmissionStatusProps
       {submission.status === "graded" && (
         <>
           <div className="flex items-baseline gap-1 mt-2">
-            <span className="text-2xl font-bold text-zinc-100">{submission.score}</span>
-            <span className="text-sm text-zinc-500">/ {maxScore}</span>
+            <span className="text-2xl font-bold" style={{ color: "var(--text-primary)" }}>{submission.score}</span>
+            <span className="text-sm" style={{ color: "var(--text-secondary)" }}>/ {maxScore}</span>
           </div>
           {submission.feedback && (
-            <p className="mt-2 text-sm text-zinc-400 whitespace-pre-wrap">{submission.feedback}</p>
+            <p className="mt-2 text-sm whitespace-pre-wrap" style={{ color: "var(--text-secondary)" }}>{submission.feedback}</p>
           )}
         </>
       )}

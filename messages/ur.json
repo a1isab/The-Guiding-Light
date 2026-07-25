@@ -387,5 +387,16 @@
     "used": "استعمال شدہ",
     "active": "فعال",
     "expired": "میعاد ختم"
+  },
+  "settings": {
+    "title": "ترتیبات",
+    "subtitle": "اپنی شکل اور ترجیحات کا انتظام کریں۔",
+    "back_to_dashboard": "ڈیش بورڈ پر واپس",
+    "appearance": "ظاہری شکل",
+    "appearance_desc": "اپنی پسندیدہ رنگ ترتیب منتخب کریں۔",
+    "dark_mode": "گہرا",
+    "light_mode": "روشن",
+    "language": "زبان",
+    "language_desc": "اپنی پسندیدہ زبان منتخب کریں۔"
   }
 }

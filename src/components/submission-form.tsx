@@ -41,15 +41,22 @@ export function SubmissionForm({ assignmentId, existing, onSubmitted }: Submissi
   }
 
   return (
-    <div data-testid="submission-form" className="rounded-xl border border-zinc-700 bg-zinc-900/50 p-5 mt-4">
-      <h4 className="text-sm font-medium text-zinc-200 mb-3">Your Submission</h4>
+    <div data-testid="submission-form" className="rounded-xl border p-5 mt-4" style={{ borderColor: "var(--border)", background: "color-mix(in srgb, var(--bg-surface) 50%, transparent)" }}>
+      <h4 className="text-sm font-medium mb-3" style={{ color: "var(--text-primary)" }}>Your Submission</h4>
 
       <textarea
         data-testid="submission-body"
         value={body}
         onChange={(e) => setBody(e.target.value)}
         rows={5}
-        className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-200 focus:border-emerald-700 focus:outline-none resize-none"
+        className="w-full rounded-lg border px-3 py-2 text-sm resize-none"
+        style={{
+          borderColor: "var(--border)",
+          background: "var(--bg-subtle)",
+          color: "var(--text-primary)",
+        }}
+        onFocus={(e) => { e.currentTarget.style.borderColor = "color-mix(in srgb, var(--success) 70%, transparent)"; }}
+        onBlur={(e) => { e.currentTarget.style.borderColor = "var(--border)"; }}
         placeholder="Write your answer here..."
       />
 
@@ -58,12 +65,15 @@ export function SubmissionForm({ assignmentId, existing, onSubmitted }: Submissi
           data-testid="submission-submit"
           onClick={handleSubmit}
           disabled={!body.trim() || submitting}
-          className="rounded-xl bg-emerald-500 px-5 py-2 text-sm font-medium text-white hover:bg-emerald-400 disabled:opacity-50 transition-all"
+          className="rounded-xl px-5 py-2 text-sm font-medium text-white disabled:opacity-50 transition-all"
+          style={{ background: "var(--accent)" }}
+          onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.9"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; }}
         >
           {submitting ? "Submitting..." : existing ? "Update Submission" : "Submit"}
         </button>
         {message && (
-          <span className={`text-xs ${message.includes("success") ? "text-emerald-400" : "text-red-400"}`}>
+          <span className="text-xs" style={{ color: message.includes("success") ? "var(--success)" : "var(--error)" }}>
             {message}
           </span>
         )}

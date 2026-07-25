@@ -91,19 +91,20 @@ export function Quiz({ lessonId, userId, onPass }: Props) {
 
   if (loading) {
     return (
-      <div className="animate-pulse bg-zinc-800 rounded-2xl h-52 flex items-center justify-center">
-        <p className="text-zinc-500">{t("loading")}</p>
+      <div className="animate-pulse rounded-2xl h-52 flex items-center justify-center" style={{ background: "var(--bg-subtle)" }}>
+        <p style={{ color: "var(--text-secondary)" }}>{t("loading")}</p>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="rounded-2xl border border-zinc-800 bg-[#111111] p-6 text-center">
-        <p className="text-red-400 text-sm">{error}</p>
+      <div className="rounded-2xl border p-6 text-center" style={{ borderColor: "var(--border)", background: "var(--bg-surface)" }}>
+        <p className="text-sm" style={{ color: "var(--error)" }}>{error}</p>
         <button
           onClick={() => window.location.reload()}
-          className="mt-3 text-emerald-400 text-sm hover:text-emerald-300"
+          className="mt-3 text-sm"
+          style={{ color: "var(--success)" }}
         >
           {t("retry")}
         </button>
@@ -114,22 +115,22 @@ export function Quiz({ lessonId, userId, onPass }: Props) {
   if (score !== null) {
     const passed = score >= 3;
     return (
-      <div className="rounded-2xl border border-zinc-800 bg-[#111111] p-8 text-center">
+      <div className="rounded-2xl border p-8 text-center" style={{ borderColor: "var(--border)", background: "var(--bg-surface)" }}>
         {passed ? (
           <>
             <p className="text-5xl mb-4">🎉</p>
-            <p className="text-emerald-400 text-2xl font-bold">{t("pass_title")}</p>
-            <p className="text-zinc-400 mt-2">
+            <p className="text-2xl font-bold" style={{ color: "var(--success)" }}>{t("pass_title")}</p>
+            <p className="mt-2" style={{ color: "var(--text-secondary)" }}>
               {t("score", { score, total: questions.length })}
             </p>
           </>
         ) : (
           <>
-            <p className="text-amber-400 text-xl font-semibold">{t("fail_title")}</p>
-            <p className="text-zinc-400 mt-2">
+            <p className="text-xl font-semibold" style={{ color: "var(--accent)" }}>{t("fail_title")}</p>
+            <p className="mt-2" style={{ color: "var(--text-secondary)" }}>
               {t("score", { score, total: questions.length })}
             </p>
-            <p className="text-zinc-500 text-sm mt-1">
+            <p className="text-sm mt-1" style={{ color: "var(--text-secondary)" }}>
               {t("fail_msg")}
             </p>
             <div className="flex gap-3 justify-center mt-6">
@@ -141,7 +142,10 @@ export function Quiz({ lessonId, userId, onPass }: Props) {
                   setRevealed(false);
                   setAnswers([]);
                 }}
-                className="border border-zinc-700 text-zinc-300 rounded-xl px-5 py-2 text-sm hover:bg-zinc-800"
+                className="border rounded-xl px-5 py-2 text-sm transition-all"
+                style={{ borderColor: "var(--border)", color: "var(--text-primary)" }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = "var(--bg-subtle)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
               >
                 {t("retry_quiz")}
               </button>
@@ -158,33 +162,38 @@ export function Quiz({ lessonId, userId, onPass }: Props) {
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <p className="text-zinc-500 text-sm">
+        <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
           {t("question_of", { current: index + 1, total: questions.length })}
         </p>
-        <p className="text-zinc-600 text-xs">
+        <p className="text-xs" style={{ color: "var(--text-muted)" }}>
           {Math.round(((index) / questions.length) * 100)}%
         </p>
       </div>
 
-      <div className="h-1.5 bg-zinc-800 rounded-full mb-6">
+      <div className="h-1.5 rounded-full mb-6" style={{ background: "var(--bg-subtle)" }}>
         <div
-          className="h-1.5 bg-emerald-500 rounded-full transition-all duration-700"
-          style={{ width: `${(index / questions.length) * 100}%` }}
+          className="h-1.5 rounded-full transition-all duration-700"
+          style={{ background: "var(--success)", width: `${(index / questions.length) * 100}%` }}
         />
       </div>
 
-      <p className="text-zinc-100 text-lg font-medium mb-4">{getQuizQuestion(q, locale).question}</p>
+      <p className="text-lg font-medium mb-4" style={{ color: "var(--text-primary)" }}>{getQuizQuestion(q, locale).question}</p>
 
       <div className="space-y-2">
         {getQuizQuestion(q, locale).options.map((option, i) => {
-          let className =
-            "w-full text-left px-4 py-3 rounded-xl border border-zinc-700 text-zinc-300 hover:border-emerald-700 hover:bg-emerald-900/20 transition-all";
+          let borderColor = "var(--border)";
+          let bg = "transparent";
+          let textColor = "var(--text-primary)";
 
           if (revealed) {
             if (i === q.correct) {
-              className += " bg-emerald-900/40 border-emerald-500 text-emerald-300";
+              borderColor = "var(--success)";
+              bg = "color-mix(in srgb, var(--success) 20%, transparent)";
+              textColor = "var(--success)";
             } else if (i === selected) {
-              className += " bg-red-900/20 border-red-700 text-red-400";
+              borderColor = "var(--error)";
+              bg = "color-mix(in srgb, var(--error) 10%, transparent)";
+              textColor = "var(--error)";
             }
           }
 
@@ -192,10 +201,23 @@ export function Quiz({ lessonId, userId, onPass }: Props) {
             <button
               key={i}
               onClick={() => handleSelect(i)}
-              className={className}
+              className="w-full text-left px-4 py-3 rounded-xl border transition-all"
+              style={{ borderColor, background: bg, color: textColor }}
               disabled={revealed}
+              onMouseEnter={(e) => {
+                if (!revealed) {
+                  e.currentTarget.style.borderColor = "color-mix(in srgb, var(--accent) 70%, transparent)";
+                  e.currentTarget.style.background = "color-mix(in srgb, var(--success) 10%, transparent)";
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!revealed) {
+                  e.currentTarget.style.borderColor = borderColor;
+                  e.currentTarget.style.background = bg;
+                }
+              }}
             >
-              <span className="text-zinc-500 mr-2">
+              <span className="mr-2" style={{ color: "var(--text-secondary)" }}>
                 {String.fromCharCode(65 + i)}.
               </span>
               {option}
@@ -207,7 +229,10 @@ export function Quiz({ lessonId, userId, onPass }: Props) {
       {revealed && (
         <button
           onClick={nextQuestion}
-          className="mt-4 bg-emerald-500 hover:bg-emerald-400 text-white rounded-xl px-5 py-2 text-sm font-medium"
+          className="mt-4 rounded-xl px-5 py-2 text-sm font-medium text-white"
+          style={{ background: "var(--success)" }}
+          onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.9"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; }}
         >
           {index < questions.length - 1 ? t("next_question") : t("see_results")}
         </button>

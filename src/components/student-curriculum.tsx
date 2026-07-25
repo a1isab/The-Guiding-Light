@@ -63,27 +63,31 @@ export function StudentCurriculum({
         const isExpanded = expandedSections.has(section.id);
 
         return (
-          <div key={section.id} data-testid={`student-section-${section.id}`} className="rounded-2xl border border-zinc-800 bg-[#111111] overflow-hidden">
+          <div key={section.id} data-testid={`student-section-${section.id}`} className="rounded-2xl border overflow-hidden" style={{ borderColor: "var(--border)", background: "var(--bg-surface)" }}>
             <button
               onClick={() => toggleSection(section.id)}
-              className="flex items-center justify-between w-full px-5 py-4 hover:bg-zinc-900/30 transition-colors"
+              className="flex items-center justify-between w-full px-5 py-4 transition-colors"
+              style={{ background: "transparent" }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = "color-mix(in srgb, var(--bg-surface) 30%, transparent)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
             >
               <div className="flex items-center gap-3">
                 <ChevronDown
-                  className={`h-4 w-4 text-zinc-500 transition-transform ${isExpanded ? "rotate-180" : ""}`}
+                  className="h-4 w-4 transition-transform"
+                  style={{ color: "var(--text-secondary)", transform: isExpanded ? "rotate(180deg)" : undefined }}
                 />
-                <span className="text-base font-semibold text-zinc-100">{section.title}</span>
-                <span className="text-xs text-zinc-500">
+                <span className="text-base font-semibold" style={{ color: "var(--text-primary)" }}>{section.title}</span>
+                <span className="text-xs" style={{ color: "var(--text-secondary)" }}>
                   {completedCount}/{sectionLessons.length} completed
                 </span>
               </div>
               {allCompleted && (
-                <CheckCircle className="h-5 w-5 text-emerald-400" />
+                <CheckCircle className="h-5 w-5" style={{ color: "var(--success)" }} />
               )}
             </button>
 
             {isExpanded && (
-              <div className="border-t border-zinc-800 divide-y divide-zinc-800/50">
+              <div className="border-t" style={{ borderColor: "var(--border)" }}>
                 {sectionLessons.map((lesson) => {
                   const isCompleted = completedIds.has(lesson.id);
                   return (
@@ -91,20 +95,23 @@ export function StudentCurriculum({
                       key={lesson.id}
                       data-testid={`student-lesson-${lesson.id}`}
                       href={`/${locale}/dashboard/classes/${classId}/courses/${courseId}/lessons/${lesson.id}`}
-                      className="flex items-center gap-3 px-5 py-3 hover:bg-zinc-900/30 transition-colors"
+                      className="flex items-center gap-3 px-5 py-3 transition-colors"
+                      style={{ borderBottom: "1px solid color-mix(in srgb, var(--border) 50%, transparent)" }}
+                      onMouseEnter={(e) => { e.currentTarget.style.background = "color-mix(in srgb, var(--bg-surface) 30%, transparent)"; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
                     >
                       {isCompleted ? (
-                        <CheckCircle className="h-4 w-4 shrink-0 text-emerald-400" />
+                        <CheckCircle className="h-4 w-4 shrink-0" style={{ color: "var(--success)" }} />
                       ) : lesson.video_url ? (
-                        <Film className="h-4 w-4 shrink-0 text-zinc-600" />
+                        <Film className="h-4 w-4 shrink-0" style={{ color: "var(--text-muted)" }} />
                       ) : (
-                        <FileText className="h-4 w-4 shrink-0 text-zinc-600" />
+                        <FileText className="h-4 w-4 shrink-0" style={{ color: "var(--text-muted)" }} />
                       )}
-                      <span className={`text-sm ${isCompleted ? "text-zinc-500" : "text-zinc-300"}`}>
+                      <span className="text-sm" style={{ color: isCompleted ? "var(--text-secondary)" : "var(--text-primary)" }}>
                         {lesson.title}
                       </span>
                       {lesson.duration && (
-                        <span className="text-xs text-zinc-600 ml-auto">
+                        <span className="text-xs ml-auto" style={{ color: "var(--text-muted)" }}>
                           {Math.floor(lesson.duration / 60)}:{(lesson.duration % 60).toString().padStart(2, "0")}
                         </span>
                       )}

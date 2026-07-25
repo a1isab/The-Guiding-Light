@@ -100,46 +100,46 @@ export function VideoPlayer({ src }: { src?: string | null }) {
 
   if (!videoId) {
     return (
-      <div data-testid="lesson-video" className="mt-6 overflow-hidden rounded-2xl border border-zinc-800 bg-[#111111]">
-        <div className="flex aspect-video items-center justify-center bg-zinc-900">
+      <div data-testid="lesson-video" className="mt-6 overflow-hidden rounded-2xl border" style={{ borderColor: "var(--border)", background: "var(--bg-surface)" }}>
+        <div className="flex aspect-video items-center justify-center" style={{ background: "var(--bg-subtle)" }}>
           <div className="text-center">
-            <Film className="mx-auto h-12 w-12 text-zinc-700" />
-            <p className="mt-3 text-sm text-zinc-600">{t("not_available")}</p>
+            <Film className="mx-auto h-12 w-12" style={{ color: "var(--text-muted)" }} />
+            <p className="mt-3 text-sm" style={{ color: "var(--text-muted)" }}>{t("not_available")}</p>
           </div>
         </div>
-        <div className="flex items-center gap-3 border-t border-zinc-800 px-5 py-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/10">
-            <Film className="h-4 w-4 text-emerald-400" />
+        <div className="flex items-center gap-3 border-t px-5 py-3" style={{ borderColor: "var(--border)" }}>
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg" style={{ background: "color-mix(in srgb, var(--accent) 10%, transparent)" }}>
+            <Film className="h-4 w-4" style={{ color: "var(--accent)" }} />
           </div>
-          <span className="text-sm font-medium text-zinc-300">{t("label")}</span>
-          <span className="text-xs text-zinc-600">—</span>
-          <span className="text-xs text-zinc-500">{t("unavailable")}</span>
+          <span className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>{t("label")}</span>
+          <span className="text-xs" style={{ color: "var(--text-muted)" }}>—</span>
+          <span className="text-xs" style={{ color: "var(--text-secondary)" }}>{t("unavailable")}</span>
         </div>
       </div>
     );
   }
 
   return (
-    <div data-testid="lesson-video" className="mt-6 overflow-hidden rounded-2xl border border-zinc-800 bg-[#111111]">
+    <div data-testid="lesson-video" className="mt-6 overflow-hidden rounded-2xl border" style={{ borderColor: "var(--border)", background: "var(--bg-surface)" }}>
       <div className="relative aspect-video">
         <div ref={containerRef} className={`h-full w-full ${ended ? "invisible" : ""}`} />
         {!ready && !ended && (
-          <div className="absolute inset-0 flex items-center justify-center bg-zinc-900">
-            <div className="h-8 w-8 animate-spin rounded-full border-2 border-emerald-500 border-t-transparent" />
+          <div className="absolute inset-0 flex items-center justify-center" style={{ background: "var(--bg-subtle)" }}>
+            <div className="h-8 w-8 animate-spin rounded-full border-2 border-t-transparent" style={{ borderColor: "var(--accent)", borderTopColor: "transparent" }} />
           </div>
         )}
         {ended && (
-          <div className="absolute inset-0 bg-zinc-900" />
+          <div className="absolute inset-0" style={{ background: "var(--bg-subtle)" }} />
         )}
       </div>
 
-      <div className="flex items-center gap-3 border-t border-zinc-800 px-5 py-3">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/10">
-          <Film className="h-4 w-4 text-emerald-400" />
+      <div className="flex items-center gap-3 border-t px-5 py-3" style={{ borderColor: "var(--border)" }}>
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg" style={{ background: "color-mix(in srgb, var(--accent) 10%, transparent)" }}>
+          <Film className="h-4 w-4" style={{ color: "var(--accent)" }} />
         </div>
-        <span className="text-sm font-medium text-zinc-300">{t("label")}</span>
-        <span className="text-xs text-zinc-600">—</span>
-        <span className="text-xs text-zinc-500">{t("youtube")}</span>
+        <span className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>{t("label")}</span>
+        <span className="text-xs" style={{ color: "var(--text-muted)" }}>—</span>
+        <span className="text-xs" style={{ color: "var(--text-secondary)" }}>{t("youtube")}</span>
       </div>
 
     </div>

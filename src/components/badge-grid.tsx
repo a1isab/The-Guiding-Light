@@ -38,7 +38,7 @@ export function BadgeGrid({ badges }: Props) {
 
   return (
     <div className="mt-8" data-testid="badge-grid">
-      <h2 className="font-amiri text-xl font-bold text-zinc-100 mb-4" data-testid="achievements">
+      <h2 className="font-display text-xl font-bold mb-4" style={{ color: "var(--text-primary)" }} data-testid="achievements">
         {t("achievements")}
       </h2>
 
@@ -46,16 +46,17 @@ export function BadgeGrid({ badges }: Props) {
         {sectionBadges.length > 0 && sectionBadges.map((badge) => (
           <div
             key={badge.badge_key}
-            className="flex items-center gap-3 rounded-xl border border-emerald-800/50 bg-emerald-900/10 p-4"
+            className="flex items-center gap-3 rounded-xl border p-4"
+            style={{ borderColor: "color-mix(in srgb, var(--success) 50%, transparent)", background: "color-mix(in srgb, var(--success) 10%, transparent)" }}
           >
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-500/20">
-              <Trophy className="h-5 w-5 text-emerald-400" />
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg" style={{ background: "color-mix(in srgb, var(--success) 20%, transparent)" }}>
+              <Trophy className="h-5 w-5" style={{ color: "var(--success)" }} />
             </div>
             <div className="min-w-0">
-              <p className="text-sm font-medium text-zinc-100 truncate">
+              <p className="text-sm font-medium truncate" style={{ color: "var(--text-primary)" }}>
                 {badge.section_title}
               </p>
-              <p className="text-xs text-zinc-500">
+              <p className="text-xs" style={{ color: "var(--text-secondary)" }}>
                 {new Date(badge.earned_at!).toLocaleDateString()}
               </p>
             </div>
@@ -70,32 +71,31 @@ export function BadgeGrid({ badges }: Props) {
           return (
             <div
               key={def.key}
-              className={`flex items-center gap-3 rounded-xl border p-4 ${
-                isEarned
-                  ? "border-emerald-800/50 bg-emerald-900/10"
-                  : "border-zinc-800 bg-zinc-900/50 opacity-60"
-              }`}
+              className="flex items-center gap-3 rounded-xl border p-4"
+              style={{
+                borderColor: isEarned ? "color-mix(in srgb, var(--success) 50%, transparent)" : "var(--border)",
+                background: isEarned ? "color-mix(in srgb, var(--success) 10%, transparent)" : "color-mix(in srgb, var(--bg-surface) 50%, transparent)",
+                opacity: isEarned ? 1 : 0.6,
+              }}
             >
               <div
-                className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${
-                  isEarned ? "bg-emerald-500/20" : "bg-zinc-800"
-                }`}
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"
+                style={{ background: isEarned ? "color-mix(in srgb, var(--success) 20%, transparent)" : "var(--bg-subtle)" }}
               >
                 {isEarned ? (
-                  <Icon className="h-5 w-5 text-emerald-400" />
+                  <Icon className="h-5 w-5" style={{ color: "var(--success)" }} />
                 ) : (
-                  <Lock className="h-5 w-5 text-zinc-600" />
+                  <Lock className="h-5 w-5" style={{ color: "var(--text-muted)" }} />
                 )}
               </div>
               <div className="min-w-0">
                 <p
-                  className={`text-sm font-medium truncate ${
-                    isEarned ? "text-zinc-100" : "text-zinc-500"
-                  }`}
+                  className="text-sm font-medium truncate"
+                  style={{ color: isEarned ? "var(--text-primary)" : "var(--text-secondary)" }}
                 >
                   {t(def.titleKey.replace("badge.", ""))}
                 </p>
-                <p className="text-xs text-zinc-600">
+                <p className="text-xs" style={{ color: "var(--text-muted)" }}>
                   {isEarned
                     ? new Date(earnedAt).toLocaleDateString()
                     : t(def.descKey.replace("badge.", ""))}

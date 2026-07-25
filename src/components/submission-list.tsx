@@ -60,23 +60,27 @@ export function SubmissionList({ assignmentId, maxScore }: SubmissionListProps) 
     }
   }
 
-  if (loading) return <p className="text-xs text-zinc-600">Loading submissions...</p>;
+  if (loading) return <p className="text-xs" style={{ color: "var(--text-muted)" }}>Loading submissions...</p>;
 
   return (
     <div data-testid="submission-list" className="mt-4">
-      <h4 className="text-sm font-medium text-zinc-300 mb-3">Submissions</h4>
+      <h4 className="text-sm font-medium mb-3" style={{ color: "var(--text-primary)" }}>Submissions</h4>
       {submissions.length === 0 ? (
-        <p className="text-xs text-zinc-600">No submissions yet.</p>
+        <p className="text-xs" style={{ color: "var(--text-muted)" }}>No submissions yet.</p>
       ) : (
         <div className="space-y-2">
           {submissions.map((sub) => (
-            <div key={sub.id} className="rounded-lg border border-zinc-800 bg-zinc-900/30 p-3">
+            <div key={sub.id} className="rounded-lg border p-3" style={{ borderColor: "var(--border)", background: "color-mix(in srgb, var(--bg-surface) 30%, transparent)" }}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm text-zinc-200">{sub.student_name ?? sub.student_id.slice(0, 8)}</span>
-                  <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium ${
-                    sub.status === "graded" ? "bg-emerald-500/15 text-emerald-400" : "bg-amber-500/15 text-amber-400"
-                  }`}>
+                  <span className="text-sm" style={{ color: "var(--text-primary)" }}>{sub.student_name ?? sub.student_id.slice(0, 8)}</span>
+                  <span
+                    className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium"
+                    style={{
+                      background: sub.status === "graded" ? "color-mix(in srgb, var(--success) 15%, transparent)" : "color-mix(in srgb, var(--accent) 15%, transparent)",
+                      color: sub.status === "graded" ? "var(--success)" : "var(--accent)",
+                    }}
+                  >
                     {sub.status === "graded" ? <CheckCircle className="h-3 w-3" /> : <Clock className="h-3 w-3" />}
                     {sub.status === "graded" ? `${sub.score}/${maxScore}` : "Pending"}
                   </span>
@@ -85,14 +89,17 @@ export function SubmissionList({ assignmentId, maxScore }: SubmissionListProps) 
                   <button
                     data-testid="grade-btn"
                     onClick={() => setGradingId(gradingId === sub.id ? null : sub.id)}
-                    className="text-xs text-emerald-400 hover:text-emerald-300"
+                    className="text-xs"
+                    style={{ color: "var(--accent)" }}
+                    onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.8"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; }}
                   >
                     Grade
                   </button>
                 )}
               </div>
 
-              {sub.body && <p className="mt-2 text-xs text-zinc-400 line-clamp-2">{sub.body}</p>}
+              {sub.body && <p className="mt-2 text-xs line-clamp-2" style={{ color: "var(--text-secondary)" }}>{sub.body}</p>}
 
               {gradingId === sub.id && (
                 <div className="mt-3 space-y-2">
@@ -102,7 +109,14 @@ export function SubmissionList({ assignmentId, maxScore }: SubmissionListProps) 
                     value={gradeScore}
                     onChange={(e) => setGradeScore(e.target.value)}
                     placeholder={`Score (0-${maxScore})`}
-                    className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-1.5 text-xs text-zinc-200 focus:border-emerald-700 focus:outline-none"
+                    className="w-full rounded-lg border px-3 py-1.5 text-xs"
+                    style={{
+                      borderColor: "var(--border)",
+                      background: "var(--bg-subtle)",
+                      color: "var(--text-primary)",
+                    }}
+                    onFocus={(e) => { e.currentTarget.style.borderColor = "color-mix(in srgb, var(--success) 70%, transparent)"; }}
+                    onBlur={(e) => { e.currentTarget.style.borderColor = "var(--border)"; }}
                   />
                   <textarea
                     data-testid="grade-feedback-input"
@@ -110,12 +124,22 @@ export function SubmissionList({ assignmentId, maxScore }: SubmissionListProps) 
                     onChange={(e) => setGradeFeedback(e.target.value)}
                     placeholder="Feedback..."
                     rows={2}
-                    className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-1.5 text-xs text-zinc-200 focus:border-emerald-700 focus:outline-none resize-none"
+                    className="w-full rounded-lg border px-3 py-1.5 text-xs resize-none"
+                    style={{
+                      borderColor: "var(--border)",
+                      background: "var(--bg-subtle)",
+                      color: "var(--text-primary)",
+                    }}
+                    onFocus={(e) => { e.currentTarget.style.borderColor = "color-mix(in srgb, var(--success) 70%, transparent)"; }}
+                    onBlur={(e) => { e.currentTarget.style.borderColor = "var(--border)"; }}
                   />
                   <button
                     data-testid="grade-submit"
                     onClick={() => handleGrade(sub.id)}
-                    className="rounded-lg bg-emerald-500 px-3 py-1.5 text-xs font-medium text-white hover:bg-emerald-400"
+                    className="rounded-lg px-3 py-1.5 text-xs font-medium text-white"
+                    style={{ background: "var(--accent)" }}
+                    onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.9"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; }}
                   >
                     Save Grade
                   </button>

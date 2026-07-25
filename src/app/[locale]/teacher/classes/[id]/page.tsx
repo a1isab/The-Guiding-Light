@@ -66,12 +66,12 @@ export default async function ClassDetailPage({
 
       <div className="flex items-start justify-between mb-8">
         <div>
-          <h1 data-testid="class-heading" className="font-amiri text-2xl font-bold text-zinc-100">{cls.name}</h1>
+          <h1 data-testid="class-heading" className="font-display text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{cls.name}</h1>
           {cls.description && (
-            <p className="text-sm text-zinc-500 mt-1">{cls.description}</p>
+            <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>{cls.description}</p>
           )}
         </div>
-        <div className="flex items-center gap-4 text-sm text-zinc-500">
+        <div className="flex items-center gap-4 text-sm" style={{ color: 'var(--text-muted)' }}>
           <span className="flex items-center gap-1">
             <Users className="h-4 w-4" />
             {members?.length ?? 0}
@@ -91,12 +91,13 @@ export default async function ClassDetailPage({
         <Link
           data-testid="view-progress"
           href={`/${locale}/teacher/classes/${id}/progress`}
-          className="flex items-center gap-2 rounded-xl border border-zinc-800 bg-[#111111] px-4 py-3 hover:bg-zinc-900/30 transition-colors"
+          className="flex items-center gap-2 rounded-xl border px-4 py-3 hover:bg-[var(--bg-elevated)] transition-colors"
+          style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-surface)' }}
         >
-          <BarChart3 className="h-5 w-5 text-emerald-400" />
+          <BarChart3 className="h-5 w-5" style={{ color: 'var(--accent)' }} />
           <div>
-            <p className="text-sm text-zinc-300">{t("view_progress")}</p>
-            <p className="text-xs text-zinc-600">{t("view_progress_desc")}</p>
+            <p className="text-sm" style={{ color: 'var(--text-primary)' }}>{t("view_progress")}</p>
+            <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{t("view_progress_desc")}</p>
           </div>
         </Link>
       </div>
@@ -106,21 +107,22 @@ export default async function ClassDetailPage({
         <Link
           data-testid="view-analytics"
           href={`/${locale}/teacher/classes/${id}/analytics`}
-          className="flex items-center gap-2 rounded-xl border border-zinc-800 bg-[#111111] px-4 py-3 hover:bg-zinc-900/30 transition-colors"
+          className="flex items-center gap-2 rounded-xl border px-4 py-3 hover:bg-[var(--bg-elevated)] transition-colors"
+          style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-surface)' }}
         >
-          <BarChart3 className="h-5 w-5 text-blue-400" />
+          <BarChart3 className="h-5 w-5" style={{ color: 'var(--accent)' }} />
           <div>
-            <p className="text-sm text-zinc-300">Class Analytics</p>
-            <p className="text-xs text-zinc-600">View quiz scores, completion rates, and at-risk students</p>
+            <p className="text-sm" style={{ color: 'var(--text-primary)' }}>Class Analytics</p>
+            <p className="text-xs" style={{ color: 'var(--text-muted)' }}>View quiz scores, completion rates, and at-risk students</p>
           </div>
         </Link>
       </div>
 
       {/* Students */}
-      <div className="mt-8 rounded-2xl border border-zinc-800 bg-[#111111] overflow-hidden">
-        <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-800">
-          <h2 data-testid="students-heading" className="text-sm font-semibold text-zinc-300">{t("students")}</h2>
-          <span className="text-xs text-zinc-500">{members?.length ?? 0}</span>
+      <div className="mt-8 rounded-2xl border overflow-hidden" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-surface)' }}>
+        <div className="flex items-center justify-between px-5 py-4 border-b" style={{ borderColor: 'var(--border)' }}>
+          <h2 data-testid="students-heading" className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{t("students")}</h2>
+          <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{members?.length ?? 0}</span>
         </div>
         <StudentTable members={enrichedMembers} locale={locale} classId={id} />
       </div>
@@ -128,11 +130,12 @@ export default async function ClassDetailPage({
       {/* Courses */}
       <div className="mt-8">
         <div className="flex items-center justify-between mb-4">
-          <h2 data-testid="courses-heading" className="text-sm font-semibold text-zinc-300">{t("courses")}</h2>
+          <h2 data-testid="courses-heading" className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{t("courses")}</h2>
           <Link
             data-testid="new-course-link"
             href={`/${locale}/teacher/classes/${id}/courses/new`}
-            className="inline-flex items-center gap-1 rounded-lg bg-emerald-500 px-3 py-1.5 text-xs font-medium text-white hover:bg-emerald-400 transition-all"
+            className="inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-medium text-white hover:bg-[var(--accent)] transition-all"
+            style={{ backgroundColor: 'var(--accent)' }}
           >
             <BookOpen className="h-3.5 w-3.5" />
             {t("new_course")}
@@ -145,17 +148,18 @@ export default async function ClassDetailPage({
               <Link
                 key={course.id}
                 href={`/${locale}/teacher/classes/${id}/courses/${course.id}`}
-                className="flex items-center justify-between rounded-xl border border-zinc-800 bg-[#111111] px-4 py-3 hover:bg-zinc-900/30 transition-colors"
+                className="flex items-center justify-between rounded-xl border px-4 py-3 hover:bg-[var(--bg-elevated)] transition-colors"
+                style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-surface)' }}
               >
-                <span className="text-sm text-zinc-300">{course.title}</span>
-                <span className="text-xs text-zinc-600">
+                <span className="text-sm" style={{ color: 'var(--text-primary)' }}>{course.title}</span>
+                <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
                   {new Date(course.created_at).toLocaleDateString()}
                 </span>
               </Link>
             ))}
           </div>
         ) : (
-          <p className="text-sm text-zinc-500 text-center py-8 rounded-2xl border border-dashed border-zinc-800">
+          <p className="text-sm text-center py-8 rounded-2xl border border-dashed" style={{ color: 'var(--text-muted)', borderColor: 'var(--border)' }}>
             {t("no_courses")}
           </p>
         )}
