@@ -1,6 +1,8 @@
 {
   "nav": {
     "courses": "Courses",
+    "featured": "Featured",
+    "settings": "Settings",
     "dashboard": "Dashboard",
     "sign_in": "Sign in",
     "sign_out": "Sign out",

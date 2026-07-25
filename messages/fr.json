@@ -1,6 +1,8 @@
 {
   "nav": {
     "courses": "Cours",
+    "featured": "En vedette",
+    "settings": "Paramètres",
     "dashboard": "Tableau de bord",
     "sign_in": "Se connecter",
     "sign_out": "se déconnecter",

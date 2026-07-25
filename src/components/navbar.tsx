@@ -197,6 +197,7 @@ export function Navbar() {
               )}
               <div className="relative">
                 <button
+                  data-testid="user-menu-btn"
                   onClick={() => setDropdownOpen(!dropdownOpen)}
                   className="flex items-center gap-2 rounded-xl px-3 py-1.5 text-sm transition-all"
                   style={{

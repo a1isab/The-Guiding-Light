@@ -70,7 +70,7 @@
 
 ## Verification
 - [x] Run `npm run build` — no errors
-- [ ] Run `npm run lint` — no new warnings
+- [x] Run `npm run lint` — no new warnings
 - [ ] Visual check: dark mode landing page
 - [ ] Visual check: light mode landing page
 - [ ] Visual check: student dashboard (dark + light)

@@ -1,6 +1,8 @@
 {
   "nav": {
     "courses": "الدورات",
+    "featured": "مميز",
+    "settings": "الإعدادات",
     "dashboard": "لوحة القيادة",
     "sign_in": "تسجيل الدخول",
     "sign_out": "تسجيل الخروج",

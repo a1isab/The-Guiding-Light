@@ -57,10 +57,10 @@
 ## 10. Verification & Testing
 
 - [x] 10.1 Run `npm run build` — no errors
-- [ ] 10.2 Run `npm run lint` — no new warnings
-- [ ] 10.3 E2E: Teacher can submit verification request
-- [ ] 10.4 E2E: Admin can approve/reject verification
-- [ ] 10.5 E2E: Featured page shows verified classes
-- [ ] 10.6 E2E: Student can one-click join from featured
-- [ ] 10.7 E2E: Student can browse featured class content (read-only)
-- [ ] 10.8 E2E: Site tour displays on first login
+- [x] 10.2 Run `npm run lint` — no new warnings
+- [x] 10.3 E2E: Teacher can submit verification request
+- [x] 10.4 E2E: Admin can approve/reject verification
+- [x] 10.5 E2E: Featured page shows verified classes
+- [x] 10.6 E2E: Student can one-click join from featured
+- [x] 10.7 E2E: Student can browse featured class content (read-only)
+- [x] 10.8 E2E: Site tour displays on first login
