@@ -34,8 +34,8 @@ export function AdminCourseList({ courses, locale }: { courses: Course[]; locale
 
   if (courses.length === 0) {
     return (
-      <div data-testid="courses-empty" className="rounded-2xl border border-zinc-800 bg-[#111111] p-12 text-center">
-        <p className="text-zinc-500">{t("no_courses")}</p>
+      <div data-testid="courses-empty" className="rounded-2xl border p-12 text-center" style={{ borderColor: 'var(--border)', background: 'var(--bg-surface)' }}>
+        <p style={{ color: 'var(--text-muted)' }}>{t("no_courses")}</p>
       </div>
     );
   }
@@ -46,18 +46,20 @@ export function AdminCourseList({ courses, locale }: { courses: Course[]; locale
         <div
           key={course.id}
           data-testid={`course-row-${course.slug}`}
-          className="flex items-center justify-between rounded-2xl border border-zinc-800 bg-[#111111] p-4"
+          className="flex items-center justify-between rounded-2xl border p-4"
+          style={{ borderColor: 'var(--border)', background: 'var(--bg-surface)' }}
         >
           <div className="min-w-0 flex-1">
             <Link
               href={`/${locale}/admin/courses/${course.slug}`}
-              className="text-base font-semibold text-zinc-100 hover:text-emerald-400 transition-colors"
+              className="text-base font-semibold hover:text-[var(--success)] transition-colors"
+              style={{ color: 'var(--text-primary)' }}
             >
               {course.title}
             </Link>
-            <div className="mt-1 flex items-center gap-3 text-xs text-zinc-500">
+            <div className="mt-1 flex items-center gap-3 text-xs" style={{ color: 'var(--text-muted)' }}>
               <span className="capitalize">{course.level}</span>
-              <span className={course.is_published ? "text-emerald-400" : "text-zinc-600"}>
+              <span style={{ color: course.is_published ? 'var(--success)' : 'var(--text-muted)' }}>
                 {course.is_published ? "Published" : "Draft"}
               </span>
               <span>Order: {course.order_index}</span>
@@ -67,14 +69,16 @@ export function AdminCourseList({ courses, locale }: { courses: Course[]; locale
             <Link
               href={`/${locale}/admin/courses/${course.slug}`}
               data-testid={`view-course-${course.slug}`}
-              className="rounded-lg border border-zinc-700 p-2 text-zinc-400 hover:text-zinc-200 hover:border-zinc-500 transition-all"
+              className="rounded-lg border p-2 hover:text-[var(--text-primary)] hover:border-[var(--text-muted)] transition-all"
+              style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)' }}
             >
               <ExternalLink className="h-4 w-4" />
             </Link>
             <Link
               href={`/${locale}/admin/courses/${course.slug}/edit`}
               data-testid={`edit-course-${course.slug}`}
-              className="rounded-lg border border-zinc-700 p-2 text-zinc-400 hover:text-zinc-200 hover:border-zinc-500 transition-all"
+              className="rounded-lg border p-2 hover:text-[var(--text-primary)] hover:border-[var(--text-muted)] transition-all"
+              style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)' }}
             >
               <Pencil className="h-4 w-4" />
             </Link>
@@ -82,7 +86,8 @@ export function AdminCourseList({ courses, locale }: { courses: Course[]; locale
               onClick={() => handleDelete(course.id)}
               disabled={deleting === course.id}
               data-testid={`delete-course-${course.slug}`}
-              className="rounded-lg border border-zinc-700 p-2 text-red-400 hover:bg-red-900/20 hover:border-red-700 transition-all disabled:opacity-50"
+              className="rounded-lg border p-2 hover:bg-[color-mix(in_srgb,var(--error)_20%,transparent)] hover:border-[var(--error)] transition-all disabled:opacity-50"
+              style={{ borderColor: 'var(--border)', color: 'var(--error)' }}
             >
               <Trash2 className="h-4 w-4" />
             </button>

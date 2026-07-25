@@ -24,7 +24,7 @@ export default async function EditCoursePage({
 
   return (
     <div>
-      <h1 className="font-amiri text-2xl font-bold text-zinc-100 mb-6">
+      <h1 className="font-display text-2xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
         {t("edit_course")}: {course.title}
       </h1>
       <CourseForm

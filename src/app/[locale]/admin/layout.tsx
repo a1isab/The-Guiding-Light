@@ -37,7 +37,8 @@ export default async function AdminLayout({
       <SidebarNav items={nav}>
         <Link
           href={`/${locale}/auth/logout`}
-          className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium text-red-400 hover:bg-zinc-800 transition-all"
+          className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-all hover:bg-[var(--bg-elevated)]"
+          style={{ color: 'var(--error)' }}
         >
           <LogOut className="h-4 w-4" />
           {t("sign_out")}

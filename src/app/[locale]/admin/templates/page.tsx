@@ -13,7 +13,7 @@ export default async function AdminTemplatesPage({
 
   return (
     <div>
-      <h1 className="font-amiri text-2xl font-bold text-zinc-100 mb-6">Lesson Templates</h1>
+      <h1 className="font-display text-2xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>Lesson Templates</h1>
       <TemplateManager />
     </div>
   );

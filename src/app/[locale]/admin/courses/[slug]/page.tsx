@@ -45,8 +45,8 @@ export default async function CourseDetailPage({
   return (
     <div>
       <div className="mb-6">
-        <h1 className="font-amiri text-2xl font-bold text-zinc-100">{course.title}</h1>
-        <p className="text-sm text-zinc-500 mt-1">{course.description}</p>
+        <h1 className="font-display text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{course.title}</h1>
+        <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>{course.description}</p>
       </div>
 
       <CourseSectionManager

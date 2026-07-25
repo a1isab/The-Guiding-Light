@@ -112,68 +112,76 @@ export function TemplateManager() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-16">
-        <Loader2 className="h-6 w-6 animate-spin text-emerald-400" />
+        <Loader2 className="h-6 w-6 animate-spin" style={{ color: 'var(--success)' }} />
       </div>
     );
   }
+
+  const formPanelStyle = { borderColor: 'var(--border)', background: 'var(--bg-elevated)' } as const;
+  const inputStyle = { borderColor: 'var(--border)', background: 'var(--bg-subtle)', color: 'var(--text-primary)' } as const;
+  const labelStyle = { color: 'var(--text-muted)' } as const;
 
   return (
     <div className="space-y-6">
       <button
         onClick={startCreate}
         data-testid="new-template"
-        className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-400 transition-all"
+        className="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium text-white hover:brightness-110 transition-all"
+        style={{ background: 'var(--accent)' }}
       >
         <Plus className="h-4 w-4" />
         New Template
       </button>
 
       {(creating || editing) && (
-        <div className="rounded-2xl border border-zinc-700 bg-zinc-900/50 p-6 space-y-4">
+        <div className="rounded-2xl border p-6 space-y-4" style={formPanelStyle}>
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-medium text-zinc-200">
+            <h2 className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
               {editing ? "Edit Template" : "New Template"}
             </h2>
-            <button data-testid="template-cancel" onClick={cancelEdit} className="text-zinc-500 hover:text-zinc-300">
+            <button data-testid="template-cancel" onClick={cancelEdit} style={{ color: 'var(--text-muted)' }} className="hover:text-[var(--text-secondary)]">
               <X className="h-4 w-4" />
             </button>
           </div>
 
           <div>
-            <label className="block text-xs text-zinc-500 mb-1">Name</label>
+            <label className="block text-xs mb-1" style={labelStyle}>Name</label>
             <input
               type="text"
               data-testid="template-form-name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full rounded-xl border border-zinc-700 bg-zinc-800/50 px-3 py-2 text-sm text-zinc-100 focus:border-emerald-500 focus:outline-none"
+              className="w-full rounded-xl border px-3 py-2 text-sm focus:border-[var(--accent)] focus:outline-none"
+              style={inputStyle}
               placeholder="Template name"
             />
           </div>
 
           <div>
-            <label className="block text-xs text-zinc-500 mb-1">Description (optional)</label>
+            <label className="block text-xs mb-1" style={labelStyle}>Description (optional)</label>
             <input
               type="text"
               data-testid="template-form-desc"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full rounded-xl border border-zinc-700 bg-zinc-800/50 px-3 py-2 text-sm text-zinc-100 focus:border-emerald-500 focus:outline-none"
+              className="w-full rounded-xl border px-3 py-2 text-sm focus:border-[var(--accent)] focus:outline-none"
+              style={inputStyle}
               placeholder="Brief description"
             />
           </div>
 
           <div>
-            <label className="block text-xs text-zinc-500 mb-1">Content (markdown)</label>
+            <label className="block text-xs mb-1" style={labelStyle}>Content (markdown)</label>
             <MarkdownEditor value={content} onChange={setContent} minHeight={250} />
           </div>
 
-          {error && <p data-testid="template-error" className="text-xs text-red-400">{error}</p>}
+          {error && <p data-testid="template-error" className="text-xs" style={{ color: 'var(--error)' }}>{error}</p>}
 
           <div className="flex justify-end gap-3">
             <button
               onClick={cancelEdit}
-              className="rounded-lg border border-zinc-700 px-4 py-2 text-xs text-zinc-400 hover:text-zinc-200 transition-all"
+              className="rounded-lg border px-4 py-2 text-xs hover:text-[var(--text-primary)] transition-all"
+              style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)' }}
             >
               Cancel
             </button>
@@ -181,7 +189,8 @@ export function TemplateManager() {
               onClick={handleSave}
               data-testid="template-form-save"
               disabled={saving}
-              className="rounded-lg bg-emerald-600 px-4 py-2 text-xs text-white hover:bg-emerald-500 disabled:opacity-50 transition-all"
+              className="rounded-lg px-4 py-2 text-xs text-white hover:brightness-110 disabled:opacity-50 transition-all"
+              style={{ background: 'var(--accent)' }}
             >
               {saving ? "Saving..." : "Save"}
             </button>
@@ -190,21 +199,22 @@ export function TemplateManager() {
       )}
 
       {templates.length === 0 && !creating ? (
-        <p data-testid="templates-empty" className="text-sm text-zinc-500">No templates yet. Create your first official template.</p>
+        <p data-testid="templates-empty" className="text-sm" style={{ color: 'var(--text-muted)' }}>No templates yet. Create your first official template.</p>
       ) : (
         <div className="space-y-2">
           {templates.map((t) => (
             <div
               key={t.id}
               data-testid={`template-item-${t.id}`}
-              className="flex items-center justify-between rounded-xl border border-zinc-800 bg-[#111111] px-5 py-4"
+              className="flex items-center justify-between rounded-xl border px-5 py-4"
+              style={{ borderColor: 'var(--border)', background: 'var(--bg-surface)' }}
             >
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-medium text-zinc-200">{t.name}</p>
+                <p className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>{t.name}</p>
                 {t.description && (
-                  <p className="text-xs text-zinc-500 mt-0.5">{t.description}</p>
+                  <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>{t.description}</p>
                 )}
-                <p className="text-xs text-zinc-600 mt-1">
+                <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
                   Updated {new Date(t.updated_at).toLocaleDateString()}
                 </p>
               </div>
@@ -212,14 +222,16 @@ export function TemplateManager() {
                 <button
                   onClick={() => startEdit(t)}
                   data-testid={`edit-template-${t.id}`}
-                  className="rounded-lg p-1.5 text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800 transition-all"
+                  className="rounded-lg p-1.5 hover:text-[var(--text-secondary)] hover:bg-[var(--bg-subtle)] transition-all"
+                  style={{ color: 'var(--text-muted)' }}
                 >
                   <Pencil className="h-3.5 w-3.5" />
                 </button>
                 <button
                   onClick={() => handleDelete(t.id)}
                   data-testid={`delete-template-${t.id}`}
-                  className="rounded-lg p-1.5 text-red-400 hover:bg-red-900/20 transition-all"
+                  className="rounded-lg p-1.5 hover:bg-[color-mix(in_srgb,var(--error)_20%,transparent)] transition-all"
+                  style={{ color: 'var(--error)' }}
                 >
                   <Trash2 className="h-3.5 w-3.5" />
                 </button>

@@ -115,18 +115,23 @@ export function LessonEditor({
     );
   }
 
+  const panelStyle = { borderColor: 'var(--border)', background: 'var(--bg-surface)' } as const;
+  const inputStyle = { borderColor: 'var(--border)', background: 'var(--bg-elevated)', color: 'var(--text-primary)' } as const;
+  const labelStyle = { color: 'var(--text-secondary)' } as const;
+
   return (
     <div className="space-y-8">
       {/* Lesson Content */}
-      <div className="rounded-2xl border border-zinc-800 bg-[#111111] p-6 space-y-4">
-        <h2 className="text-lg font-semibold text-zinc-100">Lesson Content</h2>
+      <div className="rounded-2xl border p-6 space-y-4" style={panelStyle}>
+        <h2 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Lesson Content</h2>
 
         <div>
-          <label className="block text-sm font-medium text-zinc-400 mb-1">{t("content_type")}</label>
+          <label className="block text-sm font-medium mb-1" style={labelStyle}>{t("content_type")}</label>
           <select
             value={contentType}
             onChange={(e) => setContentType(e.target.value)}
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-900/50 px-3 py-2.5 text-sm text-zinc-100 focus:border-emerald-500 focus:outline-none"
+            className="w-full rounded-xl border px-3 py-2.5 text-sm focus:border-[var(--accent)] focus:outline-none"
+            style={inputStyle}
           >
             <option value="text">Text</option>
             <option value="video">Video</option>
@@ -135,74 +140,80 @@ export function LessonEditor({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-zinc-400 mb-1">{t("lesson_video_url")}</label>
+          <label className="block text-sm font-medium mb-1" style={labelStyle}>{t("lesson_video_url")}</label>
           <input
             type="text"
             value={videoUrl}
             onChange={(e) => setVideoUrl(e.target.value)}
             placeholder="https://www.youtube.com/embed/..."
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-900/50 px-3 py-2.5 text-sm text-zinc-100 focus:border-emerald-500 focus:outline-none"
+            className="w-full rounded-xl border px-3 py-2.5 text-sm focus:border-[var(--accent)] focus:outline-none"
+            style={inputStyle}
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-zinc-400 mb-1">{t("lesson_content")}</label>
+          <label className="block text-sm font-medium mb-1" style={labelStyle}>{t("lesson_content")}</label>
           <textarea
             rows={12}
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-900/50 px-3 py-2.5 text-sm text-zinc-100 font-mono focus:border-emerald-500 focus:outline-none"
+            className="w-full rounded-xl border px-3 py-2.5 text-sm font-mono focus:border-[var(--accent)] focus:outline-none"
+            style={inputStyle}
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-zinc-400 mb-1">{t("lesson_arabic_text")}</label>
+          <label className="block text-sm font-medium mb-1" style={labelStyle}>{t("lesson_arabic_text")}</label>
           <textarea
             rows={4}
             value={arabicText}
             onChange={(e) => setArabicText(e.target.value)}
             dir="rtl"
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-900/50 px-3 py-2.5 text-sm text-zinc-100 font-arabic focus:border-emerald-500 focus:outline-none"
+            className="w-full rounded-xl border px-3 py-2.5 text-sm font-arabic focus:border-[var(--accent)] focus:outline-none"
+            style={inputStyle}
           />
         </div>
 
-        {error && <p className="text-sm text-red-400">{error}</p>}
+        {error && <p className="text-sm" style={{ color: 'var(--error)' }}>{error}</p>}
 
         <button
           onClick={saveLesson}
           disabled={saving}
-          className="rounded-xl bg-emerald-500 px-6 py-2.5 text-sm font-medium text-white hover:bg-emerald-400 disabled:opacity-50 transition-all"
+          className="rounded-xl px-6 py-2.5 text-sm font-medium text-white hover:brightness-110 disabled:opacity-50 transition-all"
+          style={{ background: 'var(--accent)' }}
         >
           {saving ? t("saving") : t("save")}
         </button>
       </div>
 
       {/* Quiz Editor */}
-      <div className="rounded-2xl border border-zinc-800 bg-[#111111] p-6 space-y-4">
+      <div className="rounded-2xl border p-6 space-y-4" style={panelStyle}>
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-zinc-100">{t("quiz_edit")}</h2>
+          <h2 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>{t("quiz_edit")}</h2>
           <button
             onClick={generateQuiz}
             disabled={generating}
-            className="rounded-xl border border-zinc-700 px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 disabled:opacity-50 transition-all"
+            className="rounded-xl border px-4 py-2 text-sm hover:bg-[var(--bg-subtle)] disabled:opacity-50 transition-all"
+            style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)' }}
           >
             {generating ? t("generating") : t("generate_quiz")}
           </button>
         </div>
 
         {questions.length === 0 ? (
-          <p className="text-sm text-zinc-500">No quiz questions yet. Click "Generate Quiz with AI" or add manually.</p>
+          <p className="text-sm" style={{ color: 'var(--text-muted)' }}>No quiz questions yet. Click &quot;Generate Quiz with AI&quot; or add manually.</p>
         ) : (
           <div className="space-y-6">
             {questions.map((q, qi) => (
-              <div key={qi} className="rounded-xl border border-zinc-700 bg-zinc-900/30 p-4 space-y-3">
+              <div key={qi} className="rounded-xl border p-4 space-y-3" style={{ borderColor: 'var(--border)', background: 'var(--bg-elevated)' }}>
                 <div className="flex items-start justify-between gap-2">
-                  <span className="text-xs text-zinc-500 shrink-0 mt-1">Q{qi + 1}</span>
+                  <span className="text-xs shrink-0 mt-1" style={{ color: 'var(--text-muted)' }}>Q{qi + 1}</span>
                   <input
                     type="text"
                     value={q.question}
                     onChange={(e) => updateQuestion(qi, "question", e.target.value)}
-                    className="flex-1 rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-1.5 text-sm text-zinc-100 focus:border-emerald-500 focus:outline-none"
+                    className="flex-1 rounded-lg border px-3 py-1.5 text-sm focus:border-[var(--accent)] focus:outline-none"
+                    style={inputStyle}
                   />
                 </div>
                 <div className="space-y-2 ml-6">
@@ -213,15 +224,17 @@ export function LessonEditor({
                         name={`correct-${qi}`}
                         checked={q.correct === oi}
                         onChange={() => updateQuestion(qi, "correct", oi)}
-                        className="h-4 w-4 text-emerald-500 focus:ring-emerald-500 border-zinc-700"
+                        className="h-4 w-4 focus:ring-[var(--accent)]"
+                        style={{ borderColor: 'var(--border)', color: 'var(--accent)' }}
                       />
                       <input
                         type="text"
                         value={opt}
                         onChange={(e) => updateOption(qi, oi, e.target.value)}
-                        className="flex-1 rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-1.5 text-sm text-zinc-100 focus:border-emerald-500 focus:outline-none"
+                        className="flex-1 rounded-lg border px-3 py-1.5 text-sm focus:border-[var(--accent)] focus:outline-none"
+                        style={inputStyle}
                       />
-                      <span className="text-xs text-zinc-600 w-6 text-right">
+                      <span className="text-xs w-6 text-right" style={{ color: 'var(--text-muted)' }}>
                         {q.correct === oi ? "✓" : ""}
                       </span>
                     </label>
@@ -235,7 +248,8 @@ export function LessonEditor({
         <button
           onClick={saveQuiz}
           disabled={saving}
-          className="rounded-xl bg-emerald-500 px-6 py-2.5 text-sm font-medium text-white hover:bg-emerald-400 disabled:opacity-50 transition-all"
+          className="rounded-xl px-6 py-2.5 text-sm font-medium text-white hover:brightness-110 disabled:opacity-50 transition-all"
+          style={{ background: 'var(--accent)' }}
         >
           {saving ? t("saving") : t("save")}
         </button>

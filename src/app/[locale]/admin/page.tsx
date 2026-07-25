@@ -38,50 +38,50 @@ export default async function AdminDashboardPage({
     .limit(10);
 
   const stats = [
-    { key: "total-users", label: t("total_users"), value: totalUsers ?? 0, icon: Users, color: "bg-blue-500/10 text-blue-400" },
-    { key: "new-users", label: t("new_users"), value: newUsers ?? 0, icon: TrendingUp, color: "bg-emerald-500/10 text-emerald-400" },
-    { key: "lessons-completed", label: t("lessons_completed"), value: totalCompleted ?? 0, icon: CheckCircle, color: "bg-amber-500/10 text-amber-400" },
-    { key: "total-courses", label: t("total_courses"), value: totalCourses ?? 0, icon: BookOpen, color: "bg-purple-500/10 text-purple-400" },
+    { key: "total-users", label: t("total_users"), value: totalUsers ?? 0, icon: Users, iconStyle: { background: 'color-mix(in srgb, var(--accent) 10%, transparent)', color: 'var(--accent)' } },
+    { key: "new-users", label: t("new_users"), value: newUsers ?? 0, icon: TrendingUp, iconStyle: { background: 'color-mix(in srgb, var(--success) 10%, transparent)', color: 'var(--success)' } },
+    { key: "lessons-completed", label: t("lessons_completed"), value: totalCompleted ?? 0, icon: CheckCircle, iconStyle: { background: 'color-mix(in srgb, var(--accent) 10%, transparent)', color: 'var(--accent)' } },
+    { key: "total-courses", label: t("total_courses"), value: totalCourses ?? 0, icon: BookOpen, iconStyle: { background: 'color-mix(in srgb, var(--text-secondary) 10%, transparent)', color: 'var(--text-secondary)' } },
   ];
 
   return (
     <div>
-      <h1 className="font-amiri text-2xl font-bold text-zinc-100">{t("title")}</h1>
+      <h1 className="font-display text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{t("title")}</h1>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((s) => (
-          <div key={s.key} data-testid={`stat-${s.key}`} className="rounded-2xl border border-zinc-800 bg-[#111111] p-5">
+          <div key={s.key} data-testid={`stat-${s.key}`} className="rounded-2xl border p-5" style={{ borderColor: 'var(--border)', background: 'var(--bg-surface)' }}>
             <div className="flex items-center gap-3">
-              <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${s.color}`}>
+              <div style={s.iconStyle} className="flex h-10 w-10 items-center justify-center rounded-xl">
                 <s.icon className="h-5 w-5" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-zinc-100">{s.value}</p>
-                <p className="text-xs text-zinc-500">{s.label}</p>
+                <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{s.value}</p>
+                <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{s.label}</p>
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      <div data-testid="recent-activity" className="mt-8 rounded-2xl border border-zinc-800 bg-[#111111] p-6">
-        <h2 className="font-amiri text-lg font-bold text-zinc-100 mb-4">{t("recent_activity")}</h2>
+      <div data-testid="recent-activity" className="mt-8 rounded-2xl border p-6" style={{ borderColor: 'var(--border)', background: 'var(--bg-surface)' }}>
+        <h2 className="font-display text-lg font-bold mb-4" style={{ color: 'var(--text-primary)' }}>{t("recent_activity")}</h2>
         {recentProgress && recentProgress.length > 0 ? (
           <div data-testid="recent-activity-list" className="space-y-3">
             {recentProgress.map((p, i) => (
               <div key={i} className="flex items-center gap-3 text-sm">
-                <div className="h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
-                <span className="text-zinc-400">
-                  Lesson <span className="text-zinc-300">{p.lesson_id.slice(0, 8)}</span>
+                <div className="h-2 w-2 rounded-full shrink-0" style={{ background: 'var(--success)' }} />
+                <span style={{ color: 'var(--text-secondary)' }}>
+                  Lesson <span style={{ color: 'var(--text-secondary)' }}>{p.lesson_id.slice(0, 8)}</span>
                 </span>
-                <span className="text-zinc-600 ml-auto">
+                <span className="ml-auto" style={{ color: 'var(--text-muted)' }}>
                   {new Date(p.completed_at).toLocaleDateString()}
                 </span>
               </div>
             ))}
           </div>
         ) : (
-          <p className="text-sm text-zinc-500">{t("no_activity")}</p>
+          <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{t("no_activity")}</p>
         )}
       </div>
     </div>

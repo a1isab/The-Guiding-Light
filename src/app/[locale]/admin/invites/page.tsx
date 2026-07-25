@@ -64,12 +64,13 @@ export default function AdminInvitesPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="font-amiri text-2xl font-bold text-zinc-100">{t("invites")}</h1>
+        <h1 className="font-display text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{t("invites")}</h1>
         <button
           onClick={generate}
           data-testid="generate-invite"
           disabled={generating}
-          className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-emerald-400 disabled:opacity-50 transition-all"
+          className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-white hover:brightness-110 disabled:opacity-50 transition-all"
+          style={{ background: 'var(--accent)' }}
         >
           {generating ? (
             <RefreshCw className="h-4 w-4 animate-spin" />
@@ -81,54 +82,55 @@ export default function AdminInvitesPage() {
       </div>
 
       {error && (
-        <p data-testid="invite-error" className="mb-4 text-sm text-red-400">{error}</p>
+        <p data-testid="invite-error" className="mb-4 text-sm" style={{ color: 'var(--error)' }}>{error}</p>
       )}
 
-      <div className="rounded-2xl border border-zinc-800 bg-[#111111] overflow-hidden">
+      <div className="rounded-2xl border overflow-hidden" style={{ borderColor: 'var(--border)', background: 'var(--bg-surface)' }}>
         {loading ? (
-          <div className="p-8 text-center text-sm text-zinc-500">{t("loading")}</div>
+          <div className="p-8 text-center text-sm" style={{ color: 'var(--text-muted)' }}>{t("loading")}</div>
         ) : invites.length === 0 ? (
-          <div className="p-8 text-center text-sm text-zinc-500">{t("no_invites")}</div>
+          <div className="p-8 text-center text-sm" style={{ color: 'var(--text-muted)' }}>{t("no_invites")}</div>
         ) : (
-          <div className="divide-y divide-zinc-800">
+          <div className="divide-[var(--border)]">
             {invites.map((invite) => {
               const used = !!invite.used_by;
               const expired = invite.expires_at && new Date(invite.expires_at) < new Date();
               return (
                 <div key={invite.id} data-testid={`invite-row-${invite.id}`} className="flex items-center justify-between px-6 py-4">
                   <div className="flex items-center gap-4">
-                    <code data-testid={`invite-code-${invite.id}`} className="rounded-lg bg-zinc-800 px-3 py-1.5 text-sm font-mono text-emerald-400">
+                    <code data-testid={`invite-code-${invite.id}`} className="rounded-lg px-3 py-1.5 text-sm font-mono" style={{ background: 'var(--bg-subtle)', color: 'var(--success)' }}>
                       {invite.code}
                     </code>
                     {used ? (
-                      <span data-testid={`invite-status-${invite.id}`} className="flex items-center gap-1.5 text-sm text-zinc-500">
-                        <CheckCircle2 className="h-3.5 w-3.5 text-zinc-600" />
+                      <span data-testid={`invite-status-${invite.id}`} className="flex items-center gap-1.5 text-sm" style={{ color: 'var(--text-muted)' }}>
+                        <CheckCircle2 className="h-3.5 w-3.5" style={{ color: 'var(--text-muted)' }} />
                         {t("used")}
                       </span>
                     ) : expired ? (
-                      <span data-testid={`invite-status-${invite.id}`} className="flex items-center gap-1.5 text-sm text-red-400">
+                      <span data-testid={`invite-status-${invite.id}`} className="flex items-center gap-1.5 text-sm" style={{ color: 'var(--error)' }}>
                         <XCircle className="h-3.5 w-3.5" />
                         {t("expired")}
                       </span>
                     ) : (
-                      <span data-testid={`invite-status-${invite.id}`} className="flex items-center gap-1.5 text-sm text-emerald-400">
+                      <span data-testid={`invite-status-${invite.id}`} className="flex items-center gap-1.5 text-sm" style={{ color: 'var(--success)' }}>
                         <Clock className="h-3.5 w-3.5" />
                         {t("active")}
                       </span>
                     )}
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs text-zinc-600">
+                    <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
                       {new Date(invite.created_at).toLocaleDateString()}
                     </span>
                     <button
                       onClick={() => copyCode(invite.code, invite.id)}
                       data-testid={`copy-invite-${invite.id}`}
-                      className="rounded-lg p-2 text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800 transition-all"
+                      className="rounded-lg p-2 hover:text-[var(--text-secondary)] hover:bg-[var(--bg-elevated)] transition-all"
+                      style={{ color: 'var(--text-muted)' }}
                       title="Copy code"
                     >
                       {copiedId === invite.id ? (
-                        <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                        <CheckCircle2 className="h-4 w-4" style={{ color: 'var(--success)' }} />
                       ) : (
                         <Copy className="h-4 w-4" />
                       )}
