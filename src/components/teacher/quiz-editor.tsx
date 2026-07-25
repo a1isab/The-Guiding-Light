@@ -249,14 +249,15 @@ export function QuizEditor({ lessonId, lessonContent }: { lessonId: string; less
                     name={`correct-${qIndex}`}
                     checked={q.correctIndex === optIndex}
                     onChange={() => updateCorrect(qIndex, optIndex)}
-                    className="h-3.5 w-3.5 accent-emerald-500"
+                    className="h-3.5 w-3.5"
+                    style={{ accentColor: "var(--success)" }}
                   />
                   <input
                     type="text"
                     value={opt}
                     onChange={(e) => updateOption(qIndex, optIndex, e.target.value)}
                     placeholder={`Option ${String.fromCharCode(65 + optIndex)}`}
-                    className="flex-1 bg-transparent text-xs placeholder-zinc-600 focus:outline-none"
+                    className="flex-1 bg-transparent text-xs focus:outline-none"
                     style={{ color: "var(--text-primary)" }}
                   />
                 </label>

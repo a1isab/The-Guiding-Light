@@ -76,24 +76,24 @@ export default async function CoursePage({
   return (
     <div className="mx-auto max-w-3xl px-4 py-8">
       <div className="mb-8">
-        <h1 data-testid="course-title" className="font-amiri text-3xl font-bold text-zinc-100">
+        <h1 data-testid="course-title" className="font-arabic text-3xl font-bold" style={{ color: "var(--text-primary)" }}>
           {getTranslation(course, "title", locale, course.title)}
         </h1>
-        <p className="mt-2 text-zinc-400">
+        <p className="mt-2" style={{ color: "var(--text-secondary)" }}>
           {getTranslation(course, "description", locale, course.description)}
         </p>
-        <p className="mt-2 text-xs text-zinc-600">
+        <p className="mt-2 text-xs" style={{ color: "var(--text-muted)" }}>
           {enrolledCount ?? 0} students enrolled
         </p>
         {totalLessons > 0 && (
           <div className="mt-4 flex items-center gap-3">
-            <div className="flex-1 h-2 rounded-full bg-zinc-800">
+            <div className="flex-1 h-2 rounded-full" style={{ background: "var(--bg-surface)" }}>
               <div
-                className="h-2 rounded-full bg-emerald-500 transition-all"
-                style={{ width: `${percentComplete}%` }}
+                className="h-2 rounded-full transition-all"
+                style={{ width: `${percentComplete}%`, background: "var(--success)" }}
               />
             </div>
-            <span className="text-sm text-zinc-500 shrink-0">
+            <span className="text-sm shrink-0" style={{ color: "var(--text-muted)" }}>
               {completedCount}/{totalLessons}
             </span>
           </div>

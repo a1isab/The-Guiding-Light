@@ -40,7 +40,7 @@ export default async function CoursesPage({
   if (!courses || courses.length === 0) {
     return (
       <div className="flex flex-1 items-center justify-center">
-        <p className="text-zinc-500">{t("empty")}</p>
+        <p style={{ color: "var(--text-muted)" }}>{t("empty")}</p>
       </div>
     );
   }
@@ -48,8 +48,8 @@ export default async function CoursesPage({
   return (
     <div className="mx-auto max-w-5xl px-4 py-16">
       <div className="text-center">
-        <h1 className="font-amiri text-4xl font-bold text-zinc-100">{t("title")}</h1>
-        <p className="mt-2 text-zinc-400">{t("subtitle")}</p>
+        <h1 className="font-arabic text-4xl font-bold" style={{ color: "var(--text-primary)" }}>{t("title")}</h1>
+        <p className="mt-2" style={{ color: "var(--text-secondary)" }}>{t("subtitle")}</p>
       </div>
 
       <CourseList

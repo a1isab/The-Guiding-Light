@@ -66,23 +66,23 @@ export default async function LessonPage({
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-8">
-      <nav className="mb-6 flex items-center gap-2 text-sm text-zinc-500">
-        <Link href={`/${locale}/courses`} className="hover:text-emerald-400 transition-colors">{t("breadcrumb_courses")}</Link>
-        <span className="text-zinc-700">/</span>
-        <Link href={`/${locale}/courses/${courseSlug}`} className="hover:text-emerald-400 transition-colors">
+      <nav className="mb-6 flex items-center gap-2 text-sm" style={{ color: "var(--text-muted)" }}>
+        <Link href={`/${locale}/courses`} className="transition-colors" style={{ color: "var(--text-muted)" }} onMouseEnter={(e) => { e.currentTarget.style.color = "var(--accent)"; }} onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-muted)"; }}>{t("breadcrumb_courses")}</Link>
+        <span style={{ color: "var(--border)" }}>/</span>
+        <Link href={`/${locale}/courses/${courseSlug}`} className="transition-colors" style={{ color: "var(--text-muted)" }} onMouseEnter={(e) => { e.currentTarget.style.color = "var(--accent)"; }} onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-muted)"; }}>
           {getTranslation(course, "title", locale, course.title)}
         </Link>
-        <span className="text-zinc-700">/</span>
-        <span className="text-zinc-300">
+        <span style={{ color: "var(--border)" }}>/</span>
+        <span style={{ color: "var(--text-secondary)" }}>
           {getTranslation(lesson, "title", locale, lesson.title)}
         </span>
       </nav>
 
-      <h1 data-testid="lesson-title" className="font-amiri text-3xl font-bold text-zinc-100">
+      <h1 data-testid="lesson-title" className="font-arabic text-3xl font-bold" style={{ color: "var(--text-primary)" }}>
         {getTranslation(lesson, "title", locale, lesson.title)}
       </h1>
 
-      <p className="mt-1 text-xs text-zinc-600">
+      <p className="mt-1 text-xs" style={{ color: "var(--text-muted)" }}>
         {lessonCompletedCount ?? 0} students completed this lesson
       </p>
 

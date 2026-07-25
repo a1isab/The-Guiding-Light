@@ -205,7 +205,8 @@ export function QuizViewer({ lessonId }: { lessonId: string }) {
                   name={`q-${qIndex}`}
                   checked={answers[qIndex] === optIndex}
                   onChange={() => setAnswers((prev) => prev.map((a, i) => (i === qIndex ? optIndex : a)))}
-                  className="h-4 w-4 accent-emerald-500"
+                  className="h-4 w-4"
+                  style={{ accentColor: "var(--success)" }}
                 />
                 <span className="text-sm" style={{ color: "var(--text-primary)" }}>{opt}</span>
               </label>
