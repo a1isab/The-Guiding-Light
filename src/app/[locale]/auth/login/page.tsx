@@ -50,7 +50,7 @@ function LoginForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-zinc-400">
+        <label htmlFor="email" className="block text-sm font-medium" style={{ color: "var(--text-secondary)" }}>
           {t("email")}
         </label>
         <input
@@ -60,13 +60,14 @@ function LoginForm() {
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="mt-1 block w-full rounded-xl border border-zinc-700 bg-zinc-900/50 px-3 py-2.5 text-sm text-zinc-100 placeholder-zinc-500 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+          className="mt-1 block w-full rounded-xl border px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[var(--accent)] focus:ring-[var(--accent)] placeholder:text-[var(--text-muted)]"
+          style={{ borderColor: "var(--border)", backgroundColor: "color-mix(in srgb, var(--bg-elevated) 50%, transparent)", color: "var(--text-primary)" }}
           placeholder={t("email_placeholder")}
         />
       </div>
 
       <div>
-        <label htmlFor="password" className="block text-sm font-medium text-zinc-400">
+        <label htmlFor="password" className="block text-sm font-medium" style={{ color: "var(--text-secondary)" }}>
           {t("password")}
         </label>
         <input
@@ -76,12 +77,14 @@ function LoginForm() {
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="mt-1 block w-full rounded-xl border border-zinc-700 bg-zinc-900/50 px-3 py-2.5 text-sm text-zinc-100 placeholder-zinc-500 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+          className="mt-1 block w-full rounded-xl border px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[var(--accent)] focus:ring-[var(--accent)] placeholder:text-[var(--text-muted)]"
+          style={{ borderColor: "var(--border)", backgroundColor: "color-mix(in srgb, var(--bg-elevated) 50%, transparent)", color: "var(--text-primary)" }}
         />
         <div className="mt-1 flex justify-end">
           <Link
             href={`/${locale}/auth/forgot-password`}
-            className="text-xs text-zinc-500 hover:text-emerald-400 transition-colors"
+            className="text-xs transition-colors hover:opacity-80"
+            style={{ color: "var(--text-muted)" }}
           >
             {t("forgot_password")}
           </Link>
@@ -89,14 +92,15 @@ function LoginForm() {
       </div>
 
       {error && (
-        <p data-testid="login-error" className="text-sm text-red-400">{error}</p>
+        <p data-testid="login-error" className="text-sm" style={{ color: "var(--error)" }}>{error}</p>
       )}
 
       <button
         type="submit"
         data-testid="login-submit"
         disabled={loading}
-        className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-emerald-400 disabled:opacity-50 transition-all"
+        className="w-full inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-white hover:opacity-80 disabled:opacity-50 transition-all"
+        style={{ backgroundColor: "var(--accent)" }}
       >
         <LogIn className="h-4 w-4" />
         {loading ? t("signing_in") : t("sign_in")}
@@ -112,23 +116,23 @@ export default function LoginPage() {
   return (
     <div className="flex flex-1 items-center justify-center px-4">
       <div className="relative w-full max-w-md">
-        <div className="pointer-events-none absolute -inset-1 rounded-3xl bg-gradient-to-b from-emerald-500/20 to-transparent blur-xl" />
-        <div className="relative rounded-2xl border border-zinc-800 bg-[#111111] p-8">
+        <div className="pointer-events-none absolute -inset-1 rounded-3xl blur-xl" style={{ background: "linear-gradient(to bottom, color-mix(in srgb, var(--accent) 20%, transparent), transparent)" }} />
+        <div className="relative rounded-2xl border p-8" style={{ borderColor: "var(--border)", backgroundColor: "var(--bg-surface)" }}>
           <div className="mb-8 text-center">
-            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500/10">
-              <Sparkles className="h-6 w-6 text-emerald-400" />
+            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl" style={{ backgroundColor: "color-mix(in srgb, var(--accent) 10%, transparent)" }}>
+              <Sparkles className="h-6 w-6" style={{ color: "var(--accent)" }} />
             </div>
-            <h1 className="font-amiri text-2xl font-bold text-zinc-100">{t("welcome_back")}</h1>
-            <p className="mt-1 text-sm text-zinc-500">{t("login_subtitle")}</p>
+            <h1 className="font-display text-2xl font-bold" style={{ color: "var(--text-primary)" }}>{t("welcome_back")}</h1>
+            <p className="mt-1 text-sm" style={{ color: "var(--text-muted)" }}>{t("login_subtitle")}</p>
           </div>
 
-          <Suspense fallback={<div className="text-center text-sm text-zinc-500">{t("loading")}</div>}>
+          <Suspense fallback={<div className="text-center text-sm" style={{ color: "var(--text-muted)" }}>{t("loading")}</div>}>
             <LoginForm />
           </Suspense>
 
-          <p className="mt-6 text-center text-sm text-zinc-500">
+          <p className="mt-6 text-center text-sm" style={{ color: "var(--text-muted)" }}>
             {t("dont_have_account")}{" "}
-            <Link href={`/${locale}/auth/signup`} className="font-medium text-emerald-400 hover:text-emerald-300 transition-colors">
+            <Link href={`/${locale}/auth/signup`} className="font-medium transition-colors hover:opacity-80" style={{ color: "var(--accent)" }}>
               {t("create_one")}
             </Link>
           </p>

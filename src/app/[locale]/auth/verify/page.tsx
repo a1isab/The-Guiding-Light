@@ -102,7 +102,7 @@ export default function VerifyPage() {
   if (!email) {
     return (
       <div className="flex flex-1 items-center justify-center">
-        <Loader2 className="h-6 w-6 animate-spin text-zinc-500" />
+        <Loader2 className="h-6 w-6 animate-spin" style={{ color: "var(--text-muted)" }} />
       </div>
     );
   }
@@ -110,26 +110,26 @@ export default function VerifyPage() {
   return (
     <div className="flex flex-1 items-center justify-center px-4">
       <div className="relative w-full max-w-md">
-        <div className="pointer-events-none absolute -inset-1 rounded-3xl bg-gradient-to-b from-emerald-500/20 to-transparent blur-xl" />
-        <div className="relative rounded-2xl border border-zinc-800 bg-[#111111] p-8">
+        <div className="pointer-events-none absolute -inset-1 rounded-3xl blur-xl" style={{ background: "linear-gradient(to bottom, color-mix(in srgb, var(--accent) 20%, transparent), transparent)" }} />
+        <div className="relative rounded-2xl border p-8" style={{ borderColor: "var(--border)", backgroundColor: "var(--bg-surface)" }}>
           <div className="mb-8 text-center">
-            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500/10">
-              <ShieldCheck className="h-6 w-6 text-emerald-400" />
+            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl" style={{ backgroundColor: "color-mix(in srgb, var(--accent) 10%, transparent)" }}>
+              <ShieldCheck className="h-6 w-6" style={{ color: "var(--accent)" }} />
             </div>
-            <h1 className="font-amiri text-2xl font-bold text-zinc-100">{t("verify_title")}</h1>
-            <p className="mt-1 text-sm text-zinc-500">{t("verify_subtitle")}</p>
-            <p className="mt-1 text-sm text-zinc-400">{email}</p>
+            <h1 className="font-display text-2xl font-bold" style={{ color: "var(--text-primary)" }}>{t("verify_title")}</h1>
+            <p className="mt-1 text-sm" style={{ color: "var(--text-muted)" }}>{t("verify_subtitle")}</p>
+            <p className="mt-1 text-sm" style={{ color: "var(--text-secondary)" }}>{email}</p>
           </div>
 
-          <div className="mb-4 rounded-xl border border-zinc-700 bg-zinc-900/50 p-4 text-center">
-            <p className="text-xs text-zinc-500 mb-1">{t("verify_code_label")}</p>
-            <p data-testid="verify-displayed-code" className="text-3xl font-bold tracking-[0.3em] text-emerald-400 font-mono">
+          <div className="mb-4 rounded-xl border p-4 text-center" style={{ borderColor: "var(--border)", backgroundColor: "color-mix(in srgb, var(--bg-elevated) 50%, transparent)" }}>
+            <p className="text-xs mb-1" style={{ color: "var(--text-muted)" }}>{t("verify_code_label")}</p>
+            <p data-testid="verify-displayed-code" className="text-3xl font-bold tracking-[0.3em] font-mono" style={{ color: "var(--accent)" }}>
               {expectedCode}
             </p>
           </div>
 
           <div className="space-y-4">
-            <label className="block text-sm font-medium text-zinc-400 text-center">
+            <label className="block text-sm font-medium text-center" style={{ color: "var(--text-secondary)" }}>
               {t("verify_enter_code")}
             </label>
             <div className="flex justify-center gap-2">
@@ -144,20 +144,22 @@ export default function VerifyPage() {
                   value={digit}
                   onChange={(e) => handleChange(i, e.target.value)}
                   onKeyDown={(e) => handleKeyDown(i, e)}
-                  className="h-12 w-11 rounded-xl border border-zinc-700 bg-zinc-900 text-center text-lg font-mono text-zinc-100 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                  className="h-12 w-11 rounded-xl border text-center text-lg font-mono focus:outline-none focus:ring-1 focus:border-[var(--accent)] focus:ring-[var(--accent)]"
+                  style={{ borderColor: "var(--border)", backgroundColor: "var(--bg-elevated)", color: "var(--text-primary)" }}
                 />
               ))}
             </div>
 
             {error && (
-              <p data-testid="verify-error" className="text-sm text-red-400 text-center">{error}</p>
+              <p data-testid="verify-error" className="text-sm text-center" style={{ color: "var(--error)" }}>{error}</p>
             )}
 
             <button
               data-testid="verify-submit"
               onClick={handleSubmit}
               disabled={verifying}
-              className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-emerald-400 disabled:opacity-50 transition-all"
+              className="w-full inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-white hover:opacity-80 disabled:opacity-50 transition-all"
+              style={{ backgroundColor: "var(--accent)" }}
             >
               {verifying ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
