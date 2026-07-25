@@ -53,17 +53,17 @@ function AssignmentSection({ lessonId }: { lessonId: string }) {
   const assignment = assignments[0];
 
   return (
-    <div data-testid="assignment-section" className="mt-8 pt-6 border-t border-zinc-800">
+    <div data-testid="assignment-section" className="mt-8 pt-6" style={{ borderTop: "1px solid var(--border)" }}>
       <div className="flex items-center gap-2 mb-2">
-        <ClipboardList className="h-5 w-5 text-emerald-400" />
-        <h3 className="text-sm font-medium text-zinc-200">Assignment</h3>
+        <ClipboardList className="h-5 w-5" style={{ color: "var(--accent)" }} />
+        <h3 className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>Assignment</h3>
       </div>
-      <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-4">
-        <h4 className="text-sm font-semibold text-zinc-100">{assignment.title}</h4>
+      <div className="rounded-xl p-4" style={{ border: "1px solid var(--border)", backgroundColor: "var(--bg-elevated)" }}>
+        <h4 className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>{assignment.title}</h4>
         {assignment.description && (
-          <p className="mt-1 text-xs text-zinc-400 whitespace-pre-wrap">{assignment.description}</p>
+          <p className="mt-1 text-xs whitespace-pre-wrap" style={{ color: "var(--text-secondary)" }}>{assignment.description}</p>
         )}
-        <div className="mt-2 flex items-center gap-4 text-xs text-zinc-500">
+        <div className="mt-2 flex items-center gap-4 text-xs" style={{ color: "var(--text-muted)" }}>
           <span>Max score: {assignment.max_score}</span>
           {assignment.due_date && (
             <span>Due: {new Date(assignment.due_date).toLocaleDateString()}</span>
@@ -142,7 +142,8 @@ export function LessonContentView({
             onClick={handleMarkViewed}
             data-testid="mark-viewed"
             disabled={viewing}
-            className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-6 py-3 text-sm font-medium text-white hover:bg-emerald-400 disabled:opacity-50 transition-all"
+            className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-medium text-white disabled:opacity-50 transition-all"
+            style={{ backgroundColor: "var(--accent)" }}
           >
             <Eye className="h-5 w-5" />
             {viewing ? "Marking..." : "Mark as Viewed"}
@@ -150,13 +151,13 @@ export function LessonContentView({
         </div>
       )}
 
-      <div className="mt-10 pt-8 border-t border-zinc-800">
+      <div className="mt-10 pt-8" style={{ borderTop: "1px solid var(--border)" }}>
         {hasQuiz && viewedAt ? (
           <QuizViewer lessonId={lessonId} />
         ) : hasQuiz && !viewedAt ? (
-          <p data-testid="quiz-locked" className="text-sm text-zinc-500">Mark the content as viewed above to unlock the quiz.</p>
+          <p data-testid="quiz-locked" className="text-sm" style={{ color: "var(--text-muted)" }}>Mark the content as viewed above to unlock the quiz.</p>
         ) : (
-          <p className="text-sm text-zinc-500">No quiz for this lesson.</p>
+          <p className="text-sm" style={{ color: "var(--text-muted)" }}>No quiz for this lesson.</p>
         )}
       </div>
 
@@ -165,33 +166,35 @@ export function LessonContentView({
       <CommentThread lessonId={lessonId} />
 
       {/* Prev/Next Navigation */}
-      <div className="mt-10 pt-8 border-t border-zinc-800 flex items-center justify-between gap-4">
+      <div className="mt-10 pt-8 flex items-center justify-between gap-4" style={{ borderTop: "1px solid var(--border)" }}>
         {prevLesson ? (
           <a
             href={`/${locale}/dashboard/classes/${classId}/courses/${courseId}/lessons/${prevLesson.id}`}
             data-testid="nav-prev-lesson"
-            className="flex items-center gap-2 rounded-xl border border-zinc-800 bg-[#111111] px-4 py-3 hover:border-zinc-700 transition-all"
+            className="flex items-center gap-2 rounded-xl px-4 py-3 transition-all"
+            style={{ border: "1px solid var(--border)", backgroundColor: "var(--bg-surface)" }}
           >
-            <svg className="h-4 w-4 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="h-4 w-4" style={{ color: "var(--text-muted)" }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
             <div className="text-left">
-              <p className="text-xs text-zinc-500">Previous</p>
-              <p className="text-sm text-zinc-300">{prevLesson.title}</p>
+              <p className="text-xs" style={{ color: "var(--text-muted)" }}>Previous</p>
+              <p className="text-sm" style={{ color: "var(--text-primary)" }}>{prevLesson.title}</p>
             </div>
           </a>
         ) : (
           <a
             href={`/${locale}/dashboard/classes/${classId}/courses/${courseId}`}
             data-testid="nav-prev-lesson"
-            className="flex items-center gap-2 rounded-xl border border-zinc-800 bg-[#111111] px-4 py-3 hover:border-zinc-700 transition-all"
+            className="flex items-center gap-2 rounded-xl px-4 py-3 transition-all"
+            style={{ border: "1px solid var(--border)", backgroundColor: "var(--bg-surface)" }}
           >
-            <svg className="h-4 w-4 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="h-4 w-4" style={{ color: "var(--text-muted)" }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
             <div className="text-left">
-              <p className="text-xs text-zinc-500">Back to</p>
-              <p className="text-sm text-zinc-300">Course</p>
+              <p className="text-xs" style={{ color: "var(--text-muted)" }}>Back to</p>
+              <p className="text-sm" style={{ color: "var(--text-primary)" }}>Course</p>
             </div>
           </a>
         )}
@@ -200,13 +203,17 @@ export function LessonContentView({
           <a
             href={`/${locale}/dashboard/classes/${classId}/courses/${courseId}/lessons/${nextLesson.id}`}
             data-testid="nav-next-lesson"
-            className="flex items-center gap-2 rounded-xl border border-emerald-800/50 bg-emerald-900/10 px-4 py-3 hover:border-emerald-700/50 transition-all ml-auto"
+            className="flex items-center gap-2 rounded-xl px-4 py-3 transition-all ml-auto"
+            style={{
+              border: "1px solid color-mix(in srgb, var(--accent) 30%, transparent)",
+              backgroundColor: "color-mix(in srgb, var(--accent) 10%, transparent)",
+            }}
           >
             <div className="text-right">
-              <p className="text-xs text-emerald-500">Next</p>
-              <p className="text-sm text-emerald-300">{nextLesson.title}</p>
+              <p className="text-xs" style={{ color: "var(--accent)" }}>Next</p>
+              <p className="text-sm" style={{ color: "var(--accent)" }}>{nextLesson.title}</p>
             </div>
-            <svg className="h-4 w-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="h-4 w-4" style={{ color: "var(--accent)" }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </a>

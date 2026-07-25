@@ -58,23 +58,27 @@ export default function JoinPage() {
 
   return (
     <div className="flex min-h-[60vh] items-center justify-center">
-      <div className="w-full max-w-md rounded-2xl border border-zinc-800 bg-[#111111] p-8 text-center">
+      <div
+        className="w-full max-w-md rounded-2xl p-8 text-center"
+        style={{ border: "1px solid var(--border)", backgroundColor: "var(--bg-surface)" }}
+      >
         {status === "loading" && (
           <div>
-            <Loader2 className="h-10 w-10 animate-spin text-emerald-400 mx-auto mb-4" />
-            <p className="text-sm text-zinc-400">{t("join_loading")}</p>
+            <Loader2 className="h-10 w-10 animate-spin mx-auto mb-4" style={{ color: "var(--accent)" }} />
+            <p className="text-sm" style={{ color: "var(--text-secondary)" }}>{t("join_loading")}</p>
           </div>
         )}
 
         {status === "success" && (
           <div data-testid="join-success">
-            <CheckCircle className="h-10 w-10 text-emerald-400 mx-auto mb-4" />
-            <h2 className="font-amiri text-lg font-bold text-zinc-100 mb-2">{t("join_success_title")}</h2>
-            <p className="text-sm text-zinc-400 mb-6">{t("join_success_msg", { name: className })}</p>
+            <CheckCircle className="h-10 w-10 mx-auto mb-4" style={{ color: "var(--success)" }} />
+            <h2 className="font-display text-lg font-bold mb-2" style={{ color: "var(--text-primary)" }}>{t("join_success_title")}</h2>
+            <p className="text-sm mb-6" style={{ color: "var(--text-secondary)" }}>{t("join_success_msg", { name: className })}</p>
             <button
               onClick={() => router.push(`/${params.locale}/dashboard`)}
               data-testid="join-go-to-dashboard"
-              className="rounded-xl bg-emerald-500 px-6 py-2.5 text-sm font-medium text-white hover:bg-emerald-400 transition-all"
+              className="rounded-xl px-6 py-2.5 text-sm font-medium text-white transition-all"
+              style={{ backgroundColor: "var(--accent)" }}
             >
               {t("go_to_dashboard")}
             </button>
@@ -83,13 +87,14 @@ export default function JoinPage() {
 
         {status === "exists" && (
           <div data-testid="join-exists">
-            <CheckCircle className="h-10 w-10 text-amber-400 mx-auto mb-4" />
-            <h2 className="font-amiri text-lg font-bold text-zinc-100 mb-2">{t("join_exists_title")}</h2>
-            <p className="text-sm text-zinc-400 mb-6">{t("join_exists_msg", { name: className })}</p>
+            <CheckCircle className="h-10 w-10 mx-auto mb-4" style={{ color: "var(--accent)" }} />
+            <h2 className="font-display text-lg font-bold mb-2" style={{ color: "var(--text-primary)" }}>{t("join_exists_title")}</h2>
+            <p className="text-sm mb-6" style={{ color: "var(--text-secondary)" }}>{t("join_exists_msg", { name: className })}</p>
             <button
               onClick={() => router.push(`/${params.locale}/dashboard`)}
               data-testid="join-go-to-dashboard-exists"
-              className="rounded-xl bg-emerald-500 px-6 py-2.5 text-sm font-medium text-white hover:bg-emerald-400 transition-all"
+              className="rounded-xl px-6 py-2.5 text-sm font-medium text-white transition-all"
+              style={{ backgroundColor: "var(--accent)" }}
             >
               {t("go_to_dashboard")}
             </button>
@@ -98,17 +103,17 @@ export default function JoinPage() {
 
         {status === "expired" && (
           <div data-testid="join-expired">
-            <XCircle className="h-10 w-10 text-red-400 mx-auto mb-4" />
-            <h2 className="font-amiri text-lg font-bold text-zinc-100 mb-2">{t("join_expired_title")}</h2>
-            <p className="text-sm text-zinc-400">{t("join_expired_msg", { name: className })}</p>
+            <XCircle className="h-10 w-10 mx-auto mb-4" style={{ color: "var(--error)" }} />
+            <h2 className="font-display text-lg font-bold mb-2" style={{ color: "var(--text-primary)" }}>{t("join_expired_title")}</h2>
+            <p className="text-sm" style={{ color: "var(--text-secondary)" }}>{t("join_expired_msg", { name: className })}</p>
           </div>
         )}
 
         {status === "error" && (
           <div data-testid="join-error">
-            <XCircle className="h-10 w-10 text-red-400 mx-auto mb-4" />
-            <h2 className="font-amiri text-lg font-bold text-zinc-100 mb-2">{t("join_error_title")}</h2>
-            <p className="text-sm text-zinc-400">{errorMsg}</p>
+            <XCircle className="h-10 w-10 mx-auto mb-4" style={{ color: "var(--error)" }} />
+            <h2 className="font-display text-lg font-bold mb-2" style={{ color: "var(--text-primary)" }}>{t("join_error_title")}</h2>
+            <p className="text-sm" style={{ color: "var(--text-secondary)" }}>{errorMsg}</p>
           </div>
         )}
       </div>

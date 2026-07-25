@@ -46,13 +46,17 @@ export function CompleteButton({
     <button
       onClick={handleComplete}
       disabled={loading}
-      className={`inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-medium transition-all ${
-        completed
-          ? "bg-emerald-500/20 text-emerald-400 border border-emerald-700"
-          : "bg-emerald-500 text-white hover:bg-emerald-400"
-      }`}
+      className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-medium transition-all"
+      style={{
+        backgroundColor: completed ? "color-mix(in srgb, var(--success) 20%, transparent)" : "var(--accent)",
+        color: completed ? "var(--success)" : "white",
+        border: completed ? "1px solid color-mix(in srgb, var(--success) 40%, transparent)" : "none",
+      }}
     >
-      <CheckCircle className={`h-5 w-5 ${completed ? "fill-emerald-400 text-[#111111]" : ""}`} />
+      <CheckCircle
+        className="h-5 w-5"
+        style={completed ? { color: "var(--success)" } : {}}
+      />
       {completed ? t("pass_title") : "Mark as Complete"}
     </button>
   );
