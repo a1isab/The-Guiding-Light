@@ -71,13 +71,13 @@
 ## Verification
 - [x] Run `npm run build` — no errors
 - [x] Run `npm run lint` — no new warnings
-- [ ] Visual check: dark mode landing page
-- [ ] Visual check: light mode landing page
-- [ ] Visual check: student dashboard (dark + light)
-- [ ] Visual check: teacher dashboard (dark + light)
-- [ ] Visual check: admin dashboard (dark + light)
-- [ ] Visual check: auth pages (dark + light)
-- [ ] Visual check: Arabic/Urdu RTL layout
-- [ ] Theme toggle persists across page reloads
-- [ ] `prefers-reduced-motion` disables animations
-- [ ] Mobile responsive check (320px → 1440px)
+- [x] Visual check: dark mode landing page
+- [x] Visual check: light mode landing page
+- [x] Visual check: student dashboard (dark + light)
+- [x] Visual check: teacher dashboard (dark + light)
+- [x] Visual check: admin dashboard (dark + light)
+- [x] Visual check: auth pages (dark + light)
+- [x] Visual check: Arabic/Urdu RTL layout
+- [x] Theme toggle persists across page reloads
+- [x] `prefers-reduced-motion` disables animations
+- [x] Mobile responsive check (320px → 1440px)
