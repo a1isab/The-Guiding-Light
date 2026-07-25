@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
@@ -8,7 +9,13 @@ import { createClient, getUserRoleClient } from "@/lib/supabase-client";
 import type { User } from "@supabase/supabase-js";
 import { SignOutButton } from "@/components/auth/sign-out-button";
 import { Logo } from "./logo";
-import { Settings } from "lucide-react";
+import { Settings, Sparkles, Map, BadgeCheck } from "lucide-react";
+
+const SiteTour = dynamic(() => import("@/components/site-tour").then((m) => m.SiteTour), { ssr: false });
+
+function triggerTour() {
+  (window as Record<string, unknown>).__siteTourStart?.();
+}
 
 const LOCALES = [
   { code: "en", label: "English" },
@@ -144,13 +151,15 @@ export function Navbar() {
             <>
               {!userRole?.includes("teacher") && (
                 <Link
-                  href={"/" + currentLocale + "/courses"}
-                  className="text-sm font-medium transition-colors"
+                  href={"/" + currentLocale + "/featured"}
+                  data-nav="featured"
+                  className="text-sm font-medium transition-colors flex items-center gap-1.5"
                   style={{
-                    color: pathname.includes("/courses") ? "var(--accent)" : "var(--text-secondary)",
+                    color: pathname.includes("/featured") ? "var(--accent)" : "var(--text-secondary)",
                   }}
                 >
-                  {t("courses")}
+                  <Sparkles className="h-3.5 w-3.5" />
+                  {t("featured", { defaultMessage: "Featured" })}
                 </Link>
               )}
               {!userRole?.includes("teacher") && (
@@ -204,6 +213,9 @@ export function Navbar() {
                   >
                     {user.email?.[0].toUpperCase()}
                   </span>
+                  {userRole?.includes("verified_teacher") && (
+                    <BadgeCheck className="h-4 w-4" style={{ color: "var(--accent)" }} />
+                  )}
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                   </svg>
@@ -260,6 +272,14 @@ export function Navbar() {
                       <Settings className="h-4 w-4" />
                       {t("settings")}
                     </Link>
+                    <button
+                      onClick={triggerTour}
+                      className="flex items-center gap-2 w-full px-4 py-2 text-sm transition-colors"
+                      style={{ color: "var(--text-secondary)" }}
+                    >
+                      <Map className="h-4 w-4" />
+                      Tour
+                    </button>
                     <SignOutButton className="block w-full px-4 py-2 text-sm text-left transition-colors" style={{ color: "var(--error)" }} />
                   </div>
                 )}
@@ -332,12 +352,13 @@ export function Navbar() {
 
               {!userRole?.includes("teacher") && (
                 <Link
-                  href={"/" + currentLocale + "/courses"}
-                  className="text-lg font-medium transition-colors"
+                  href={"/" + currentLocale + "/featured"}
+                  className="text-lg font-medium transition-colors flex items-center gap-2"
                   style={{ color: "var(--text-primary)" }}
                   onClick={() => setMobileOpen(false)}
                 >
-                  {t("courses")}
+                  <Sparkles className="h-4 w-4" />
+                  {t("featured", { defaultMessage: "Featured" })}
                 </Link>
               )}
               {user && !userRole?.includes("teacher") && (
@@ -358,6 +379,16 @@ export function Navbar() {
                   onClick={() => setMobileOpen(false)}
                 >
                   Teacher
+                </Link>
+              )}
+              {user && userRole?.includes("teacher") && !userRole?.includes("verified_teacher") && (
+                <Link
+                  href={"/" + currentLocale + "/teacher/verify"}
+                  className="text-lg font-medium transition-colors"
+                  style={{ color: "var(--accent)" }}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Verify
                 </Link>
               )}
               {userRole?.includes("admin") && (
@@ -437,6 +468,8 @@ export function Navbar() {
           </div>
         </div>
       )}
+
+      <SiteTour role={userRole} />
     </nav>
   );
 }
