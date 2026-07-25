@@ -66,7 +66,6 @@ export function VideoUpload({
 
     const publicUrl = urlData.publicUrl;
 
-    // Track in teacher_video_assets
     await supabase.from("teacher_video_assets").insert({
       teacher_id: teacherId,
       lesson_id: lessonId,
@@ -123,18 +122,21 @@ export function VideoUpload({
   return (
     <div className="space-y-3">
       {currentUrl ? (
-        <div className="rounded-xl border border-zinc-700 bg-zinc-900/50 overflow-hidden">
+        <div className="rounded-xl border overflow-hidden" style={{ borderColor: "var(--border)", background: "color-mix(in srgb, var(--bg-surface) 50%, transparent)" }}>
           <video
             src={currentUrl}
             controls
             className="w-full aspect-video"
           />
-          <div className="flex items-center justify-between px-4 py-2 border-t border-zinc-700">
-            <span className="text-xs text-zinc-500 truncate">{currentUrl.split("/").pop()}</span>
+          <div className="flex items-center justify-between px-4 py-2 border-t" style={{ borderColor: "var(--border)" }}>
+            <span className="text-xs truncate" style={{ color: "var(--text-secondary)" }}>{currentUrl.split("/").pop()}</span>
             <button
               onClick={handleRemove}
               disabled={uploading}
-              className="flex items-center gap-1 text-xs text-red-400 hover:text-red-300 disabled:opacity-50"
+              className="flex items-center gap-1 text-xs disabled:opacity-50"
+              style={{ color: "var(--error)" }}
+              onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.8"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; }}
             >
               <X className="h-3 w-3" />
               {t("remove_video")}
@@ -149,32 +151,32 @@ export function VideoUpload({
           onDragLeave={handleDragLeave}
           onDragOver={handleDragOver}
           onDrop={handleDrop}
-          className={`flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed p-8 transition-all ${
-            dragOver
-              ? "border-emerald-500 bg-emerald-500/10"
-              : "border-zinc-700 bg-zinc-900/30 hover:border-zinc-500 hover:bg-zinc-900/50"
-          }`}
+          className="flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed p-8 transition-all"
+          style={{
+            borderColor: dragOver ? "var(--accent)" : "var(--border)",
+            background: dragOver ? "color-mix(in srgb, var(--accent) 10%, transparent)" : "color-mix(in srgb, var(--bg-surface) 30%, transparent)",
+          }}
         >
           {uploading ? (
             <div className="text-center">
-              <Loader2 className="h-8 w-8 animate-spin text-emerald-400 mx-auto mb-2" />
-              <p className="text-xs text-zinc-500">{t("uploading_video")}</p>
+              <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2" style={{ color: "var(--accent)" }} />
+              <p className="text-xs" style={{ color: "var(--text-secondary)" }}>{t("uploading_video")}</p>
               {progress > 0 && (
-                <div className="mt-2 h-1.5 w-40 rounded-full bg-zinc-800 mx-auto">
+                <div className="mt-2 h-1.5 w-40 rounded-full mx-auto" style={{ background: "var(--bg-subtle)" }}>
                   <div
-                    className="h-1.5 rounded-full bg-emerald-500"
-                    style={{ width: `${progress}%` }}
+                    className="h-1.5 rounded-full"
+                    style={{ background: "var(--accent)", width: `${progress}%` }}
                   />
                 </div>
               )}
             </div>
           ) : (
             <div className="text-center">
-              <Film className={`h-8 w-8 mx-auto mb-2 ${dragOver ? "text-emerald-400" : "text-zinc-500"}`} />
-              <p className={`text-sm ${dragOver ? "text-emerald-400" : "text-zinc-400"}`}>
+              <Film className="h-8 w-8 mx-auto mb-2" style={{ color: dragOver ? "var(--accent)" : "var(--text-secondary)" }} />
+              <p className="text-sm" style={{ color: dragOver ? "var(--accent)" : "var(--text-secondary)" }}>
                 {dragOver ? "Drop video here" : t("upload_video")}
               </p>
-              <p className="text-xs text-zinc-600 mt-1">{t("video_limits")}</p>
+              <p className="text-xs mt-1" style={{ color: "var(--text-muted)" }}>{t("video_limits")}</p>
             </div>
           )}
         </div>
@@ -193,7 +195,7 @@ export function VideoUpload({
         }}
       />
 
-      {error && <p className="text-xs text-red-400">{error}</p>}
+      {error && <p className="text-xs" style={{ color: "var(--error)" }}>{error}</p>}
     </div>
   );
 }
