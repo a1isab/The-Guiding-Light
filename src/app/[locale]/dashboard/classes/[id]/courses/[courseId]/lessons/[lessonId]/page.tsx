@@ -95,6 +95,9 @@ export default async function StudentLessonPage({
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-12">
+      <style>{`
+        .file-link:hover { border-color: var(--border); background-color: var(--bg-elevated); }
+      `}</style>
       <Breadcrumbs
         items={[
           { label: t("my_classes"), href: `/${locale}/dashboard` },
@@ -106,7 +109,7 @@ export default async function StudentLessonPage({
 
       <article>
         <div className="flex items-start justify-between mb-6">
-          <h1 className="font-amiri text-2xl font-bold text-zinc-100">{lesson.title}</h1>
+          <h1 className="font-display text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{lesson.title}</h1>
           <BookmarkButton lessonId={lessonId} />
         </div>
 
@@ -137,7 +140,7 @@ export default async function StudentLessonPage({
 
       {lessonFiles && lessonFiles.length > 0 && (
         <div className="mt-8">
-          <h2 className="text-sm font-medium text-zinc-400 mb-3">Lesson Files</h2>
+          <h2 className="text-sm font-medium mb-3" style={{ color: 'var(--text-secondary)' }}>Lesson Files</h2>
           <div className="space-y-2">
             {lessonFiles.map((f) => (
               <a
@@ -145,16 +148,17 @@ export default async function StudentLessonPage({
                 href={`${storageUrl}/${f.storage_path}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 rounded-xl border border-zinc-700 bg-zinc-900/50 px-4 py-3 hover:border-zinc-600 transition-all"
+                className="file-link flex items-center gap-3 rounded-xl border px-4 py-3 transition-all"
+                style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-subtle)' }}
               >
-                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/10 text-[10px] font-bold text-emerald-400">
+                <span className="flex h-8 w-8 items-center justify-center rounded-lg text-[10px] font-bold" style={{ backgroundColor: 'color-mix(in srgb, var(--success) 10%, transparent)', color: 'var(--success)' }}>
                   {getFileIcon(f.mime_type)}
                 </span>
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm text-zinc-200 truncate">{f.filename}</p>
-                  <p className="text-xs text-zinc-600">{formatFileSize(f.file_size)}</p>
+                  <p className="text-sm truncate" style={{ color: 'var(--text-primary)' }}>{f.filename}</p>
+                  <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{formatFileSize(f.file_size)}</p>
                 </div>
-                <svg className="h-4 w-4 flex-shrink-0 text-zinc-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: 'var(--text-muted)' }}>
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                 </svg>
               </a>

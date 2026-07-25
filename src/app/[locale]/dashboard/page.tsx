@@ -213,14 +213,21 @@ export default async function DashboardPage({
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
+      <style>{`
+        .card-hover:hover { border-color: var(--border); background-color: var(--bg-elevated); }
+        .sign-out-btn:hover { background-color: var(--bg-subtle); }
+        .cta-primary:hover { background-color: color-mix(in srgb, var(--success) 90%, transparent); }
+        .cta-upgrade:hover { background-color: color-mix(in srgb, var(--accent) 20%, transparent); }
+        .continue-link:hover .continue-title { color: var(--success); }
+      `}</style>
       <div>
         <div className="flex items-center gap-3">
-          <h1 className="font-amiri text-3xl font-bold text-zinc-100">
+          <h1 className="font-display text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>
             {greeting}{profile ? `, ${profile.display_name || t("student")}` : ""}!
           </h1>
           {studiedToday && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-medium text-emerald-400">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+            <span className="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium" style={{ backgroundColor: 'color-mix(in srgb, var(--success) 15%, transparent)', color: 'var(--success)' }}>
+              <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: 'var(--success)' }} />
               {t("studied_today")}
             </span>
           )}
@@ -228,29 +235,29 @@ export default async function DashboardPage({
       </div>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-3">
-        <div data-testid="stat-lessons" className="rounded-2xl border border-zinc-800 bg-[#111111] p-6">
+        <div data-testid="stat-lessons" className="rounded-2xl border p-6" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-surface)' }}>
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10">
-              <BookOpen className="h-5 w-5 text-emerald-400" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ backgroundColor: 'color-mix(in srgb, var(--success) 10%, transparent)' }}>
+              <BookOpen className="h-5 w-5" style={{ color: 'var(--success)' }} />
             </div>
             <div>
-              <p className="text-sm text-zinc-500">{t("lessons_completed")}</p>
-              <p className="text-2xl font-bold text-zinc-100">{completedCount}</p>
+              <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{t("lessons_completed")}</p>
+              <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{completedCount}</p>
             </div>
           </div>
         </div>
-        <div data-testid="stat-streak" className={`rounded-2xl border p-6 ${streakAtRisk ? "border-zinc-800 bg-[#111111]" : "border-amber-800/30 bg-amber-900/5"}`}>
+        <div data-testid="stat-streak" className="rounded-2xl border p-6" style={{ borderColor: streakAtRisk ? 'var(--border)' : 'color-mix(in srgb, var(--accent) 30%, transparent)', backgroundColor: streakAtRisk ? 'var(--bg-surface)' : 'color-mix(in srgb, var(--accent) 5%, transparent)' }}>
           <div className="flex items-center gap-3">
-            <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${streakAtRisk ? "bg-zinc-800" : "bg-amber-500/20"}`}>
-              <Flame className={`h-5 w-5 ${streakAtRisk ? "text-zinc-600" : "text-amber-300"}`} />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ backgroundColor: streakAtRisk ? 'var(--bg-subtle)' : 'color-mix(in srgb, var(--accent) 20%, transparent)' }}>
+              <Flame className="h-5 w-5" style={{ color: streakAtRisk ? 'var(--text-muted)' : 'var(--accent)' }} />
             </div>
             <div>
-              <p className="text-sm text-zinc-500">{t("current_streak")}</p>
-              <p className={`text-2xl font-bold ${streakAtRisk ? "text-zinc-500" : "text-amber-300"}`}>
+              <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{t("current_streak")}</p>
+              <p className="text-2xl font-bold" style={{ color: streakAtRisk ? 'var(--text-muted)' : 'var(--accent)' }}>
                 {t("days", { count: profile?.streak ?? 0 })}
               </p>
               {streakAtRisk && (
-                <p className="mt-0.5 flex items-center gap-1 text-xs text-amber-400/70">
+                <p className="mt-0.5 flex items-center gap-1 text-xs" style={{ color: 'color-mix(in srgb, var(--accent) 70%, transparent)' }}>
                   <AlertTriangle className="h-3 w-3" />
                   Study today to keep your streak
                 </p>
@@ -258,14 +265,14 @@ export default async function DashboardPage({
             </div>
           </div>
         </div>
-        <div data-testid="stat-plan" className="rounded-2xl border border-zinc-800 bg-[#111111] p-6">
+        <div data-testid="stat-plan" className="rounded-2xl border p-6" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-surface)' }}>
           <div className="flex items-center gap-3">
-            <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${isPremium ? "bg-amber-500/10" : "bg-zinc-800"}`}>
-              <Crown className={`h-5 w-5 ${isPremium ? "text-amber-400" : "text-zinc-500"}`} />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ backgroundColor: isPremium ? 'color-mix(in srgb, var(--accent) 10%, transparent)' : 'var(--bg-subtle)' }}>
+              <Crown className="h-5 w-5" style={{ color: isPremium ? 'var(--accent)' : 'var(--text-muted)' }} />
             </div>
             <div>
-              <p className="text-sm text-zinc-500">{t("your_plan")}</p>
-              <p className={`text-2xl font-bold ${isPremium ? "text-amber-400" : "text-zinc-400"}`}>
+              <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{t("your_plan")}</p>
+              <p className="text-2xl font-bold" style={{ color: isPremium ? 'var(--accent)' : 'var(--text-secondary)' }}>
                 {isPremium ? t("premium") : t("free")}
               </p>
             </div>
@@ -273,11 +280,11 @@ export default async function DashboardPage({
         </div>
       </div>
 
-      <div className="mt-6 flex items-center gap-4 rounded-xl border border-zinc-800/50 bg-zinc-900/30 px-5 py-3">
+      <div className="mt-6 flex items-center gap-4 rounded-xl border px-5 py-3" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-subtle)' }}>
         <div className="flex items-center gap-2">
-          <TrendingUp className="h-4 w-4 text-emerald-400" />
-          <span className="text-sm text-zinc-400">
-            <strong className="text-zinc-200">{lessonsThisWeek ?? 0}</strong> lessons this week
+          <TrendingUp className="h-4 w-4" style={{ color: 'var(--success)' }} />
+          <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+            <strong style={{ color: 'var(--text-primary)' }}>{lessonsThisWeek ?? 0}</strong> lessons this week
           </span>
         </div>
         <div className="flex items-center gap-1.5 ml-auto">
@@ -288,13 +295,15 @@ export default async function DashboardPage({
             return (
               <div
                 key={i}
-                className={`h-3 w-3 rounded-sm ${
-                  i === 6
-                    ? "border border-emerald-500/50 bg-emerald-500/20"
+                className="h-3 w-3 rounded-sm"
+                style={{
+                  border: i === 6 ? '1px solid color-mix(in srgb, var(--success) 50%, transparent)' : 'none',
+                  backgroundColor: i === 6
+                    ? 'color-mix(in srgb, var(--success) 20%, transparent)'
                     : i < 3
-                    ? "bg-emerald-500/40"
-                    : "bg-zinc-800"
-                }`}
+                    ? 'color-mix(in srgb, var(--success) 40%, transparent)'
+                    : 'var(--bg-subtle)',
+                }}
                 title={dayStr}
               />
             );
@@ -303,43 +312,43 @@ export default async function DashboardPage({
       </div>
 
       {totalLessons > 0 && (
-        <div className="mt-8 rounded-2xl border border-zinc-800 bg-[#111111] p-6">
+        <div className="mt-8 rounded-2xl border p-6" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-surface)' }}>
           <div className="flex items-center justify-between mb-3">
-            <p className="text-sm font-medium text-zinc-300">{t("overall_progress")}</p>
-            <p className="text-sm text-zinc-500">{percentComplete}%</p>
+            <p className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>{t("overall_progress")}</p>
+            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{percentComplete}%</p>
           </div>
-          <div className="h-2.5 rounded-full bg-zinc-800">
+          <div className="h-2.5 rounded-full" style={{ backgroundColor: 'var(--bg-subtle)' }}>
             <div
-              className="h-2.5 rounded-full bg-emerald-500 transition-all"
-              style={{ width: `${percentComplete}%` }}
+              className="h-2.5 rounded-full transition-all"
+              style={{ backgroundColor: 'var(--success)', width: `${percentComplete}%` }}
             />
           </div>
-          <p className="mt-2 text-xs text-zinc-600">
+          <p className="mt-2 text-xs" style={{ color: 'var(--text-muted)' }}>
             {t("progress_detail", { completed: completedCount, total: totalLessons })}
           </p>
-          <p className="text-xs text-zinc-600">
+          <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
             {totalLessons - completedCount} {t("lessons_remaining")}
           </p>
         </div>
       )}
 
       {nextLesson && (
-        <div data-testid="continue-learning" className="mt-8 rounded-2xl border border-emerald-800/30 bg-emerald-900/10 p-6">
-          <p className="text-xs font-medium uppercase tracking-wider text-emerald-400 mb-2">
+        <div data-testid="continue-learning" className="mt-8 rounded-2xl border p-6" style={{ borderColor: 'color-mix(in srgb, var(--success) 30%, transparent)', backgroundColor: 'color-mix(in srgb, var(--success) 10%, transparent)' }}>
+          <p className="text-xs font-medium uppercase tracking-wider mb-2" style={{ color: 'var(--success)' }}>
             {t("continue_learning")}
           </p>
           <Link
             href={`/${locale}/courses/${nextLesson.courseSlug}/${nextLesson.sectionSlug}/${nextLesson.slug}`}
-            className="group flex items-center justify-between"
+            className="continue-link group flex items-center justify-between"
           >
             <div>
-              <p className="text-sm text-zinc-500">{nextLesson.courseTitle}</p>
-              <p className="mt-0.5 text-lg font-semibold text-zinc-100 group-hover:text-emerald-300 transition-colors">
+              <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{nextLesson.courseTitle}</p>
+              <p className="mt-0.5 text-lg font-semibold continue-title transition-colors" style={{ color: 'var(--text-primary)' }}>
                 {nextLesson.title}
               </p>
             </div>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/20">
-              <TrendingUp className="h-5 w-5 text-emerald-400" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ backgroundColor: 'color-mix(in srgb, var(--success) 20%, transparent)' }}>
+              <TrendingUp className="h-5 w-5" style={{ color: 'var(--success)' }} />
             </div>
           </Link>
         </div>
@@ -353,22 +362,23 @@ export default async function DashboardPage({
 
       {myClasses && myClasses.length > 0 && (
         <div className="mt-10">
-          <h2 className="font-amiri text-xl font-bold text-zinc-100 mb-4">{t("my_classes")}</h2>
+          <h2 className="font-display text-xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>{t("my_classes")}</h2>
           <div className="grid gap-3 sm:grid-cols-2">
             {myClasses.map((cls) => (
               <Link
                 key={cls.id}
                 data-testid={`class-card-${cls.id}`}
                 href={`/${locale}/dashboard/classes/${cls.id}`}
-                className="rounded-2xl border border-zinc-800 bg-[#111111] p-5 hover:border-zinc-700 transition-all"
+                className="card-hover rounded-2xl border p-5 transition-all"
+                style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-surface)' }}
               >
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10">
-                    <Users className="h-5 w-5 text-emerald-400" />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ backgroundColor: 'color-mix(in srgb, var(--success) 10%, transparent)' }}>
+                    <Users className="h-5 w-5" style={{ color: 'var(--success)' }} />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-zinc-200">{cls.name}</p>
-                    <p className="text-xs text-zinc-500">
+                    <p className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{cls.name}</p>
+                    <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
                        {courseCounts[cls.id] ?? 0} {"courses"}
                     </p>
                   </div>
@@ -382,7 +392,8 @@ export default async function DashboardPage({
       <div className="mt-10 flex flex-wrap items-center gap-4">
         <Link
           href={`/${locale}/courses`}
-          className="inline-flex items-center gap-2 rounded-2xl bg-emerald-500 px-6 py-2.5 text-sm font-medium text-white hover:bg-emerald-400 transition-all shadow-[0_0_20px_rgba(16,185,129,0.2)]"
+          className="cta-primary inline-flex items-center gap-2 rounded-2xl px-6 py-2.5 text-sm font-medium transition-all"
+          style={{ backgroundColor: 'var(--success)', color: 'var(--text-primary)', boxShadow: '0 0 20px color-mix(in srgb, var(--success) 20%, transparent)' }}
         >
           <TrendingUp className="h-4 w-4" />
           {t("continue_learning")}
@@ -390,7 +401,8 @@ export default async function DashboardPage({
         {!isPremium && (
           <Link
             href={`/${locale}/pricing`}
-            className="inline-flex items-center gap-2 rounded-2xl border border-amber-700 bg-amber-500/10 px-6 py-2.5 text-sm font-medium text-amber-400 hover:bg-amber-500/20 transition-all"
+            className="cta-upgrade inline-flex items-center gap-2 rounded-2xl border px-6 py-2.5 text-sm font-medium transition-all"
+            style={{ borderColor: 'var(--accent)', color: 'var(--accent)', backgroundColor: 'color-mix(in srgb, var(--accent) 10%, transparent)' }}
           >
             <Crown className="h-4 w-4" />
             {t("upgrade_premium")}
@@ -398,7 +410,8 @@ export default async function DashboardPage({
         )}
         <a
           href={`/${locale}/auth/logout`}
-          className="inline-flex items-center gap-2 rounded-2xl border border-zinc-700 px-6 py-2.5 text-sm font-medium text-zinc-400 hover:bg-zinc-800 transition-all ml-auto"
+          className="sign-out-btn inline-flex items-center gap-2 rounded-2xl border px-6 py-2.5 text-sm font-medium transition-all ml-auto"
+          style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)' }}
         >
           <LogOut className="h-4 w-4" />
           {t("sign_out")}

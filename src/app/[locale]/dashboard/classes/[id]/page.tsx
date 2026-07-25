@@ -54,6 +54,9 @@ export default async function StudentClassPage({
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
+      <style>{`
+        .course-card:hover { border-color: var(--border); background-color: var(--bg-elevated); }
+      `}</style>
       <Breadcrumbs
         items={[
           { label: t("my_classes"), href: `/${locale}/dashboard` },
@@ -62,9 +65,9 @@ export default async function StudentClassPage({
       />
 
       <div className="mb-8">
-        <h1 className="font-amiri text-3xl font-bold text-zinc-100">{cls.name}</h1>
+        <h1 className="font-display text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>{cls.name}</h1>
         {cls.description && (
-          <p className="mt-1 text-zinc-500">{cls.description}</p>
+          <p className="mt-1" style={{ color: 'var(--text-muted)' }}>{cls.description}</p>
         )}
       </div>
 
@@ -77,16 +80,17 @@ export default async function StudentClassPage({
               key={course.id}
               data-testid={`class-course-card-${course.id}`}
               href={`/${locale}/dashboard/classes/${id}/courses/${course.id}`}
-              className="rounded-2xl border border-zinc-800 bg-[#111111] p-5 hover:border-zinc-700 transition-all"
+              className="course-card rounded-2xl border p-5 transition-all"
+              style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-surface)' }}
             >
               <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500/10 text-lg font-bold text-emerald-400">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl text-lg font-bold" style={{ backgroundColor: 'color-mix(in srgb, var(--success) 10%, transparent)', color: 'var(--success)' }}>
                   {idx + 1}
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-zinc-200">{course.title}</p>
+                  <p className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{course.title}</p>
                   {course.description && (
-                    <p className="text-xs text-zinc-500 mt-0.5 line-clamp-1">{course.description}</p>
+                    <p className="text-xs mt-0.5 line-clamp-1" style={{ color: 'var(--text-muted)' }}>{course.description}</p>
                   )}
                 </div>
               </div>
@@ -94,9 +98,9 @@ export default async function StudentClassPage({
           ))}
         </div>
       ) : (
-        <div className="rounded-2xl border border-dashed border-zinc-800 p-12 text-center">
-          <BookOpen className="h-8 w-8 text-zinc-600 mx-auto mb-3" />
-          <p className="text-sm text-zinc-500">{(await getTranslations("teacher"))("no_courses")}</p>
+        <div className="rounded-2xl border border-dashed p-12 text-center" style={{ borderColor: 'var(--border)' }}>
+          <BookOpen className="h-8 w-8 mx-auto mb-3" style={{ color: 'var(--text-muted)' }} />
+          <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{(await getTranslations("teacher"))("no_courses")}</p>
         </div>
       )}
     </div>
