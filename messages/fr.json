@@ -386,7 +386,16 @@
     "no_invites": "Aucun code d'invitation généré",
     "used": "Utilisé",
     "active": "Actif",
-    "expired": "Expiré"
+    "expired": "Expiré",
+    "verifications": "Vérifications des enseignants",
+    "teacher_email": "Enseignant",
+    "document_type": "Type de document",
+    "submitted": "Soumis",
+    "status": "Statut",
+    "approve": "Approuver",
+    "reject": "Rejeter",
+    "reject_notes_prompt": "Entrez le motif du rejet :",
+    "no_verification_requests": "Aucune demande de vérification"
   },
   "featured": {
     "title": "En vedette",
@@ -421,5 +430,30 @@
     "light_mode": "Clair",
     "language": "Langue",
     "language_desc": "Sélectionnez votre langue préférée."
+  },
+  "verify": {
+    "title": "Vérification de l'enseignant",
+    "description": "Soumettez vos documents de vérification pour être vérifié en tant qu'enseignant. Les enseignants vérifiés peuvent publier des classes visibles par tous les étudiants.",
+    "document_type": "Type de document",
+    "document_number": "Numéro de document (facultatif)",
+    "document_number_placeholder": "ex. numéro de passeport",
+    "notes": "Notes (facultatif)",
+    "notes_placeholder": "Toute information supplémentaire...",
+    "upload_document": "Télécharger un document",
+    "click_to_upload": "Cliquez pour télécharger un fichier",
+    "file_limits": "Image ou PDF — max 10 Mo",
+    "file_too_large": "Le fichier dépasse la limite de 10 Mo",
+    "submit": "Soumettre pour révision",
+    "submitting": "Soumission...",
+    "submission_success": "Votre demande de vérification a été soumise.",
+    "status_under_review": "En cours de révision",
+    "under_review_msg": "Votre demande de vérification est en cours d'examen par notre équipe. Cela prend généralement 1 à 2 jours ouvrables.",
+    "status_verified": "Vérifié",
+    "verified_msg": "Votre compte enseignant est vérifié. Vos classes sont maintenant visibles par les étudiants.",
+    "status_not_approved": "Non approuvé",
+    "not_approved_msg": "Votre demande de vérification n'a pas été approuvée. Vous pouvez la resoumettre avec des documents mis à jour.",
+    "review_notes": "Notes de révision",
+    "resubmit": "Resoumettre",
+    "submitted_on": "Soumis le {date}"
   }
 }

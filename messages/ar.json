@@ -386,7 +386,16 @@
     "no_invites": "لم يتم إنشاء رموز دعوة بعد",
     "used": "مُستخدم",
     "active": "نشط",
-    "expired": "منتهي الصلاحية"
+    "expired": "منتهي الصلاحية",
+    "verifications": "توثيقات المعلمين",
+    "teacher_email": "المعلم",
+    "document_type": "نوع المستند",
+    "submitted": "تم الإرسال",
+    "status": "الحالة",
+    "approve": "موافقة",
+    "reject": "رفض",
+    "reject_notes_prompt": "أدخل سبب الرفض:",
+    "no_verification_requests": "لا توجد طلبات توثيق"
   },
   "featured": {
     "title": "المميزة",
@@ -421,5 +430,30 @@
     "light_mode": "فاتح",
     "language": "اللغة",
     "language_desc": "اختر لغتك المفضلة."
+  },
+  "verify": {
+    "title": "توثيقات المعلمين",
+    "description": "أرسل مستندات التوثيق الخاصة بك للحصول على التحقق كمعلم. يمكن للمعلمين الموثوقين نشر فصول مرئية لجميع الطلاب.",
+    "document_type": "نوع المستند",
+    "document_number": "رقم المستند (اختياري)",
+    "document_number_placeholder": "مثال: رقم جواز السفر",
+    "notes": "ملاحظات (اختياري)",
+    "notes_placeholder": "أي معلومات إضافية...",
+    "upload_document": "رفع مستند",
+    "click_to_upload": "انقر لرفع ملف",
+    "file_limits": "صورة أو PDF — حد أقصى 10 ميجا",
+    "file_too_large": "الملف يتجاوز الحد الأقصى 10 ميجا",
+    "submit": "إرسال للمراجعة",
+    "submitting": "جارٍ الإرسال...",
+    "submission_success": "تم إرسال طلب التوثيق الخاص بك.",
+    "status_under_review": "قيد المراجعة",
+    "under_review_msg": "طلب التوثيق الخاص بك قيد المراجعة من قبل فريقنا. عادة ما يستغرق ذلك 1-2 أيام عمل.",
+    "status_verified": "موثق",
+    "verified_msg": "حسابك كمعلم موثق. فصولك الآن مرئية للطلاب.",
+    "status_not_approved": "لم يُعتمد",
+    "not_approved_msg": "لم يُعتمد طلب التوثيق الخاص بك. يمكنك إعادة الإرسال بمستندات محدثة.",
+    "review_notes": "ملاحظات المراجعة",
+    "resubmit": "إعادة الإرسال",
+    "submitted_on": "تم الإرسال في {date}"
   }
 }
