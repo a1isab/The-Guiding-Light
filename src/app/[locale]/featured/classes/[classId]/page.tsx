@@ -2,7 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { createAdminClient } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { BookOpen, ArrowRight, CheckCircle } from "lucide-react";
+import { BookOpen, CheckCircle } from "lucide-react";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 
 export const dynamic = "force-dynamic";
