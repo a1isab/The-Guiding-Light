@@ -175,9 +175,9 @@ export function SiteTour({ role }: SiteTourProps) {
 
   // Expose startTour globally for the navbar button
   useEffect(() => {
-    (window as Record<string, unknown>).__siteTourStart = startTour;
+    (window as unknown as { __siteTourStart?: () => void }).__siteTourStart = startTour;
     return () => {
-      delete (window as Record<string, unknown>).__siteTourStart;
+      delete (window as unknown as { __siteTourStart?: () => void }).__siteTourStart;
     };
   }, [startTour]);
 

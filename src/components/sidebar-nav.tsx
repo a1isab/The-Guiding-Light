@@ -9,6 +9,7 @@ import {
   Key,
   FileText,
   BarChart3,
+  ShieldCheck,
 } from "lucide-react";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -18,6 +19,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Key,
   FileText,
   BarChart3,
+  ShieldCheck,
 };
 
 interface NavItem {

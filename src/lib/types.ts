@@ -7,6 +7,7 @@ export interface Profile {
   streak: number;
   last_activity_at: string | null;
   onboarded: boolean;
+  is_verified: boolean;
   display_name: string | null;
   onboarding_data: Record<string, unknown> | null;
   created_at: string;
@@ -277,4 +278,18 @@ export function getQuizQuestion(q: QuizQuestion, locale: Locale): { question: st
     question: translatedQuestion || q.question,
     options: translatedOptions || q.options,
   };
+}
+
+export interface VerificationRequest {
+  id: string;
+  user_id: string;
+  document_type: "passport" | "national_id" | "teaching_certificate" | "other";
+  document_url: string;
+  document_number: string | null;
+  notes: string | null;
+  status: "pending" | "approved" | "rejected";
+  reviewed_by: string | null;
+  review_notes: string | null;
+  reviewed_at: string | null;
+  created_at: string;
 }

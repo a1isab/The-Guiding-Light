@@ -14,7 +14,7 @@ import { Settings, Sparkles, Map, BadgeCheck } from "lucide-react";
 const SiteTour = dynamic(() => import("@/components/site-tour").then((m) => m.SiteTour), { ssr: false });
 
 function triggerTour() {
-  (window as Record<string, unknown>).__siteTourStart?.();
+  (window as unknown as { __siteTourStart?: () => void }).__siteTourStart?.();
 }
 
 const LOCALES = [

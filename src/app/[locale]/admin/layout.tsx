@@ -28,6 +28,7 @@ export default async function AdminLayout({
     { href: `/${locale}/admin`, label: t("overview"), icon: "LayoutDashboard", testId: "nav-admin-overview" },
     { href: `/${locale}/admin/courses`, label: t("courses"), icon: "BookOpen", testId: "nav-admin-courses" },
     { href: `/${locale}/admin/users`, label: t("users"), icon: "Users", testId: "nav-admin-users" },
+    { href: `/${locale}/admin/verifications`, label: t("verifications"), icon: "ShieldCheck", testId: "nav-admin-verifications" },
     { href: `/${locale}/admin/invites`, label: t("invites"), icon: "Key", testId: "nav-admin-invites" },
     { href: `/${locale}/admin/templates`, label: "Templates", icon: "FileText", testId: "nav-templates" },
   ];
