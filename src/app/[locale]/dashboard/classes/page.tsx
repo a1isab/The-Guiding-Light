@@ -8,6 +8,13 @@ import { JoinClassCard } from "@/components/join-class-card";
 
 export const dynamic = "force-dynamic";
 
+async function getDataClient() {
+  const admin = createAdminClient();
+  if (admin) return admin;
+  const { createServerSupabaseClient } = await import("@/lib/supabase");
+  return createServerSupabaseClient();
+}
+
 export default async function MyClassesPage({
   params,
 }: {
@@ -27,8 +34,7 @@ export default async function MyClassesPage({
     userId = user.id;
   }
 
-  const service = createAdminClient();
-  if (!service) redirect(`/${locale}/dashboard`);
+  const service = await getDataClient();
 
   const { data: memberships } = await service
     .from("class_members")
@@ -39,17 +45,11 @@ export default async function MyClassesPage({
   const classIds = memberships?.map((m) => m.class_id) ?? [];
 
   const { data: classes } = classIds.length
-    ? await service
-        .from("classes")
-        .select("id, name, description")
-        .in("id", classIds)
+    ? await service.from("classes").select("id, name, description").in("id", classIds)
     : { data: [] };
 
   const { data: courseCounts } = classIds.length
-    ? await service
-        .from("teacher_courses")
-        .select("class_id")
-        .in("class_id", classIds)
+    ? await service.from("teacher_courses").select("class_id").in("class_id", classIds)
     : { data: [] };
 
   const counts: Record<string, number> = {};
