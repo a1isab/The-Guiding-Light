@@ -8,7 +8,7 @@ export async function awardSectionBadge(
   const supabase = createClient();
 
   const { data: lesson } = await supabase
-    .from("lessons")
+    .from("teacher_lessons")
     .select("section_id")
     .eq("id", lessonId)
     .single();
@@ -16,16 +16,16 @@ export async function awardSectionBadge(
   if (!lesson) return { earned: false, sectionTitle: null };
 
   const { data: allInSection } = await supabase
-    .from("lessons")
+    .from("teacher_lessons")
     .select("id")
     .eq("section_id", lesson.section_id);
 
   if (!allInSection || allInSection.length === 0) return { earned: false, sectionTitle: null };
 
   const { data: progress } = await supabase
-    .from("progress")
+    .from("teacher_progress")
     .select("lesson_id")
-    .eq("user_id", userId)
+    .eq("student_id", userId)
     .in("lesson_id", allInSection.map((l) => l.id));
 
   const completedIds = new Set(progress?.map((p) => p.lesson_id) ?? []);
@@ -45,7 +45,7 @@ export async function awardSectionBadge(
   if (existing) return { earned: false, sectionTitle: null };
 
   const { data: section } = await supabase
-    .from("sections")
+    .from("teacher_sections")
     .select("title")
     .eq("id", lesson.section_id)
     .single();

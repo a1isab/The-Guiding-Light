@@ -15,33 +15,13 @@ export async function POST(request: NextRequest) {
 
   const dataClient = createAdminClient() ?? supabase;
 
-  const { data: teacherLesson } = await dataClient
-    .from("teacher_lessons")
-    .select("id")
-    .eq("id", lessonId)
-    .maybeSingle();
-
-  if (teacherLesson) {
-    const { error } = await dataClient.from("teacher_progress").upsert(
-      {
-        student_id: userId,
-        lesson_id: lessonId,
-        content_viewed_at: new Date().toISOString(),
-      },
-      { onConflict: "student_id, lesson_id" }
-    );
-
-    if (error) return applyCookies(NextResponse.json({ error: error.message }, { status: 500 }));
-    return applyCookies(NextResponse.json({ ok: true }));
-  }
-
-  const { error } = await supabase.from("progress").upsert(
+  const { error } = await dataClient.from("teacher_progress").upsert(
     {
-      user_id: userId,
+      student_id: userId,
       lesson_id: lessonId,
       content_viewed_at: new Date().toISOString(),
     },
-    { onConflict: "user_id, lesson_id" }
+    { onConflict: "student_id, lesson_id" }
   );
 
   if (error) return applyCookies(NextResponse.json({ error: error.message }, { status: 500 }));

@@ -3,12 +3,10 @@ import { createServiceClient, createAdminClient } from "@/lib/supabase";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { headers } from "next/headers";
-import type { Profile, Progress, Subscription, UserBadge } from "@/lib/types";
+import type { Profile, Subscription } from "@/lib/types";
 import { getUserRole } from "@/lib/supabase-api";
-import { BookOpen, Flame, Crown, TrendingUp, LogOut, Users, AlertTriangle } from "lucide-react";
+import { BookOpen, Flame, Crown, TrendingUp, LogOut, AlertTriangle } from "lucide-react";
 import { BadgeGrid } from "@/components/badge-grid";
-import { JoinClassCard } from "@/components/join-class-card";
-import { CertificatesSection } from "@/components/certificates-section";
 
 export const dynamic = "force-dynamic";
 
@@ -20,7 +18,6 @@ export default async function DashboardPage({
   const { locale } = await params;
   const t = await getTranslations("dashboard");
 
-  // Read auth from middleware-propagated headers (fallback to getUser())
   const headersList = await headers();
   const headerUserId = headersList.get("x-user-id");
   const headerRoles = headersList.get("x-user-roles");
@@ -51,7 +48,6 @@ export default async function DashboardPage({
     .eq("user_id", userId)
     .single<Profile>();
 
-  // Redirect to onboarding if not completed
   if (profile && !profile.onboarded) {
     redirect(`/${locale}/onboarding`);
   }
@@ -62,76 +58,24 @@ export default async function DashboardPage({
     .eq("user_id", userId)
     .single<Subscription>();
 
-  const { data: progressData } = await service
-    .from("progress")
-    .select("*")
-    .eq("user_id", userId);
-
-  const completedIds = new Set(progressData?.map((p: Progress) => p.lesson_id) || []);
-
-  const { data: allLessons } = await service
-    .from("lessons")
-    .select("id");
-
-  const totalLessons = allLessons?.length || 0;
-  const completedCount = completedIds.size;
-  const percentComplete = totalLessons > 0 ? Math.round((completedCount / totalLessons) * 100) : 0;
-
   const isPremium = sub?.plan === "premium";
 
-  // Weekly activity: count lessons completed in last 7 days
+  const { count: completedCount } = await service
+    .from("teacher_progress")
+    .select("*", { count: "exact", head: true })
+    .eq("student_id", userId);
+
   const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
   const { count: lessonsThisWeek } = await service
-    .from("progress")
+    .from("teacher_progress")
     .select("*", { count: "exact", head: true })
-    .eq("user_id", userId)
-    .gte("completed_at", weekAgo);
+    .eq("student_id", userId)
+    .gte("viewed_at", weekAgo);
 
-  // Time-of-day greeting
   const hour = new Date().getHours();
   const greeting =
     hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
 
-  // Find next uncompleted public lesson for "continue where you left off"
-  const { data: allOrderedLessons } = await service
-    .from("lessons")
-    .select("id, slug, title, section_id")
-    .order("section_id")
-    .order("order_index");
-
-  let nextLesson: {
-    id: string;
-    slug: string;
-    title: string;
-    sectionSlug: string;
-    courseSlug: string;
-    courseTitle: string;
-  } | null = null;
-
-  if (allOrderedLessons) {
-    for (const lesson of allOrderedLessons) {
-      if (!completedIds.has(lesson.id)) {
-        const { data: section } = await service
-          .from("sections")
-          .select("slug, courses!inner(slug, title)")
-          .eq("id", lesson.section_id)
-          .single();
-
-        const s = section as { slug: string; courses: { slug: string; title: string } } | null;
-        if (s) {
-          nextLesson = {
-            id: lesson.id,
-            slug: lesson.slug,
-            title: lesson.title,
-            sectionSlug: s.slug,
-            courseSlug: s.courses.slug,
-            courseTitle: s.courses.title,
-          };
-          break;
-        }
-      }
-    }
-  }
   const studiedToday = profile?.last_activity_at
     ? new Date(profile.last_activity_at).toISOString().split("T")[0] === new Date().toISOString().split("T")[0]
     : false;
@@ -140,8 +84,7 @@ export default async function DashboardPage({
     ? (() => {
         const last = profile.last_activity_at ? new Date(profile.last_activity_at) : null;
         if (!last) return false;
-        const today = new Date();
-        return last.toISOString().split("T")[0] !== today.toISOString().split("T")[0];
+        return last.toISOString().split("T")[0] !== new Date().toISOString().split("T")[0];
       })()
     : false;
 
@@ -149,33 +92,6 @@ export default async function DashboardPage({
     .from("user_badges")
     .select("*")
     .eq("user_id", userId);
-
-  const { data: myMemberships } = await service
-    .from("class_members")
-    .select("class_id, joined_at")
-    .eq("student_id", userId);
-
-  const myClassIds = myMemberships?.map((m) => m.class_id) ?? [];
-
-  const { data: myClasses } = myClassIds.length
-    ? await service
-        .from("classes")
-        .select("id, name, description")
-        .in("id", myClassIds)
-        .order("created_at", { ascending: false })
-    : { data: [] };
-
-  const { data: myCourseCounts } = myClassIds.length
-    ? await service
-        .from("teacher_courses")
-        .select("class_id")
-        .in("class_id", myClassIds)
-    : { data: [] };
-
-  const courseCounts: Record<string, number> = {};
-  for (const c of myCourseCounts ?? []) {
-    courseCounts[c.class_id] = (courseCounts[c.class_id] ?? 0) + 1;
-  }
 
   const badgeTitles: Record<string, string> = {
     first_lesson: "First Lesson",
@@ -192,7 +108,7 @@ export default async function DashboardPage({
       if (badge.badge_key.startsWith("section_")) {
         const sectionId = badge.badge_key.replace("section_", "");
         const { data: section } = await service
-          .from("sections")
+          .from("teacher_sections")
           .select("title")
           .eq("id", sectionId)
           .single();
@@ -216,9 +132,7 @@ export default async function DashboardPage({
       <style>{`
         .card-hover:hover { border-color: var(--border); background-color: var(--bg-elevated); }
         .sign-out-btn:hover { background-color: var(--bg-subtle); }
-        .cta-primary:hover { background-color: color-mix(in srgb, var(--success) 90%, transparent); }
         .cta-upgrade:hover { background-color: color-mix(in srgb, var(--accent) 20%, transparent); }
-        .continue-link:hover .continue-title { color: var(--success); }
       `}</style>
       <div>
         <div className="flex items-center gap-3">
@@ -242,7 +156,7 @@ export default async function DashboardPage({
             </div>
             <div>
               <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{t("lessons_completed")}</p>
-              <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{completedCount}</p>
+              <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{completedCount ?? 0}</p>
             </div>
           </div>
         </div>
@@ -291,7 +205,6 @@ export default async function DashboardPage({
           {Array.from({ length: 7 }).map((_, i) => {
             const d = new Date(Date.now() - (6 - i) * 24 * 60 * 60 * 1000);
             const dayStr = d.toISOString().split("T")[0];
-            const active = weekAgo; // simplified — we just show past 7 days
             return (
               <div
                 key={i}
@@ -311,66 +224,11 @@ export default async function DashboardPage({
         </div>
       </div>
 
-      {totalLessons > 0 && (
-        <div className="mt-8 rounded-2xl border p-6" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-surface)' }}>
-          <div className="flex items-center justify-between mb-3">
-            <p className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>{t("overall_progress")}</p>
-            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{percentComplete}%</p>
-          </div>
-          <div className="h-2.5 rounded-full" style={{ backgroundColor: 'var(--bg-subtle)' }}>
-            <div
-              className="h-2.5 rounded-full transition-all"
-              style={{ backgroundColor: 'var(--success)', width: `${percentComplete}%` }}
-            />
-          </div>
-          <p className="mt-2 text-xs" style={{ color: 'var(--text-muted)' }}>
-            {t("progress_detail", { completed: completedCount, total: totalLessons })}
-          </p>
-          <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-            {totalLessons - completedCount} {t("lessons_remaining")}
-          </p>
-        </div>
-      )}
-
-      {nextLesson && (
-        <div data-testid="continue-learning" className="mt-8 rounded-2xl border p-6" style={{ borderColor: 'color-mix(in srgb, var(--success) 30%, transparent)', backgroundColor: 'color-mix(in srgb, var(--success) 10%, transparent)' }}>
-          <p className="text-xs font-medium uppercase tracking-wider mb-2" style={{ color: 'var(--success)' }}>
-            {t("continue_learning")}
-          </p>
-          <Link
-            href={`/${locale}/courses/${nextLesson.courseSlug}/${nextLesson.sectionSlug}/${nextLesson.slug}`}
-            className="continue-link group flex items-center justify-between"
-          >
-            <div>
-              <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{nextLesson.courseTitle}</p>
-              <p className="mt-0.5 text-lg font-semibold continue-title transition-colors" style={{ color: 'var(--text-primary)' }}>
-                {nextLesson.title}
-              </p>
-            </div>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ backgroundColor: 'color-mix(in srgb, var(--success) 20%, transparent)' }}>
-              <TrendingUp className="h-5 w-5" style={{ color: 'var(--success)' }} />
-            </div>
-          </Link>
-        </div>
-      )}
-
-      <div data-section="badge-grid">
+      <div data-section="badge-grid" className="mt-8">
         <BadgeGrid badges={earnedBadges} />
       </div>
 
-      <CertificatesSection />
-
-      <JoinClassCard />
-
       <div className="mt-10 flex flex-wrap items-center gap-4">
-        <Link
-          href={`/${locale}/courses`}
-          className="cta-primary inline-flex items-center gap-2 rounded-2xl px-6 py-2.5 text-sm font-medium transition-all"
-          style={{ backgroundColor: 'var(--success)', color: 'var(--text-primary)', boxShadow: '0 0 20px color-mix(in srgb, var(--success) 20%, transparent)' }}
-        >
-          <TrendingUp className="h-4 w-4" />
-          {t("continue_learning")}
-        </Link>
         {!isPremium && (
           <Link
             href={`/${locale}/pricing`}

@@ -136,14 +136,6 @@ export function SiteTour({ role }: SiteTourProps) {
         },
         position: "center" as const,
       },
-      {
-        element: undefined,
-        popover: {
-          title: "Courses",
-          description: "Manage platform courses.",
-        },
-        position: "center" as const,
-      },
     ];
   }, [role]);
 

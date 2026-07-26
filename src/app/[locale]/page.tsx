@@ -42,14 +42,14 @@ export default function LandingPage() {
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4 animate-fade-in-up animate-delay-200">
             <Link
-              href={loggedIn ? `/${locale}/courses` : `/${locale}/onboarding`}
+              href={loggedIn ? `/${locale}/dashboard` : `/${locale}/onboarding`}
               className="rounded-2xl px-8 py-3 text-base font-medium text-white transition-all hover:scale-105"
               style={{
                 backgroundColor: "var(--accent)",
                 boxShadow: "0 0 30px var(--glow-hover)",
               }}
             >
-              {loggedIn ? t("go_to_courses") : t("start_learning")}
+              {loggedIn ? t("go_to_dashboard", { defaultMessage: "Go to Dashboard" }) : t("start_learning")}
             </Link>
           </div>
         </div>

@@ -24,17 +24,17 @@ export default async function AdminDashboardPage({
     .gte("created_at", thirtyDaysAgo);
 
   const { count: totalCompleted } = await supabase
-    .from("progress")
+    .from("teacher_progress")
     .select("*", { count: "exact", head: true });
 
   const { count: totalCourses } = await supabase
-    .from("courses")
+    .from("teacher_courses")
     .select("*", { count: "exact", head: true });
 
   const { data: recentProgress } = await supabase
-    .from("progress")
-    .select("completed_at, user_id, lesson_id")
-    .order("completed_at", { ascending: false })
+    .from("teacher_progress")
+    .select("viewed_at, student_id, lesson_id")
+    .order("viewed_at", { ascending: false })
     .limit(10);
 
   const stats = [
@@ -75,7 +75,7 @@ export default async function AdminDashboardPage({
                   Lesson <span style={{ color: 'var(--text-secondary)' }}>{p.lesson_id.slice(0, 8)}</span>
                 </span>
                 <span className="ml-auto" style={{ color: 'var(--text-muted)' }}>
-                  {new Date(p.completed_at).toLocaleDateString()}
+                  {new Date(p.viewed_at).toLocaleDateString()}
                 </span>
               </div>
             ))}

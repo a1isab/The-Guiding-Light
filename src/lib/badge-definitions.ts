@@ -13,11 +13,8 @@ export const BADGE_DEFINITIONS: BadgeDefinition[] = [
     descKey: "badge.first_lesson_desc",
     icon: "BookOpen",
     condition: async (userId, supabase) => {
-      const [{ count: pubCount }, { count: teacherCount }] = await Promise.all([
-        supabase.from("progress").select("*", { count: "exact", head: true }).eq("user_id", userId),
-        supabase.from("teacher_progress").select("*", { count: "exact", head: true }).eq("student_id", userId),
-      ]);
-      return (pubCount ?? 0) + (teacherCount ?? 0) >= 1;
+      const { count } = await supabase.from("teacher_progress").select("*", { count: "exact", head: true }).eq("student_id", userId);
+      return (count ?? 0) >= 1;
     },
   },
   {
@@ -26,11 +23,8 @@ export const BADGE_DEFINITIONS: BadgeDefinition[] = [
     descKey: "badge.lessons_10_desc",
     icon: "Layers",
     condition: async (userId, supabase) => {
-      const [{ count: pubCount }, { count: teacherCount }] = await Promise.all([
-        supabase.from("progress").select("*", { count: "exact", head: true }).eq("user_id", userId),
-        supabase.from("teacher_progress").select("*", { count: "exact", head: true }).eq("student_id", userId),
-      ]);
-      return (pubCount ?? 0) + (teacherCount ?? 0) >= 10;
+      const { count } = await supabase.from("teacher_progress").select("*", { count: "exact", head: true }).eq("student_id", userId);
+      return (count ?? 0) >= 10;
     },
   },
   {
@@ -39,11 +33,8 @@ export const BADGE_DEFINITIONS: BadgeDefinition[] = [
     descKey: "badge.lessons_50_desc",
     icon: "Award",
     condition: async (userId, supabase) => {
-      const [{ count: pubCount }, { count: teacherCount }] = await Promise.all([
-        supabase.from("progress").select("*", { count: "exact", head: true }).eq("user_id", userId),
-        supabase.from("teacher_progress").select("*", { count: "exact", head: true }).eq("student_id", userId),
-      ]);
-      return (pubCount ?? 0) + (teacherCount ?? 0) >= 50;
+      const { count } = await supabase.from("teacher_progress").select("*", { count: "exact", head: true }).eq("student_id", userId);
+      return (count ?? 0) >= 50;
     },
   },
   {

@@ -31,10 +31,10 @@ export function CompleteButton({
     if (!user) return;
 
     if (completed) {
-      await supabase.from("progress").delete().eq("user_id", user.id).eq("lesson_id", lessonId);
+      await supabase.from("teacher_progress").delete().eq("student_id", user.id).eq("lesson_id", lessonId);
       setCompleted(false);
     } else {
-      await supabase.from("progress").insert({ user_id: user.id, lesson_id: lessonId });
+      await supabase.from("teacher_progress").upsert({ student_id: user.id, lesson_id: lessonId, content_viewed_at: new Date().toISOString() }, { onConflict: "student_id, lesson_id" });
       setCompleted(true);
     }
 

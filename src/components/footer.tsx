@@ -35,13 +35,6 @@ export async function Footer({ locale }: { locale: string }) {
             </h4>
             <div className="space-y-2">
               <Link
-                href={`/${locale}/courses`}
-                className="block text-sm transition-colors"
-                style={{ color: "var(--text-muted)" }}
-              >
-                {t("courses")}
-              </Link>
-              <Link
                 href={`/${locale}/pricing`}
                 className="block text-sm transition-colors"
                 style={{ color: "var(--text-muted)" }}

@@ -17,13 +17,14 @@ export default async function MyClassesPage({
   const t = await getTranslations("dashboard");
 
   const headersList = await headers();
-  const userId = headersList.get("x-user-id");
+  let userId = headersList.get("x-user-id");
 
   if (!userId) {
     const { createServerSupabaseClient } = await import("@/lib/supabase");
     const supabase = await createServerSupabaseClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) redirect(`/${locale}/auth/login`);
+    userId = user.id;
   }
 
   const service = createAdminClient();

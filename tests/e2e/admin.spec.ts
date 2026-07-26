@@ -21,36 +21,6 @@ test.describe("admin dashboard", () => {
     await expect(page.getByTestId("stat-total-courses")).toBeVisible();
     await expect(page.getByTestId("recent-activity")).toBeVisible();
   });
-
-  test("7.3 admin views course list", async ({ page }) => {
-    await page.goto("/en/admin/courses");
-    await page.waitForLoadState("networkidle");
-    await expect(page.getByTestId("create-course")).toBeVisible();
-  });
-});
-
-test.describe("admin creates course", () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto("/en/auth/login");
-    await page.getByTestId("login-email").fill(EMAIL);
-    await page.getByTestId("login-password").fill(PASSWORD);
-    await page.getByTestId("login-submit").click();
-    await page.waitForURL(/\/en\/admin/);
-  });
-
-  test("7.2 admin creates a course via form", async ({ page }) => {
-    const ts = Date.now();
-    await page.goto("/en/admin/courses/new");
-
-    await page.locator('input[type="text"]').first().fill(`E2E Admin Course ${ts}`);
-    await page.locator('textarea').first().fill(`Description for E2E course ${ts}`);
-    await page.locator('input[type="text"]').nth(2).fill(`e2e-admin-course-${ts}`);
-    await page.locator('button[type="submit"]').click();
-
-    await page.waitForURL(/\/en\/admin\/courses/);
-    await page.waitForLoadState("networkidle");
-    await expect(page.getByTestId("create-course")).toBeVisible();
-  });
 });
 
 test.describe("admin user management", () => {

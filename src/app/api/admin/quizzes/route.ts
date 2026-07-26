@@ -8,15 +8,15 @@ export async function POST(request: NextRequest) {
     return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
   }
 
-  const { lessonSlug } = await request.json();
-  if (!lessonSlug) {
-    return applyCookies(NextResponse.json({ error: "lessonSlug required" }, { status: 400 }));
+  const { lessonId } = await request.json();
+  if (!lessonId) {
+    return applyCookies(NextResponse.json({ error: "lessonId required" }, { status: 400 }));
   }
 
   const { data: lesson, error: lessonError } = await supabase
-    .from("lessons")
+    .from("teacher_lessons")
     .select("id")
-    .eq("slug", lessonSlug)
+    .eq("id", lessonId)
     .single();
 
   if (lessonError || !lesson) {

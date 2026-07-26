@@ -1,9 +1,9 @@
 {
   "nav": {
-    "courses": "Courses",
     "featured": "Featured",
     "settings": "Settings",
     "dashboard": "Dashboard",
+    "my_classes": "My Classes",
     "sign_in": "Sign in",
     "sign_out": "Sign out",
     "start_free": "Start Free →",
@@ -42,7 +42,6 @@
   "footer": {
     "tagline": "Islamic Learning for Everyone",
     "links": "Links",
-    "courses": "Courses",
     "pricing": "Pricing",
     "about": "About",
     "about_text": "Free, structured Islamic education for every Muslim, everywhere.",
@@ -194,18 +193,6 @@
     "verify_code_incomplete": "Please enter all 6 digits",
     "verify_failed": "Invalid or expired code. Please try again.",
     "email_label": "Email"
-  },
-  "courses": {
-    "title": "All Courses",
-    "subtitle": "Start anywhere. Learn at your own pace.",
-    "empty": "No courses available yet.",
-    "all": "all",
-    "beginner": "beginner",
-    "intermediate": "intermediate",
-    "advanced": "advanced",
-    "lessons": "{count} lessons",
-    "video": "Video",
-    "breadcrumb_courses": "Courses"
   },
   "lesson": {
     "arabic_text": "Arabic Text",

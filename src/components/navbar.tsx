@@ -183,7 +183,7 @@ export function Navbar() {
                   }}
                 >
                   <Users className="h-3.5 w-3.5" />
-                  {t("my_classes", { defaultMessage: "My Classes" })}
+                  {t("my_classes")}
                 </Link>
               )}
               {(userRole?.includes("teacher") || userRole?.includes("admin")) && (
@@ -393,7 +393,7 @@ export function Navbar() {
                   onClick={() => setMobileOpen(false)}
                 >
                   <Users className="h-4 w-4" />
-                  {t("my_classes", { defaultMessage: "My Classes" })}
+                  {t("my_classes")}
                 </Link>
               )}
               {(userRole?.includes("teacher") || userRole?.includes("admin")) && (
