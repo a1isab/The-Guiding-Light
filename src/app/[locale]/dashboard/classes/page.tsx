@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { createAdminClient } from "@/lib/supabase";
+import { createAdminClient, createServiceClient } from "@/lib/supabase";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { headers } from "next/headers";
@@ -8,11 +8,8 @@ import { JoinClassCard } from "@/components/join-class-card";
 
 export const dynamic = "force-dynamic";
 
-async function getDataClient() {
-  const admin = createAdminClient();
-  if (admin) return admin;
-  const { createServerSupabaseClient } = await import("@/lib/supabase");
-  return createServerSupabaseClient();
+function getDataClient() {
+  return createAdminClient() ?? createServiceClient();
 }
 
 export default async function MyClassesPage({
@@ -34,7 +31,7 @@ export default async function MyClassesPage({
     userId = user.id;
   }
 
-  const service = await getDataClient();
+  const service = getDataClient();
 
   const { data: memberships } = await service
     .from("class_members")
@@ -46,11 +43,13 @@ export default async function MyClassesPage({
 
   const { data: classes } = classIds.length
     ? await service.from("classes").select("id, name, description").in("id", classIds)
-    : { data: [] };
+    : { data: [], error: null };
 
-  const { data: courseCounts } = classIds.length
+  const { data: courseCounts, error: courseErr } = classIds.length
     ? await service.from("teacher_courses").select("class_id").in("class_id", classIds)
-    : { data: [] };
+    : { data: [], error: null };
+
+  if (courseErr) console.error("[MyClasses] teacher_courses query error:", courseErr.message);
 
   const counts: Record<string, number> = {};
   for (const c of courseCounts ?? []) {
