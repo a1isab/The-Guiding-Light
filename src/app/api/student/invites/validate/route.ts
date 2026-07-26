@@ -1,8 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { createApiSupabaseClient } from "@/lib/supabase-api";
+import { createAdminClient } from "@/lib/supabase";
 
 export async function POST(request: NextRequest) {
-  const { supabase, applyCookies } = createApiSupabaseClient(request);
   const { code } = await request.json();
 
   if (!code || typeof code !== "string") {
@@ -11,19 +10,24 @@ export async function POST(request: NextRequest) {
 
   const trimmed = code.trim().toUpperCase();
 
-  const { data: cls, error } = await supabase
+  const admin = createAdminClient();
+  if (!admin) {
+    return NextResponse.json({ valid: false, message: "Server configuration error" }, { status: 500 });
+  }
+
+  const { data: cls, error } = await admin
     .from("classes")
     .select("id, invite_expires_at")
     .eq("invite_code", trimmed)
     .maybeSingle();
 
   if (error || !cls) {
-    return applyCookies(NextResponse.json({ valid: false, message: "Invalid invite code" }));
+    return NextResponse.json({ valid: false, message: "Invalid invite code" });
   }
 
   if (cls.invite_expires_at && new Date(cls.invite_expires_at) < new Date()) {
-    return applyCookies(NextResponse.json({ valid: false, message: "This invite code has expired" }));
+    return NextResponse.json({ valid: false, message: "This invite code has expired" });
   }
 
-  return applyCookies(NextResponse.json({ valid: true, message: "Invite code is valid" }));
+  return NextResponse.json({ valid: true, message: "Invite code is valid" });
 }
