@@ -86,10 +86,7 @@ export default function SignUpPage() {
 
     const { token } = await codeRes.json();
 
-    const code = Array.from({ length: 6 }, () => Math.floor(Math.random() * 10)).join("");
-
     sessionStorage.setItem("sv_email", email);
-    sessionStorage.setItem("sv_code", code);
     sessionStorage.setItem("sv_password", password);
     sessionStorage.setItem("sv_token", token);
     router.push(`/${locale}/auth/verify`);

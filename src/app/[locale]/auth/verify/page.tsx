@@ -11,7 +11,6 @@ export default function VerifyPage() {
   const locale = useLocale();
   const router = useRouter();
   const [email, setEmail] = useState("");
-  const [expectedCode, setExpectedCode] = useState("");
   const [savedPassword, setSavedPassword] = useState("");
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const [error, setError] = useState("");
@@ -20,18 +19,24 @@ export default function VerifyPage() {
 
   useEffect(() => {
     const storedEmail = sessionStorage.getItem("sv_email");
-    const storedCode = sessionStorage.getItem("sv_code");
     const storedPassword = sessionStorage.getItem("sv_password");
 
-    if (!storedEmail || !storedCode || !storedPassword) {
+    if (!storedEmail || !storedPassword) {
       router.replace(`/${locale}/onboarding`);
       return;
     }
 
     setEmail(storedEmail);
-    setExpectedCode(storedCode);
     setSavedPassword(storedPassword);
   }, [locale, router]);
+
+  useEffect(() => {
+    if (verifying) return;
+    const fullCode = code.join("");
+    if (fullCode.length === 6) {
+      handleSubmit();
+    }
+  }, [code, verifying]);
 
   function handleChange(index: number, value: string) {
     if (!/^\d?$/.test(value)) return;
@@ -56,11 +61,6 @@ export default function VerifyPage() {
       return;
     }
 
-    if (fullCode !== expectedCode) {
-      setError(t("verify_failed"));
-      return;
-    }
-
     setVerifying(true);
     setError("");
 
@@ -69,7 +69,7 @@ export default function VerifyPage() {
     const res = await fetch("/api/auth/verify-code", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, token }),
+      body: JSON.stringify({ email, token, code: fullCode }),
     });
 
     if (!res.ok) {
@@ -92,7 +92,6 @@ export default function VerifyPage() {
     }
 
     sessionStorage.removeItem("sv_email");
-    sessionStorage.removeItem("sv_code");
     sessionStorage.removeItem("sv_password");
     sessionStorage.removeItem("sv_token");
 
@@ -119,13 +118,6 @@ export default function VerifyPage() {
             <h1 className="font-display text-2xl font-bold" style={{ color: "var(--text-primary)" }}>{t("verify_title")}</h1>
             <p className="mt-1 text-sm" style={{ color: "var(--text-muted)" }}>{t("verify_subtitle")}</p>
             <p className="mt-1 text-sm" style={{ color: "var(--text-secondary)" }}>{email}</p>
-          </div>
-
-          <div className="mb-4 rounded-xl border p-4 text-center" style={{ borderColor: "var(--border)", backgroundColor: "color-mix(in srgb, var(--bg-elevated) 50%, transparent)" }}>
-            <p className="text-xs mb-1" style={{ color: "var(--text-muted)" }}>{t("verify_code_label")}</p>
-            <p data-testid="verify-displayed-code" className="text-3xl font-bold tracking-[0.3em] font-mono" style={{ color: "var(--accent)" }}>
-              {expectedCode}
-            </p>
           </div>
 
           <div className="space-y-4">

@@ -246,7 +246,7 @@ export default async function DashboardPage({
             </div>
           </div>
         </div>
-        <div data-testid="stat-streak" className="rounded-2xl border p-6" style={{ borderColor: streakAtRisk ? 'var(--border)' : 'color-mix(in srgb, var(--accent) 30%, transparent)', backgroundColor: streakAtRisk ? 'var(--bg-surface)' : 'color-mix(in srgb, var(--accent) 5%, transparent)' }}>
+        <div data-testid="stat-streak" data-section="streak" className="rounded-2xl border p-6" style={{ borderColor: streakAtRisk ? 'var(--border)' : 'color-mix(in srgb, var(--accent) 30%, transparent)', backgroundColor: streakAtRisk ? 'var(--bg-surface)' : 'color-mix(in srgb, var(--accent) 5%, transparent)' }}>
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ backgroundColor: streakAtRisk ? 'var(--bg-subtle)' : 'color-mix(in srgb, var(--accent) 20%, transparent)' }}>
               <Flame className="h-5 w-5" style={{ color: streakAtRisk ? 'var(--text-muted)' : 'var(--accent)' }} />
@@ -354,14 +354,16 @@ export default async function DashboardPage({
         </div>
       )}
 
-      <BadgeGrid badges={earnedBadges} />
+      <div data-section="badge-grid">
+        <BadgeGrid badges={earnedBadges} />
+      </div>
 
       <CertificatesSection />
 
       <JoinClassCard />
 
       {myClasses && myClasses.length > 0 && (
-        <div className="mt-10">
+        <div data-section="my-classes" className="mt-10">
           <h2 className="font-display text-xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>{t("my_classes")}</h2>
           <div className="grid gap-3 sm:grid-cols-2">
             {myClasses.map((cls) => (

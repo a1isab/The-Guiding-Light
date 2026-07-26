@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase-client";
 import { UserPlus, GraduationCap, User, KeyRound, Loader2 } from "lucide-react";
 
@@ -11,6 +13,7 @@ interface OnboardingWizardProps {
 }
 
 export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizardProps) {
+  const t = useTranslations("auth");
   const router = useRouter();
   const [step, setStep] = useState(0);
   const [submitting, setSubmitting] = useState(false);
@@ -124,10 +127,7 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
 
     const { token } = await codeRes.json();
 
-    const code = Array.from({ length: 6 }, () => Math.floor(Math.random() * 10)).join("");
-
     sessionStorage.setItem("sv_email", email);
-    sessionStorage.setItem("sv_code", code);
     sessionStorage.setItem("sv_password", password);
     sessionStorage.setItem("sv_token", token);
     sessionStorage.setItem("wiz_role", signupRole);
@@ -207,6 +207,7 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
               </p>
 
               {!authenticated && (
+                <>
                 <form onSubmit={handleSignup} className="space-y-4">
                   <div>
                     <label htmlFor="wiz-email" className="block text-sm font-medium" style={{ color: "var(--text-secondary)" }}>
@@ -303,6 +304,14 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
                     <p data-testid="wiz-signup-error" className="text-sm" style={{ color: "var(--error)" }}>{signupError}</p>
                   )}
                 </form>
+
+                <p className="mt-4 text-center text-sm" style={{ color: "var(--text-muted)" }}>
+                  {t("already_have_account")}{" "}
+                  <Link href={`/${locale}/auth/login`} className="font-medium transition-colors hover:opacity-80" style={{ color: "var(--accent)" }}>
+                    {t("sign_in_link")}
+                  </Link>
+                </p>
+                </>
               )}
             </div>
           )}
