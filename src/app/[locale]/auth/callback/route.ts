@@ -1,42 +1,40 @@
-import { type EmailOtpType } from "@supabase/supabase-js";
 import { type NextRequest, NextResponse } from "next/server";
-import { createApiSupabaseClient } from "@/lib/supabase-api";
+import { createServerClient } from "@supabase/ssr";
 
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
   const { searchParams } = url;
-  const token_hash = searchParams.get("token_hash");
-  const type = searchParams.get("type") as EmailOtpType | null;
+  const code = searchParams.get("code");
   const pathParts = url.pathname.split("/").filter(Boolean);
   const locale = pathParts.length > 0 && /^[a-z]{2}(-[A-Z]{2})?$/.test(pathParts[0]) ? pathParts[0] : "en";
-  const next = searchParams.get("next") ?? `/${locale}/courses`;
+  const next = searchParams.get("next") ?? `/${locale}/dashboard`;
 
-  if (type === "recovery") {
-    const { supabase, applyCookies } = createApiSupabaseClient(request);
-
-    if (token_hash) {
-      const { error } = await supabase.auth.verifyOtp({
-        type: "recovery",
-        token_hash,
-      });
-      if (!error) {
-        return applyCookies(NextResponse.redirect(new URL(`/${locale}/auth/reset-password`, request.url)));
+  if (code) {
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() {
+            return request.cookies.getAll();
+          },
+          setAll(cookiesToSet) {
+            cookiesToSet.forEach(({ name, value }) => {
+              request.cookies.set({ name, value });
+            });
+          },
+        },
       }
-    }
+    );
 
-    return applyCookies(NextResponse.redirect(new URL(`/${locale}/auth/login?error=Invalid+or+expired+link`, request.url)));
-  }
-
-  if (token_hash && type) {
-    const { supabase, applyCookies } = createApiSupabaseClient(request);
-
-    const { error } = await supabase.auth.verifyOtp({
-      type,
-      token_hash,
-    });
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
 
     if (!error) {
-      return applyCookies(NextResponse.redirect(new URL(next, request.url)));
+      const response = NextResponse.redirect(new URL(next, request.url));
+      for (const cookie of request.cookies.getAll()) {
+        response.cookies.set(cookie.name, cookie.value);
+      }
+      return response;
     }
   }
 
