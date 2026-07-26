@@ -43,7 +43,7 @@ export default async function MyClassesPage({
 
   const { data: classes } = classIds.length
     ? await service.from("classes").select("id, name, description").in("id", classIds)
-    : { data: [], error: null };
+    : { data: [] };
 
   const { data: courseCounts, error: courseErr } = classIds.length
     ? await service.from("teacher_courses").select("class_id").in("class_id", classIds)
