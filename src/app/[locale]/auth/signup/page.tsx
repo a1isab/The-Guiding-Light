@@ -62,7 +62,7 @@ export default function SignUpPage() {
       password,
       options: {
         data: { role, inviteCode: role === "teacher" ? inviteCode.trim() : "" },
-        emailRedirectTo: `${siteUrl}/${locale}/auth/callback?next=/${locale}/dashboard`,
+        emailRedirectTo: `${siteUrl}/${locale}/auth/callback?next=/${locale}/onboarding`,
       },
     });
 
@@ -72,20 +72,8 @@ export default function SignUpPage() {
       return;
     }
 
-    const codeRes = await fetch("/api/auth/generate-code", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
-    });
-
-    if (!codeRes.ok) {
-      setError(t("signup_confirm_failed"));
-      setLoading(false);
-      return;
-    }
-
-    sessionStorage.setItem("sv_email", email);
-    router.push(`/${locale}/auth/verify`);
+    setSuccess(true);
+    setLoading(false);
   }
 
   if (success) {

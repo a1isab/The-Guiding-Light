@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase-client";
-import { UserPlus, GraduationCap, User, KeyRound, Loader2 } from "lucide-react";
+import { UserPlus, GraduationCap, User, KeyRound, Loader2, CheckCircle2 } from "lucide-react";
 
 interface OnboardingWizardProps {
   locale: string;
@@ -27,6 +27,8 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
   );
   const [inviteCode, setInviteCode] = useState("");
   const [signupError, setSignupError] = useState("");
+  const [signupSuccess, setSignupSuccess] = useState(false);
+  const [signupEmail, setSignupEmail] = useState("");
 
   const [displayName, setDisplayName] = useState("");
   const [level, setLevel] = useState<"beginner" | "intermediate" | "advanced">("beginner");
@@ -103,7 +105,7 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
       password,
       options: {
         data: { role: signupRole, inviteCode: signupRole === "teacher" ? inviteCode.trim() : "" },
-        emailRedirectTo: `${siteUrl}/${locale}/auth/callback?next=/${locale}/dashboard`,
+        emailRedirectTo: `${siteUrl}/${locale}/auth/callback?next=/${locale}/onboarding`,
       },
     });
 
@@ -113,21 +115,9 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
       return;
     }
 
-    const codeRes = await fetch("/api/auth/generate-code", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
-    });
-
-    if (!codeRes.ok) {
-      setSignupError("Failed to generate verification code");
-      setSubmitting(false);
-      return;
-    }
-
-    sessionStorage.setItem("sv_email", email);
-    sessionStorage.setItem("wiz_role", signupRole);
-    router.push(`/${locale}/auth/verify`);
+    setSignupEmail(email);
+    setSignupSuccess(true);
+    setSubmitting(false);
   }
 
   async function handleComplete() {
@@ -193,7 +183,17 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
         </div>
 
         <div className="rounded-2xl border p-8" style={{ borderColor: "var(--border)", backgroundColor: "var(--bg-surface)" }}>
-          {step === 0 && (
+          {signupSuccess ? (
+            <div className="text-center">
+              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full" style={{ backgroundColor: "color-mix(in srgb, var(--accent) 10%, transparent)" }}>
+                <CheckCircle2 className="h-7 w-7" style={{ color: "var(--accent)" }} />
+              </div>
+              <h2 className="font-display text-xl font-bold" style={{ color: "var(--text-primary)" }}>{t("check_email")}</h2>
+              <p className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>
+                {t("check_email_msg", { email: signupEmail })}
+              </p>
+            </div>
+          ) : step === 0 && (
             <div>
               <h2 className="font-display text-2xl font-bold mb-1 text-center" style={{ color: "var(--text-primary)" }}>
                 {authenticated ? "Welcome to The Guiding Light" : "Create your account"}
