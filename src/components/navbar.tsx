@@ -9,7 +9,7 @@ import { createClient, getUserRoleClient } from "@/lib/supabase-client";
 import type { User } from "@supabase/supabase-js";
 import { SignOutButton } from "@/components/auth/sign-out-button";
 import { Logo } from "./logo";
-import { Settings, Sparkles, Map, BadgeCheck } from "lucide-react";
+import { Settings, Sparkles, Map, BadgeCheck, Users } from "lucide-react";
 
 const SiteTour = dynamic(() => import("@/components/site-tour").then((m) => m.SiteTour), { ssr: false });
 
@@ -167,10 +167,23 @@ export function Navbar() {
                   href={"/" + currentLocale + "/dashboard"}
                   className="text-sm font-medium transition-colors"
                   style={{
-                    color: pathname.includes("/dashboard") ? "var(--accent)" : "var(--text-secondary)",
+                    color: pathname.includes("/dashboard") && !pathname.includes("/classes") ? "var(--accent)" : "var(--text-secondary)",
                   }}
                 >
                   {t("dashboard")}
+                </Link>
+              )}
+              {user && !userRole?.includes("teacher") && (
+                <Link
+                  href={"/" + currentLocale + "/dashboard/classes"}
+                  data-testid="nav-my-classes"
+                  className="text-sm font-medium transition-colors flex items-center gap-1.5"
+                  style={{
+                    color: pathname.includes("/dashboard/classes") ? "var(--accent)" : "var(--text-secondary)",
+                  }}
+                >
+                  <Users className="h-3.5 w-3.5" />
+                  {t("my_classes", { defaultMessage: "My Classes" })}
                 </Link>
               )}
               {(userRole?.includes("teacher") || userRole?.includes("admin")) && (
@@ -370,6 +383,17 @@ export function Navbar() {
                   onClick={() => setMobileOpen(false)}
                 >
                   {t("dashboard")}
+                </Link>
+              )}
+              {user && !userRole?.includes("teacher") && (
+                <Link
+                  href={"/" + currentLocale + "/dashboard/classes"}
+                  className="text-lg font-medium transition-colors flex items-center gap-2"
+                  style={{ color: "var(--text-primary)" }}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  <Users className="h-4 w-4" />
+                  {t("my_classes", { defaultMessage: "My Classes" })}
                 </Link>
               )}
               {(userRole?.includes("teacher") || userRole?.includes("admin")) && (

@@ -280,35 +280,6 @@ export default async function DashboardPage({
         </div>
       </div>
 
-      {myClasses && myClasses.length > 0 && (
-        <div data-section="my-classes" className="mt-8">
-          <h2 className="font-display text-xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>{t("my_classes")}</h2>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {myClasses.map((cls) => (
-              <Link
-                key={cls.id}
-                data-testid={`class-card-${cls.id}`}
-                href={`/${locale}/dashboard/classes/${cls.id}`}
-                className="card-hover rounded-2xl border p-5 transition-all"
-                style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-surface)' }}
-              >
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ backgroundColor: 'color-mix(in srgb, var(--success) 10%, transparent)' }}>
-                    <Users className="h-5 w-5" style={{ color: 'var(--success)' }} />
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{cls.name}</p>
-                    <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                       {courseCounts[cls.id] ?? 0} {"courses"}
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
-
       <div className="mt-6 flex items-center gap-4 rounded-xl border px-5 py-3" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-subtle)' }}>
         <div className="flex items-center gap-2">
           <TrendingUp className="h-4 w-4" style={{ color: 'var(--success)' }} />
