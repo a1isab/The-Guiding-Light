@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { createAdminClient, createServiceClient } from "@/lib/supabase";
+import { createAdminClient, createServerSupabaseClient } from "@/lib/supabase";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { headers } from "next/headers";
@@ -8,8 +8,10 @@ import { JoinClassCard } from "@/components/join-class-card";
 
 export const dynamic = "force-dynamic";
 
-function getDataClient() {
-  return createAdminClient() ?? createServiceClient();
+async function getDataClient() {
+  const admin = createAdminClient();
+  if (admin) return admin;
+  return createServerSupabaseClient();
 }
 
 export default async function MyClassesPage({
@@ -31,7 +33,7 @@ export default async function MyClassesPage({
     userId = user.id;
   }
 
-  const service = getDataClient();
+  const service = await getDataClient();
 
   const { data: memberships } = await service
     .from("class_members")

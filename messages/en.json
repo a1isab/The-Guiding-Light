@@ -72,6 +72,8 @@
     "invite_code_placeholder": "Enter invite code",
     "join": "Join",
     "lesson_files": "Lesson Files",
+    "no_classes_yet": "You haven't joined any classes yet",
+    "join_class_prompt": "Enter an invite code below to join a class",
     "student": "Student"
   },
   "pricing": {
