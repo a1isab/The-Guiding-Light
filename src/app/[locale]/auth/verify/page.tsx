@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
-import { createClient } from "@/lib/supabase-client";
 import { ShieldCheck, Loader2 } from "lucide-react";
 
 export default function VerifyPage() {
@@ -11,7 +10,6 @@ export default function VerifyPage() {
   const locale = useLocale();
   const router = useRouter();
   const [email, setEmail] = useState("");
-  const [savedPassword, setSavedPassword] = useState("");
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const [error, setError] = useState("");
   const [verifying, setVerifying] = useState(false);
@@ -19,15 +17,13 @@ export default function VerifyPage() {
 
   useEffect(() => {
     const storedEmail = sessionStorage.getItem("sv_email");
-    const storedPassword = sessionStorage.getItem("sv_password");
 
-    if (!storedEmail || !storedPassword) {
+    if (!storedEmail) {
       router.replace(`/${locale}/onboarding`);
       return;
     }
 
     setEmail(storedEmail);
-    setSavedPassword(storedPassword);
   }, [locale, router]);
 
   useEffect(() => {
@@ -64,29 +60,15 @@ export default function VerifyPage() {
     setVerifying(true);
     setError("");
 
-    const token = sessionStorage.getItem("sv_token");
-
     const res = await fetch("/api/auth/verify-code", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, token, code: fullCode }),
+      body: JSON.stringify({ email, code: fullCode }),
     });
 
     if (!res.ok) {
       const data = await res.json();
       setError(data.error || t("signup_confirm_failed"));
-      setVerifying(false);
-      return;
-    }
-
-    const supabase = createClient();
-    const { error: signInError } = await supabase.auth.signInWithPassword({
-      email,
-      password: savedPassword,
-    });
-
-    if (signInError) {
-      setError(t("signup_sign_in_prompt"));
       setVerifying(false);
       return;
     }

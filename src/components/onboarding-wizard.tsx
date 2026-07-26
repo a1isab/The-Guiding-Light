@@ -125,11 +125,7 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
       return;
     }
 
-    const { token } = await codeRes.json();
-
     sessionStorage.setItem("sv_email", email);
-    sessionStorage.setItem("sv_password", password);
-    sessionStorage.setItem("sv_token", token);
     sessionStorage.setItem("wiz_role", signupRole);
     router.push(`/${locale}/auth/verify`);
   }

@@ -1,34 +1,36 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@supabase/supabase-js";
 import { createAdminClient } from "@/lib/supabase";
-import { consumeProof, getProofCode } from "../generate-code/route";
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, token, code } = await request.json();
+    const { email, code } = await request.json();
 
     if (!email || typeof email !== "string") {
       return NextResponse.json({ error: "Email is required" }, { status: 400 });
-    }
-
-    if (!token || typeof token !== "string") {
-      return NextResponse.json({ error: "Proof token is required" }, { status: 401 });
     }
 
     if (!code || typeof code !== "string" || code.length !== 6) {
       return NextResponse.json({ error: "Verification code is required" }, { status: 400 });
     }
 
-    const storedCode = getProofCode(token, email);
-    if (storedCode === null) {
-      return NextResponse.json({ error: "Invalid or expired verification code" }, { status: 401 });
-    }
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    );
 
-    if (storedCode !== code) {
-      return NextResponse.json({ error: "Incorrect verification code. Please try again." }, { status: 401 });
-    }
+    const { data, error } = await supabase.auth.verifyOtp({
+      email,
+      token: code,
+      type: "email",
+    });
 
-    if (!consumeProof(token, email)) {
-      return NextResponse.json({ error: "Invalid or expired proof token" }, { status: 401 });
+    if (error) {
+      console.error("verifyOtp error:", error);
+      return NextResponse.json(
+        { error: "Invalid or expired verification code. Please try again." },
+        { status: 401 }
+      );
     }
 
     const admin = createAdminClient();

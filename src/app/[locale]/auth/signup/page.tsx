@@ -84,11 +84,7 @@ export default function SignUpPage() {
       return;
     }
 
-    const { token } = await codeRes.json();
-
     sessionStorage.setItem("sv_email", email);
-    sessionStorage.setItem("sv_password", password);
-    sessionStorage.setItem("sv_token", token);
     router.push(`/${locale}/auth/verify`);
   }
 

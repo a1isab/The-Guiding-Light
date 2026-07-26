@@ -39,4 +39,4 @@
 - [ ] 7.3 Test incorrect code — verify error message appears
 - [ ] 7.4 Test expired code — wait 15 minutes or modify TTL, verify expiration error
 - [ ] 7.5 Test student dashboard tour — verify all tour steps highlight correct elements
-- [ ] 7.6 Run existing E2E tests to confirm no regressions
+- [x] 7.6 Run existing E2E tests to confirm no regressions
