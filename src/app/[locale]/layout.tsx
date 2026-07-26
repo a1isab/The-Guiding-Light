@@ -8,6 +8,7 @@ import { routing } from "../../../i18n/routing";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { HtmlAttributes } from "@/components/html-attributes";
+import { ToastProvider } from "@/components/toast";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -69,9 +70,11 @@ export default async function LocaleLayout({
     >
       <NextIntlClientProvider locale={locale} messages={messages}>
         <HtmlAttributes />
-        <Navbar />
-        <main className="flex-1 flex flex-col pt-16">{children}</main>
-        <Footer locale={locale} />
+        <ToastProvider>
+          <Navbar />
+          <main className="flex-1 flex flex-col pt-16">{children}</main>
+          <Footer locale={locale} />
+        </ToastProvider>
       </NextIntlClientProvider>
     </div>
   );

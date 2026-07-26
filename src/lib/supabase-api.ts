@@ -6,8 +6,37 @@ export function extractBearerToken(request: NextRequest): string | undefined {
   if (auth?.startsWith("Bearer ")) return auth.slice(7);
 }
 
+/**
+ * Collects cookies set by Supabase SSR during an API request and applies
+ * them to the outgoing response. This avoids the fragile mutableResponse
+ * reassignment pattern that was previously used.
+ */
+class CookieCollector {
+  private cookies: { name: string; value: string; options?: Record<string, unknown> }[] = [];
+
+  getAll() {
+    return [...this.cookies];
+  }
+
+  set(name: string, value: string, options?: Record<string, unknown>) {
+    this.cookies.push({ name, value, options });
+  }
+
+  applyTo(response: NextResponse): NextResponse {
+    for (const cookie of this.cookies) {
+      response.cookies.set(cookie.name, cookie.value, {
+        ...(cookie.options as any),
+        path: "/",
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+      });
+    }
+    return response;
+  }
+}
+
 export function createApiSupabaseClient(request: NextRequest) {
-  let mutableResponse = NextResponse.next({ request: { headers: request.headers } });
+  const collector = new CookieCollector();
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -21,13 +50,7 @@ export function createApiSupabaseClient(request: NextRequest) {
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value, options }) => {
             request.cookies.set(name, value);
-            mutableResponse = NextResponse.next({ request: { headers: request.headers } });
-            mutableResponse.cookies.set(name, value, {
-              ...options,
-              path: "/",
-              sameSite: "lax",
-              secure: process.env.NODE_ENV === "production",
-            });
+            collector.set(name, value, options);
           });
         },
       },
@@ -35,10 +58,7 @@ export function createApiSupabaseClient(request: NextRequest) {
   );
 
   function applyCookies(response: NextResponse): NextResponse {
-    mutableResponse.cookies.getAll().forEach((cookie) => {
-      response.cookies.set(cookie.name, cookie.value, cookie);
-    });
-    return response;
+    return collector.applyTo(response);
   }
 
   return { supabase, applyCookies };

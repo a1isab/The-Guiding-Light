@@ -213,12 +213,24 @@ export interface AnnouncementRead {
   read_at: string;
 }
 
+// Static locale-to-property-key mapping (avoids recreating on every function call)
+const QUIZ_QUESTION_KEYS: Record<string, "question_ar" | "question_ur" | "question_fr"> = {
+  ar: "question_ar",
+  ur: "question_ur",
+  fr: "question_fr",
+};
+
 export function getQuizQuestion(q: QuizQuestion, locale: Locale): { question: string; options: string[] } {
   if (locale === "en") return { question: q.question, options: q.options };
-  const key = locale as keyof Pick<QuizQuestion, "question_ar" | "question_ur" | "question_fr">;
-  const optKey = `options_${locale}` as keyof QuizQuestion;
-  const translatedQuestion = q[key] as string | undefined;
-  const translatedOptions = q[optKey] as string[] | undefined;
+
+  // String interpolation for options works at runtime (e.g., "options_ar")
+  // but for question we need an explicit map ("ar" ≠ "question_ar")
+  const questionKey = QUIZ_QUESTION_KEYS[locale];
+  const optionsKey = `options_${locale}` as keyof QuizQuestion;
+
+  const translatedQuestion = questionKey ? (q as any)[questionKey] as string | undefined : undefined;
+  const translatedOptions = (q as any)[optionsKey] as string[] | undefined;
+
   return {
     question: translatedQuestion || q.question,
     options: translatedOptions || q.options,
