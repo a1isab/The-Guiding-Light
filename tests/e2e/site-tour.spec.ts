@@ -18,8 +18,10 @@ test.describe("site tour", () => {
     await page.waitForTimeout(2000);
 
     const driverOverlay = page.locator(".driver-overlay, .driver-fade");
+    const driverPopover = page.locator(".driver-popover");
     const hasOverlay = await driverOverlay.isVisible().catch(() => false);
-    expect(hasOverlay || true).toBe(true);
+    const hasPopover = await driverPopover.isVisible().catch(() => false);
+    expect(hasOverlay || hasPopover).toBe(true);
   });
 
   test("10.8 tour does not restart after completion", async ({ page }) => {
@@ -64,8 +66,10 @@ test.describe("site tour", () => {
       await page.waitForTimeout(1500);
 
       const driverPopover = page.locator(".driver-popover");
+      const driverOverlay = page.locator(".driver-overlay, .driver-fade");
       const hasPopover = await driverPopover.isVisible().catch(() => false);
-      expect(hasPopover || true).toBe(true);
+      const hasOverlay = await driverOverlay.isVisible().catch(() => false);
+      expect(hasPopover || hasOverlay).toBe(true);
     }
   });
 
@@ -80,8 +84,10 @@ test.describe("site tour", () => {
       await page.waitForTimeout(1500);
 
       const driverPopover = page.locator(".driver-popover");
+      const driverOverlay = page.locator(".driver-overlay, .driver-fade");
       const hasPopover = await driverPopover.isVisible().catch(() => false);
-      expect(hasPopover || true).toBe(true);
+      const hasOverlay = await driverOverlay.isVisible().catch(() => false);
+      expect(hasPopover || hasOverlay).toBe(true);
     }
   });
 });

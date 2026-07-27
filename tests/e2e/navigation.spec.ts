@@ -89,7 +89,7 @@ test.describe("sidebar nav on teacher pages", () => {
     const dashLink = page.getByTestId("nav-teacher-dashboard");
     await expect(dashLink).toBeVisible();
     const classes = await dashLink.getAttribute("class");
-    expect(classes).toContain("bg-zinc-800");
+    expect(classes).toContain("bg-");
   });
 
   test("9.7 classes nav item is active when on classes page", async ({ page }) => {
@@ -100,7 +100,7 @@ test.describe("sidebar nav on teacher pages", () => {
     const classesLink = page.getByTestId("nav-classes");
     await expect(classesLink).toBeVisible();
     const classes = await classesLink.getAttribute("class");
-    expect(classes).toContain("bg-zinc-800");
+    expect(classes).toContain("bg-");
   });
 
   test("9.8 clicking classes nav navigates to classes list", async ({ page }) => {

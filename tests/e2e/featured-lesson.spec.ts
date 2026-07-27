@@ -45,7 +45,7 @@ test.describe("featured lesson content", () => {
     if (!(await isNotFound.isVisible().catch(() => false))) {
       const backLink = page.getByText("Back to class").or(page.getByText("←"));
       const hasBack = await backLink.isVisible().catch(() => false);
-      expect(hasBack || true).toBe(true);
+      expect(hasBack).toBe(true);
     }
   });
 
@@ -58,7 +58,7 @@ test.describe("featured lesson content", () => {
     if (!(await isNotFound.isVisible().catch(() => false))) {
       const joinCta = page.getByText("Join").first();
       const hasCta = await joinCta.isVisible().catch(() => false);
-      expect(hasCta || true).toBe(true);
+      expect(hasCta).toBe(true);
     }
   });
 
@@ -68,9 +68,9 @@ test.describe("featured lesson content", () => {
     await page.waitForLoadState("networkidle");
     await page.waitForTimeout(1000);
 
-    const url = page.url();
-    const has404Url = url.includes("404");
-    const hasNotFoundText = await page.getByText("not found").or(page.getByText("404")).isVisible().catch(() => false);
-    expect(has404Url || hasNotFoundText || true).toBe(true);
+    const has404 = page.url().includes("404");
+    const hasNotFound = await page.getByText("not found").or(page.getByText("404")).isVisible().catch(() => false);
+    const hasEmpty = (await page.locator("main, body").textContent())?.trim().length === 0;
+    expect(has404 || hasNotFound || hasEmpty).toBe(true);
   });
 });
