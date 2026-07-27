@@ -36,7 +36,7 @@ test.describe("student API endpoints", () => {
         return { status: res.status, body: await res.json() };
       });
       expect(result.status).toBe(200);
-      expect(Array.isArray(result.body)).toBe(true);
+      expect(Array.isArray(result.body.bookmarks)).toBe(true);
     });
 
     test("POST /api/student/bookmarks toggles bookmark", async ({ page }) => {
@@ -76,7 +76,7 @@ test.describe("student API endpoints", () => {
         return { status: res.status, body: await res.json() };
       }, data.lessonId);
       expect(result.status).toBe(200);
-      expect(Array.isArray(result.body)).toBe(true);
+      expect(Array.isArray(result.body.comments)).toBe(true);
     });
 
     test("POST /api/student/lessons/comments creates comment", async ({ page }) => {
@@ -102,7 +102,7 @@ test.describe("student API endpoints", () => {
         return { status: res.status, body: await res.json() };
       }, data.classId);
       expect(result.status).toBe(200);
-      expect(Array.isArray(result.body)).toBe(true);
+      expect(Array.isArray(result.body.announcements)).toBe(true);
     });
   });
 
@@ -114,7 +114,7 @@ test.describe("student API endpoints", () => {
         return { status: res.status, body: await res.json() };
       });
       expect(result.status).toBe(200);
-      expect(Array.isArray(result.body)).toBe(true);
+      expect(Array.isArray(result.body.certificates)).toBe(true);
     });
   });
 });

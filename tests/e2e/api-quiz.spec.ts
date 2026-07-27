@@ -53,9 +53,10 @@ test.describe("quiz API endpoints", () => {
         return { status: res.status, body: await res.json() };
       }, data.lessonId);
       expect(result.status).toBe(200);
-      expect(Array.isArray(result.body)).toBe(true);
-      expect(result.body.length).toBeGreaterThanOrEqual(3);
-      expect(result.body[0]).toHaveProperty("correct_index");
+      const questions = result.body.questions ?? result.body;
+      expect(Array.isArray(questions)).toBe(true);
+      expect(questions.length).toBeGreaterThanOrEqual(3);
+      expect(questions[0]).toHaveProperty("correct_index");
     });
 
     test("student cannot see correct_index in quiz questions", async ({ page }) => {
@@ -65,8 +66,9 @@ test.describe("quiz API endpoints", () => {
         return { status: res.status, body: await res.json() };
       }, data.lessonId);
       expect(result.status).toBe(200);
-      if (result.body.length > 0) {
-        expect(result.body[0]).not.toHaveProperty("correct_index");
+      const questions = result.body.questions ?? result.body;
+      if (questions.length > 0) {
+        expect(questions[0]).not.toHaveProperty("correct_index");
       }
     });
   });

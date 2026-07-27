@@ -7,6 +7,13 @@ const TEACHER_PASSWORD = "Teacher123!";
 
 test.describe.configure({ timeout: 120000 });
 
+async function gotoNoTour(page: import("@playwright/test").Page, url: string) {
+  await page.goto("/en/auth/login");
+  await page.evaluate(() => localStorage.setItem("tour_completed", "true"));
+  await page.goto(url);
+  await page.waitForLoadState("networkidle");
+}
+
 test.describe("teacher quiz UI", () => {
   let data: TestData;
 
@@ -20,8 +27,7 @@ test.describe("teacher quiz UI", () => {
 
   test("lesson editor page loads with title and save button", async ({ page }) => {
     await loginAs(page, TEACHER_EMAIL, TEACHER_PASSWORD);
-    await page.goto(`/en/teacher/classes/${data.classId}/courses/${data.courseId}/sections/${data.sectionId}/lessons/${data.lessonId}`);
-    await page.waitForLoadState("networkidle");
+    await gotoNoTour(page, `/en/teacher/classes/${data.classId}/courses/${data.courseId}/sections/${data.sectionId}/lessons/${data.lessonId}`);
 
     await expect(page.getByTestId("lesson-title")).toBeVisible();
     await expect(page.getByTestId("save-lesson")).toBeVisible();
@@ -29,8 +35,7 @@ test.describe("teacher quiz UI", () => {
 
   test("preview toggle switches to preview mode", async ({ page }) => {
     await loginAs(page, TEACHER_EMAIL, TEACHER_PASSWORD);
-    await page.goto(`/en/teacher/classes/${data.classId}/courses/${data.courseId}/sections/${data.sectionId}/lessons/${data.lessonId}`);
-    await page.waitForLoadState("networkidle");
+    await gotoNoTour(page, `/en/teacher/classes/${data.classId}/courses/${data.courseId}/sections/${data.sectionId}/lessons/${data.lessonId}`);
 
     await page.getByTestId("preview-toggle").click();
     await expect(page.getByTestId("preview-banner")).toBeVisible();
@@ -39,8 +44,7 @@ test.describe("teacher quiz UI", () => {
 
   test("back to edit returns to edit mode", async ({ page }) => {
     await loginAs(page, TEACHER_EMAIL, TEACHER_PASSWORD);
-    await page.goto(`/en/teacher/classes/${data.classId}/courses/${data.courseId}/sections/${data.sectionId}/lessons/${data.lessonId}`);
-    await page.waitForLoadState("networkidle");
+    await gotoNoTour(page, `/en/teacher/classes/${data.classId}/courses/${data.courseId}/sections/${data.sectionId}/lessons/${data.lessonId}`);
 
     await page.getByTestId("preview-toggle").click();
     await expect(page.getByTestId("preview-banner")).toBeVisible();
@@ -50,8 +54,7 @@ test.describe("teacher quiz UI", () => {
 
   test("save template button opens dialog", async ({ page }) => {
     await loginAs(page, TEACHER_EMAIL, TEACHER_PASSWORD);
-    await page.goto(`/en/teacher/classes/${data.classId}/courses/${data.courseId}/sections/${data.sectionId}/lessons/${data.lessonId}`);
-    await page.waitForLoadState("networkidle");
+    await gotoNoTour(page, `/en/teacher/classes/${data.classId}/courses/${data.courseId}/sections/${data.sectionId}/lessons/${data.lessonId}`);
 
     await page.getByTestId("save-template").click();
     await expect(page.getByTestId("template-dialog")).toBeVisible();
@@ -62,8 +65,7 @@ test.describe("teacher quiz UI", () => {
 
   test("copy from content button is visible", async ({ page }) => {
     await loginAs(page, TEACHER_EMAIL, TEACHER_PASSWORD);
-    await page.goto(`/en/teacher/classes/${data.classId}/courses/${data.courseId}/sections/${data.sectionId}/lessons/${data.lessonId}`);
-    await page.waitForLoadState("networkidle");
+    await gotoNoTour(page, `/en/teacher/classes/${data.classId}/courses/${data.courseId}/sections/${data.sectionId}/lessons/${data.lessonId}`);
 
     await expect(page.getByTestId("copy-from-content")).toBeVisible();
   });

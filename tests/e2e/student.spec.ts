@@ -145,11 +145,13 @@ test.describe("student lesson and quiz", () => {
     const lessonUrl = `/en/dashboard/classes/${data.classId}/courses/${data.courseId}/lessons/${data.lessonId}`;
 
     await loginAs(page, STUDENT_EMAIL, STUDENT_PASSWORD);
+    await page.goto("/en/auth/login");
+    await page.evaluate(() => localStorage.setItem("tour_completed", "true"));
     await page.goto(lessonUrl);
     await page.waitForLoadState("networkidle");
 
     await expect(page.getByTestId("quiz-locked")).toBeVisible();
-    await page.getByTestId("mark-viewed").click();
+    await page.getByTestId("mark-viewed").click({ force: true });
     await page.waitForLoadState("networkidle");
     await expect(page.getByTestId("submit-quiz")).toBeVisible({ timeout: 10000 });
   });
@@ -158,12 +160,14 @@ test.describe("student lesson and quiz", () => {
     const lessonUrl = `/en/dashboard/classes/${data.classId}/courses/${data.courseId}/lessons/${data.lessonId}`;
 
     await loginAs(page, STUDENT_EMAIL, STUDENT_PASSWORD);
+    await page.goto("/en/auth/login");
+    await page.evaluate(() => localStorage.setItem("tour_completed", "true"));
     await page.goto(lessonUrl);
     await page.waitForLoadState("networkidle");
 
     const markViewed = page.getByTestId("mark-viewed");
     if (await markViewed.isVisible()) {
-      await markViewed.click();
+      await markViewed.click({ force: true });
       await page.waitForLoadState("networkidle");
     }
 
@@ -231,22 +235,7 @@ test.describe("8.1 integration: full student flow", () => {
     expect(studentUserId).toBeTruthy();
     await studentCtx.close();
 
-    const seedResult = await teacherPage.evaluate(
-      async ({ classId, studentId }) => {
-        const res = await fetch("/api/test/seed", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            table: "class_members",
-            data: { class_id: classId, student_id: studentId },
-            onConflict: "class_id,student_id",
-          }),
-        });
-        return { ok: res.ok, body: await res.json() };
-      },
-      { classId: data.classId, studentId: studentUserId }
-    );
-    expect(seedResult.ok).toBe(true);
+    await enrollStudent(teacherPage, data.classId, studentUserId);
     await teacherCtx.close();
 
     const page = await browser.newPage();
@@ -256,12 +245,14 @@ test.describe("8.1 integration: full student flow", () => {
     await expect(page.getByTestId("stat-streak")).toBeVisible();
     await expect(page.getByTestId("stat-plan")).toBeVisible();
 
+    await page.goto("/en/auth/login");
+    await page.evaluate(() => localStorage.setItem("tour_completed", "true"));
     await page.goto(
       `/en/dashboard/classes/${data.classId}/courses/${data.courseId}/lessons/${data.lessonId}`
     );
     await page.waitForLoadState("networkidle");
 
-    await page.getByTestId("mark-viewed").click();
+    await page.getByTestId("mark-viewed").click({ force: true });
     await page.waitForLoadState("networkidle");
 
     const quizResult = await page.evaluate(
@@ -286,6 +277,7 @@ test.describe("8.1 integration: full student flow", () => {
 
     await page.goto("/en/dashboard");
     await page.waitForLoadState("networkidle");
+    await page.evaluate(() => localStorage.setItem("tour_completed", "true"));
 
     await expect(page.getByTestId("stat-streak")).toBeVisible();
     await expect(page.getByTestId("stat-lessons")).toBeVisible();

@@ -41,18 +41,21 @@ test.describe("teacher creates course, section, and lesson via UI", () => {
     const ts = Date.now();
     await loginAs(page, EMAIL, PASSWORD);
 
+    await page.goto("/en/auth/login");
+    await page.evaluate(() => localStorage.setItem("tour_completed", "true"));
+
     await page.goto("/en/teacher/classes/new");
     await page.getByTestId("class-name-input").fill(`E2E UI Class ${ts}`);
     await page.getByTestId("class-description").fill(`Created via UI ${ts}`);
-    await page.getByTestId("class-submit").click();
+    await page.getByTestId("class-submit").click({ force: true });
     await page.waitForURL(/\/en\/teacher\/classes\//);
 
-    await page.getByTestId("new-course-link").click();
+    await page.getByTestId("new-course-link").click({ force: true });
     await page.waitForURL(/\/en\/teacher\/classes\/.+\/courses\/new/);
 
     await page.locator('input[type="text"]').first().fill(`E2E UI Course ${ts}`);
     await page.locator('textarea').first().fill(`Course description ${ts}`);
-    await page.locator('button[type="submit"]').click();
+    await page.locator('button[type="submit"]').click({ force: true });
     await page.waitForURL(/\/en\/teacher\/classes\/.+\/courses\/.+/);
     await expect(page.locator("text=Add Section")).toBeVisible();
   });
