@@ -39,7 +39,8 @@ export default async function MyClassesPage({
     .from("class_members")
     .select("class_id, joined_at")
     .eq("student_id", userId)
-    .order("joined_at", { ascending: false });
+    .order("joined_at", { ascending: false })
+    .limit(50);
 
   const classIds = memberships?.map((m) => m.class_id) ?? [];
 
@@ -47,11 +48,9 @@ export default async function MyClassesPage({
     ? await service.from("classes").select("id, name, description").in("id", classIds)
     : { data: [] };
 
-  const { data: courseCounts, error: courseErr } = classIds.length
+  const { data: courseCounts } = classIds.length
     ? await service.from("teacher_courses").select("class_id").in("class_id", classIds)
-    : { data: [], error: null };
-
-  if (courseErr) console.error("[MyClasses] teacher_courses query error:", courseErr.message);
+    : { data: [] };
 
   const counts: Record<string, number> = {};
   for (const c of courseCounts ?? []) {

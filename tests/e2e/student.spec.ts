@@ -16,8 +16,10 @@ test.describe("student dashboard", () => {
     await expect(page.getByTestId("stat-plan")).toBeVisible();
   });
 
-  test("5.2 student dashboard shows class list and join class card", async ({ page }) => {
+  test("5.2 student My Classes page shows join class card", async ({ page }) => {
     await loginAs(page, STUDENT_EMAIL, STUDENT_PASSWORD);
+    await page.goto("/en/dashboard/classes");
+    await page.waitForLoadState("networkidle");
     await expect(page.getByTestId("join-class-card")).toBeVisible();
   });
 
