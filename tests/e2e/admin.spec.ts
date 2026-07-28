@@ -8,6 +8,7 @@ test.describe.configure({ timeout: 120000 });
 test.describe("admin dashboard", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/en/auth/login");
+    await page.evaluate(() => localStorage.setItem("tour_completed", "true"));
     await page.getByTestId("login-email").fill(EMAIL);
     await page.getByTestId("login-password").fill(PASSWORD);
     await page.getByTestId("login-submit").click();
@@ -26,6 +27,7 @@ test.describe("admin dashboard", () => {
 test.describe("admin user management", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/en/auth/login");
+    await page.evaluate(() => localStorage.setItem("tour_completed", "true"));
     await page.getByTestId("login-email").fill(EMAIL);
     await page.getByTestId("login-password").fill(PASSWORD);
     await page.getByTestId("login-submit").click();
@@ -54,6 +56,7 @@ test.describe("admin user management", () => {
 test.describe("admin edit template", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/en/auth/login");
+    await page.evaluate(() => localStorage.setItem("tour_completed", "true"));
     await page.getByTestId("login-email").fill(EMAIL);
     await page.getByTestId("login-password").fill(PASSWORD);
     await page.getByTestId("login-submit").click();

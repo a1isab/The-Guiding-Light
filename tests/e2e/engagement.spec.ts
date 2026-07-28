@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { setupTeacherLesson, type TestData } from "./helpers/teacher-setup";
-import { loginAs, getUserId, enrollStudent } from "./helpers/auth";
+import { loginAs, getUserId, enrollStudent, getAccessToken } from "./helpers/auth";
 
 const TEACHER_EMAIL = "teacher@theguidinglight.com";
 const TEACHER_PASSWORD = "Teacher123!";
@@ -192,29 +192,30 @@ test.describe("engagement features", () => {
   test.describe("certificates", () => {
     test("certificates section renders when certificates exist", async ({ page }) => {
       await loginAs(page, STUDENT_EMAIL, STUDENT_PASSWORD, /\/en\/dashboard/);
-      await page.goto("/en/dashboard");
-      await page.waitForLoadState("networkidle");
+
+      const accessToken = await getAccessToken(page);
+      expect(accessToken).toBeTruthy();
 
       await page.evaluate(
-        async ({ studentId }) => {
-          const res = await fetch("/api/test/seed", {
+        async ({ token, studentId }) => {
+          await fetch(`${SUPABASE_URL}/rest/v1/certificates`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                table: "certificates",
-                onConflict: "user_id,course_id,class_id",
-                data: {
-                user_id: studentId,
-                course_id: "00000000-0000-0000-0000-000000000001",
-                class_id: "00000000-0000-0000-0000-000000000002",
-                student_name: "E2E Student",
-                course_name: "E2E Test Certificate",
-              },
+            headers: {
+              apikey: SUPABASE_ANON_KEY,
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+              Prefer: "resolution=merge-duplicates",
+            },
+            body: JSON.stringify({
+              user_id: studentId,
+              course_id: "00000000-0000-0000-0000-000000000001",
+              class_id: "00000000-0000-0000-0000-000000000002",
+              student_name: "E2E Student",
+              course_name: "E2E Test Certificate",
             }),
           });
-          if (!res.ok) throw new Error(`Seed failed: ${res.status}`);
         },
-        { studentId: ctx.studentUserId }
+        { token: accessToken!, studentId: ctx.studentUserId }
       );
 
       await page.goto("/en/dashboard");

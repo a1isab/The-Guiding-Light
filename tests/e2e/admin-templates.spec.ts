@@ -5,6 +5,7 @@ const PASSWORD = "Admin123!";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/en/auth/login");
+  await page.evaluate(() => localStorage.setItem("tour_completed", "true"));
   await page.getByTestId("login-email").fill(EMAIL);
   await page.getByTestId("login-password").fill(PASSWORD);
   await page.getByTestId("login-submit").click();

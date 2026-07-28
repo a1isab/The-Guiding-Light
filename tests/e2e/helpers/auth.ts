@@ -41,18 +41,24 @@ export async function getUserId(page: Page): Promise<string | null> {
 export async function setOnboarded(page: Page, onboarded: boolean): Promise<void> {
   const userId = await getUserId(page);
   if (!userId) throw new Error("Not logged in — cannot set onboarded");
+  const accessToken = await getAccessToken(page);
   const res = await page.evaluate(
-    async ({ uid, onboarded }) => {
-      const r = await fetch("/api/test/onboarded", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: uid, onboarded }),
+    async ({ uid, onboarded, token }) => {
+      const r = await fetch(`${SUPABASE_URL}/rest/v1/profiles?user_id=eq.${uid}`, {
+        method: "PATCH",
+        headers: {
+          apikey: SUPABASE_ANON_KEY,
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          Prefer: "return=minimal",
+        },
+        body: JSON.stringify({ onboarded }),
       });
-      return { ok: r.ok, body: await r.json() };
+      return { ok: r.ok, status: r.status };
     },
-    { uid: userId, onboarded }
+    { uid: userId, onboarded, token: accessToken! }
   );
-  if (!res.ok) throw new Error(`setOnboarded failed: ${JSON.stringify(res.body)}`);
+  if (!res.ok) throw new Error(`setOnboarded failed: ${res.status}`);
 }
 
 export async function loginAs(
@@ -62,6 +68,7 @@ export async function loginAs(
   redirectPattern: RegExp = /\/en\/(teacher|dashboard|admin)/
 ): Promise<void> {
   await page.goto("/en/auth/login");
+  await page.evaluate(() => localStorage.setItem("tour_completed", "true"));
   await page.getByTestId("login-email").fill(email);
   await page.getByTestId("login-password").fill(password);
   await page.getByTestId("login-submit").click();
@@ -79,6 +86,7 @@ export async function loginAs(
 
 export async function loginAsForOnboarding(page: Page, email: string, password: string): Promise<void> {
   await page.goto("/en/auth/login");
+  await page.evaluate(() => localStorage.setItem("tour_completed", "true"));
   await page.getByTestId("login-email").fill(email);
   await page.getByTestId("login-password").fill(password);
   await page.getByTestId("login-submit").click();

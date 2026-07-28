@@ -5,12 +5,14 @@ let data: TestData;
 
 test.beforeEach(async ({ page }) => {
   data = await setupTeacherLesson(page);
+  await page.evaluate(() => localStorage.setItem("tour_completed", "true"));
 });
 
 test("save as template dialog opens and can be submitted", async ({ page }) => {
   await page.goto(
     `/${data.locale}/teacher/classes/${data.classId}/courses/${data.courseId}/sections/${data.sectionId}/lessons/${data.lessonId}`
   );
+  await page.evaluate(() => localStorage.setItem("tour_completed", "true"));
   await page.getByTestId("save-template").click();
   await expect(page.getByTestId("template-dialog")).toBeVisible();
   await page.getByTestId("template-name").fill("E2E Test Template");

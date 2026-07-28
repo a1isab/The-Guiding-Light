@@ -6,10 +6,11 @@ const ADMIN = { email: "admin@theguidinglight.com", password: "Admin123!" };
 
 async function login(page: import("@playwright/test").Page, creds: { email: string; password: string }) {
   await page.goto("/en/auth/login");
+  await page.evaluate(() => localStorage.setItem("tour_completed", "true"));
   await page.getByTestId("login-email").fill(creds.email);
   await page.getByTestId("login-password").fill(creds.password);
   await page.getByTestId("login-submit").click();
-  await page.waitForURL("**/dashboard**");
+  await page.waitForURL(/\/en\/(dashboard|teacher|admin)/);
 }
 
 async function getThemeColor(page: import("@playwright/test").Page, varName: string): Promise<string> {
