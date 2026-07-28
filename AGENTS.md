@@ -39,6 +39,7 @@ Complete Playwright test coverage (auth, student, teacher, admin), fix API bugs,
 
 ### Blocked
 - Remaining tasks: i18n across ~80 strings in 14 files, API polish (`applyCookies` extraction, try/catch wrappers, error shapes)
+- **Supabase auth outage** (2026-07-28): Auth endpoint (`/auth/v1/token`) times out, "Failed to fetch" on login. REST API also unreachable (HTTP 000). Tests that require login cannot run. Non-login tests pass fine.
 
 # Known Issues & Fixes
 - **Teacher lesson/course pages 404 fix**: Server component pages under `teacher/classes/[id]/courses/` were using `createServiceClient()` (anon key, RLS-bound). This caused `notFound()` when querying `teacher_lessons`/`teacher_courses`. Fix: use `createServerSupabaseClient()` (auth-aware client). Affected pages:
@@ -49,6 +50,9 @@ Complete Playwright test coverage (auth, student, teacher, admin), fix API bugs,
 - **Student dashboard RLS on all data queries**: `createServiceClient()` uses the anon key (NOT service role), subject to RLS. Dashboard queried `class_members`, `user_badges`, `progress`, `subscriptions` etc. with anon key → all blocked by RLS for students. Fix: `createAdminClient() ?? createServiceClient()` (service role bypasses RLS). File: `src/app/[locale]/dashboard/page.tsx:45`.
 - **Quiz submit missing badge awarding**: Class-based quiz submit route didn't call `scanAndAwardBadges()`, so `quiz_ace` badge was never earned after passing a quiz. Fix: added `scanAndAwardBadges(userId, dataClient)` after `updateStreak`. File: `src/app/api/teacher/quiz/submit/route.ts:144`.
 - **Quiz radio button clicks unreliable**: React controlled radio inputs don't respond to Playwright's `check()`, `click()`, `getByRole('radio')`, or positional `label.nth()`. `onChange` never fires. Fix: 5.11 and 8.1 use `page.evaluate` with `fetch("/api/teacher/quiz/submit")` to submit via API, then reload to see completion state.
+- **Tour overlay (`driver.js`) blocks all test clicks**: SiteTour component auto-starts 1 second after page load for first-time visitors. The driver.js overlay (`driver-overlay-animated`) intercepts all pointer events, causing 4.0m timeouts in any test that clicks elements after login. Fix: `loginAs` and `loginAsForOnboarding` now call `localStorage.setItem("tour_completed", "true")` on the login page (same origin) BEFORE submitting the form, so the tour never starts on the destination page. All inline login functions in test files (admin.spec.ts, admin-templates.spec.ts, night-study-visual.spec.ts) also set this before navigation.
+- **Test API routes blocked in production mode**: `/api/test/seed` and `/api/test/onboarded` return HTTP 403 when `NODE_ENV=production` (`next start`). Since all E2E tests run against the dev server, these routes work. However, to make tests resilient to production mode: `setOnboarded()` now uses direct Supabase REST PATCH (user's own token, allowed by RLS migration 024), and engagement.spec.ts certificate test uses direct Supabase REST POST instead of `/api/test/seed`.
+- **`night-study-visual.spec.ts` login URL mismatch**: The `login()` function waited for `**/dashboard**` URL pattern, but teacher/admin users land on `/en/teacher` or `/en/admin`. Fix: changed to `/\/en\/(dashboard|teacher|admin)/` regex pattern.
 
 # Islamic Content Guidelines
 - Whenever you are generating text, markdown files, or code regarding Islamic rulings, you are STRICTLY forbidden from using your general training knowledge or creating generic text.
