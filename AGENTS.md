@@ -41,10 +41,11 @@ Complete Playwright test coverage (auth, student, teacher, admin), fix API bugs,
 - **Base64url cookie fix**: `buildCookieValue` uses `Buffer.toString("base64url")`; `decodeSupabaseCookie` tries base64url first, falls back to base64
 
 ### Active
-- N/A (awaiting next task)
+- 5 test failures fixed (see Known Issues below)
 
-### Blocked
-- Remaining tasks: i18n across ~80 strings in 14 files, API polish (`applyCookies` extraction, try/catch wrappers, error shapes)
+### Blocked (intentionally deferred, not blocked)
+- i18n across ~80 strings in 14 files
+- API polish (`applyCookies` extraction, try/catch wrappers, error shapes)
 - **Supabase auth outage** (2026-07-28): Auth endpoint (`/auth/v1/token`) times out, "Failed to fetch" on login. REST API also unreachable (HTTP 000). Tests that require login cannot run. Non-login tests pass fine.
 
 # Known Issues & Fixes
@@ -59,6 +60,10 @@ Complete Playwright test coverage (auth, student, teacher, admin), fix API bugs,
 - **Tour overlay (`driver.js`) blocks all test clicks**: SiteTour component auto-starts 1 second after page load for first-time visitors. The driver.js overlay (`driver-overlay-animated`) intercepts all pointer events, causing 4.0m timeouts in any test that clicks elements after login. Fix: `loginAs` and `loginAsForOnboarding` now call `localStorage.setItem("tour_completed", "true")` on the login page (same origin) BEFORE submitting the form, so the tour never starts on the destination page. All inline login functions in test files (admin.spec.ts, admin-templates.spec.ts, night-study-visual.spec.ts, student-view-lesson.spec.ts) also set this before navigation.
 - **Test API routes blocked in production mode**: `/api/test/seed` and `/api/test/onboarded` return HTTP 403 when `NODE_ENV=production` (`next start`). Since all E2E tests run against the dev server, these routes work. However, to make tests resilient to production mode: `setOnboarded()` now uses direct Supabase REST PATCH (user's own token, allowed by RLS migration 024), and engagement.spec.ts certificate test uses direct Supabase REST POST instead of `/api/test/seed`.
 - **`night-study-visual.spec.ts` login URL mismatch**: The `login()` function waited for `**/dashboard**` URL pattern, but teacher/admin users land on `/en/teacher` or `/en/admin`. Fix: changed to `/\/en\/(dashboard|teacher|admin)/` regex pattern.
+- **Teacher/admin theme test `ERR_ABORTED`**: `page.goto("/en/teacher")` with `waitUntil: "networkidle"` times out (some long-lived request aborts navigation). The student equivalent works fine. Root cause uncertain (possibly realtime subscription). Fix: use `waitUntil: "domcontentloaded"` since we only need CSS variables computed. Affected tests 56 and 57 in `night-study-visual.spec.ts`.
+- **`certificates-section` not rendered on dashboard**: The import was added but JSX was missing. The `CertificatesSection` component was never included in the render output. Fix: added `<CertificatesSection />` to dashboard page at `src/app/[locale]/dashboard/page.tsx:233`.
+- **Site tour test broken by `loginAs`**: `loginAs` forces `localStorage.setItem("tour_completed", "true")` to bypass the tour overlay during tests. The site-tour spec removes it before `loginAs`, but `loginAs` re-adds it, so the tour never starts. Fix: re-remove after login and reload. File: `tests/e2e/site-tour.spec.ts:19-20`.
+- **Mark-viewed button removed after click**: The "Mark as Viewed" button is conditionally rendered only when `viewedAt` is null. After a successful API call, `viewedAt` is set and the button disappears from the DOM. The test incorrectly checked `isDisabled()` or `textContent()` on a detached element. Fix: check `not.toBeVisible()` instead. File: `tests/e2e/student-class-detail.spec.ts:96`.
 
 # Islamic Content Guidelines
 - Whenever you are generating text, markdown files, or code regarding Islamic rulings, you are STRICTLY forbidden from using your general training knowledge or creating generic text.

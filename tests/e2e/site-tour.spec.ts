@@ -15,7 +15,10 @@ test.describe("site tour", () => {
     await page.goto("/en/auth/login");
     await page.evaluate(() => localStorage.removeItem("tour_completed"));
     await loginAs(page, STUDENT_EMAIL, STUDENT_PASSWORD);
-    await page.waitForTimeout(2000);
+    await page.evaluate(() => localStorage.removeItem("tour_completed"));
+    await page.reload();
+    await page.waitForLoadState("networkidle");
+    await page.waitForTimeout(2500);
 
     const driverOverlay = page.locator(".driver-overlay, .driver-fade");
     const driverPopover = page.locator(".driver-popover");

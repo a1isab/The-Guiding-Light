@@ -80,11 +80,7 @@ test.describe("55-57: Dashboard theme", () => {
     expect(darkBg).toBe("#0a0d12");
 
     await setTheme(page, "light");
-    await page.goto("/en/teacher", { waitUntil: "networkidle" });
-    await page.waitForFunction(() => {
-      const el = document.documentElement;
-      return getComputedStyle(el).getPropertyValue("--bg-primary").trim().length > 0;
-    }, null, { timeout: 10000 });
+    await page.goto("/en/teacher", { waitUntil: "domcontentloaded" });
     const lightBg = await getThemeColor(page, "--bg-primary");
     expect(lightBg).toBe("#f5f1eb");
   });
@@ -96,11 +92,7 @@ test.describe("55-57: Dashboard theme", () => {
     expect(darkBg).toBe("#0a0d12");
 
     await setTheme(page, "light");
-    await page.goto("/en/admin", { waitUntil: "networkidle" });
-    await page.waitForFunction(() => {
-      const el = document.documentElement;
-      return getComputedStyle(el).getPropertyValue("--bg-primary").trim().length > 0;
-    }, null, { timeout: 10000 });
+    await page.goto("/en/admin", { waitUntil: "domcontentloaded" });
     const lightBg = await getThemeColor(page, "--bg-primary");
     expect(lightBg).toBe("#f5f1eb");
   });

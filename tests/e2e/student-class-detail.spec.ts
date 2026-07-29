@@ -91,11 +91,7 @@ test.describe("student class detail flow", () => {
     const markBtn = page.getByTestId("mark-viewed");
     await expect(markBtn).toBeVisible({ timeout: 15000 });
     await markBtn.click({ force: true, timeout: 15000 });
-    await page.waitForTimeout(2000);
-
-    const isDisabled = await markBtn.isDisabled().catch(() => false);
-    const text = await markBtn.textContent().catch(() => "");
-    expect(isDisabled || text?.toLowerCase().includes("viewed")).toBe(true);
+    await expect(markBtn).not.toBeVisible({ timeout: 10000 });
   });
 
   test("student navigates back to class detail from breadcrumbs", async ({ page }) => {

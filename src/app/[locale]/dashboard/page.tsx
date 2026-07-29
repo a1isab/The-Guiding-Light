@@ -7,6 +7,7 @@ import type { Profile, Subscription } from "@/lib/types";
 import { getUserRole } from "@/lib/supabase-api";
 import { BookOpen, Flame, Crown, TrendingUp, LogOut, AlertTriangle } from "lucide-react";
 import { BadgeGrid } from "@/components/badge-grid";
+import { CertificatesSection } from "@/components/certificates-section";
 
 export const dynamic = "force-dynamic";
 
@@ -226,6 +227,10 @@ export default async function DashboardPage({
 
       <div data-section="badge-grid" className="mt-8">
         <BadgeGrid badges={earnedBadges} />
+      </div>
+
+      <div className="mt-8">
+        <CertificatesSection />
       </div>
 
       <div className="mt-10 flex flex-wrap items-center gap-4">
