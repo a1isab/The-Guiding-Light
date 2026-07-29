@@ -1,13 +1,23 @@
 #!/usr/bin/env node
 import { createClient } from "@supabase/supabase-js";
-import { readFileSync, writeFileSync } from "fs";
+import { readFileSync, writeFileSync, existsSync } from "fs";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
+import { parse } from "dotenv";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const SUPA_URL = "https://vpqfvranmdhsxfsynvbw.supabase.co";
-const SUPA_ANON =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZwcWZ2cmFubWRoc3hmc3ludmJ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE4ODQxMDAsImV4cCI6MjA5NzQ2MDEwMH0.6QF9SFBcl_c5xFVKxYBduVZuXGRjDqrA_AtFyX4O_gM";
+
+// Read env from .env.local
+const envPath = resolve(__dirname, "..", ".env.local");
+let SUPA_URL = "https://vpqfvranmdhsxfsynvbw.supabase.co";
+let SUPA_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZwcWZ2cmFubWRoc3hmc3ludmJ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE4ODQxMDAsImV4cCI6MjA5NzQ2MDEwMH0.6QF9SFBcl_c5xFVKxYBduVZuXGRjDqrA_AtFyX4O_gM";
+if (existsSync(envPath)) {
+  try {
+    const env = parse(readFileSync(envPath, "utf-8"));
+    if (env.NEXT_PUBLIC_SUPABASE_URL) SUPA_URL = env.NEXT_PUBLIC_SUPABASE_URL;
+    if (env.NEXT_PUBLIC_SUPABASE_ANON_KEY) SUPA_ANON = env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  } catch {}
+}
 
 const ACCOUNTS = [
   { email: "student@theguidinglight.com", password: "Student123!" },

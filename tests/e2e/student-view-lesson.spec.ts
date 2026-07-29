@@ -3,8 +3,11 @@ import { setupTeacherLesson, type TestData } from "./helpers/teacher-setup";
 
 const STUDENT_EMAIL = "student@theguidinglight.com";
 const STUDENT_PASSWORD = "Student123!";
-const SUPABASE_URL = "https://vpqfvranmdhsxfsynvbw.supabase.co";
+
+// Read Supabase URL and anon key from env (with hosted fallback)
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "https://vpqfvranmdhsxfsynvbw.supabase.co";
 const SUPABASE_ANON_KEY =
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ??
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZwcWZ2cmFubWRoc3hmc3ludmJ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE4ODQxMDAsImV4cCI6MjA5NzQ2MDEwMH0.6QF9SFBcl_c5xFVKxYBduVZuXGRjDqrA_AtFyX4O_gM";
 
 function decodeSupabaseCookie(cookieValue: string): { access_token: string; user?: { id: string } } | null {

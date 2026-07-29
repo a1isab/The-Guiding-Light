@@ -2,12 +2,34 @@ import { expect } from "@playwright/test";
 import type { Page } from "@playwright/test";
 import { readFileSync, existsSync } from "fs";
 import { resolve } from "path";
+import { parse } from "dotenv";
+
+// Load env from .env.local if available
+const envPath = resolve(process.cwd(), ".env.local");
+if (existsSync(envPath)) {
+  const parsed = parse(readFileSync(envPath, "utf-8"));
+  for (const [k, v] of Object.entries(parsed)) {
+    if (!process.env[k]) process.env[k] = v;
+  }
+}
 
 const FIXTURES_PATH = resolve(process.cwd(), "tests", "e2e", "fixtures", "auth-tokens.json");
-const SUPABASE_URL = "https://vpqfvranmdhsxfsynvbw.supabase.co";
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "https://vpqfvranmdhsxfsynvbw.supabase.co";
 const SUPABASE_ANON_KEY =
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ??
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZwcWZ2cmFubWRoc3hmc3ludmJ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE4ODQxMDAsImV4cCI6MjA5NzQ2MDEwMH0.6QF9SFBcl_c5xFVKxYBduVZuXGRjDqrA_AtFyX4O_gM";
-const PROJECT_REF = "vpqfvranmdhsxfsynvbw";
+
+// Derive project ref from URL
+function getProjectRef(): string {
+  const url = SUPABASE_URL.replace(/:\d+$/, ""); // strip port
+  const match = url.match(/https?:\/\/([^.]+)\./);
+  if (match) return match[1];
+  // For localhost/127.0.0.1, use the host as ref (e.g. "127")
+  const hostMatch = url.match(/https?:\/\/([^:/\s]+)/);
+  if (hostMatch) return hostMatch[1];
+  return "local";
+}
+const PROJECT_REF = getProjectRef();
 const AUTH_COOKIE = `sb-${PROJECT_REF}-auth-token`;
 
 interface CachedToken {
@@ -97,11 +119,11 @@ export async function setOnboarded(page: Page, onboarded: boolean): Promise<void
   if (!userId) throw new Error("Not logged in — cannot set onboarded");
   const accessToken = await getAccessToken(page);
   const res = await page.evaluate(
-    async ({ uid, onboarded, token }) => {
-      const r = await fetch(`${SUPABASE_URL}/rest/v1/profiles?user_id=eq.${uid}`, {
+    async ({ uid, onboarded, token, supabaseUrl, anonKey }) => {
+      const r = await fetch(`${supabaseUrl}/rest/v1/profiles?user_id=eq.${uid}`, {
         method: "PATCH",
         headers: {
-          apikey: SUPABASE_ANON_KEY,
+          apikey: anonKey,
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
           Prefer: "return=minimal",
@@ -110,7 +132,7 @@ export async function setOnboarded(page: Page, onboarded: boolean): Promise<void
       });
       return { ok: r.ok, status: r.status };
     },
-    { uid: userId, onboarded, token: accessToken! }
+    { uid: userId, onboarded, token: accessToken!, supabaseUrl: SUPABASE_URL, anonKey: SUPABASE_ANON_KEY }
   );
   if (!res.ok) throw new Error(`setOnboarded failed: ${res.status}`);
 }
