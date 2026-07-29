@@ -10,9 +10,14 @@ const SUPABASE_ANON_KEY =
 function decodeSupabaseCookie(cookieValue: string): { access_token: string; user?: { id: string } } | null {
   try {
     const b64 = cookieValue.replace(/^base64-/, "");
-    return JSON.parse(atob(b64));
+    return JSON.parse(Buffer.from(b64, "base64url").toString("utf-8"));
   } catch {
-    return null;
+    try {
+      const b64 = cookieValue.replace(/^base64-/, "");
+      return JSON.parse(Buffer.from(b64, "base64").toString("utf-8"));
+    } catch {
+      return null;
+    }
   }
 }
 
@@ -30,10 +35,16 @@ async function getCookieValue(page: import("@playwright/test").Page, keyPattern:
 
 async function loginAsStudent(page: import("@playwright/test").Page): Promise<void> {
   await page.goto("/en/auth/login");
+  await page.evaluate(() => localStorage.setItem("tour_completed", "true"));
   await page.getByTestId("login-email").fill(STUDENT_EMAIL);
   await page.getByTestId("login-password").fill(STUDENT_PASSWORD);
   await page.getByTestId("login-submit").click();
-  await page.waitForURL(/\/en\/dashboard/);
+  try {
+    await page.waitForURL(/\/en\/dashboard/, { timeout: 15000 });
+  } catch {
+    const { loginWithCachedToken } = await import("./helpers/auth");
+    await loginWithCachedToken(page, STUDENT_EMAIL, STUDENT_PASSWORD, /\/en\/dashboard/);
+  }
 }
 
 async function getStudentUserId(page: import("@playwright/test").Page): Promise<string | null> {
