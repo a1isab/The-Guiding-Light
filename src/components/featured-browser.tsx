@@ -5,6 +5,9 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Users, BookOpen, GraduationCap, ArrowRight, CheckCircle } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/ui/empty-state";
 
 interface FeaturedTeacher {
   user_id: string;
@@ -36,7 +39,7 @@ type View = "teachers" | "classes";
 export function FeaturedBrowser({ teachers, classes }: Props) {
   const t = useTranslations("featured");
   const locale = useLocale();
-  const [view, setView] = useState<View>("teachers");
+  const [view, setView] = useState<View>("classes");
   const [selectedTeacher, setSelectedTeacher] = useState<string | null>(null);
   const [joining, setJoining] = useState<string | null>(null);
   const [joined, setJoined] = useState<string | null>(null);
@@ -72,64 +75,53 @@ export function FeaturedBrowser({ teachers, classes }: Props) {
 
   return (
     <>
-      <style>{`
-        .segment-btn:hover { background-color: color-mix(in srgb, var(--accent) 10%, transparent); }
-        .teacher-card:hover { border-color: color-mix(in srgb, var(--accent) 50%, transparent); }
-        .class-card:hover { border-color: color-mix(in srgb, var(--accent) 50%, transparent); }
-        .join-btn:hover { background-color: color-mix(in srgb, var(--success) 90%, transparent); }
-      `}</style>
-
       <div className="flex gap-2 mb-8 rounded-xl p-1 w-fit" style={{ backgroundColor: 'var(--bg-surface)' }}>
-        <button
-          data-testid="featured-tab-teachers"
+        <Button
+          variant={view === "teachers" ? "primary" : "ghost"}
+          size="sm"
+          testId="featured-tab-teachers"
           onClick={() => { setView("teachers"); setSelectedTeacher(null); }}
-          className="segment-btn flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all"
-          style={{
-            backgroundColor: view === "teachers" ? "var(--bg-elevated)" : "transparent",
-            color: view === "teachers" ? "var(--text-primary)" : "var(--text-muted)",
-          }}
         >
           <GraduationCap className="h-4 w-4" />
           {t("verified_teachers")}
-        </button>
-        <button
-          data-testid="featured-tab-classes"
+        </Button>
+        <Button
+          variant={view === "classes" ? "primary" : "ghost"}
+          size="sm"
+          testId="featured-tab-classes"
           onClick={() => { setView("classes"); setSelectedTeacher(null); }}
-          className="segment-btn flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all"
-          style={{
-            backgroundColor: view === "classes" ? "var(--bg-elevated)" : "transparent",
-            color: view === "classes" ? "var(--text-primary)" : "var(--text-muted)",
-          }}
         >
           <BookOpen className="h-4 w-4" />
           {t("verified_classes")}
-        </button>
+        </Button>
       </div>
 
       {view === "teachers" && (
         <div data-testid="featured-teachers-view">
           {teachers.length === 0 ? (
-            <div className="rounded-2xl border border-dashed p-12 text-center" style={{ borderColor: 'var(--border)' }}>
-              <GraduationCap className="h-8 w-8 mx-auto mb-3" style={{ color: 'var(--text-muted)' }} />
-              <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{t("no_teachers")}</p>
-            </div>
+            <EmptyState
+              icon={<GraduationCap className="h-8 w-8" />}
+              title={t("no_teachers")}
+            />
           ) : (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {teachers.map((teacher) => (
-                <button
+                <Card
                   key={teacher.user_id}
-                  data-testid={`featured-teacher-card-${teacher.user_id}`}
+                  hoverable
+                  testId={`featured-teacher-card-${teacher.user_id}`}
                   onClick={() => setSelectedTeacher(
                     selectedTeacher === teacher.user_id ? null : teacher.user_id
                   )}
-                  className="teacher-card text-left rounded-2xl border p-5 transition-all"
                   style={{
                     borderColor: selectedTeacher === teacher.user_id
                       ? "var(--accent)"
-                      : "var(--border)",
+                      : undefined,
                     backgroundColor: selectedTeacher === teacher.user_id
                       ? "color-mix(in srgb, var(--accent) 5%, transparent)"
-                      : "var(--bg-surface)",
+                      : undefined,
+                    cursor: "pointer",
+                    textAlign: "left",
                   }}
                 >
                   <div className="flex items-center gap-3 mb-3">
@@ -158,7 +150,7 @@ export function FeaturedBrowser({ teachers, classes }: Props) {
                       {t("lesson_count", { count: teacher.lesson_count })}
                     </span>
                   </div>
-                </button>
+                </Card>
               ))}
             </div>
           )}
@@ -166,24 +158,19 @@ export function FeaturedBrowser({ teachers, classes }: Props) {
           {selectedTeacher && filteredClasses.length > 0 && (
             <div className="mt-8">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="font-display text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>
+                <h2 className="text-h4" style={{ color: 'var(--text-primary)' }}>
                   {t("classes_by", { name: selectedTeacherData?.display_name ?? selectedTeacherData?.email ?? "" })}
                 </h2>
-                <button
-                  onClick={() => setSelectedTeacher(null)}
-                  className="text-xs px-3 py-1 rounded-lg transition-all"
-                  style={{ color: 'var(--text-muted)' }}
-                >
+                <Button variant="ghost" size="sm" onClick={() => setSelectedTeacher(null)}>
                   {t("clear_selection")}
-                </button>
+                </Button>
               </div>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {filteredClasses.map((cls) => (
-                  <div
+                  <Card
                     key={cls.id}
-                    data-testid={`featured-teacher-class-card-${cls.id}`}
-                    className="class-card rounded-2xl border p-5 transition-all"
-                    style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-surface)' }}
+                    hoverable
+                    testId={`featured-teacher-class-card-${cls.id}`}
                   >
                     {cls.cover_image ? (
                       <div className="aspect-video rounded-xl overflow-hidden mb-3">
@@ -235,7 +222,7 @@ export function FeaturedBrowser({ teachers, classes }: Props) {
                         <ArrowRight className="h-3.5 w-3.5" />
                       </button>
                     )}
-                  </div>
+                  </Card>
                 ))}
               </div>
             </div>
@@ -253,11 +240,10 @@ export function FeaturedBrowser({ teachers, classes }: Props) {
           ) : (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {classes.map((cls) => (
-                <div
+                <Card
                   key={cls.id}
-                  data-testid={`featured-class-card-${cls.id}`}
-                  className="class-card rounded-2xl border p-5 transition-all"
-                  style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-surface)' }}
+                  hoverable
+                  testId={`featured-class-card-${cls.id}`}
                 >
                   {cls.cover_image ? (
                     <div className="aspect-video rounded-xl overflow-hidden mb-3">
@@ -314,7 +300,7 @@ export function FeaturedBrowser({ teachers, classes }: Props) {
                       <ArrowRight className="h-3.5 w-3.5" />
                     </button>
                   )}
-                </div>
+                </Card>
               ))}
             </div>
           )}

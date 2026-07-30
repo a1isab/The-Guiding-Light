@@ -6,6 +6,8 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase-client";
 import { UserPlus, GraduationCap, User, KeyRound, Loader2, CheckCircle2 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 interface OnboardingWizardProps {
   locale: string;
@@ -205,72 +207,52 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
               {!authenticated && (
                 <>
                 <form onSubmit={handleSignup} className="space-y-4">
-                  <div>
-                    <label htmlFor="wiz-email" className="block text-sm font-medium" style={{ color: "var(--text-secondary)" }}>
-                      Email
-                    </label>
-                    <input
-                      id="wiz-email"
-                      data-testid="wiz-email"
-                      type="email"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="mt-1 block w-full rounded-xl border px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[var(--accent)] focus:ring-[var(--accent)] placeholder:text-[var(--text-muted)]"
-                      style={{ borderColor: "var(--border)", backgroundColor: "color-mix(in srgb, var(--bg-elevated) 50%, transparent)", color: "var(--text-primary)" }}
-                      placeholder="you@example.com"
-                    />
-                  </div>
+                  <Input
+                    id="wiz-email"
+                    data-testid="wiz-email"
+                    type="email"
+                    required
+                    label="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@example.com"
+                  />
 
-                  <div>
-                    <label htmlFor="wiz-password" className="block text-sm font-medium" style={{ color: "var(--text-secondary)" }}>
-                      Password
-                    </label>
-                    <input
-                      id="wiz-password"
-                      data-testid="wiz-password"
-                      type="password"
-                      required
-                      minLength={6}
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      className="mt-1 block w-full rounded-xl border px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[var(--accent)] focus:ring-[var(--accent)] placeholder:text-[var(--text-muted)]"
-                      style={{ borderColor: "var(--border)", backgroundColor: "color-mix(in srgb, var(--bg-elevated) 50%, transparent)", color: "var(--text-primary)" }}
-                      placeholder="Min 6 characters"
-                    />
-                  </div>
+                  <Input
+                    id="wiz-password"
+                    data-testid="wiz-password"
+                    type="password"
+                    required
+                    minLength={6}
+                    label="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Min 6 characters"
+                  />
 
                   <div>
                     <label className="block text-sm font-medium mb-2" style={{ color: "var(--text-secondary)" }}>
                       I want to
                     </label>
                     <div className="grid grid-cols-2 gap-3">
-                      <button
+                      <Button
                         type="button"
-                        data-testid="wiz-role-student"
+                        variant={signupRole === "student" ? "primary" : "ghost"}
+                        testId="wiz-role-student"
                         onClick={() => setSignupRole("student")}
-                        className="flex items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-medium transition-all"
-                        style={signupRole === "student"
-                          ? { borderColor: "color-mix(in srgb, var(--accent) 50%, transparent)", backgroundColor: "color-mix(in srgb, var(--accent) 10%, transparent)", color: "var(--accent)" }
-                          : { borderColor: "var(--border)", backgroundColor: "color-mix(in srgb, var(--bg-elevated) 50%, transparent)", color: "var(--text-secondary)" }
-                        }
                       >
                         <User className="h-4 w-4" />
                         Learn
-                      </button>
-                      <button
+                      </Button>
+                      <Button
                         type="button"
-                        data-testid="wiz-role-teacher"
+                        variant={signupRole === "teacher" ? "primary" : "ghost"}
+                        testId="wiz-role-teacher"
                         onClick={() => setSignupRole("teacher")}
-                        className="flex items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-medium transition-all"
-                        style={signupRole === "teacher"
-                          ? { borderColor: "color-mix(in srgb, var(--accent) 50%, transparent)", backgroundColor: "color-mix(in srgb, var(--accent) 10%, transparent)", color: "var(--accent)" }
-                          : { borderColor: "var(--border)", backgroundColor: "color-mix(in srgb, var(--bg-elevated) 50%, transparent)", color: "var(--text-secondary)" }
-                        }
                       >
                         <GraduationCap className="h-4 w-4" />
                         Teach
-                      </button>
+                      </Button>
                     </div>
                   </div>
 
@@ -314,34 +296,30 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
 
           {step === 1 && (
             <div>
-              <h2 className="text-lg font-semibold mb-4" style={{ color: "var(--text-primary)" }}>What should we call you?</h2>
-              <input
+              <h2 className="text-h4 mb-4" style={{ color: "var(--text-primary)" }}>What should we call you?</h2>
+              <Input
                 type="text"
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
                 placeholder="Your display name"
-                className="w-full rounded-xl border px-4 py-3 text-sm focus:border-[var(--accent)] focus:outline-none placeholder:text-[var(--text-muted)]"
-                style={{ borderColor: "var(--border)", backgroundColor: "var(--bg-elevated)", color: "var(--text-primary)" }}
               />
             </div>
           )}
 
           {step === 2 && isStudent && (
             <div>
-              <h2 className="text-lg font-semibold mb-4" style={{ color: "var(--text-primary)" }}>What's your knowledge level?</h2>
+              <h2 className="text-h4 mb-4" style={{ color: "var(--text-primary)" }}>What's your knowledge level?</h2>
               <div className="space-y-2">
                 {(["beginner", "intermediate", "advanced"] as const).map((l) => (
-                  <button
+                  <Button
                     key={l}
+                    type="button"
+                    variant={level === l ? "primary" : "ghost"}
                     onClick={() => setLevel(l)}
-                    className="w-full rounded-xl border px-4 py-3 text-left text-sm transition-all"
-                    style={level === l
-                      ? { borderColor: "var(--accent)", backgroundColor: "color-mix(in srgb, var(--accent) 10%, transparent)", color: "var(--accent)" }
-                      : { borderColor: "var(--bg-elevated)", backgroundColor: "color-mix(in srgb, var(--bg-elevated) 50%, transparent)", color: "var(--text-secondary)" }
-                    }
+                    className="w-full justify-start"
                   >
                     {l.charAt(0).toUpperCase() + l.slice(1)}
-                  </button>
+                  </Button>
                 ))}
               </div>
             </div>
@@ -349,34 +327,29 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
 
           {step === 2 && !isStudent && (
             <div>
-              <h2 className="text-lg font-semibold mb-4" style={{ color: "var(--text-primary)" }}>What subjects do you teach?</h2>
-              <input
+              <h2 className="text-h4 mb-4" style={{ color: "var(--text-primary)" }}>What subjects do you teach?</h2>
+              <Input
                 type="text"
                 value={subjects}
                 onChange={(e) => setSubjects(e.target.value)}
                 placeholder="e.g., Quran, Fiqh, Arabic"
-                className="w-full rounded-xl border px-4 py-3 text-sm focus:border-[var(--accent)] focus:outline-none placeholder:text-[var(--text-muted)]"
-                style={{ borderColor: "var(--border)", backgroundColor: "var(--bg-elevated)", color: "var(--text-primary)" }}
               />
             </div>
           )}
 
           {step === 3 && isStudent && (
             <div>
-              <h2 className="text-lg font-semibold mb-4" style={{ color: "var(--text-primary)" }}>What topics interest you?</h2>
+              <h2 className="text-h4 mb-4" style={{ color: "var(--text-primary)" }}>What topics interest you?</h2>
               <div className="flex flex-wrap gap-2">
                 {["Quran", "Hadith", "Fiqh", "Aqeedah", "Seerah", "Arabic"].map((interest) => (
-                  <button
+                  <Button
                     key={interest}
+                    type="button"
+                    variant={interests.includes(interest) ? "primary" : "ghost"}
                     onClick={() => toggleInterest(interest)}
-                    className="rounded-xl border px-4 py-2 text-sm transition-all"
-                    style={interests.includes(interest)
-                      ? { borderColor: "var(--accent)", backgroundColor: "color-mix(in srgb, var(--accent) 10%, transparent)", color: "var(--accent)" }
-                      : { borderColor: "var(--bg-elevated)", backgroundColor: "color-mix(in srgb, var(--bg-elevated) 50%, transparent)", color: "var(--text-secondary)" }
-                    }
                   >
                     {interest}
-                  </button>
+                  </Button>
                 ))}
               </div>
             </div>
@@ -384,20 +357,18 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
 
           {step === 3 && !isStudent && (
             <div>
-              <h2 className="text-lg font-semibold mb-4" style={{ color: "var(--text-primary)" }}>Experience level</h2>
+              <h2 className="text-h4 mb-4" style={{ color: "var(--text-primary)" }}>Experience level</h2>
               <div className="space-y-2">
                 {(["beginner", "intermediate", "advanced"] as const).map((e) => (
-                  <button
+                  <Button
                     key={e}
+                    type="button"
+                    variant={experience === e ? "primary" : "ghost"}
                     onClick={() => setExperience(e)}
-                    className="w-full rounded-xl border px-4 py-3 text-left text-sm transition-all"
-                    style={experience === e
-                      ? { borderColor: "var(--accent)", backgroundColor: "color-mix(in srgb, var(--accent) 10%, transparent)", color: "var(--accent)" }
-                      : { borderColor: "var(--bg-elevated)", backgroundColor: "color-mix(in srgb, var(--bg-elevated) 50%, transparent)", color: "var(--text-secondary)" }
-                    }
+                    className="w-full justify-start"
                   >
                     {e === "beginner" ? "New Teacher" : e === "intermediate" ? "Experienced" : "Veteran Educator"}
-                  </button>
+                  </Button>
                 ))}
               </div>
             </div>
@@ -405,7 +376,7 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
 
           {step === 4 && isStudent && (
             <div>
-              <h2 className="text-lg font-semibold mb-4" style={{ color: "var(--text-primary)" }}>What are your learning goals?</h2>
+              <h2 className="text-h4 mb-4" style={{ color: "var(--text-primary)" }}>What are your learning goals?</h2>
               <textarea
                 value={goals}
                 onChange={(e) => setGoals(e.target.value)}
@@ -420,60 +391,42 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
 
         <div className="mt-6 flex items-center justify-between">
           {(step > 0 || authenticated) && step < totalSteps - 1 ? (
-            <button
-              onClick={handleSkip}
-              className="text-sm transition-colors hover:opacity-80"
-              style={{ color: "var(--text-muted)" }}
-            >
+            <Button variant="ghost" size="sm" onClick={handleSkip}>
               Skip for now
-            </button>
+            </Button>
           ) : (
             <div />
           )}
 
           <div className="flex items-center gap-3">
             {step > 0 && (
-              <button
-                onClick={() => setStep((s) => s - 1)}
-                className="rounded-xl border px-4 py-2.5 text-sm transition-all hover:opacity-80"
-                style={{ borderColor: "var(--border)", color: "var(--text-secondary)" }}
-              >
+              <Button variant="ghost" onClick={() => setStep((s) => s - 1)}>
                 Previous
-              </button>
+              </Button>
             )}
 
             {step === 0 && !authenticated ? (
-              <button
+              <Button
                 onClick={handleSignup}
                 disabled={submitting || !email || !password}
-                data-testid="wiz-signup-submit"
-                className="rounded-xl px-6 py-2.5 text-sm font-medium text-white hover:opacity-80 disabled:opacity-50 transition-all inline-flex items-center gap-2"
-                style={{ backgroundColor: "var(--accent)" }}
+                loading={submitting}
+                testId="wiz-signup-submit"
               >
-                {submitting ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <UserPlus className="h-4 w-4" />
-                )}
+                <UserPlus className="h-4 w-4" />
                 {submitting ? "Creating account..." : "Create account"}
-              </button>
+              </Button>
             ) : step < totalSteps - 1 ? (
-              <button
-                onClick={() => setStep((s) => s + 1)}
-                className="rounded-xl px-6 py-2.5 text-sm font-medium text-white hover:opacity-80 transition-all"
-                style={{ backgroundColor: "var(--accent)" }}
-              >
+              <Button onClick={() => setStep((s) => s + 1)}>
                 Next
-              </button>
+              </Button>
             ) : (
-              <button
+              <Button
                 onClick={handleComplete}
                 disabled={submitting || !displayName}
-                className="rounded-xl px-6 py-2.5 text-sm font-medium text-white hover:opacity-80 disabled:opacity-50 transition-all"
-                style={{ backgroundColor: "var(--accent)" }}
+                loading={submitting}
               >
                 {submitting ? "Saving..." : "Complete"}
-              </button>
+              </Button>
             )}
           </div>
         </div>

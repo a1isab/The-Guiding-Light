@@ -10,6 +10,7 @@ import type { User } from "@supabase/supabase-js";
 import { SignOutButton } from "@/components/auth/sign-out-button";
 import { Logo } from "./logo";
 import { Settings, Sparkles, Map, BadgeCheck, Users } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const SiteTour = dynamic(() => import("@/components/site-tour").then((m) => m.SiteTour), { ssr: false });
 
@@ -301,20 +302,12 @@ export function Navbar() {
             </>
           ) : (
             <>
-              <Link
-                href={"/" + currentLocale + "/auth/login"}
-                className="text-sm font-medium transition-colors"
-                style={{ color: "var(--text-secondary)" }}
-              >
+              <Button variant="ghost" href={"/" + currentLocale + "/auth/login"}>
                 {t("sign_in")}
-              </Link>
-              <Link
-                href={"/" + currentLocale + "/onboarding"}
-                className="rounded-xl px-4 py-2 text-sm font-medium text-white"
-                style={{ backgroundColor: "var(--accent)" }}
-              >
+              </Button>
+              <Button href={"/" + currentLocale + "/onboarding"}>
                 {t("start_free")}
-              </Link>
+              </Button>
             </>
           )}
         </div>
@@ -430,22 +423,20 @@ export function Navbar() {
                 <SignOutButton className="text-lg font-medium mt-4" style={{ color: "var(--error)" }} />
               ) : (
                 <>
-                  <Link
+                  <Button
+                    variant="ghost"
                     href={"/" + currentLocale + "/auth/login"}
-                    className="text-lg font-medium transition-colors"
-                    style={{ color: "var(--text-primary)" }}
                     onClick={() => setMobileOpen(false)}
                   >
                     {t("sign_in")}
-                  </Link>
-                  <Link
+                  </Button>
+                  <Button
                     href={"/" + currentLocale + "/onboarding"}
-                    className="rounded-xl px-4 py-3 text-center font-medium text-white mt-2"
-                    style={{ backgroundColor: "var(--accent)" }}
+                    className="w-full justify-center mt-2"
                     onClick={() => setMobileOpen(false)}
                   >
                     {t("start_free")}
-                  </Link>
+                  </Button>
                 </>
               )}
             </div>
@@ -472,23 +463,12 @@ export function Navbar() {
               Some nuances may not be fully accurate.
             </p>
             <div className="mt-6 flex gap-3 justify-center">
-              <button
-                onClick={() => setShowWarning(false)}
-                className="rounded-xl px-5 py-2 text-sm transition-colors"
-                style={{
-                  border: "1px solid var(--border)",
-                  color: "var(--text-secondary)",
-                }}
-              >
-                Cancel
-              </button>
-              <button
-                onClick={confirmLocale}
-                className="rounded-xl px-5 py-2 text-sm text-white transition-colors"
-                style={{ backgroundColor: "var(--accent)" }}
-              >
-                Continue
-              </button>
+                <Button variant="ghost" onClick={() => setShowWarning(false)}>
+                  Cancel
+                </Button>
+                <Button onClick={confirmLocale}>
+                  Continue
+                </Button>
             </div>
           </div>
         </div>

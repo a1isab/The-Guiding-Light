@@ -2,6 +2,8 @@ import { getTranslations } from "next-intl/server";
 import { createServerSupabaseClient } from "@/lib/supabase";
 import Link from "next/link";
 import { LayoutDashboard, Users, BookOpen, Plus } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 export const dynamic = "force-dynamic";
 
@@ -45,31 +47,26 @@ export default async function TeacherDashboardPage({
   return (
     <div>
       <div className="flex items-center justify-between mb-8">
-        <h1 className="font-display text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{t("dashboard")}</h1>
-        <Link
-          href={`/${locale}/teacher/classes/new`}
-          data-testid="new-class"
-          className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-white hover:bg-[var(--accent)] transition-all"
-          style={{ backgroundColor: 'var(--accent)' }}
-        >
+        <h1 className="text-h2" style={{ color: 'var(--text-primary)' }}>{t("dashboard")}</h1>
+        <Button testId="new-class" href={`/${locale}/teacher/classes/new`}>
           <Plus className="h-4 w-4" />
           {t("new_class")}
-        </Link>
+        </Button>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-3 mb-8">
         {stats.map((stat) => (
-          <div key={stat.label} data-testid={`stat-${stat.label.toLowerCase().replace(/\s+/g, "-")}`} className="rounded-2xl border p-5" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-surface)' }}>
+          <Card key={stat.label} testId={`stat-${stat.label.toLowerCase().replace(/\s+/g, "-")}`}>
             <div className="flex items-center gap-3">
               <div className="rounded-xl p-2.5" style={{ backgroundColor: `color-mix(in srgb, ${stat.iconBg} 10%, transparent)` }}>
                 <stat.icon className="h-5 w-5" style={{ color: stat.iconColor }} />
               </div>
               <div>
-                <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{stat.value}</p>
-                <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{stat.label}</p>
+                <p className="text-h3" style={{ color: 'var(--text-primary)' }}>{stat.value}</p>
+                <p className="text-caption" style={{ color: 'var(--text-muted)' }}>{stat.label}</p>
               </div>
             </div>
-          </div>
+          </Card>
         ))}
       </div>
 

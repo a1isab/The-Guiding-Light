@@ -68,6 +68,11 @@ export default async function LocaleLayout({
       className={`${inter.variable} ${crimsonPro.variable} ${ibmPlexMono.variable} ${notoSansArabic.variable} h-full antialiased min-h-full flex flex-col`}
       style={{ backgroundColor: "var(--bg-primary)", color: "var(--text-primary)" }}
     >
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;else if(window.matchMedia("(prefers-color-scheme:light)").matches)document.documentElement.dataset.theme="light"}catch(e){}})()`,
+        }}
+      />
       <NextIntlClientProvider locale={locale} messages={messages}>
         <HtmlAttributes />
         <ToastProvider>

@@ -2,8 +2,9 @@ import { getTranslations } from "next-intl/server";
 import { createAdminClient } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { BookOpen, CheckCircle } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import { Breadcrumbs } from "@/components/breadcrumbs";
+import { FeaturedJoinButton } from "@/components/featured-join-button";
 
 export const dynamic = "force-dynamic";
 
@@ -91,18 +92,7 @@ export default async function FeaturedClassDetailPage({
             {t("by_teacher", { name: teacherProfile.display_name ?? "Unknown" })}
           </p>
         </div>
-        <Link
-          href={`/${locale}/featured/classes/${classId}`}
-          className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-medium transition-all shrink-0"
-          style={{
-            backgroundColor: 'var(--success)',
-            color: 'var(--text-primary)',
-            boxShadow: '0 0 20px color-mix(in srgb, var(--success) 20%, transparent)',
-          }}
-        >
-          <CheckCircle className="h-4 w-4" />
-          {t("join_class")}
-        </Link>
+        <FeaturedJoinButton classId={classId} inviteCode={cls.invite_code} />
       </div>
 
       {enrichedCourses.length === 0 ? (

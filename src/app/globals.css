@@ -1,67 +1,92 @@
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════════════
-   NIGHT STUDY THEME — Dark Default + Light Inverse
+   NUR THEME — Dark Default + Light Inverse
+   Refined from "Night Study" with warmer palette, formal
+   type scale, spacing grid, and gold accent.
    ═══════════════════════════════════════════════════════════════ */
 
 :root {
   /* Backgrounds */
-  --bg-primary: #0A0D12;
-  --bg-surface: #13171F;
-  --bg-elevated: #1C2130;
-  --bg-subtle: #252A36;
+  --bg-deep: #080B10;
+  --bg-primary: #080B10;
+  --bg-surface: #111827;
+  --bg-elevated: #1E293B;
+  --bg-subtle: #273548;
 
   /* Text */
   --text-primary: #F0ECE4;
-  --text-secondary: #8B8D94;
-  --text-muted: #52566A;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
 
-  /* Accent — THE guiding light */
-  --accent: #D4915E;
-  --accent-dim: #8B5E3C;
-  --accent-hover: #E5A36E;
+  /* Accent — warm gold, guiding light */
+  --accent: #D4A54A;
+  --accent-dim: #8B6914;
+  --accent-hover: #E5B85A;
 
   /* Borders */
-  --border: #1C2130;
-  --border-subtle: #13171F;
+  --border: #1E293B;
+  --border-subtle: #111827;
 
   /* Semantic */
-  --success: #3DD68C;
-  --error: #E05252;
+  --success: #2D7D6A;
+  --error: #DC4444;
 
-  /* Glow */
-  --glow-subtle: rgba(212, 145, 94, 0.06);
-  --glow-hover: rgba(212, 145, 94, 0.12);
+  /* Glow — ambient warmth */
+  --glow: rgba(212, 165, 74, 0.08);
+  --glow-strong: rgba(212, 165, 74, 0.15);
+
+  /* Type scale — 1.25 Major Third */
+  --text-caption: 0.75rem;
+  --text-body: 0.875rem;
+  --text-lead: 1rem;
+  --text-h4: 1.25rem;
+  --text-h3: 1.5rem;
+  --text-h2: 2rem;
+  --text-h1: 2.5rem;
+  --text-hero: 3.5rem;
+
+  /* Spacing grid — 8px increments */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-5: 2.5rem;
+  --space-6: 3rem;
+  --space-8: 4rem;
+  --space-10: 5rem;
+  --space-12: 6rem;
 }
 
 [data-theme="light"] {
   /* Backgrounds */
+  --bg-deep: #F5F1EB;
   --bg-primary: #F5F1EB;
   --bg-surface: #FFFFFF;
   --bg-elevated: #FAF8F5;
   --bg-subtle: #F0ECE4;
 
   /* Text */
-  --text-primary: #1A1D24;
+  --text-primary: #1A1A1E;
   --text-secondary: #6B7280;
   --text-muted: #9CA3AF;
 
   /* Accent — darkened for contrast on light */
-  --accent: #B87A4A;
-  --accent-dim: #D4915E;
-  --accent-hover: #A06840;
+  --accent: #B8860B;
+  --accent-dim: #D4A54A;
+  --accent-hover: #9A7209;
 
   /* Borders */
   --border: #E5E1DB;
   --border-subtle: #F0ECE4;
 
   /* Semantic */
-  --success: #16A34A;
+  --success: #1A7A5C;
   --error: #DC2626;
 
-  /* Glow */
-  --glow-subtle: rgba(184, 122, 74, 0.06);
-  --glow-hover: rgba(184, 122, 74, 0.12);
+  /* Glow — softer on light bg */
+  --glow: rgba(184, 134, 11, 0.06);
+  --glow-strong: rgba(184, 134, 11, 0.12);
 }
 
 @theme inline {
@@ -96,6 +121,29 @@ body {
   font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   GLOBAL FOCUS RINGS
+   ═══════════════════════════════════════════════════════════════ */
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  box-shadow: 0 0 12px var(--glow-strong);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TYPE SCALE UTILITIES
+   ═══════════════════════════════════════════════════════════════ */
+
+.text-caption { font-size: var(--text-caption); }
+.text-body { font-size: var(--text-body); }
+.text-lead { font-size: var(--text-lead); }
+.text-h4 { font-size: var(--text-h4); font-family: var(--font-display); }
+.text-h3 { font-size: var(--text-h3); font-family: var(--font-display); }
+.text-h2 { font-size: var(--text-h2); font-family: var(--font-display); }
+.text-h1 { font-size: var(--text-h1); font-family: var(--font-display); }
+.text-hero { font-size: var(--text-hero); font-family: var(--font-display); }
 
 /* ═══════════════════════════════════════════════════════════════
    ANIMATIONS
@@ -138,6 +186,8 @@ body {
   }
   * {
     transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    box-shadow: none !important;
   }
 }
 
@@ -154,7 +204,7 @@ body {
 }
 
 .card-glow:hover {
-  box-shadow: 0 0 40px var(--glow-hover);
+  box-shadow: 0 0 40px var(--glow-strong);
 }
 
 .lamplight-glow {
@@ -169,7 +219,7 @@ body {
   transform: translate(-50%, -50%);
   width: 600px;
   height: 400px;
-  background: radial-gradient(ellipse, var(--glow-subtle) 0%, transparent 70%);
+  background: radial-gradient(ellipse, var(--glow) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
 }

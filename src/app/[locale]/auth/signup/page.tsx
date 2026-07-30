@@ -6,6 +6,8 @@ import Link from "next/link";
 import { useTranslations, useLocale } from "next-intl";
 import { createClient } from "@/lib/supabase-client";
 import { UserPlus, Sparkles, CheckCircle2, GraduationCap, User, KeyRound } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export default function SignUpPage() {
   const t = useTranslations("auth");
@@ -109,81 +111,61 @@ export default function SignUpPage() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium" style={{ color: "var(--text-secondary)" }}>
-                {t("email")}
-              </label>
-              <input
-                id="email"
-                data-testid="signup-email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full rounded-xl border px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[var(--accent)] focus:ring-[var(--accent)] placeholder:text-[var(--text-muted)]"
-                style={{ borderColor: "var(--border)", backgroundColor: "color-mix(in srgb, var(--bg-elevated) 50%, transparent)", color: "var(--text-primary)" }}
-                placeholder={t("email_placeholder")}
-              />
-            </div>
+            <Input
+              id="email"
+              data-testid="signup-email"
+              type="email"
+              required
+              label={t("email")}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder={t("email_placeholder")}
+            />
 
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium" style={{ color: "var(--text-secondary)" }}>
-                {t("password")}
-              </label>
-              <input
-                id="password"
-                data-testid="signup-password"
-                type="password"
-                required
-                minLength={6}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 block w-full rounded-xl border px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[var(--accent)] focus:ring-[var(--accent)] placeholder:text-[var(--text-muted)]"
-                style={{ borderColor: "var(--border)", backgroundColor: "color-mix(in srgb, var(--bg-elevated) 50%, transparent)", color: "var(--text-primary)" }}
-                placeholder={t("password_placeholder")}
-              />
-            </div>
+            <Input
+              id="password"
+              data-testid="signup-password"
+              type="password"
+              required
+              minLength={6}
+              label={t("password")}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder={t("password_placeholder")}
+            />
 
             <div>
               <label className="block text-sm font-medium mb-2" style={{ color: "var(--text-secondary)" }}>
                 {t("signup_role_label")}
               </label>
               <div className="grid grid-cols-2 gap-3">
-                <button
+                <Button
                   type="button"
-                  data-testid="signup-role-student"
+                  variant={role === "student" ? "primary" : "ghost"}
+                  testId="signup-role-student"
                   onClick={() => setRole("student")}
-                  className="flex items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-medium transition-all"
-                  style={role === "student"
-                    ? { borderColor: "color-mix(in srgb, var(--accent) 50%, transparent)", backgroundColor: "color-mix(in srgb, var(--accent) 10%, transparent)", color: "var(--accent)" }
-                    : { borderColor: "var(--border)", backgroundColor: "color-mix(in srgb, var(--bg-elevated) 50%, transparent)", color: "var(--text-secondary)" }
-                  }
                 >
                   <User className="h-4 w-4" />
                   {t("signup_as_student")}
-                </button>
-                <button
+                </Button>
+                <Button
                   type="button"
-                  data-testid="signup-role-teacher"
+                  variant={role === "teacher" ? "primary" : "ghost"}
+                  testId="signup-role-teacher"
                   onClick={() => setRole("teacher")}
-                  className="flex items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-medium transition-all"
-                  style={role === "teacher"
-                    ? { borderColor: "color-mix(in srgb, var(--accent) 50%, transparent)", backgroundColor: "color-mix(in srgb, var(--accent) 10%, transparent)", color: "var(--accent)" }
-                    : { borderColor: "var(--border)", backgroundColor: "color-mix(in srgb, var(--bg-elevated) 50%, transparent)", color: "var(--text-secondary)" }
-                  }
                 >
                   <GraduationCap className="h-4 w-4" />
                   {t("signup_as_teacher")}
-                </button>
+                </Button>
               </div>
             </div>
 
             {role === "teacher" && (
               <div>
-                <label htmlFor="inviteCode" className="block text-sm font-medium" style={{ color: "var(--text-secondary)" }}>
+                <label htmlFor="inviteCode" className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>
                   {t("invite_code")}
                 </label>
-                <div className="relative mt-1">
+                <div className="relative">
                   <KeyRound className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4" style={{ color: "var(--text-muted)" }} />
                   <input
                     id="inviteCode"
@@ -204,16 +186,16 @@ export default function SignUpPage() {
               <p data-testid="signup-error" className="text-sm" style={{ color: "var(--error)" }}>{error}</p>
             )}
 
-            <button
+            <Button
               type="submit"
-              data-testid="signup-submit"
+              testId="signup-submit"
               disabled={loading}
-              className="w-full inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-white hover:opacity-80 disabled:opacity-50 transition-all"
-              style={{ backgroundColor: "var(--accent)" }}
+              loading={loading}
+              className="w-full justify-center"
             >
               <UserPlus className="h-4 w-4" />
               {loading ? t("creating_account") : t("create_account")}
-            </button>
+            </Button>
           </form>
 
           {!loggedIn && (

@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useTranslations, useLocale } from "next-intl";
 import { createClient } from "@/lib/supabase-client";
 import { LogIn, Sparkles } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 function LoginForm() {
   const t = useTranslations("auth");
@@ -49,36 +51,26 @@ function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label htmlFor="email" className="block text-sm font-medium" style={{ color: "var(--text-secondary)" }}>
-          {t("email")}
-        </label>
-        <input
-          id="email"
-          data-testid="login-email"
-          type="email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="mt-1 block w-full rounded-xl border px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[var(--accent)] focus:ring-[var(--accent)] placeholder:text-[var(--text-muted)]"
-          style={{ borderColor: "var(--border)", backgroundColor: "color-mix(in srgb, var(--bg-elevated) 50%, transparent)", color: "var(--text-primary)" }}
-          placeholder={t("email_placeholder")}
-        />
-      </div>
+      <Input
+        id="email"
+        data-testid="login-email"
+        type="email"
+        required
+        label={t("email")}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder={t("email_placeholder")}
+      />
 
       <div>
-        <label htmlFor="password" className="block text-sm font-medium" style={{ color: "var(--text-secondary)" }}>
-          {t("password")}
-        </label>
-        <input
+        <Input
           id="password"
           data-testid="login-password"
           type="password"
           required
+          label={t("password")}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="mt-1 block w-full rounded-xl border px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[var(--accent)] focus:ring-[var(--accent)] placeholder:text-[var(--text-muted)]"
-          style={{ borderColor: "var(--border)", backgroundColor: "color-mix(in srgb, var(--bg-elevated) 50%, transparent)", color: "var(--text-primary)" }}
         />
         <div className="mt-1 flex justify-end">
           <Link
@@ -95,16 +87,16 @@ function LoginForm() {
         <p data-testid="login-error" className="text-sm" style={{ color: "var(--error)" }}>{error}</p>
       )}
 
-      <button
+      <Button
         type="submit"
-        data-testid="login-submit"
+        testId="login-submit"
         disabled={loading}
-        className="w-full inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-white hover:opacity-80 disabled:opacity-50 transition-all"
-        style={{ backgroundColor: "var(--accent)" }}
+        loading={loading}
+        className="w-full justify-center"
       >
         <LogIn className="h-4 w-4" />
         {loading ? t("signing_in") : t("sign_in")}
-      </button>
+      </Button>
     </form>
   );
 }

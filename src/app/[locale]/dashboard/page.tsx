@@ -1,13 +1,15 @@
 import { getTranslations } from "next-intl/server";
 import { createServiceClient, createAdminClient } from "@/lib/supabase";
 import { redirect } from "next/navigation";
-import Link from "next/link";
 import { headers } from "next/headers";
 import type { Profile, Subscription } from "@/lib/types";
 import { getUserRole } from "@/lib/supabase-api";
 import { BookOpen, Flame, Crown, TrendingUp, LogOut, AlertTriangle } from "lucide-react";
 import { BadgeGrid } from "@/components/badge-grid";
 import { CertificatesSection } from "@/components/certificates-section";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 export const dynamic = "force-dynamic";
 
@@ -130,69 +132,63 @@ export default async function DashboardPage({
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
-      <style>{`
-        .card-hover:hover { border-color: var(--border); background-color: var(--bg-elevated); }
-        .sign-out-btn:hover { background-color: var(--bg-subtle); }
-        .cta-upgrade:hover { background-color: color-mix(in srgb, var(--accent) 20%, transparent); }
-      `}</style>
       <div>
         <div className="flex items-center gap-3">
-          <h1 className="font-display text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>
+          <h1 className="text-h1">
             {greeting}{profile ? `, ${profile.display_name || t("student")}` : ""}!
           </h1>
           {studiedToday && (
-            <span className="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium" style={{ backgroundColor: 'color-mix(in srgb, var(--success) 15%, transparent)', color: 'var(--success)' }}>
-              <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: 'var(--success)' }} />
-              {t("studied_today")}
-            </span>
+            <Badge variant="success">{t("studied_today")}</Badge>
           )}
         </div>
       </div>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-3">
-        <div data-testid="stat-lessons" className="rounded-2xl border p-6" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-surface)' }}>
+        <Card testId="stat-lessons">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ backgroundColor: 'color-mix(in srgb, var(--success) 10%, transparent)' }}>
               <BookOpen className="h-5 w-5" style={{ color: 'var(--success)' }} />
             </div>
             <div>
-              <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{t("lessons_completed")}</p>
-              <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{completedCount ?? 0}</p>
+              <p className="text-caption" style={{ color: 'var(--text-muted)' }}>{t("lessons_completed")}</p>
+              <p className="text-h3" style={{ color: 'var(--text-primary)' }}>{completedCount ?? 0}</p>
             </div>
           </div>
-        </div>
-        <div data-testid="stat-streak" data-section="streak" className="rounded-2xl border p-6" style={{ borderColor: streakAtRisk ? 'var(--border)' : 'color-mix(in srgb, var(--accent) 30%, transparent)', backgroundColor: streakAtRisk ? 'var(--bg-surface)' : 'color-mix(in srgb, var(--accent) 5%, transparent)' }}>
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ backgroundColor: streakAtRisk ? 'var(--bg-subtle)' : 'color-mix(in srgb, var(--accent) 20%, transparent)' }}>
-              <Flame className="h-5 w-5" style={{ color: streakAtRisk ? 'var(--text-muted)' : 'var(--accent)' }} />
-            </div>
-            <div>
-              <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{t("current_streak")}</p>
-              <p className="text-2xl font-bold" style={{ color: streakAtRisk ? 'var(--text-muted)' : 'var(--accent)' }}>
-                {t("days", { count: profile?.streak ?? 0 })}
-              </p>
-              {streakAtRisk && (
-                <p className="mt-0.5 flex items-center gap-1 text-xs" style={{ color: 'color-mix(in srgb, var(--accent) 70%, transparent)' }}>
-                  <AlertTriangle className="h-3 w-3" />
-                  Study today to keep your streak
+        </Card>
+        <Card testId="stat-streak">
+          <div data-section="streak">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ backgroundColor: streakAtRisk ? 'var(--bg-subtle)' : 'color-mix(in srgb, var(--accent) 20%, transparent)' }}>
+                <Flame className="h-5 w-5" style={{ color: streakAtRisk ? 'var(--text-muted)' : 'var(--accent)' }} />
+              </div>
+              <div>
+                <p className="text-caption" style={{ color: 'var(--text-muted)' }}>{t("current_streak")}</p>
+                <p className="text-h3" style={{ color: streakAtRisk ? 'var(--text-muted)' : 'var(--accent)' }}>
+                  {t("days", { count: profile?.streak ?? 0 })}
                 </p>
-              )}
+                {streakAtRisk && (
+                  <p className="mt-0.5 flex items-center gap-1 text-xs" style={{ color: 'color-mix(in srgb, var(--accent) 70%, transparent)' }}>
+                    <AlertTriangle className="h-3 w-3" />
+                    Study today to keep your streak
+                  </p>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-        <div data-testid="stat-plan" className="rounded-2xl border p-6" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-surface)' }}>
+        </Card>
+        <Card testId="stat-plan">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ backgroundColor: isPremium ? 'color-mix(in srgb, var(--accent) 10%, transparent)' : 'var(--bg-subtle)' }}>
               <Crown className="h-5 w-5" style={{ color: isPremium ? 'var(--accent)' : 'var(--text-muted)' }} />
             </div>
             <div>
-              <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{t("your_plan")}</p>
-              <p className="text-2xl font-bold" style={{ color: isPremium ? 'var(--accent)' : 'var(--text-secondary)' }}>
+              <p className="text-caption" style={{ color: 'var(--text-muted)' }}>{t("your_plan")}</p>
+              <p className="text-h3" style={{ color: isPremium ? 'var(--accent)' : 'var(--text-secondary)' }}>
                 {isPremium ? t("premium") : t("free")}
               </p>
             </div>
           </div>
-        </div>
+        </Card>
       </div>
 
       <div className="mt-6 flex items-center gap-4 rounded-xl border px-5 py-3" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-subtle)' }}>
@@ -235,23 +231,15 @@ export default async function DashboardPage({
 
       <div className="mt-10 flex flex-wrap items-center gap-4">
         {!isPremium && (
-          <Link
-            href={`/${locale}/pricing`}
-            className="cta-upgrade inline-flex items-center gap-2 rounded-2xl border px-6 py-2.5 text-sm font-medium transition-all"
-            style={{ borderColor: 'var(--accent)', color: 'var(--accent)', backgroundColor: 'color-mix(in srgb, var(--accent) 10%, transparent)' }}
-          >
+          <Button variant="secondary" href={`/${locale}/pricing`}>
             <Crown className="h-4 w-4" />
             {t("upgrade_premium")}
-          </Link>
+          </Button>
         )}
-        <a
-          href={`/${locale}/auth/logout`}
-          className="sign-out-btn inline-flex items-center gap-2 rounded-2xl border px-6 py-2.5 text-sm font-medium transition-all ml-auto"
-          style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)' }}
-        >
+        <Button variant="ghost" href={`/${locale}/auth/logout`} className="ml-auto">
           <LogOut className="h-4 w-4" />
           {t("sign_out")}
-        </a>
+        </Button>
       </div>
     </div>
   );
