@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase-client";
 import { Key, Copy, CheckCircle2, XCircle, Clock, RefreshCw } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface Invite {
   id: number;
@@ -64,21 +65,15 @@ export default function AdminInvitesPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="font-display text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{t("invites")}</h1>
-        <button
-          onClick={generate}
-          data-testid="generate-invite"
-          disabled={generating}
-          className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-white hover:brightness-110 disabled:opacity-50 transition-all"
-          style={{ background: 'var(--accent)' }}
-        >
+        <h1 className="text-h2" style={{ color: 'var(--text-primary)' }}>{t("invites")}</h1>
+        <Button onClick={generate} testId="generate-invite" disabled={generating}>
           {generating ? (
             <RefreshCw className="h-4 w-4 animate-spin" />
           ) : (
             <Key className="h-4 w-4" />
           )}
           {t("generate_invite")}
-        </button>
+        </Button>
       </div>
 
       {error && (

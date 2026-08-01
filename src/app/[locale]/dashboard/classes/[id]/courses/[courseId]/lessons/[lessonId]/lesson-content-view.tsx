@@ -8,6 +8,7 @@ import { QuizViewer } from "@/components/teacher/quiz-viewer";
 import { CommentThread } from "@/components/comment-thread";
 import { SubmissionForm } from "@/components/submission-form";
 import { SubmissionStatus } from "@/components/submission-status";
+import { Button } from "@/components/ui/button";
 
 interface Assignment {
   id: string;
@@ -138,16 +139,15 @@ export function LessonContentView({
 
       {!viewedAt && (
         <div className="mt-6">
-          <button
+          <Button
             onClick={handleMarkViewed}
-            data-testid="mark-viewed"
+            testId="mark-viewed"
             disabled={viewing}
-            className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-medium text-white disabled:opacity-50 transition-all"
-            style={{ backgroundColor: "var(--accent)" }}
+            loading={viewing}
           >
             <Eye className="h-5 w-5" />
             {viewing ? "Marking..." : "Mark as Viewed"}
-          </button>
+          </Button>
         </div>
       )}
 

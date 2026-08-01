@@ -2,11 +2,12 @@ import { getTranslations } from "next-intl/server";
 import { createServerSupabaseClient } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Users, BookOpen, Copy, BarChart3 } from "lucide-react";
+import { Users, BookOpen, BarChart3 } from "lucide-react";
 import { InviteCodeDisplay } from "./invite-code";
 import { StudentTable } from "./students/student-table";
 import { AnnouncementSection } from "@/components/announcement-section";
 import { Breadcrumbs } from "@/components/breadcrumbs";
+import { Button } from "@/components/ui/button";
 
 export const dynamic = "force-dynamic";
 
@@ -66,7 +67,7 @@ export default async function ClassDetailPage({
 
       <div className="flex items-start justify-between mb-8">
         <div>
-          <h1 data-testid="class-heading" className="font-display text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{cls.name}</h1>
+          <h1 data-testid="class-heading" className="text-h2" style={{ color: 'var(--text-primary)' }}>{cls.name}</h1>
           {cls.description && (
             <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>{cls.description}</p>
           )}
@@ -131,15 +132,14 @@ export default async function ClassDetailPage({
       <div className="mt-8">
         <div className="flex items-center justify-between mb-4">
           <h2 data-testid="courses-heading" className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{t("courses")}</h2>
-          <Link
-            data-testid="new-course-link"
+          <Button
+            testId="new-course-link"
+            size="sm"
             href={`/${locale}/teacher/classes/${id}/courses/new`}
-            className="inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-medium text-white hover:bg-[var(--accent)] transition-all"
-            style={{ backgroundColor: 'var(--accent)' }}
           >
             <BookOpen className="h-3.5 w-3.5" />
             {t("new_course")}
-          </Link>
+          </Button>
         </div>
 
         {courses?.length ? (

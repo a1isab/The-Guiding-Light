@@ -13,6 +13,7 @@ import {
   Film,
 } from "lucide-react";
 import { TemplatePicker } from "@/components/teacher/template-picker";
+import { Button } from "@/components/ui/button";
 
 interface Section {
   id: string;
@@ -197,20 +198,12 @@ export function SectionManager({
                       className="flex-1 rounded-lg border px-3 py-1.5 text-sm focus:border-[var(--accent)] focus:outline-none"
                       style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-elevated)', color: 'var(--text-primary)' }}
                     />
-                    <button
-                      onClick={() => addLesson(section.id)}
-                      className="rounded-lg px-3 py-1.5 text-xs text-white hover:bg-[var(--accent)]"
-                      style={{ backgroundColor: 'var(--accent)' }}
-                    >
+                    <Button onClick={() => addLesson(section.id)} size="sm">
                       {t("add")}
-                    </button>
-                    <button
-                      onClick={() => setNewLesson(null)}
-                      className="rounded-lg border px-3 py-1.5 text-xs hover:text-[var(--text-primary)]"
-                      style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)' }}
-                    >
+                    </Button>
+                    <Button onClick={() => setNewLesson(null)} size="sm" variant="secondary">
                       {t("cancel")}
-                    </button>
+                    </Button>
                   </div>
                 ) : (
                   <button
@@ -250,20 +243,12 @@ export function SectionManager({
             />
           </div>
           <div className="flex gap-2">
-            <button
-              onClick={addSection}
-              className="rounded-lg px-4 py-2 text-sm text-white hover:bg-[var(--accent)]"
-              style={{ backgroundColor: 'var(--accent)' }}
-            >
+            <Button onClick={addSection}>
               {t("save")}
-            </button>
-            <button
-              onClick={() => setAddingSection(false)}
-              className="rounded-lg border px-4 py-2 text-sm hover:text-[var(--text-primary)]"
-              style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)' }}
-            >
+            </Button>
+            <Button onClick={() => setAddingSection(false)} variant="secondary">
               {t("cancel")}
-            </button>
+            </Button>
           </div>
         </div>
       ) : (

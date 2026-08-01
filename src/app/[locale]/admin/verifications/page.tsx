@@ -28,7 +28,7 @@ export default async function AdminVerificationsPage() {
 
   return (
     <div>
-      <h1 className="font-display text-2xl font-bold mb-6" style={{ color: "var(--text-primary)" }}>
+      <h1 className="text-h2 mb-6" style={{ color: "var(--text-primary)" }}>
         {t("verifications")}
       </h1>
       <VerificationList requests={enriched} />

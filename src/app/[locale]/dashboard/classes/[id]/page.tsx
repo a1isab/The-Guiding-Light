@@ -5,6 +5,7 @@ import Link from "next/link";
 import { BookOpen } from "lucide-react";
 import { AnnouncementBanner } from "@/components/announcement-banner";
 import { Breadcrumbs } from "@/components/breadcrumbs";
+import { Card } from "@/components/ui/card";
 
 export const dynamic = "force-dynamic";
 
@@ -54,9 +55,6 @@ export default async function StudentClassPage({
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
-      <style>{`
-        .course-card:hover { border-color: var(--border); background-color: var(--bg-elevated); }
-      `}</style>
       <Breadcrumbs
         items={[
           { label: t("my_classes"), href: `/${locale}/dashboard` },
@@ -65,7 +63,7 @@ export default async function StudentClassPage({
       />
 
       <div className="mb-8">
-        <h1 className="font-display text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>{cls.name}</h1>
+        <h1 className="text-h1" style={{ color: 'var(--text-primary)' }}>{cls.name}</h1>
         {cls.description && (
           <p className="mt-1" style={{ color: 'var(--text-muted)' }}>{cls.description}</p>
         )}
@@ -80,11 +78,11 @@ export default async function StudentClassPage({
               key={course.id}
               data-testid={`class-course-card-${course.id}`}
               href={`/${locale}/dashboard/classes/${id}/courses/${course.id}`}
-              className="course-card rounded-2xl border p-5 transition-all"
-              style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-surface)' }}
+              className="card-glow rounded-2xl p-5 transition-all"
+              style={{ border: '1px solid var(--border)', backgroundColor: 'var(--bg-surface)' }}
             >
               <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl text-lg font-bold" style={{ backgroundColor: 'color-mix(in srgb, var(--success) 10%, transparent)', color: 'var(--success)' }}>
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl text-lg font-bold" style={{ backgroundColor: 'var(--glow-subtle)', color: 'var(--success)' }}>
                   {idx + 1}
                 </div>
                 <div>
@@ -98,10 +96,10 @@ export default async function StudentClassPage({
           ))}
         </div>
       ) : (
-        <div className="rounded-2xl border border-dashed p-12 text-center" style={{ borderColor: 'var(--border)' }}>
+        <Card className="rounded-2xl border-dashed p-12 text-center">
           <BookOpen className="h-8 w-8 mx-auto mb-3" style={{ color: 'var(--text-muted)' }} />
           <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{(await getTranslations("teacher"))("no_courses")}</p>
-        </div>
+        </Card>
       )}
     </div>
   );

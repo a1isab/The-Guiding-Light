@@ -5,6 +5,7 @@ import Link from "next/link";
 import { BookOpen } from "lucide-react";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { FeaturedJoinButton } from "@/components/featured-join-button";
+import { Card } from "@/components/ui/card";
 
 export const dynamic = "force-dynamic";
 
@@ -72,7 +73,6 @@ export default async function FeaturedClassDetailPage({
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
       <style>{`
-        .curriculum-course:hover { border-color: color-mix(in srgb, var(--accent) 50%, transparent); }
         .lesson-link:hover { color: var(--success); }
       `}</style>
       <Breadcrumbs
@@ -84,7 +84,7 @@ export default async function FeaturedClassDetailPage({
 
       <div className="flex items-start justify-between mb-8">
         <div>
-          <h1 className="font-display text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>{cls.name}</h1>
+          <h1 className="text-h1" style={{ color: 'var(--text-primary)' }}>{cls.name}</h1>
           {cls.description && (
             <p className="mt-2 max-w-2xl" style={{ color: 'var(--text-muted)' }}>{cls.description}</p>
           )}
@@ -96,20 +96,20 @@ export default async function FeaturedClassDetailPage({
       </div>
 
       {enrichedCourses.length === 0 ? (
-        <div className="rounded-2xl border border-dashed p-12 text-center" style={{ borderColor: 'var(--border)' }}>
+        <Card className="rounded-2xl border-dashed p-12 text-center">
           <BookOpen className="h-8 w-8 mx-auto mb-3" style={{ color: 'var(--text-muted)' }} />
           <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{t("no_courses")}</p>
-        </div>
+        </Card>
       ) : (
         <div className="space-y-6">
           {enrichedCourses.map((course) => (
-            <div
+            <Card
               key={course.id}
-              data-testid={`featured-curriculum-course-${course.id}`}
-              className="curriculum-course rounded-2xl border p-6 transition-all"
-              style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-surface)' }}
+              hoverable
+              testId={`featured-curriculum-course-${course.id}`}
+              className="curriculum-course"
             >
-              <h2 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>{course.title}</h2>
+              <h2 className="text-h4 mb-4" style={{ color: 'var(--text-primary)' }}>{course.title}</h2>
               {course.description && (
                 <p className="text-sm mb-4" style={{ color: 'var(--text-muted)' }}>{course.description}</p>
               )}
@@ -138,7 +138,7 @@ export default async function FeaturedClassDetailPage({
                   ))}
                 </div>
               )}
-            </div>
+            </Card>
           ))}
         </div>
       )}

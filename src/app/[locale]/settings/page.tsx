@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Sun, Moon, Globe, ArrowLeft } from "lucide-react";
 import type { Locale } from "@/lib/types";
 import { routing } from "../../../../i18n/routing";
+import { Card } from "@/components/ui/card";
 
 export default function SettingsPage() {
   const t = useTranslations("settings");
@@ -37,7 +38,7 @@ export default function SettingsPage() {
         </Link>
 
         {/* Header */}
-        <h1 className="font-display text-3xl font-bold" style={{ color: "var(--text-primary)" }}>
+        <h1 className="text-h1" style={{ color: "var(--text-primary)" }}>
           {t("title")}
         </h1>
         <p className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>
@@ -45,10 +46,7 @@ export default function SettingsPage() {
         </p>
 
         {/* Theme Section */}
-        <div
-          className="mt-8 rounded-2xl p-6"
-          style={{ border: "1px solid var(--border)", backgroundColor: "var(--bg-surface)" }}
-        >
+        <Card className="mt-8" padding="sm">
           <div className="flex items-center gap-3">
             <div
               className="flex h-10 w-10 items-center justify-center rounded-xl"
@@ -113,13 +111,10 @@ export default function SettingsPage() {
               )}
             </button>
           </div>
-        </div>
+        </Card>
 
         {/* Language Section */}
-        <div
-          className="mt-6 rounded-2xl p-6"
-          style={{ border: "1px solid var(--border)", backgroundColor: "var(--bg-surface)" }}
-        >
+        <Card className="mt-6" padding="sm">
           <div className="flex items-center gap-3">
             <div
               className="flex h-10 w-10 items-center justify-center rounded-xl"
@@ -153,7 +148,7 @@ export default function SettingsPage() {
               </Link>
             ))}
           </div>
-        </div>
+        </Card>
       </div>
     </div>
   );

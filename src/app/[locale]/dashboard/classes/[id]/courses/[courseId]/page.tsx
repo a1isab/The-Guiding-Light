@@ -78,7 +78,7 @@ export default async function StudentCoursePage({
       />
 
       <div className="mb-8">
-        <h1 className="font-display text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{course.title}</h1>
+        <h1 className="text-h2" style={{ color: 'var(--text-primary)' }}>{course.title}</h1>
         {course.description && (
           <p className="mt-1 text-sm" style={{ color: 'var(--text-muted)' }}>{course.description}</p>
         )}

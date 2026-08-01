@@ -87,7 +87,7 @@ export default function SignUpPage() {
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full" style={{ backgroundColor: "color-mix(in srgb, var(--accent) 10%, transparent)" }}>
               <CheckCircle2 className="h-7 w-7" style={{ color: "var(--accent)" }} />
             </div>
-            <h1 className="font-display text-xl font-bold" style={{ color: "var(--text-primary)" }}>{t("check_email")}</h1>
+            <h1 className="text-h4" style={{ color: "var(--text-primary)" }}>{t("check_email")}</h1>
             <p className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>
               {t("check_email_msg", { email })}
             </p>
@@ -106,7 +106,7 @@ export default function SignUpPage() {
             <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl" style={{ backgroundColor: "color-mix(in srgb, var(--accent) 10%, transparent)" }}>
               <Sparkles className="h-6 w-6" style={{ color: "var(--accent)" }} />
             </div>
-            <h1 className="font-display text-2xl font-bold" style={{ color: "var(--text-primary)" }}>{t("signup_title")}</h1>
+            <h1 className="text-h3" style={{ color: "var(--text-primary)" }}>{t("signup_title")}</h1>
             <p className="mt-1 text-sm" style={{ color: "var(--text-muted)" }}>{t("signup_subtitle")}</p>
           </div>
 

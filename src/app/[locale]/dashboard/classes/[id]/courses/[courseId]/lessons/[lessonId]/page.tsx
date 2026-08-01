@@ -109,7 +109,7 @@ export default async function StudentLessonPage({
 
       <article>
         <div className="flex items-start justify-between mb-6">
-          <h1 className="font-display text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{lesson.title}</h1>
+          <h1 className="text-h2" style={{ color: 'var(--text-primary)' }}>{lesson.title}</h1>
           <BookmarkButton lessonId={lessonId} />
         </div>
 

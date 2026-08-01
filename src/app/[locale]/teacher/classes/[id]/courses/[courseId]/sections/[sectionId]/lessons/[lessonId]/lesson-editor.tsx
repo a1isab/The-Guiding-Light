@@ -11,6 +11,7 @@ import { MarkdownEditor } from "@/components/teacher/markdown-editor";
 import { MarkdownContent } from "@/components/teacher/markdown-content";
 import { AssignmentForm } from "@/components/assignment-form";
 import { SubmissionList } from "@/components/submission-list";
+import { Button } from "@/components/ui/button";
 
 interface Lesson {
   id: string;
@@ -120,7 +121,7 @@ export function LessonEditor({
         </div>
 
         <article className="max-w-4xl">
-          <h1 className="font-display text-2xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>{title || "Lesson Title"}</h1>
+          <h1 className="text-h2 mb-6" style={{ color: 'var(--text-primary)' }}>{title || "Lesson Title"}</h1>
 
           {videoUrl && (
             <div className="aspect-video rounded-2xl overflow-hidden mb-8">
@@ -153,15 +154,14 @@ export function LessonEditor({
             <Save className="h-3.5 w-3.5" />
             Save as Template
           </button>
-          <button
+          <Button
             onClick={handleSave}
-            data-testid="save-lesson"
+            testId="save-lesson"
             disabled={saving}
-            className="rounded-xl px-6 py-2.5 text-sm font-medium text-white hover:bg-[var(--accent)] disabled:opacity-50 transition-all"
-            style={{ backgroundColor: 'var(--accent)' }}
+            loading={saving}
           >
             {saving ? t("saving") : t("save")}
-          </button>
+          </Button>
           <button
             onClick={() => setPreview(true)}
             data-testid="preview-toggle"

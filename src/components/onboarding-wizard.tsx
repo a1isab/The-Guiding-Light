@@ -197,7 +197,7 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
             </div>
           ) : step === 0 && (
             <div>
-              <h2 className="font-display text-2xl font-bold mb-1 text-center" style={{ color: "var(--text-primary)" }}>
+              <h2 className="text-h3 mb-1 text-center" style={{ color: "var(--text-primary)" }}>
                 {authenticated ? "Welcome to The Guiding Light" : "Create your account"}
               </h2>
               <p className="text-center text-sm mb-6" style={{ color: "var(--text-muted)" }}>

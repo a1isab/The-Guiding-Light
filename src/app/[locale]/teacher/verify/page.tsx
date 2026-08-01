@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase-client";
 import { ShieldCheck, Clock, XCircle, Upload, FileText } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 type VerificationStatus = "none" | "pending" | "approved" | "rejected";
 
@@ -141,12 +144,12 @@ export default function TeacherVerifyPage() {
 
   return (
     <div className="max-w-2xl mx-auto">
-      <h1 className="font-display text-2xl font-bold mb-6" style={{ color: "var(--text-primary)" }}>
+      <h1 className="text-h2 mb-6" style={{ color: "var(--text-primary)" }}>
         {t("title")}
       </h1>
 
       {status === "none" && !success && (
-        <div className="rounded-2xl border p-6" style={{ borderColor: "var(--border)", backgroundColor: "var(--bg-surface)" }}>
+        <Card padding="sm">
           <p className="text-sm mb-6" style={{ color: "var(--text-secondary)" }}>
             {t("description")}
           </p>
@@ -175,20 +178,14 @@ export default function TeacherVerifyPage() {
               </select>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium mb-1.5" style={{ color: "var(--text-primary)" }}>
-                {t("document_number")}
-              </label>
-              <input
-                type="text"
-                value={docNumber}
-                onChange={(e) => setDocNumber(e.target.value)}
-                data-testid="verify-doc-number"
-                placeholder={t("document_number_placeholder")}
-                className="w-full rounded-xl border px-3 py-2.5 text-sm focus:border-[var(--accent)] focus:outline-none"
-                style={{ borderColor: "var(--border)", backgroundColor: "var(--bg-elevated)", color: "var(--text-primary)" }}
-              />
-            </div>
+            <Input
+              type="text"
+              value={docNumber}
+              onChange={(e) => setDocNumber(e.target.value)}
+              data-testid="verify-doc-number"
+              placeholder={t("document_number_placeholder")}
+              label={t("document_number")}
+            />
 
             <div>
               <label className="block text-sm font-medium mb-1.5" style={{ color: "var(--text-primary)" }}>
@@ -253,21 +250,21 @@ export default function TeacherVerifyPage() {
               />
             </div>
 
-            <button
+            <Button
               type="submit"
               disabled={submitting || !file}
-              data-testid="verify-submit"
-              className="w-full rounded-xl px-4 py-2.5 text-sm font-medium text-white transition-all disabled:opacity-50"
-              style={{ backgroundColor: "var(--accent)" }}
+              loading={submitting}
+              testId="verify-submit"
+              className="w-full justify-center"
             >
               {submitting ? t("submitting") : t("submit")}
-            </button>
+            </Button>
           </form>
-        </div>
+        </Card>
       )}
 
       {status === "pending" && (
-        <div className="rounded-2xl border p-8 text-center" style={{ borderColor: "var(--border)", backgroundColor: "var(--bg-surface)" }} data-testid="verify-status-pending">
+        <Card className="p-8 text-center" testId="verify-status-pending">
           <Clock className="h-12 w-12 mx-auto mb-4" style={{ color: "var(--accent)" }} />
           <span className="inline-block rounded-full px-3 py-1 text-xs font-semibold mb-3" style={{ backgroundColor: "color-mix(in srgb, var(--accent) 10%, transparent)", color: "var(--accent)" }}>
             {t("status_under_review")}
@@ -280,11 +277,11 @@ export default function TeacherVerifyPage() {
               {t("submitted")}: {new Date(data.created_at).toLocaleDateString()}
             </p>
           )}
-        </div>
+        </Card>
       )}
 
       {status === "approved" && (
-        <div className="rounded-2xl border p-8 text-center" style={{ borderColor: "var(--border)", backgroundColor: "var(--bg-surface)" }} data-testid="verify-status-approved">
+        <Card className="p-8 text-center" testId="verify-status-approved">
           <ShieldCheck className="h-12 w-12 mx-auto mb-4" style={{ color: "var(--success)" }} />
           <span className="inline-block rounded-full px-3 py-1 text-xs font-semibold mb-3" style={{ backgroundColor: "color-mix(in srgb, var(--success) 10%, transparent)", color: "var(--success)" }}>
             {t("status_verified")}
@@ -297,11 +294,11 @@ export default function TeacherVerifyPage() {
               {t("reviewed")}: {new Date(data.reviewed_at).toLocaleDateString()}
             </p>
           )}
-        </div>
+        </Card>
       )}
 
       {status === "rejected" && (
-        <div className="rounded-2xl border p-8 text-center" style={{ borderColor: "var(--border)", backgroundColor: "var(--bg-surface)" }} data-testid="verify-status-rejected">
+        <Card className="p-8 text-center" testId="verify-status-rejected">
           <XCircle className="h-12 w-12 mx-auto mb-4" style={{ color: "var(--error)" }} />
           <span className="inline-block rounded-full px-3 py-1 text-xs font-semibold mb-3" style={{ backgroundColor: "color-mix(in srgb, var(--error) 10%, transparent)", color: "var(--error)" }}>
             {t("status_not_approved")}
@@ -315,15 +312,10 @@ export default function TeacherVerifyPage() {
               {data.review_notes}
             </div>
           )}
-          <button
-            onClick={() => { setStatus("none"); setData(null); }}
-            data-testid="verify-resubmit"
-            className="mt-6 rounded-xl px-4 py-2 text-sm font-medium text-white transition-all"
-            style={{ backgroundColor: "var(--accent)" }}
-          >
+          <Button onClick={() => { setStatus("none"); setData(null); }} testId="verify-resubmit" className="mt-6">
             {t("resubmit")}
-          </button>
-        </div>
+          </Button>
+        </Card>
       )}
 
       {success && status === "pending" && (

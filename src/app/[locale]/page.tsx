@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { useTranslations, useLocale } from "next-intl";
 import { BookOpen, GraduationCap, TrendingUp } from "lucide-react";
 import { createClient } from "@/lib/supabase-client";
 import type { Locale } from "@/lib/types";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 export default function LandingPage() {
   const t = useTranslations("landing");
@@ -33,24 +34,20 @@ export default function LandingPage() {
         </div>
 
         <div className="relative mx-auto max-w-4xl text-center z-10">
-          <h1 className="font-display text-5xl font-bold leading-tight sm:text-6xl lg:text-7xl animate-fade-in-up" style={{ color: "var(--text-primary)" }}>
+          <h1 className="text-hero animate-fade-in-up" style={{ color: "var(--text-primary)" }}>
             {t("hero_title")}{" "}
             <span style={{ color: "var(--accent)" }}>{t("hero_highlight")}</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg animate-fade-in-up animate-delay-100" style={{ color: "var(--text-secondary)" }}>
+          <p className="mx-auto mt-6 max-w-2xl text-lead animate-fade-in-up animate-delay-100" style={{ color: "var(--text-secondary)" }}>
             {t("hero_subtitle")}
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4 animate-fade-in-up animate-delay-200">
-            <Link
+            <Button
+              size="lg"
               href={loggedIn ? `/${locale}/dashboard` : `/${locale}/onboarding`}
-              className="rounded-2xl px-8 py-3 text-base font-medium text-white transition-all hover:scale-105"
-              style={{
-                backgroundColor: "var(--accent)",
-                boxShadow: "0 0 30px var(--glow-hover)",
-              }}
             >
               {loggedIn ? t("go_to_dashboard", { defaultMessage: "Go to Dashboard" }) : t("start_learning")}
-            </Link>
+            </Button>
           </div>
         </div>
       </section>
@@ -58,61 +55,52 @@ export default function LandingPage() {
       {/* ═══ FEATURES ═══ */}
       <section className="px-4 py-20" style={{ borderTop: "1px solid var(--border)" }}>
         <div className="mx-auto max-w-5xl">
-          <h2 className="text-center font-display text-3xl font-bold" style={{ color: "var(--text-primary)" }}>
+          <h2 className="text-center text-h2" style={{ color: "var(--text-primary)" }}>
             {t("why_title")}
           </h2>
           <div className="mt-12 grid gap-6 sm:grid-cols-3">
-            <div
-              className="card-glow rounded-2xl p-6 transition-all"
-              style={{ border: "1px solid var(--border)", backgroundColor: "var(--bg-surface)" }}
-            >
+            <Card hoverable padding="lg">
               <div
                 className="flex h-12 w-12 items-center justify-center rounded-xl"
                 style={{ backgroundColor: "var(--glow-subtle)" }}
               >
                 <BookOpen className="h-6 w-6" style={{ color: "var(--accent)" }} />
               </div>
-              <h3 className="mt-4 text-lg font-semibold" style={{ color: "var(--text-primary)" }}>
+              <h3 className="mt-4 text-h4" style={{ color: "var(--text-primary)" }}>
                 {t("feature_structured_title")}
               </h3>
               <p className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>
                 {t("feature_structured_desc")}
               </p>
-            </div>
-            <div
-              className="card-glow rounded-2xl p-6 transition-all"
-              style={{ border: "1px solid var(--border)", backgroundColor: "var(--bg-surface)" }}
-            >
+            </Card>
+            <Card hoverable padding="lg">
               <div
                 className="flex h-12 w-12 items-center justify-center rounded-xl"
                 style={{ backgroundColor: "var(--glow-subtle)" }}
               >
                 <GraduationCap className="h-6 w-6" style={{ color: "var(--accent)" }} />
               </div>
-              <h3 className="mt-4 text-lg font-semibold" style={{ color: "var(--text-primary)" }}>
+              <h3 className="mt-4 text-h4" style={{ color: "var(--text-primary)" }}>
                 {t("feature_free_title")}
               </h3>
               <p className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>
                 {t("feature_free_desc")}
               </p>
-            </div>
-            <div
-              className="card-glow rounded-2xl p-6 transition-all"
-              style={{ border: "1px solid var(--border)", backgroundColor: "var(--bg-surface)" }}
-            >
+            </Card>
+            <Card hoverable padding="lg">
               <div
                 className="flex h-12 w-12 items-center justify-center rounded-xl"
                 style={{ backgroundColor: "var(--glow-subtle)" }}
               >
                 <TrendingUp className="h-6 w-6" style={{ color: "var(--accent)" }} />
               </div>
-              <h3 className="mt-4 text-lg font-semibold" style={{ color: "var(--text-primary)" }}>
+              <h3 className="mt-4 text-h4" style={{ color: "var(--text-primary)" }}>
                 {t("journey_title")}
               </h3>
               <p className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>
                 {t("journey_desc")}
               </p>
-            </div>
+            </Card>
           </div>
         </div>
       </section>
@@ -120,22 +108,19 @@ export default function LandingPage() {
       {/* ═══ FINAL CTA ═══ */}
       <section className="px-4 py-20" style={{ borderTop: "1px solid var(--border)" }}>
         <div className="mx-auto max-w-3xl rounded-3xl p-12 text-center" style={{ border: "1px solid var(--border)", backgroundColor: "var(--bg-surface)" }}>
-          <h2 className="font-display text-3xl font-bold" style={{ color: "var(--text-primary)" }}>
+          <h2 className="text-h2" style={{ color: "var(--text-primary)" }}>
             {t("cta_title")}
           </h2>
           <p className="mt-3" style={{ color: "var(--text-secondary)" }}>
             {t("cta_desc")}
           </p>
-          <Link
+          <Button
+            size="lg"
             href={`/${locale}/onboarding`}
-            className="mt-6 inline-block rounded-2xl px-8 py-3 text-base font-medium text-white transition-all hover:scale-105"
-            style={{
-              backgroundColor: "var(--accent)",
-              boxShadow: "0 0 30px var(--glow-hover)",
-            }}
+            className="mt-6"
           >
             {t("get_started_free")}
-          </Link>
+          </Button>
         </div>
       </section>
     </div>

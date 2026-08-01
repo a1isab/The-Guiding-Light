@@ -5,6 +5,7 @@ import Link from "next/link";
 import { headers } from "next/headers";
 import { Users } from "lucide-react";
 import { JoinClassCard } from "@/components/join-class-card";
+import { Card } from "@/components/ui/card";
 
 export const dynamic = "force-dynamic";
 
@@ -59,7 +60,7 @@ export default async function MyClassesPage({
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
-      <h1 className="font-display text-3xl font-bold mb-8" style={{ color: "var(--text-primary)" }}>
+      <h1 className="text-h1 mb-8" style={{ color: "var(--text-primary)" }}>
         {t("my_classes")}
       </h1>
 
@@ -70,13 +71,13 @@ export default async function MyClassesPage({
               key={cls.id}
               data-testid={`class-card-${cls.id}`}
               href={`/${locale}/dashboard/classes/${cls.id}`}
-              className="card-hover rounded-2xl border p-6 transition-all"
-              style={{ borderColor: "var(--border)", backgroundColor: "var(--bg-surface)" }}
+              className="card-glow rounded-2xl p-6 transition-all"
+              style={{ border: "1px solid var(--border)", backgroundColor: "var(--bg-surface)" }}
             >
               <div className="flex items-center gap-4">
                 <div
                   className="flex h-12 w-12 items-center justify-center rounded-xl"
-                  style={{ backgroundColor: "color-mix(in srgb, var(--success) 10%, transparent)" }}
+                  style={{ backgroundColor: "var(--glow-subtle)" }}
                 >
                   <Users className="h-6 w-6" style={{ color: "var(--success)" }} />
                 </div>
@@ -98,7 +99,7 @@ export default async function MyClassesPage({
           ))}
         </div>
       ) : (
-        <div className="text-center py-16 rounded-2xl border" style={{ borderColor: "var(--border)", backgroundColor: "var(--bg-surface)" }}>
+        <Card className="py-16 text-center">
           <Users className="h-12 w-12 mx-auto mb-4" style={{ color: "var(--text-muted)" }} />
           <p className="text-lg font-medium mb-2" style={{ color: "var(--text-primary)" }}>
             {t("no_classes_yet", { defaultMessage: "You haven't joined any classes yet" })}
@@ -106,7 +107,7 @@ export default async function MyClassesPage({
           <p className="text-sm mb-6" style={{ color: "var(--text-muted)" }}>
             {t("join_class_prompt", { defaultMessage: "Enter an invite code below to join a class" })}
           </p>
-        </div>
+        </Card>
       )}
 
       <JoinClassCard />

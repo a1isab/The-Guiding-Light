@@ -33,7 +33,7 @@ export default async function AdminUsersPage({
 
   return (
     <div>
-      <h1 className="font-display text-2xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>{t("users")}</h1>
+      <h1 className="text-h2 mb-6" style={{ color: 'var(--text-primary)' }}>{t("users")}</h1>
       <UsersList users={users} />
     </div>
   );

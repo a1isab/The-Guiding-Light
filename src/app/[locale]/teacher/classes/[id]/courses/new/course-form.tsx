@@ -3,6 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export function CreateCourseForm({ classId, locale }: { classId: string; locale: string }) {
   const t = useTranslations("teacher");
@@ -38,17 +40,13 @@ export function CreateCourseForm({ classId, locale }: { classId: string; locale:
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5 max-w-2xl">
-      <div>
-        <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>{t("course_title")}</label>
-        <input
-          type="text"
-          required
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="w-full rounded-xl border px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[var(--accent)] focus:ring-[var(--accent)]"
-          style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-elevated)', color: 'var(--text-primary)' }}
-        />
-      </div>
+      <Input
+        type="text"
+        required
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        label={t("course_title")}
+      />
 
       <div>
         <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>{t("course_description")}</label>
@@ -63,14 +61,9 @@ export function CreateCourseForm({ classId, locale }: { classId: string; locale:
 
       {error && <p className="text-sm" style={{ color: 'var(--error)' }}>{error}</p>}
 
-      <button
-        type="submit"
-        disabled={loading}
-        className="rounded-xl px-6 py-2.5 text-sm font-medium text-white hover:bg-[var(--accent)] disabled:opacity-50 transition-all"
-        style={{ backgroundColor: 'var(--accent)' }}
-      >
+      <Button type="submit" disabled={loading} loading={loading}>
         {loading ? t("saving") : t("save")}
-      </button>
+      </Button>
     </form>
   );
 }

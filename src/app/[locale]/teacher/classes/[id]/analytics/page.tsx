@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { Users, BarChart3, TrendingUp, AlertTriangle, BookOpen } from "lucide-react";
+import { Users, BarChart3, TrendingUp, AlertTriangle } from "lucide-react";
 import { QuizScoreChart, CompletionTimelineChart } from "@/components/analytics/charts";
+import { Card } from "@/components/ui/card";
 
 interface AnalyticsData {
   totalStudents: number;
@@ -35,66 +36,65 @@ export default function AnalyticsPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10">
-      <h1 className="font-display text-2xl font-bold mb-8" style={{ color: 'var(--text-primary)' }}>Class Analytics</h1>
+      <h1 className="text-h2 mb-8" style={{ color: 'var(--text-primary)' }}>Class Analytics</h1>
 
       <div className="grid gap-4 sm:grid-cols-4 mb-8">
-        <div data-testid="stat-total-students" className="rounded-xl border p-5" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-surface)' }}>
+        <Card testId="stat-total-students">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ backgroundColor: 'color-mix(in srgb, var(--accent) 10%, transparent)' }}>
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ backgroundColor: 'var(--glow-subtle)' }}>
               <Users className="h-5 w-5" style={{ color: 'var(--accent)' }} />
             </div>
             <div>
-              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Students</p>
-              <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{data.totalStudents}</p>
+              <p className="text-caption" style={{ color: 'var(--text-muted)' }}>Students</p>
+              <p className="text-h3" style={{ color: 'var(--text-primary)' }}>{data.totalStudents}</p>
             </div>
           </div>
-        </div>
+        </Card>
 
-        <div data-testid="stat-avg-score" className="rounded-xl border p-5" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-surface)' }}>
+        <Card testId="stat-avg-score">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ backgroundColor: 'color-mix(in srgb, var(--accent) 10%, transparent)' }}>
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ backgroundColor: 'var(--glow-subtle)' }}>
               <BarChart3 className="h-5 w-5" style={{ color: 'var(--accent)' }} />
             </div>
             <div>
-              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Avg Quiz Score</p>
-              <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{data.avgQuizScore}%</p>
+              <p className="text-caption" style={{ color: 'var(--text-muted)' }}>Avg Quiz Score</p>
+              <p className="text-h3" style={{ color: 'var(--text-primary)' }}>{data.avgQuizScore}%</p>
             </div>
           </div>
-        </div>
+        </Card>
 
-        <div data-testid="stat-completion" className="rounded-xl border p-5" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-surface)' }}>
+        <Card testId="stat-completion">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ backgroundColor: 'color-mix(in srgb, var(--accent) 10%, transparent)' }}>
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ backgroundColor: 'var(--glow-subtle)' }}>
               <TrendingUp className="h-5 w-5" style={{ color: 'var(--accent)' }} />
             </div>
             <div>
-              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Completion</p>
-              <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{data.completionRate}%</p>
+              <p className="text-caption" style={{ color: 'var(--text-muted)' }}>Completion</p>
+              <p className="text-h3" style={{ color: 'var(--text-primary)' }}>{data.completionRate}%</p>
             </div>
           </div>
-        </div>
+        </Card>
 
-        <div
-          data-testid="stat-at-risk"
-          className="rounded-xl border p-5"
+        <Card
+          testId="stat-at-risk"
           style={{
-            borderColor: data.atRiskCount > 0 ? 'color-mix(in srgb, var(--accent) 30%, transparent)' : 'var(--border)',
-            backgroundColor: data.atRiskCount > 0 ? 'color-mix(in srgb, var(--accent) 5%, transparent)' : 'var(--bg-surface)',
+            borderColor: data.atRiskCount > 0 ? 'color-mix(in srgb, var(--accent) 30%, transparent)' : undefined,
+            backgroundColor: data.atRiskCount > 0 ? 'color-mix(in srgb, var(--accent) 5%, transparent)' : undefined,
           }}
         >
           <div className="flex items-center gap-3">
             <div
               className="flex h-10 w-10 items-center justify-center rounded-xl"
-              style={{ backgroundColor: data.atRiskCount > 0 ? 'color-mix(in srgb, var(--accent) 10%, transparent)' : 'var(--bg-subtle)' }}
+              style={{ backgroundColor: data.atRiskCount > 0 ? 'var(--glow-subtle)' : 'var(--bg-subtle)' }}
             >
               <AlertTriangle className="h-5 w-5" style={{ color: data.atRiskCount > 0 ? 'var(--accent)' : 'var(--text-muted)' }} />
             </div>
             <div>
-              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>At Risk</p>
-              <p className="text-2xl font-bold" style={{ color: data.atRiskCount > 0 ? 'var(--accent)' : 'var(--text-primary)' }}>{data.atRiskCount}</p>
+              <p className="text-caption" style={{ color: 'var(--text-muted)' }}>At Risk</p>
+              <p className="text-h3" style={{ color: data.atRiskCount > 0 ? 'var(--accent)' : 'var(--text-primary)' }}>{data.atRiskCount}</p>
             </div>
           </div>
-        </div>
+        </Card>
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2 mb-8">

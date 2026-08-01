@@ -142,7 +142,7 @@ export default async function ClassProgressPage({
         {t("back_to_class")}
       </Link>
 
-      <h1 className="font-display text-2xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>{cls.name}</h1>
+      <h1 className="text-h2 mb-1" style={{ color: 'var(--text-primary)' }}>{cls.name}</h1>
       <p className="text-sm mb-8" style={{ color: 'var(--text-muted)' }}>{t("student_progress")}</p>
 
       {!totalLessons ? (

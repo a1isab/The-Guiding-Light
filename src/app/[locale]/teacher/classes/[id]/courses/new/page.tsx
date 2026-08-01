@@ -11,7 +11,7 @@ export default async function NewCoursePage({
 
   return (
     <div>
-      <h1 className="font-display text-2xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>{t("new_course")}</h1>
+      <h1 className="text-h2 mb-6" style={{ color: 'var(--text-primary)' }}>{t("new_course")}</h1>
       <CreateCourseForm classId={id} locale={locale} />
     </div>
   );

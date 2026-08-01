@@ -114,7 +114,7 @@ export default function LoginPage() {
             <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl" style={{ backgroundColor: "color-mix(in srgb, var(--accent) 10%, transparent)" }}>
               <Sparkles className="h-6 w-6" style={{ color: "var(--accent)" }} />
             </div>
-            <h1 className="font-display text-2xl font-bold" style={{ color: "var(--text-primary)" }}>{t("welcome_back")}</h1>
+            <h1 className="text-h3" style={{ color: "var(--text-primary)" }}>{t("welcome_back")}</h1>
             <p className="mt-1 text-sm" style={{ color: "var(--text-muted)" }}>{t("login_subtitle")}</p>
           </div>
 

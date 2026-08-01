@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { createServiceClient } from "@/lib/supabase";
 import { Users, BookOpen, CheckCircle, TrendingUp } from "lucide-react";
+import { Card } from "@/components/ui/card";
 
 export const dynamic = "force-dynamic";
 
@@ -46,26 +47,26 @@ export default async function AdminDashboardPage({
 
   return (
     <div>
-      <h1 className="font-display text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{t("title")}</h1>
+      <h1 className="text-h2" style={{ color: 'var(--text-primary)' }}>{t("title")}</h1>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((s) => (
-          <div key={s.key} data-testid={`stat-${s.key}`} className="rounded-2xl border p-5" style={{ borderColor: 'var(--border)', background: 'var(--bg-surface)' }}>
+          <Card key={s.key} testId={`stat-${s.key}`} hoverable>
             <div className="flex items-center gap-3">
               <div style={s.iconStyle} className="flex h-10 w-10 items-center justify-center rounded-xl">
                 <s.icon className="h-5 w-5" />
               </div>
               <div>
-                <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{s.value}</p>
-                <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{s.label}</p>
+                <p className="text-h3" style={{ color: 'var(--text-primary)' }}>{s.value}</p>
+                <p className="text-caption" style={{ color: 'var(--text-muted)' }}>{s.label}</p>
               </div>
             </div>
-          </div>
+          </Card>
         ))}
       </div>
 
       <div data-testid="recent-activity" className="mt-8 rounded-2xl border p-6" style={{ borderColor: 'var(--border)', background: 'var(--bg-surface)' }}>
-        <h2 className="font-display text-lg font-bold mb-4" style={{ color: 'var(--text-primary)' }}>{t("recent_activity")}</h2>
+        <h2 className="text-h4 mb-4" style={{ color: 'var(--text-primary)' }}>{t("recent_activity")}</h2>
         {recentProgress && recentProgress.length > 0 ? (
           <div data-testid="recent-activity-list" className="space-y-3">
             {recentProgress.map((p, i) => (

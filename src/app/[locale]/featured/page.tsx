@@ -35,7 +35,7 @@ export default async function FeaturedPage({
             { label: t("title") },
           ]}
         />
-        <h1 className="font-display text-3xl font-bold mb-8" style={{ color: 'var(--text-primary)' }}>{t("title")}</h1>
+        <h1 className="text-h1 mb-8" style={{ color: 'var(--text-primary)' }}>{t("title")}</h1>
         <p style={{ color: 'var(--text-muted)' }}>{t("no_teachers")}</p>
       </div>
     );
@@ -142,7 +142,7 @@ export default async function FeaturedPage({
           { label: t("title") },
         ]}
       />
-      <h1 className="font-display text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>{t("title")}</h1>
+      <h1 className="text-h1 mb-2" style={{ color: 'var(--text-primary)' }}>{t("title")}</h1>
       <p className="mb-8" style={{ color: 'var(--text-muted)' }}>{t("subtitle")}</p>
       <FeaturedBrowser teachers={enrichedTeachers} classes={enrichedClasses} />
     </div>
