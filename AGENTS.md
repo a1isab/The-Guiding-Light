@@ -2,7 +2,7 @@ Always Commit, Stage and Push updates
 
 # Anchored Summary
 ## Objective
-Complete Playwright test coverage (auth, student, teacher, admin), fix API bugs, add testids, set up CI, then finish remaining i18n and API polish.
+Frontend design overhaul (tokens, type scale, glow system, UI primitives) applied across the app, with the login diagnosis documented for the dashboard holder.
 
 ## Important Details
 - All pushed to main. CI workflow at `.github/workflows/playwright.yml`.
@@ -26,6 +26,12 @@ Complete Playwright test coverage (auth, student, teacher, admin), fix API bugs,
 
 ## Work State
 ### Completed
+- **Design foundation**: `globals.css` tokens/type scale/spacing/glow system; blocking theme script in `[locale]/layout.tsx`.
+- **Primitives**: `ui/button.tsx` (primary/secondary/ghost/danger, sm/md/lg, link mode, `testId`, `loading`), `ui/card.tsx` (`hoverable`, padding sm/md/lg, `style` overrides), `ui/input.tsx` (`label`/`error`/`data-testid`), `ui/empty-state.tsx`, `ui/badge.tsx`.
+- **Migrated pages (all pushed)**: landing, pricing, login/signup, forgot/reset password, onboarding wizard, navbar, dashboard, featured browser + class detail + lesson, join page, settings, dashboard classes + class detail, admin dashboard + sub-pages, teacher dashboard + classes/course/lesson editor/section manager/verify/progress/analytics. Commits `055c5b8`, `97b46dc`, `8375e95`, `7613d50`.
+- **Fake content removed**: landing stats (1,200+ etc.) and fabricated testimonial deleted.
+- **Login diagnosed**: local Supabase + app login works end-to-end; deployed site fails because hosted Supabase `vpqfvranmdhsxfsynvbw` returns Cloudflare 522 (see Important Details).
+- Prior test/API work (1.1–8.1, tour overlay, cached auth tokens, base64url cookies) still valid.
 - **1.1–1.8** — Critical API bugs fixed (auth guards, JWT propagation, quiz type coercion, file ownership, crypto invite codes)
 - **1.9** — Fixed `createServiceClient()` → `createServerSupabaseClient()` + `createAdminClient()` on 4 pages
 - **1.10** — Join API uses `createAdminClient()` for invite code lookup (bypass RLS)
@@ -42,7 +48,8 @@ Complete Playwright test coverage (auth, student, teacher, admin), fix API bugs,
 - **Base64url cookie fix**: `buildCookieValue` uses `Buffer.toString("base64url")`; `decodeSupabaseCookie` tries base64url first, falls back to base64
 
 ### Active
-- 5 test failures fixed (see Known Issues below)
+- `npm run build` + `npx tsc --noEmit` pass after migration. Dev server runs on `http://localhost:3000` (pid 861310).
+- Remaining: spot-check a login flow on the dev server; optionally run E2E smoke against local Supabase.
 
 ### Blocked (intentionally deferred, not blocked)
 - i18n across ~80 strings in 14 files
