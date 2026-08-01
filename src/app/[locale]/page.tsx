@@ -117,18 +117,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ═══ TESTIMONIAL ═══ */}
-      <section className="px-4 py-20" style={{ borderTop: "1px solid var(--border)" }}>
-        <div className="mx-auto max-w-3xl text-center">
-          <blockquote className="font-display text-xl italic sm:text-2xl" style={{ color: "var(--text-primary)" }}>
-            &ldquo;The best Islamic learning platform I&apos;ve used. The structured curriculum and quizzes make it easy to stay on track.&rdquo;
-          </blockquote>
-          <div className="mt-4 text-sm" style={{ color: "var(--text-muted)" }}>
-            — Student, London
-          </div>
-        </div>
-      </section>
-
       {/* ═══ FINAL CTA ═══ */}
       <section className="px-4 py-20" style={{ borderTop: "1px solid var(--border)" }}>
         <div className="mx-auto max-w-3xl rounded-3xl p-12 text-center" style={{ border: "1px solid var(--border)", backgroundColor: "var(--bg-surface)" }}>
