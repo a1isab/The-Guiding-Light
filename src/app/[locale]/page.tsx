@@ -117,38 +117,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ═══ STATS ═══ */}
-      <section className="px-4 py-16" style={{ borderTop: "1px solid var(--border)" }}>
-        <div className="mx-auto max-w-5xl">
-          <div className="grid grid-cols-3 gap-8 text-center">
-            <div>
-              <div className="font-display text-4xl font-bold sm:text-5xl" style={{ color: "var(--accent)" }}>
-                1,200+
-              </div>
-              <div className="mt-2 text-sm font-medium" style={{ color: "var(--text-secondary)" }}>
-                Students
-              </div>
-            </div>
-            <div>
-              <div className="font-display text-4xl font-bold sm:text-5xl" style={{ color: "var(--accent)" }}>
-                50+
-              </div>
-              <div className="mt-2 text-sm font-medium" style={{ color: "var(--text-secondary)" }}>
-                Courses
-              </div>
-            </div>
-            <div>
-              <div className="font-display text-4xl font-bold sm:text-5xl" style={{ color: "var(--accent)" }}>
-                95%
-              </div>
-              <div className="mt-2 text-sm font-medium" style={{ color: "var(--text-secondary)" }}>
-                Completion Rate
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ═══ TESTIMONIAL ═══ */}
       <section className="px-4 py-20" style={{ borderTop: "1px solid var(--border)" }}>
         <div className="mx-auto max-w-3xl text-center">
