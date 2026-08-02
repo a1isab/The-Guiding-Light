@@ -48,11 +48,11 @@ The Guiding Light — an Islamic learning platform (Next.js 16 + Supabase + next
 - **Base64url cookie fix**: `buildCookieValue` uses `Buffer.toString("base64url")`; `decodeSupabaseCookie` tries base64url first, falls back to base64
 
 ### Active
-- Vercel env vars + redeploy in progress (2026-08-02): new hosted Supabase `nbwclxbdiuzfxdnbjmti` is live — 26 migrations applied, users seeded, local login + auth token cache verified. Remaining: update Vercel project env vars (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `NEXT_PUBLIC_SITE_URL`, `GOOGLE_GEMINI_API_KEY`, `SIMILARITY_THRESHOLD`) and redeploy.
+- **Complete as of 2026-08-02**: new hosted Supabase `nbwclxbdiuzfxdnbjmti` is live, deployed, and verified. Migrations applied, users seeded, `.env.local` + Vercel env vars set, redeployed, live login verified end-to-end (auth 200 → `/en/onboarding` → dashboard). Remaining optional: `GOOGLE_GEMINI_API_KEY` (user will provide later), re-run full E2E suite.
 
 ### Deferred (intentionally deferred, not blocked)
 - API polish (error shapes consistency, more `withErrorHandling` coverage) — partial; `createApiSupabaseClient`/`applyCookies`/`withErrorHandling` already exist in `src/lib/supabase-api.ts`.
-- Re-running the full E2E suite against the hosted project once redeployed.
+- Re-running the full E2E suite against the hosted project.
 - `GOOGLE_GEMINI_API_KEY` — old key was invalid/removed; user will provide a fresh one later.
 
 ### Blocked
