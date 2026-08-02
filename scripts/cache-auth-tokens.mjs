@@ -9,14 +9,18 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Read env from .env.local
 const envPath = resolve(__dirname, "..", ".env.local");
-let SUPA_URL = "https://vpqfvranmdhsxfsynvbw.supabase.co";
-let SUPA_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZwcWZ2cmFubWRoc3hmc3ludmJ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE4ODQxMDAsImV4cCI6MjA5NzQ2MDEwMH0.6QF9SFBcl_c5xFVKxYBduVZuXGRjDqrA_AtFyX4O_gM";
+let SUPA_URL = "";
+let SUPA_ANON = "";
 if (existsSync(envPath)) {
   try {
     const env = parse(readFileSync(envPath, "utf-8"));
     if (env.NEXT_PUBLIC_SUPABASE_URL) SUPA_URL = env.NEXT_PUBLIC_SUPABASE_URL;
     if (env.NEXT_PUBLIC_SUPABASE_ANON_KEY) SUPA_ANON = env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   } catch {}
+}
+if (!SUPA_URL || !SUPA_ANON) {
+  console.error("Missing NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local");
+  process.exit(1);
 }
 
 const ACCOUNTS = [

@@ -2,7 +2,7 @@ Always Commit, Stage and Push updates
 
 # Anchored Summary
 ## Objective
-The Guiding Light — an Islamic learning platform (Next.js 16 + Supabase + next-intl en/ar/ur/fr). The "Nur" frontend design overhaul is fully migrated and the OpenSpec changes are archived. The app targets a **hosted** Supabase project (`vpqfvranmdhsxfsynvbw.supabase.co`) for both local dev and the deployed Vercel site; the project was being restored in the Supabase dashboard at last work (see Work State).
+The Guiding Light — an Islamic learning platform (Next.js 16 + Supabase + next-intl en/ar/ur/fr). The "Nur" frontend design overhaul is fully migrated and the OpenSpec changes are archived. The app targets a **hosted** Supabase project (`nbwclxbdiuzfxdnbjmti.supabase.co`) for both local dev and the deployed Vercel site (migrated 2026-08-02 from the dead project `vpqfvranmdhsxfsynvbw`).
 
 ## Important Details
 - All pushed to main. CI workflow at `.github/workflows/playwright.yml`.
@@ -20,7 +20,7 @@ The Guiding Light — an Islamic learning platform (Next.js 16 + Supabase + next
 - **Quiz creation DB timeout**: Supabase free-tier `statement_timeout` kills long-running queries. Root cause: `/api/teacher/quiz/save` did 5 sequential ownership-verification queries (lesson → section → course → class → teacher). Fix: replaced with single joined query using Supabase `!inner` resource embedding. Also reduced test questions from 5 to 3 (API minimum) to lighten INSERT payload.
 - **Quiz RLS bypass pattern**: All student-facing quiz API routes (`questions`, `status`, `submit`) use `createAdminClient()` for DB queries. RLS on `teacher_quiz_questions`, `teacher_quiz_attempts`, and `teacher_progress` blocks student SELECT even for enrolled students. Auth check uses student's client; data queries use admin client.
 - **Cached auth token workaround for Supabase auth outage**: Supabase `POST /auth/v1/token?grant_type=password` hangs (HTTP 000). `loginAs` tries password with 15s timeout, then falls back to injecting a cached session token as the Supabase SSR cookie (`sb-{ref}-auth-token`). `scripts/cache-auth-tokens.mjs` generates tokens via `signInWithPassword()` — run `npm run cache:auth` when Supabase is healthy. Tokens stored in `tests/e2e/fixtures/auth-tokens.json`. `loginAsForOnboarding` has same fallback.
-- **Public site login "Failed to fetch" (2026-08-01)**: The deployed Vercel site (`the-guiding-light.vercel.app`) points at the OLD hosted Supabase project `vpqfvranmdhsxfsynvbw.supabase.co`, which returns Cloudflare **522: Connection timed out** on every real request (auth + REST). The browser sees the 522 error page (no CORS headers) and reports "Failed to fetch". Local app against local Supabase (`127.0.0.1:54321`) logs in fine. The repo moved to local/self-hosted Supabase in commit `475b628`, abandoning that hosted project (now paused/unreachable). **Fix requires dashboard access**: restore `vpqfvranmdhsxfsynvbw` in the Supabase dashboard, OR point the Vercel project's `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY` / `SUPABASE_SERVICE_ROLE_KEY` at a new hosted project and redeploy. Diagnostic script: `/tmp/opencode/diag-login.mjs` (Playwright, `channel: "chrome"`).
+- **Public site login "Failed to fetch" (2026-08-01, resolved 2026-08-02)**: The deployed Vercel site (`the-guiding-light.vercel.app`) pointed at the OLD hosted Supabase project `vpqfvranmdhsxfsynvbw.supabase.co`, which returns Cloudflare **522: Connection timed out** on every real request (auth + REST). The browser sees the 522 error page (no CORS headers) and reports "Failed to fetch". Diagnosis confirmed at Supabase's infra level: project valid but DB compute unreachable (edge responds, `db.<ref>` host has no DNS, SQL editor times out, storage logs show `ABORTED REQ` health checks). **Fix**: abandoned `vpqfvranmdhsxfsynvbw`; created a new hosted project `nbwclxbdiuzfxdnbjmti` — migrations applied, users seeded, `.env.local` rewired, auth tokens cached. Remaining: update Vercel env vars and redeploy.
 - **Base64url cookie encoding**: Supabase SSR `cookieEncoding: "base64url"` stores cookies as `base64-` + base64url (using `-` and `_`). `decodeSupabaseCookie` now tries `Buffer.from(b64, "base64url")` first, falls back to `"base64"`. `buildCookieValue` uses `Buffer.toString("base64url")` to match. Affects `auth.ts` and the inline copy in `student-view-lesson.spec.ts`.
 - **Test setup `waitForURL` race**: `waitForURL(/\/en\/teacher\/classes\//)` matches `/en/teacher/classes/new` (the current page) before the form POST redirects. Fix: use UUID pattern `waitForURL(/\/en\/teacher\/classes\/[0-9a-f]{8}-/)`. Affects `setupTeacherLesson` in `teacher-setup.ts`.
 
@@ -30,7 +30,7 @@ The Guiding Light — an Islamic learning platform (Next.js 16 + Supabase + next
 - **Primitives**: `ui/button.tsx` (primary/secondary/ghost/danger, sm/md/lg, link mode, `testId`, `loading`), `ui/card.tsx` (`hoverable`, padding sm/md/lg, `style` overrides), `ui/input.tsx` (`label`/`error`/`data-testid`), `ui/empty-state.tsx`, `ui/badge.tsx`.
 - **Migrated pages (all pushed)**: landing, pricing, login/signup, forgot/reset password, onboarding wizard, navbar, dashboard, featured browser + class detail + lesson, join page, settings, dashboard classes + class detail, admin dashboard + sub-pages, teacher dashboard + classes/course/lesson editor/section manager/verify/progress/analytics. Commits `055c5b8`, `97b46dc`, `8375e95`, `7613d50`.
 - **Fake content removed**: landing stats (1,200+ etc.) and fabricated testimonial deleted.
-- **Login diagnosed**: local Supabase + app login works end-to-end; deployed site fails because hosted Supabase `vpqfvranmdhsxfsynvbw` returns Cloudflare 522 (see Important Details).
+- **Login diagnosed**: old hosted Supabase `vpqfvranmdhsxfsynvbw` was dead (Cloudflare 522, compute down); migrated to new hosted project `nbwclxbdiuzfxdnbjmti` — local login verified end-to-end.
 - Prior test/API work (1.1–8.1, tour overlay, cached auth tokens, base64url cookies) still valid.
 - **1.1–1.8** — Critical API bugs fixed (auth guards, JWT propagation, quiz type coercion, file ownership, crypto invite codes)
 - **1.9** — Fixed `createServiceClient()` → `createServerSupabaseClient()` + `createAdminClient()` on 4 pages
@@ -48,14 +48,15 @@ The Guiding Light — an Islamic learning platform (Next.js 16 + Supabase + next
 - **Base64url cookie fix**: `buildCookieValue` uses `Buffer.toString("base64url")`; `decodeSupabaseCookie` tries base64url first, falls back to base64
 
 ### Active
-- Supabase project restore + Vercel env update + redeploy in progress (2026-08-02).
+- Vercel env vars + redeploy in progress (2026-08-02): new hosted Supabase `nbwclxbdiuzfxdnbjmti` is live — 26 migrations applied, users seeded, local login + auth token cache verified. Remaining: update Vercel project env vars (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `NEXT_PUBLIC_SITE_URL`, `GOOGLE_GEMINI_API_KEY`, `SIMILARITY_THRESHOLD`) and redeploy.
 
 ### Deferred (intentionally deferred, not blocked)
 - API polish (error shapes consistency, more `withErrorHandling` coverage) — partial; `createApiSupabaseClient`/`applyCookies`/`withErrorHandling` already exist in `src/lib/supabase-api.ts`.
-- Re-running the full E2E suite against the hosted project once restored.
+- Re-running the full E2E suite against the hosted project once redeployed.
+- `GOOGLE_GEMINI_API_KEY` — old key was invalid/removed; user will provide a fresh one later.
 
 ### Blocked
-- **Hosted Supabase `vpqfvranmdhsxfsynvbw` still returning Cloudflare 522 on real requests** (as of 2026-08-02): `/auth/v1/health` responds (edge) but REST/auth POSTs hang then 522. User is restoring the project in the Supabase dashboard. Once healthy: apply migrations (`supabase db push`), seed users, wire `.env.local` service role key, update Vercel env vars, redeploy.
+- **None** (as of 2026-08-02). The dead project `vpqfvranmdhsxfsynvbw` (Cloudflare 522, compute down) was abandoned; all infra now points at `nbwclxbdiuzfxdnbjmti`.
 
 # Known Issues & Fixes
 - **Teacher lesson/course pages 404 fix**: Server component pages under `teacher/classes/[id]/courses/` were using `createServiceClient()` (anon key, RLS-bound). This caused `notFound()` when querying `teacher_lessons`/`teacher_courses`. Fix: use `createServerSupabaseClient()` (auth-aware client). Affected pages:
