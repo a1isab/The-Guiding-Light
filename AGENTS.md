@@ -48,17 +48,18 @@ The Guiding Light — an Islamic learning platform (Next.js 16 + Supabase + next
 - **Base64url cookie fix**: `buildCookieValue` uses `Buffer.toString("base64url")`; `decodeSupabaseCookie` tries base64url first, falls back to base64
 
 ### Active
-- **Complete as of 2026-08-02**: new hosted Supabase `nbwclxbdiuzfxdnbjmti` is live, deployed, and verified. Migrations applied, users seeded, `.env.local` + Vercel env vars set, redeployed, live login verified end-to-end (auth 200 → `/en/onboarding` → dashboard). Remaining optional: `GOOGLE_GEMINI_API_KEY` (user will provide later), re-run full E2E suite.
+- **Complete as of 2026-08-02**: new hosted Supabase `nbwclxbdiuzfxdnbjmti` is live, deployed, and verified. Migrations applied, users seeded, `.env.local` + Vercel env vars set, redeployed. Live login (auth 200 → `/en/onboarding` → dashboard) and live quiz generation (HTTP 200, valid questions) verified end-to-end. Remaining optional: re-run full E2E suite.
 
 ### Deferred (intentionally deferred, not blocked)
 - API polish (error shapes consistency, more `withErrorHandling` coverage) — partial; `createApiSupabaseClient`/`applyCookies`/`withErrorHandling` already exist in `src/lib/supabase-api.ts`.
 - Re-running the full E2E suite against the hosted project.
-- `GOOGLE_GEMINI_API_KEY` — old key was invalid/removed; user will provide a fresh one later.
+- Islamic-content guardrail on AI-generated quiz questions (AGENTS.md guidelines reference `islamqa.info`; quiz generation prompt currently has no external verification step).
 
 ### Blocked
 - **None** (as of 2026-08-02). The dead project `vpqfvranmdhsxfsynvbw` (Cloudflare 522, compute down) was abandoned; all infra now points at `nbwclxbdiuzfxdnbjmti`.
 
 # Known Issues & Fixes
+- **Gemini quiz generation 429 `limit: 0`**: Code hardcoded `gemini-2.0-flash`, which Google no longer offers free-tier access to for new accounts (2026). Also `text-embedding-004` was retired. Fix: quiz routes (`teacher` + `admin`) use `gemini-flash-latest`; `src/lib/embeddings.ts` uses `gemini-embedding-001`. Verified: fresh key returns valid JSON quiz questions on both local and live site. Note: `generateEmbedding`/`findSimilarLessons` are dormant (never called) — embeddings infrastructure (pgvector RPC, `lesson_embeddings`) exists on the hosted project.
 - **Teacher lesson/course pages 404 fix**: Server component pages under `teacher/classes/[id]/courses/` were using `createServiceClient()` (anon key, RLS-bound). This caused `notFound()` when querying `teacher_lessons`/`teacher_courses`. Fix: use `createServerSupabaseClient()` (auth-aware client). Affected pages:
   - `src/app/[locale]/teacher/classes/[id]/courses/[courseId]/page.tsx`
   - `src/app/[locale]/teacher/classes/[id]/courses/[courseId]/sections/[sectionId]/lessons/[lessonId]/page.tsx`
