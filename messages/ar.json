@@ -1,6 +1,5 @@
 {
   "nav": {
-    "courses": "الدورات",
     "featured": "مميز",
     "settings": "الإعدادات",
     "dashboard": "لوحة القيادة",
@@ -8,7 +7,8 @@
     "sign_out": "تسجيل الخروج",
     "start_free": "ابدأ مجانًا →",
     "menu": "قائمة طعام",
-    "your_account": "حسابك"
+    "your_account": "حسابك",
+    "my_classes": "فصولي"
   },
   "landing": {
     "hero_title": "دليلك إلى",
@@ -41,7 +41,6 @@
   "footer": {
     "tagline": "التعلم الإسلامي للجميع",
     "links": "روابط",
-    "courses": "الدورات",
     "pricing": "التسعير",
     "about": "عن",
     "about_text": "تعليم إسلامي مجاني ومنظم لكل مسلم، في كل مكان.",
@@ -72,7 +71,9 @@
     "invite_code_placeholder": "أدخل رمز الدعوة",
     "join": "انضمام",
     "lesson_files": "ملفات الدرس",
-    "student": "طالب"
+    "student": "طالب",
+    "no_classes_yet": "لم تنضم إلى أي فصول بعد",
+    "join_class_prompt": "أدخل رمز الدعوة أدناه للانضمام إلى الفصل الدراسي"
   },
   "pricing": {
     "title": "تسعير بسيط وشفاف",
@@ -162,19 +163,37 @@
     "verifying": "جارٍ التحقق...",
     "verify_code_incomplete": "يرجى إدخال جميع الأرقام الستة",
     "verify_failed": "رمز غير صالح أو منتهي الصلاحية. حاول مرة أخرى.",
-    "email_label": "البريد الإلكتروني"
-  },
-  "courses": {
-    "title": "جميع الدورات",
-    "subtitle": "ابدأ في أي مكان. تعلم بالسرعة التي تناسبك.",
-    "empty": "لا توجد دورات متاحة حتى الآن.",
-    "all": "الجميع",
-    "beginner": "مبتدئ",
-    "intermediate": "متوسط",
-    "advanced": "متقدم",
-    "lessons": "{count} الدروس",
-    "video": "فيديو",
-    "breadcrumb_courses": "الدورات"
+    "email_label": "البريد الإلكتروني",
+    "onboarding": {
+      "welcome_title": "مرحبا بكم في الضوء الهادي",
+      "welcome_subtitle": "دعونا تخصيص تجربة التعلم الخاصة بك",
+      "step_name": "اسم العرض",
+      "name_placeholder": "ماذا يجب أن نسميك؟",
+      "step_level": "مستوى المعرفة",
+      "level_beginner": "مبتدئ",
+      "level_intermediate": "متوسط",
+      "level_advanced": "متقدم",
+      "step_interests": "المواضيع ذات الاهتمام",
+      "interest_quran": "القرآن",
+      "interest_hadith": "حديث",
+      "interest_fiqh": "الفقه",
+      "interest_aqeedah": "عقيدة",
+      "interest_seerah": "سيرا",
+      "interest_arabic": "اللغة العربية",
+      "step_goals": "أهداف التعلم",
+      "goals_placeholder": "ما الذي تأمل تحقيقه؟",
+      "step_subjects": "مواد التدريس",
+      "subjects_placeholder": "ما هي المواد التي تقوم بتدريسها؟",
+      "step_experience": "مستوى الخبرة",
+      "experience_beginner": "معلم جديد",
+      "experience_intermediate": "ذوي الخبرة",
+      "experience_advanced": "المعلم المخضرم",
+      "next": "التالي",
+      "previous": "سابق",
+      "complete": "مكتمل",
+      "skip": "تخطي الآن",
+      "step_of": "{الحالي} / {المجموع}"
+    }
   },
   "lesson": {
     "arabic_text": "النص العربي",

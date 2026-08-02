@@ -1,7 +1,7 @@
 # component-retheme Specification
 
 ## Purpose
-TBD - created by archiving change night-study-redesign. Update Purpose after archive.
+Requires all shared, teacher, and auth components to render with theme tokens and the Nur UI primitives (Button, Card, Input, EmptyState, Badge) instead of hardcoded hex values or inline style duplication. Synced from frontend-design-overhaul (07-31).
 ## Requirements
 ### Requirement: Shared components use CSS variable tokens
 The system SHALL render all shared components using CSS custom property tokens instead of hardcoded hex values.
@@ -77,9 +77,32 @@ The system SHALL render the onboarding wizard using CSS custom property tokens.
 - **THEN** it SHALL use CSS variable tokens for all colors
 
 ### Requirement: Cards have hover glow effect
-The system SHALL apply a subtle warm glow effect on cards when hovered.
+The system SHALL apply a warm gold glow effect on cards when hovered, using the `--glow-strong` token.
 
 #### Scenario: Card hover produces warm glow
 - **WHEN** a user hovers over a card element
-- **THEN** the card SHALL display a `box-shadow: 0 0 30px rgba(212, 145, 94, 0.08)` glow effect
+- **THEN** the card SHALL transition `box-shadow` to `0 0 40px var(--glow-strong)` (gold)
+
+### Requirement: UI primitives are the standard interface
+The system SHALL use the shared UI primitives in `src/components/ui/` as the standard for all buttons, cards, inputs, empty states, and badges.
+
+#### Scenario: Buttons use the Button primitive
+- **WHEN** an interactive action button is rendered
+- **THEN** it SHALL use `Button` with one of four variants (primary, secondary, ghost, danger), three sizes (sm, md, lg), and supporting states (loading, disabled, focus-visible, active) plus optional `href` (renders `<a>`)
+
+#### Scenario: Cards use the Card primitive
+- **WHEN** a contained content region is rendered
+- **THEN** it SHALL use `Card` with `hoverable` and `padding` (sm/md/lg) options, and `testId` for testing
+
+#### Scenario: Inputs use the Input primitive
+- **WHEN** a form text input is rendered
+- **THEN** it SHALL use `Input` with `label`, `error`, `helperText`, focus ring, and `aria-describedby` wiring
+
+#### Scenario: Empty states use the EmptyState primitive
+- **WHEN** a section has no content to show
+- **THEN** it SHALL use `EmptyState` with `icon`, `title`, `description`, and optional CTA, replacing ad-hoc empty-state markup
+
+#### Scenario: Badges use the Badge primitive
+- **WHEN** a status or label pill is rendered
+- **THEN** it SHALL use `Badge` with a color variant (success, warning, error, info)
 

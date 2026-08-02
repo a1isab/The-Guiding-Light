@@ -164,7 +164,7 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
       <div className="w-full max-w-lg">
         <div data-testid={`onboarding-step-${step}`} className="mb-8 text-center">
           <p className="text-sm mb-2" style={{ color: "var(--text-muted)" }}>
-            {step + 1} / {totalSteps}
+            {t("onboarding.step_of", { current: step + 1, total: totalSteps })}
           </p>
           <div className="flex justify-center gap-1.5">
             {steps.map((_, i) => (
@@ -198,10 +198,10 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
           ) : step === 0 && (
             <div>
               <h2 className="text-h3 mb-1 text-center" style={{ color: "var(--text-primary)" }}>
-                {authenticated ? "Welcome to The Guiding Light" : "Create your account"}
+                {authenticated ? t("onboarding.welcome_title") : t("signup_title")}
               </h2>
               <p className="text-center text-sm mb-6" style={{ color: "var(--text-muted)" }}>
-                {authenticated ? "Let's personalize your learning experience" : "Start your journey of Islamic learning"}
+                {authenticated ? t("onboarding.welcome_subtitle") : t("signup_subtitle")}
               </p>
 
               {!authenticated && (
@@ -212,7 +212,7 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
                     data-testid="wiz-email"
                     type="email"
                     required
-                    label="Email"
+                    label={t("email")}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="you@example.com"
@@ -224,7 +224,7 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
                     type="password"
                     required
                     minLength={6}
-                    label="Password"
+                    label={t("password")}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Min 6 characters"
@@ -296,19 +296,19 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
 
           {step === 1 && (
             <div>
-              <h2 className="text-h4 mb-4" style={{ color: "var(--text-primary)" }}>What should we call you?</h2>
+              <h2 className="text-h4 mb-4" style={{ color: "var(--text-primary)" }}>{t("onboarding.name_placeholder")}</h2>
               <Input
                 type="text"
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
-                placeholder="Your display name"
+                placeholder={t("onboarding.step_name")}
               />
             </div>
           )}
 
           {step === 2 && isStudent && (
             <div>
-              <h2 className="text-h4 mb-4" style={{ color: "var(--text-primary)" }}>What's your knowledge level?</h2>
+              <h2 className="text-h4 mb-4" style={{ color: "var(--text-primary)" }}>{t("onboarding.step_level")}</h2>
               <div className="space-y-2">
                 {(["beginner", "intermediate", "advanced"] as const).map((l) => (
                   <Button
@@ -318,7 +318,7 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
                     onClick={() => setLevel(l)}
                     className="w-full justify-start"
                   >
-                    {l.charAt(0).toUpperCase() + l.slice(1)}
+                    {t(`onboarding.level_${l}`)}
                   </Button>
                 ))}
               </div>
@@ -327,28 +327,28 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
 
           {step === 2 && !isStudent && (
             <div>
-              <h2 className="text-h4 mb-4" style={{ color: "var(--text-primary)" }}>What subjects do you teach?</h2>
+              <h2 className="text-h4 mb-4" style={{ color: "var(--text-primary)" }}>{t("onboarding.step_subjects")}</h2>
               <Input
                 type="text"
                 value={subjects}
                 onChange={(e) => setSubjects(e.target.value)}
-                placeholder="e.g., Quran, Fiqh, Arabic"
+                placeholder={t("onboarding.subjects_placeholder")}
               />
             </div>
           )}
 
           {step === 3 && isStudent && (
             <div>
-              <h2 className="text-h4 mb-4" style={{ color: "var(--text-primary)" }}>What topics interest you?</h2>
+              <h2 className="text-h4 mb-4" style={{ color: "var(--text-primary)" }}>{t("onboarding.step_interests")}</h2>
               <div className="flex flex-wrap gap-2">
-                {["Quran", "Hadith", "Fiqh", "Aqeedah", "Seerah", "Arabic"].map((interest) => (
+                {(["Quran", "Hadith", "Fiqh", "Aqeedah", "Seerah", "Arabic"] as const).map((interest) => (
                   <Button
                     key={interest}
                     type="button"
                     variant={interests.includes(interest) ? "primary" : "ghost"}
                     onClick={() => toggleInterest(interest)}
                   >
-                    {interest}
+                    {t(`onboarding.interest_${interest.toLowerCase()}`)}
                   </Button>
                 ))}
               </div>
@@ -357,7 +357,7 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
 
           {step === 3 && !isStudent && (
             <div>
-              <h2 className="text-h4 mb-4" style={{ color: "var(--text-primary)" }}>Experience level</h2>
+              <h2 className="text-h4 mb-4" style={{ color: "var(--text-primary)" }}>{t("onboarding.step_experience")}</h2>
               <div className="space-y-2">
                 {(["beginner", "intermediate", "advanced"] as const).map((e) => (
                   <Button
@@ -367,7 +367,7 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
                     onClick={() => setExperience(e)}
                     className="w-full justify-start"
                   >
-                    {e === "beginner" ? "New Teacher" : e === "intermediate" ? "Experienced" : "Veteran Educator"}
+                    {t(`onboarding.experience_${e}`)}
                   </Button>
                 ))}
               </div>
@@ -376,11 +376,11 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
 
           {step === 4 && isStudent && (
             <div>
-              <h2 className="text-h4 mb-4" style={{ color: "var(--text-primary)" }}>What are your learning goals?</h2>
+              <h2 className="text-h4 mb-4" style={{ color: "var(--text-primary)" }}>{t("onboarding.step_goals")}</h2>
               <textarea
                 value={goals}
                 onChange={(e) => setGoals(e.target.value)}
-                placeholder="What do you hope to achieve?"
+                placeholder={t("onboarding.goals_placeholder")}
                 rows={4}
                 className="w-full rounded-xl border px-4 py-3 text-sm focus:border-[var(--accent)] focus:outline-none resize-none placeholder:text-[var(--text-muted)]"
                 style={{ borderColor: "var(--border)", backgroundColor: "var(--bg-elevated)", color: "var(--text-primary)" }}
@@ -392,7 +392,7 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
         <div className="mt-6 flex items-center justify-between">
           {(step > 0 || authenticated) && step < totalSteps - 1 ? (
             <Button variant="ghost" size="sm" onClick={handleSkip}>
-              Skip for now
+              {t("onboarding.skip")}
             </Button>
           ) : (
             <div />
@@ -401,7 +401,7 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
           <div className="flex items-center gap-3">
             {step > 0 && (
               <Button variant="ghost" onClick={() => setStep((s) => s - 1)}>
-                Previous
+                {t("onboarding.previous")}
               </Button>
             )}
 
@@ -413,11 +413,11 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
                 testId="wiz-signup-submit"
               >
                 <UserPlus className="h-4 w-4" />
-                {submitting ? "Creating account..." : "Create account"}
+                {submitting ? t("creating_account") : t("create_account")}
               </Button>
             ) : step < totalSteps - 1 ? (
               <Button onClick={() => setStep((s) => s + 1)}>
-                Next
+                {t("onboarding.next")}
               </Button>
             ) : (
               <Button
@@ -425,7 +425,7 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
                 disabled={submitting || !displayName}
                 loading={submitting}
               >
-                {submitting ? "Saving..." : "Complete"}
+                {submitting ? "Saving..." : t("onboarding.complete")}
               </Button>
             )}
           </div>

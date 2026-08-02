@@ -2,7 +2,7 @@ Always Commit, Stage and Push updates
 
 # Anchored Summary
 ## Objective
-Frontend design overhaul (tokens, type scale, glow system, UI primitives) applied across the app, with the login diagnosis documented for the dashboard holder.
+The Guiding Light — an Islamic learning platform (Next.js 16 + Supabase + next-intl en/ar/ur/fr). The "Nur" frontend design overhaul is fully migrated and the OpenSpec changes are archived. The app targets a **hosted** Supabase project (`vpqfvranmdhsxfsynvbw.supabase.co`) for both local dev and the deployed Vercel site; the project was being restored in the Supabase dashboard at last work (see Work State).
 
 ## Important Details
 - All pushed to main. CI workflow at `.github/workflows/playwright.yml`.
@@ -48,13 +48,14 @@ Frontend design overhaul (tokens, type scale, glow system, UI primitives) applie
 - **Base64url cookie fix**: `buildCookieValue` uses `Buffer.toString("base64url")`; `decodeSupabaseCookie` tries base64url first, falls back to base64
 
 ### Active
-- `npm run build` + `npx tsc --noEmit` pass after migration. Dev server runs on `http://localhost:3000` (pid 861310).
-- Remaining: spot-check a login flow on the dev server; optionally run E2E smoke against local Supabase.
+- Supabase project restore + Vercel env update + redeploy in progress (2026-08-02).
 
-### Blocked (intentionally deferred, not blocked)
-- i18n across ~80 strings in 14 files
-- API polish (`applyCookies` extraction, try/catch wrappers, error shapes)
-- **Hosted Supabase `vpqfvranmdhsxfsynvbw` unreachable** (since 2026-07-28): affects only the deployed public site (login "Failed to fetch"). Local dev against local Supabase (`127.0.0.1:54321`) works. Fix requires Supabase dashboard (restore project or switch Vercel env vars). See Important Details.
+### Deferred (intentionally deferred, not blocked)
+- API polish (error shapes consistency, more `withErrorHandling` coverage) — partial; `createApiSupabaseClient`/`applyCookies`/`withErrorHandling` already exist in `src/lib/supabase-api.ts`.
+- Re-running the full E2E suite against the hosted project once restored.
+
+### Blocked
+- **Hosted Supabase `vpqfvranmdhsxfsynvbw` still returning Cloudflare 522 on real requests** (as of 2026-08-02): `/auth/v1/health` responds (edge) but REST/auth POSTs hang then 522. User is restoring the project in the Supabase dashboard. Once healthy: apply migrations (`supabase db push`), seed users, wire `.env.local` service role key, update Vercel env vars, redeploy.
 
 # Known Issues & Fixes
 - **Teacher lesson/course pages 404 fix**: Server component pages under `teacher/classes/[id]/courses/` were using `createServiceClient()` (anon key, RLS-bound). This caused `notFound()` when querying `teacher_lessons`/`teacher_courses`. Fix: use `createServerSupabaseClient()` (auth-aware client). Affected pages:

@@ -1,7 +1,8 @@
 # typography Specification
 
 ## Purpose
-TBD - created by archiving change night-study-redesign. Update Purpose after archive.
+Defines the "Nur" design system typography: a four-font system (Crimson Pro / Inter / IBM Plex Mono / Noto Sans Arabic) and a formal type scale based on a 1.25 Major Third ratio, exposed as CSS variables and Tailwind-mapped utilities. Synced from frontend-design-overhaul (07-31).
+
 ## Requirements
 ### Requirement: Four-font typography system
 The system SHALL use four font roles: Display (Crimson Pro), Body (Inter), Utility (IBM Plex Mono), and Arabic (Noto Sans Arabic).
@@ -22,24 +23,20 @@ The system SHALL use four font roles: Display (Crimson Pro), Body (Inter), Utili
 - **WHEN** Arabic or Urdu content is rendered
 - **THEN** the system SHALL use Noto Sans Arabic loaded from Google Fonts, replacing the previous Amiri font
 
-### Requirement: Type scale defines sizing levels
-The system SHALL implement a type scale with defined sizes, weights, and usage contexts.
+### Requirement: Type scale follows a 1.25 Major Third ratio
+The system SHALL implement a type scale as CSS variables sized on a 1.25 Major Third ratio, from caption to hero.
 
-#### Scenario: Display-level typography
-- **WHEN** display-level text is rendered
-- **THEN** the system SHALL support Display LG (72px/700), Display MD (56px/600), and Display SM (48px/600)
+#### Scenario: Type scale tokens are defined
+- **WHEN** text is rendered at a named scale level
+- **THEN** the system SHALL provide `--text-caption: 0.75rem`, `--text-body: 0.875rem`, `--text-lead: 1rem`, `--text-h4: 1.25rem`, `--text-h3: 1.5rem`, `--text-h2: 2rem`, `--text-h1: 2.5rem`, `--text-hero: 3.5rem`
 
-#### Scenario: Heading-level typography
-- **WHEN** heading-level text is rendered
-- **THEN** the system SHALL support Heading LG (40px/600), Heading MD (36px/600), and Heading SM (32px/600)
+#### Scenario: Display-level text uses Crimson Pro
+- **WHEN** text at `--text-h4` and above is rendered
+- **THEN** the system SHALL apply the display font (Crimson Pro) alongside the scale size
 
-#### Scenario: Body-level typography
-- **WHEN** body-level text is rendered
-- **THEN** the system SHALL support Body LG (18px/400) and Body MD (16px/400)
-
-#### Scenario: Caption-level typography
-- **WHEN** caption-level text is rendered
-- **THEN** the system SHALL support Caption LG (14px/400) and Caption SM (12px/400)
+#### Scenario: Caption and body text use Inter
+- **WHEN** text at `--text-caption`, `--text-body`, or `--text-lead` is rendered
+- **THEN** the system SHALL use the body font (Inter) at the scale size
 
 ### Requirement: Fonts loaded via next/font in layout
 The system SHALL load all fonts via `next/font/google` in `src/app/[locale]/layout.tsx` and expose them as CSS variables.

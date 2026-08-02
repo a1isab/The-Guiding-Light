@@ -178,6 +178,7 @@ export function Navbar() {
                 <Link
                   href={"/" + currentLocale + "/dashboard/classes"}
                   data-testid="nav-my-classes"
+                  data-section="my-classes"
                   className="text-sm font-medium transition-colors flex items-center gap-1.5"
                   style={{
                     color: pathname.includes("/dashboard/classes") ? "var(--accent)" : "var(--text-secondary)",

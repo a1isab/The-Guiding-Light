@@ -48,7 +48,7 @@ export default async function TeacherDashboardPage({
     <div>
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-h2" style={{ color: 'var(--text-primary)' }}>{t("dashboard")}</h1>
-        <Button testId="new-class" href={`/${locale}/teacher/classes/new`}>
+        <Button testId="new-class" data-action="new-class" href={`/${locale}/teacher/classes/new`}>
           <Plus className="h-4 w-4" />
           {t("new_class")}
         </Button>
@@ -70,7 +70,7 @@ export default async function TeacherDashboardPage({
         ))}
       </div>
 
-      <div className="rounded-2xl border" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-surface)' }}>
+      <div className="rounded-2xl border" data-section="classes" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-surface)' }}>
         <div className="flex items-center justify-between px-5 py-4 border-b" style={{ borderColor: 'var(--border)' }}>
           <h2 className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{t("recent_classes")}</h2>
           <Link

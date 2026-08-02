@@ -1,6 +1,5 @@
 {
   "nav": {
-    "courses": "Cours",
     "featured": "En vedette",
     "settings": "Paramètres",
     "dashboard": "Tableau de bord",
@@ -8,7 +7,8 @@
     "sign_out": "se déconnecter",
     "start_free": "Démarrer gratuitement →",
     "menu": "Menu",
-    "your_account": "Votre compte"
+    "your_account": "Votre compte",
+    "my_classes": "Mes cours"
   },
   "landing": {
     "hero_title": "Votre guide vers",
@@ -41,7 +41,6 @@
   "footer": {
     "tagline": "Apprentissage islamique pour tous",
     "links": "Liens",
-    "courses": "Cours",
     "pricing": "Tarifs",
     "about": "À propos",
     "about_text": "Éducation islamique gratuite et structurée pour chaque musulman, partout.",
@@ -72,7 +71,9 @@
     "invite_code_placeholder": "Entrez le code d'invitation",
     "join": "Rejoindre",
     "lesson_files": "Fichiers de la leçon",
-    "student": "Étudiant"
+    "student": "Étudiant",
+    "no_classes_yet": "Vous n'avez encore rejoint aucun cours",
+    "join_class_prompt": "Entrez un code d'invitation ci-dessous pour rejoindre un cours"
   },
   "pricing": {
     "title": "Tarification simple et transparente",
@@ -162,19 +163,37 @@
     "verifying": "Vérification...",
     "verify_code_incomplete": "Veuillez entrer les 6 chiffres",
     "verify_failed": "Code invalide ou expiré. Veuillez réessayer.",
-    "email_label": "E-mail"
-  },
-  "courses": {
-    "title": "Tous les cours",
-    "subtitle": "Commencez n'importe où. Apprenez à votre rythme.",
-    "empty": "Aucun cours disponible pour l'instant.",
-    "all": "tous",
-    "beginner": "débutant",
-    "intermediate": "intermédiaire",
-    "advanced": "avancé",
-    "lessons": "{count} leçons",
-    "video": "Vidéo",
-    "breadcrumb_courses": "Cours"
+    "email_label": "E-mail",
+    "onboarding": {
+      "welcome_title": "Bienvenue dans La Lumière qui guide",
+      "welcome_subtitle": "Personnalisons votre expérience d'apprentissage",
+      "step_name": "Nom d'affichage",
+      "name_placeholder": "Comment devrions-nous vous appeler ?",
+      "step_level": "Niveau de connaissance",
+      "level_beginner": "Débutant",
+      "level_intermediate": "Intermédiaire",
+      "level_advanced": "Avancé",
+      "step_interests": "Sujets d'intérêt",
+      "interest_quran": "Coran",
+      "interest_hadith": "Hadith",
+      "interest_fiqh": "Fiqh",
+      "interest_aqeedah": "Aqida",
+      "interest_seerah": "Seerah",
+      "interest_arabic": "Langue arabe",
+      "step_goals": "Objectifs d'apprentissage",
+      "goals_placeholder": "Qu’espérez-vous réaliser ?",
+      "step_subjects": "Matières d'enseignement",
+      "subjects_placeholder": "Quelles matières enseignez-vous ?",
+      "step_experience": "Niveau d'expérience",
+      "experience_beginner": "Nouvel enseignant",
+      "experience_intermediate": "Expérimenté",
+      "experience_advanced": "Éducateur vétéran",
+      "next": "Suivant",
+      "previous": "Précédent",
+      "complete": "Complet",
+      "skip": "Passer pour l'instant",
+      "step_of": "{actuel} / {total}"
+    }
   },
   "lesson": {
     "arabic_text": "Texte arabe",

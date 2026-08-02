@@ -1,6 +1,5 @@
 {
   "nav": {
-    "courses": "کورسز",
     "featured": "نمایاں",
     "settings": "ترتیبات",
     "dashboard": "ڈیش بورڈ",
@@ -8,7 +7,8 @@
     "sign_out": "سائن آؤٹ کریں۔",
     "start_free": "مفت شروع کریں →",
     "menu": "مینو",
-    "your_account": "آپ کا اکاؤنٹ"
+    "your_account": "آپ کا اکاؤنٹ",
+    "my_classes": "میری کلاسز"
   },
   "landing": {
     "hero_title": "آپ کی رہنما",
@@ -41,7 +41,6 @@
   "footer": {
     "tagline": "ہر ایک کے لیے اسلامی تعلیم",
     "links": "لنکس",
-    "courses": "کورسز",
     "pricing": "قیمتوں کا تعین",
     "about": "کے بارے میں",
     "about_text": "مفت، منظم اسلامی تعلیم ہر جگہ، ہر مسلمان کے لیے۔",
@@ -72,7 +71,9 @@
     "invite_code_placeholder": "دعوتی کوڈ درج کریں",
     "join": "شامل ہوں",
     "lesson_files": "سبق کی فائلیں",
-    "student": "طالب علم"
+    "student": "طالب علم",
+    "no_classes_yet": "آپ نے ابھی تک کوئی کلاس جوائن نہیں کی ہے۔",
+    "join_class_prompt": "کلاس میں شامل ہونے کے لیے نیچے ایک دعوتی کوڈ درج کریں۔"
   },
   "pricing": {
     "title": "سادہ، شفاف قیمتوں کا تعین",
@@ -162,19 +163,37 @@
     "verifying": "تصدیق ہو رہی ہے...",
     "verify_code_incomplete": "براہ کرم تمام 6 ہندسے درج کریں",
     "verify_failed": "غلط یا میعاد ختم شدہ کوڈ۔ براہ کرم دوبارہ کوشش کریں۔",
-    "email_label": "ای میل"
-  },
-  "courses": {
-    "title": "تمام کورسز",
-    "subtitle": "کہیں سے بھی شروع کریں۔ اپنی رفتار سے سیکھیں۔",
-    "empty": "ابھی تک کوئی کورس دستیاب نہیں ہے۔",
-    "all": "تمام",
-    "beginner": "ابتدائی",
-    "intermediate": "انٹرمیڈیٹ",
-    "advanced": "ترقی یافتہ",
-    "lessons": "{count} اسباق",
-    "video": "ویڈیو",
-    "breadcrumb_courses": "کورسز"
+    "email_label": "ای میل",
+    "onboarding": {
+      "welcome_title": "گائیڈنگ لائٹ میں خوش آمدید",
+      "welcome_subtitle": "آئیے آپ کے سیکھنے کے تجربے کو ذاتی بنائیں",
+      "step_name": "ڈسپلے کا نام",
+      "name_placeholder": "ہم آپ کو کیا پکاریں؟",
+      "step_level": "علم کی سطح",
+      "level_beginner": "مبتدی",
+      "level_intermediate": "انٹرمیڈیٹ",
+      "level_advanced": "اعلی درجے کی",
+      "step_interests": "دلچسپی کے موضوعات",
+      "interest_quran": "قرآن",
+      "interest_hadith": "حدیث",
+      "interest_fiqh": "فقہ",
+      "interest_aqeedah": "عقیدہ",
+      "interest_seerah": "سیرہ",
+      "interest_arabic": "عربی زبان",
+      "step_goals": "سیکھنے کے اہداف",
+      "goals_placeholder": "آپ کو کیا حاصل کرنے کی امید ہے؟",
+      "step_subjects": "تدریسی مضامین",
+      "subjects_placeholder": "آپ کون سے مضامین پڑھاتے ہیں؟",
+      "step_experience": "تجربہ کی سطح",
+      "experience_beginner": "نئے استاد",
+      "experience_intermediate": "تجربہ کار",
+      "experience_advanced": "تجربہ کار معلم",
+      "next": "اگلا",
+      "previous": "پچھلا",
+      "complete": "مکمل",
+      "skip": "ابھی کے لیے چھوڑ دیں۔",
+      "step_of": "{موجودہ} / {کل}"
+    }
   },
   "lesson": {
     "arabic_text": "عربی متن",

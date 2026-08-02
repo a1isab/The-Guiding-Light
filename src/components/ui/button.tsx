@@ -24,6 +24,7 @@ interface ButtonAsLink extends ButtonPropsBase {
   href: string;
   disabled?: boolean;
   onClick?: () => void;
+  [key: `data-${string}`]: unknown;
 }
 
 type ButtonProps = ButtonAsButton | ButtonAsLink;
@@ -94,6 +95,7 @@ export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPr
     }
   }
 
+  const linkRest = rest as Record<string, unknown>;
   if (href) {
     return (
       <Link
@@ -110,6 +112,7 @@ export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPr
         tabIndex={isDisabled ? -1 : 0}
         role="button"
         aria-disabled={isDisabled}
+        {...linkRest}
       >
         {children}
       </Link>
