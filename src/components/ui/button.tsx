@@ -133,6 +133,7 @@ export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPr
       onMouseDown={(e) => { if (!isDisabled) Object.assign(e.currentTarget.style, activeStyle); }}
       onMouseUp={(e) => { if (!isDisabled) Object.assign(e.currentTarget.style, hoverStyle); }}
       onKeyDown={handleKeyDown}
+      onClick={onClick}
       aria-disabled={isDisabled}
       aria-busy={loading}
       {...buttonRest}

@@ -1,5 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createApiSupabaseClient, requireAuth, extractBearerToken } from "@/lib/supabase-api";
+import { createApiSupabaseClient, requireAuth, extractBearerToken, retryQuery } from "@/lib/supabase-api";
+
+async function isOwnedByTeacher(
+  supabase: ReturnType<typeof import("@supabase/ssr").createServerClient>,
+  assignmentId: string,
+  userId: string,
+): Promise<boolean> {
+  const { data } = await retryQuery(() =>
+    supabase
+      .from("assignments")
+      .select("id, teacher_lessons!inner(teacher_sections!inner(teacher_courses!inner(classes!inner(teacher_id))))")
+      .eq("id", assignmentId)
+      .eq("teacher_lessons.teacher_sections.teacher_courses.classes.teacher_id", userId)
+      .maybeSingle(),
+  );
+  return !!data;
+}
 
 export async function GET(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
@@ -11,63 +27,33 @@ export async function GET(request: NextRequest) {
   const assignmentId = searchParams.get("assignmentId");
   if (!assignmentId) return applyCookies(NextResponse.json({ error: "assignmentId required" }, { status: 400 }));
 
-  const { data: assignment } = await supabase
-    .from("assignments")
-    .select("id, lesson_id")
-    .eq("id", assignmentId)
-    .single();
-
-  if (!assignment) return applyCookies(NextResponse.json({ error: "Not found" }, { status: 404 }));
-
-  const { data: lesson } = await supabase
-    .from("teacher_lessons")
-    .select("section_id")
-    .eq("id", assignment.lesson_id)
-    .single();
-  if (!lesson) return applyCookies(NextResponse.json({ error: "Not found" }, { status: 404 }));
-
-  const { data: section } = await supabase
-    .from("teacher_sections")
-    .select("course_id")
-    .eq("id", lesson.section_id)
-    .single();
-  if (!section) return applyCookies(NextResponse.json({ error: "Not found" }, { status: 404 }));
-
-  const { data: course } = await supabase
-    .from("teacher_courses")
-    .select("class_id")
-    .eq("id", section.course_id)
-    .single();
-  if (!course) return applyCookies(NextResponse.json({ error: "Not found" }, { status: 404 }));
-
-  const { data: cls } = await supabase
-    .from("classes")
-    .select("teacher_id")
-    .eq("id", course.class_id)
-    .single();
-  if (cls?.teacher_id !== userId) {
+  if (!(await isOwnedByTeacher(supabase, assignmentId, userId))) {
     return applyCookies(NextResponse.json({ error: "Forbidden" }, { status: 403 }));
   }
 
-  const { data, error } = await supabase
-    .from("submissions")
-    .select("id, student_id, body, status, score, feedback, submitted_at")
-    .eq("assignment_id", assignmentId)
-    .order("submitted_at", { ascending: false });
+  const { data, error } = await retryQuery(() =>
+    supabase
+      .from("submissions")
+      .select("id, student_id, body, status, score, feedback, submitted_at")
+      .eq("assignment_id", assignmentId)
+      .order("submitted_at", { ascending: false }),
+  );
 
   if (error) return applyCookies(NextResponse.json({ error: error.message }, { status: 500 }));
 
-  const studentIds = [...new Set((data ?? []).map((s) => s.student_id))];
+  const studentIds = [...new Set((data ?? []).map((s: any) => s.student_id))];
   let profiles: { user_id: string; full_name: string | null }[] = [];
   if (studentIds.length) {
-    const { data: p } = await supabase
-      .from("profiles")
-      .select("user_id, full_name")
-      .in("user_id", studentIds);
+    const { data: p } = await retryQuery(() =>
+      supabase
+        .from("profiles")
+        .select("user_id, full_name")
+        .in("user_id", studentIds),
+    );
     profiles = p ?? [];
   }
 
-  const enriched = (data ?? []).map((s) => ({
+  const enriched = (data ?? []).map((s: any) => ({
     ...s,
     student_name: profiles.find((p) => p.user_id === s.student_id)?.full_name ?? null,
   }));

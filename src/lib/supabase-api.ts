@@ -66,6 +66,30 @@ export function createApiSupabaseClient(request: NextRequest) {
 
 export type ApiSupabase = ReturnType<typeof createApiSupabaseClient>;
 
+function isTransientError(error: any): boolean {
+  const code = error?.code ?? "";
+  return code === "57014" || code === "53300" || code.startsWith("08");
+}
+
+/**
+ * Retries a Supabase query when the hosted free tier hits transient
+ * connection/statement timeouts (e.g. 57014 on a cold pool). The retry
+ * typically succeeds once the connection is warm.
+ */
+export async function retryQuery(
+  build: () => any,
+  attempts = 3,
+): Promise<{ data: any; error: any }> {
+  let lastError: any;
+  for (let i = 0; i < attempts; i++) {
+    const result = await build();
+    if (!result.error || !isTransientError(result.error)) return result;
+    lastError = result.error;
+    await new Promise((resolve) => setTimeout(resolve, 1000 * (i + 1)));
+  }
+  return { data: null, error: lastError };
+}
+
 type RouteHandler = (
   request: NextRequest,
   context?: { params: Promise<Record<string, string>> },

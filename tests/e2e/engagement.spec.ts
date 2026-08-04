@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
+import { createClient } from "@supabase/supabase-js";
 import { setupTeacherLesson, type TestData } from "./helpers/teacher-setup";
-import { loginAs, getUserId, enrollStudent, getAccessToken } from "./helpers/auth";
+import { loginAs, getUserId, enrollStudent } from "./helpers/auth";
 
 const TEACHER_EMAIL = "teacher@theguidinglight.com";
 const TEACHER_PASSWORD = "Teacher123!";
@@ -9,9 +10,7 @@ const STUDENT_PASSWORD = "Student123!";
 
 // Read Supabase URL and anon key from env (with hosted fallback)
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "https://nbwclxbdiuzfxdnbjmti.supabase.co";
-const SUPABASE_ANON_KEY =
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ??
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5id2NseGJkaXV6ZnhkbmJqbXRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU2NzAyMTQsImV4cCI6MjEwMTI0NjIxNH0.PC_THbSqeGKWJihozd4Vwdg3Rvlwr5LUlDOHblx2yig";
+const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
 interface TestContext {
   teacher: { classId: string; courseId: string; sectionId: string; lessonId: string; inviteCode: string };
@@ -77,6 +76,12 @@ test.describe("engagement features", () => {
   });
 
   test.describe("assignments and submissions", () => {
+    // Retries re-run beforeAll in a fresh worker, creating a new lesson with no
+    // assignment/submission — the sequential steps below can never pass on retry.
+    // The hosted Supabase free tier can take ~30s to serve a cold-pool request,
+    // so timeouts are generous.
+    test.describe.configure({ retries: 0, timeout: 180000 });
+
     test("teacher creates assignment via lesson editor", async ({ page }) => {
       await loginAs(page, TEACHER_EMAIL, TEACHER_PASSWORD, /\/en\/teacher/);
       await page.goto(
@@ -84,10 +89,11 @@ test.describe("engagement features", () => {
       );
       await page.waitForLoadState("networkidle");
 
+      await expect(page.getByTestId("assignment-title")).toBeVisible({ timeout: 30000 });
       await page.getByTestId("assignment-title").fill("E2E Test Assignment");
       await page.getByTestId("assignment-save").click();
 
-      await expect(page.getByTestId("assignment-save")).toHaveText("Update", { timeout: 10000 });
+      await expect(page.getByTestId("assignment-save")).toHaveText("Update", { timeout: 90000 });
     });
 
     test("student submits assignment", async ({ page }) => {
@@ -95,13 +101,13 @@ test.describe("engagement features", () => {
       await page.goto(`/en/dashboard/classes/${ctx.teacher.classId}/courses/${ctx.teacher.courseId}/lessons/${ctx.teacher.lessonId}`);
       await page.waitForLoadState("networkidle");
 
-      await expect(page.getByTestId("assignment-section")).toBeVisible({ timeout: 10000 });
-      await expect(page.getByTestId("submission-form")).toBeVisible({ timeout: 10000 });
+      await expect(page.getByTestId("assignment-section")).toBeVisible({ timeout: 60000 });
+      await expect(page.getByTestId("submission-form")).toBeVisible({ timeout: 60000 });
 
       await page.getByTestId("submission-body").fill("My test submission answer");
       await page.getByTestId("submission-submit").click();
 
-      await expect(page.getByText("Submitted successfully!")).toBeVisible({ timeout: 10000 });
+      await expect(page.getByText("Submitted successfully!")).toBeVisible({ timeout: 90000 });
     });
 
     test("teacher grades submission", async ({ page }) => {
@@ -111,7 +117,7 @@ test.describe("engagement features", () => {
       );
       await page.waitForLoadState("networkidle");
 
-      await expect(page.getByTestId("submission-list")).toBeVisible({ timeout: 10000 });
+      await expect(page.getByTestId("submission-list")).toBeVisible({ timeout: 60000 });
 
       const gradeBtn = page.getByTestId("grade-btn").first();
       if (await gradeBtn.isVisible()) {
@@ -120,7 +126,7 @@ test.describe("engagement features", () => {
         await page.getByTestId("grade-feedback-input").fill("Good work");
         await page.getByTestId("grade-submit").click();
 
-        await expect(page.getByText("85/")).toBeVisible({ timeout: 10000 });
+        await expect(page.getByText("85/")).toBeVisible({ timeout: 90000 });
       }
     });
 
@@ -129,8 +135,8 @@ test.describe("engagement features", () => {
       await page.goto(`/en/dashboard/classes/${ctx.teacher.classId}/courses/${ctx.teacher.courseId}/lessons/${ctx.teacher.lessonId}`);
       await page.waitForLoadState("networkidle");
 
-      await expect(page.getByTestId("assignment-section")).toBeVisible({ timeout: 10000 });
-      await expect(page.getByTestId("submission-status")).toBeVisible({ timeout: 10000 });
+      await expect(page.getByTestId("assignment-section")).toBeVisible({ timeout: 60000 });
+      await expect(page.getByTestId("submission-status")).toBeVisible({ timeout: 60000 });
     });
   });
 
@@ -196,35 +202,22 @@ test.describe("engagement features", () => {
     test("certificates section renders when certificates exist", async ({ page }) => {
       await loginAs(page, STUDENT_EMAIL, STUDENT_PASSWORD, /\/en\/dashboard/);
 
-      const accessToken = await getAccessToken(page);
-      expect(accessToken).toBeTruthy();
-
-      await page.evaluate(
-        async ({ token, studentId, supabaseUrl, anonKey }) => {
-          await fetch(`${supabaseUrl}/rest/v1/certificates`, {
-            method: "POST",
-            headers: {
-              apikey: anonKey,
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-              Prefer: "resolution=merge-duplicates",
-            },
-            body: JSON.stringify({
-              user_id: studentId,
-              course_id: "00000000-0000-0000-0000-000000000001",
-              class_id: "00000000-0000-0000-0000-000000000002",
-              student_name: "E2E Student",
-              course_name: "E2E Test Certificate",
-            }),
-          });
-        },
+      // Seed a certificate with the service role key: certificates has only a
+      // SELECT policy, so the student's own token cannot INSERT one.
+      const adminClient = createClient(SUPABASE_URL, SERVICE_ROLE_KEY, {
+        auth: { autoRefreshToken: false, persistSession: false },
+      });
+      const { error } = await adminClient.from("certificates").upsert(
         {
-          token: accessToken!,
-          studentId: ctx.studentUserId,
-          supabaseUrl: SUPABASE_URL,
-          anonKey: SUPABASE_ANON_KEY,
-        }
+          user_id: ctx.studentUserId,
+          course_id: "00000000-0000-0000-0000-000000000001",
+          class_id: "00000000-0000-0000-0000-000000000002",
+          student_name: "E2E Student",
+          course_name: "E2E Test Certificate",
+        },
+        { onConflict: "user_id,course_id,class_id" }
       );
+      expect(error).toBeNull();
 
       await page.goto("/en/dashboard");
       await page.waitForLoadState("networkidle");

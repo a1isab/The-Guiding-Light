@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createApiSupabaseClient, requireAuth, extractBearerToken } from "@/lib/supabase-api";
+import { createApiSupabaseClient, requireAuth, extractBearerToken, retryQuery } from "@/lib/supabase-api";
 
 export async function GET(request: NextRequest) {
   const { supabase, applyCookies } = createApiSupabaseClient(request);
@@ -11,12 +11,14 @@ export async function GET(request: NextRequest) {
   const assignmentId = searchParams.get("assignmentId");
   if (!assignmentId) return applyCookies(NextResponse.json({ error: "assignmentId required" }, { status: 400 }));
 
-  const { data, error } = await supabase
-    .from("submissions")
-    .select("*")
-    .eq("assignment_id", assignmentId)
-    .eq("student_id", userId)
-    .single();
+  const { data, error } = await retryQuery(() =>
+    supabase
+      .from("submissions")
+      .select("*")
+      .eq("assignment_id", assignmentId)
+      .eq("student_id", userId)
+      .single(),
+  );
 
   if (error && error.code !== "PGRST116") {
     return applyCookies(NextResponse.json({ error: error.message }, { status: 500 }));
@@ -36,37 +38,43 @@ export async function POST(request: NextRequest) {
     return applyCookies(NextResponse.json({ error: "assignmentId required" }, { status: 400 }));
   }
 
-  const { data: existing } = await supabase
-    .from("submissions")
-    .select("id, status")
-    .eq("assignment_id", assignmentId)
-    .eq("student_id", userId)
-    .single();
+  const { data: existing } = await retryQuery(() =>
+    supabase
+      .from("submissions")
+      .select("id, status")
+      .eq("assignment_id", assignmentId)
+      .eq("student_id", userId)
+      .single(),
+  );
 
   if (existing && existing.status === "graded") {
     return applyCookies(NextResponse.json({ error: "Submission already graded" }, { status: 400 }));
   }
 
   if (existing) {
-    const { error } = await supabase
-      .from("submissions")
-      .update({ body: body ?? null, file_urls: fileUrls ?? [] })
-      .eq("id", existing.id);
+    const { error } = await retryQuery(() =>
+      supabase
+        .from("submissions")
+        .update({ body: body ?? null, file_urls: fileUrls ?? [] })
+        .eq("id", existing.id),
+    );
 
     if (error) return applyCookies(NextResponse.json({ error: error.message }, { status: 500 }));
     return applyCookies(NextResponse.json({ id: existing.id }));
   }
 
-  const { data, error } = await supabase
-    .from("submissions")
-    .insert({
-      assignment_id: assignmentId,
-      student_id: userId,
-      body: body ?? null,
-      file_urls: fileUrls ?? [],
-    })
-    .select("id")
-    .single();
+  const { data, error } = await retryQuery(() =>
+    supabase
+      .from("submissions")
+      .insert({
+        assignment_id: assignmentId,
+        student_id: userId,
+        body: body ?? null,
+        file_urls: fileUrls ?? [],
+      })
+      .select("id")
+      .single(),
+  );
 
   if (error) return applyCookies(NextResponse.json({ error: error.message }, { status: 500 }));
   return applyCookies(NextResponse.json({ id: (data as { id: string }).id }));

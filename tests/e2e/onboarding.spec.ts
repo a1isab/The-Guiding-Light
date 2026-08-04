@@ -93,7 +93,7 @@ test.describe("onboarding wizard for student", () => {
     await wizard.getByRole("button", { name: "Next" }).click();
     await expect(page.getByTestId("onboarding-step-1")).toBeVisible();
 
-    const nameInput = page.locator('input[placeholder="Your display name"]');
+    const nameInput = page.locator('input[placeholder="Display Name"]');
     await expect(nameInput).toBeVisible();
     await nameInput.fill("Test Student");
 

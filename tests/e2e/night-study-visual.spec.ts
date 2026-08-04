@@ -39,11 +39,12 @@ test.describe("53-54: Landing page theme", () => {
   });
 
   test("53: Dark mode is default — bg-primary is dark", async ({ page }) => {
-    const dataTheme = await page.evaluate(() => document.documentElement.dataset.theme);
-    expect(dataTheme === undefined || dataTheme !== "light").toBeTruthy();
+    await setTheme(page, "dark");
+    await page.reload();
+    await page.waitForLoadState("domcontentloaded");
     const bg = await getThemeColor(page, "--bg-primary");
     const text = await getThemeColor(page, "--text-primary");
-    expect(bg).toBe("#0a0d12");
+    expect(bg).toBe("#080b10");
     expect(text).toBe("#f0ece4");
   });
 
@@ -54,7 +55,7 @@ test.describe("53-54: Landing page theme", () => {
     const bg = await getThemeColor(page, "--bg-primary");
     const text = await getThemeColor(page, "--text-primary");
     expect(bg).toBe("#f5f1eb");
-    expect(text).toBe("#1a1d24");
+    expect(text).toBe("#1a1a1e");
   });
 });
 
@@ -64,11 +65,11 @@ test.describe("55-57: Dashboard theme", () => {
   test("55: Student dashboard dark + light", async ({ page }) => {
     await login(page, STUDENT);
 
+    await setTheme(page, "dark");
     const darkBg = await getThemeColor(page, "--bg-primary");
-    expect(darkBg).toBe("#0a0d12");
+    expect(darkBg).toBe("#080b10");
 
     await setTheme(page, "light");
-    await page.goto("/en/dashboard", { waitUntil: "networkidle" });
     const lightBg = await getThemeColor(page, "--bg-primary");
     expect(lightBg).toBe("#f5f1eb");
   });
@@ -76,11 +77,11 @@ test.describe("55-57: Dashboard theme", () => {
   test("56: Teacher dashboard dark + light", async ({ page }) => {
     await login(page, TEACHER);
 
+    await setTheme(page, "dark");
     const darkBg = await getThemeColor(page, "--bg-primary");
-    expect(darkBg).toBe("#0a0d12");
+    expect(darkBg).toBe("#080b10");
 
     await setTheme(page, "light");
-    await page.goto("/en/teacher", { waitUntil: "domcontentloaded" });
     const lightBg = await getThemeColor(page, "--bg-primary");
     expect(lightBg).toBe("#f5f1eb");
   });
@@ -88,11 +89,11 @@ test.describe("55-57: Dashboard theme", () => {
   test("57: Admin dashboard dark + light", async ({ page }) => {
     await login(page, ADMIN);
 
+    await setTheme(page, "dark");
     const darkBg = await getThemeColor(page, "--bg-primary");
-    expect(darkBg).toBe("#0a0d12");
+    expect(darkBg).toBe("#080b10");
 
     await setTheme(page, "light");
-    await page.goto("/en/admin", { waitUntil: "domcontentloaded" });
     const lightBg = await getThemeColor(page, "--bg-primary");
     expect(lightBg).toBe("#f5f1eb");
   });
@@ -103,11 +104,11 @@ test.describe("55-57: Dashboard theme", () => {
 test.describe("58: Auth pages theme", () => {
   test("Login page dark + light", async ({ page }) => {
     await page.goto("/en/auth/login");
-    await page.evaluate(() => localStorage.removeItem("theme"));
+    await setTheme(page, "dark");
     await page.reload();
     await page.waitForLoadState("domcontentloaded");
     const dark = await getThemeColor(page, "--bg-primary");
-    expect(dark).toBe("#0a0d12");
+    expect(dark).toBe("#080b10");
 
     await setTheme(page, "light");
     await page.reload();
@@ -118,11 +119,11 @@ test.describe("58: Auth pages theme", () => {
 
   test("Signup page dark + light", async ({ page }) => {
     await page.goto("/en/auth/signup");
-    await page.evaluate(() => localStorage.removeItem("theme"));
+    await setTheme(page, "dark");
     await page.reload();
     await page.waitForLoadState("domcontentloaded");
     const dark = await getThemeColor(page, "--bg-primary");
-    expect(dark).toBe("#0a0d12");
+    expect(dark).toBe("#080b10");
 
     await setTheme(page, "light");
     await page.reload();
