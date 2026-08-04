@@ -23,6 +23,9 @@ The Guiding Light — an Islamic learning platform (Next.js 16 + Supabase + next
 - **Public site login "Failed to fetch" (2026-08-01, resolved 2026-08-02)**: The deployed Vercel site (`the-guiding-light.vercel.app`) pointed at the OLD hosted Supabase project `vpqfvranmdhsxfsynvbw.supabase.co`, which returns Cloudflare **522: Connection timed out** on every real request (auth + REST). The browser sees the 522 error page (no CORS headers) and reports "Failed to fetch". Diagnosis confirmed at Supabase's infra level: project valid but DB compute unreachable (edge responds, `db.<ref>` host has no DNS, SQL editor times out, storage logs show `ABORTED REQ` health checks). **Fix**: abandoned `vpqfvranmdhsxfsynvbw`; created a new hosted project `nbwclxbdiuzfxdnbjmti` — migrations applied, users seeded, `.env.local` rewired, auth tokens cached. Remaining: update Vercel env vars and redeploy.
 - **Base64url cookie encoding**: Supabase SSR `cookieEncoding: "base64url"` stores cookies as `base64-` + base64url (using `-` and `_`). `decodeSupabaseCookie` now tries `Buffer.from(b64, "base64url")` first, falls back to `"base64"`. `buildCookieValue` uses `Buffer.toString("base64url")` to match. Affects `auth.ts` and the inline copy in `student-view-lesson.spec.ts`.
 - **Test setup `waitForURL` race**: `waitForURL(/\/en\/teacher\/classes\//)` matches `/en/teacher/classes/new` (the current page) before the form POST redirects. Fix: use UUID pattern `waitForURL(/\/en\/teacher\/classes\/[0-9a-f]{8}-/)`. Affects `setupTeacherLesson` in `teacher-setup.ts`.
+- **Hosted free-tier cold-pool timeouts**: The hosted Supabase pool drops idle connections; the first query after a gap takes 5-20s and can hit PostgREST `statement_timeout` (57014). Fixes: (1) `retryQuery()` in `src/lib/supabase-api.ts` retries transient codes `57014`/`53300`/`08xx` — used on the assignments + submissions routes; (2) `tests/e2e/global-setup.ts` warms the pool (head-count SELECTs on ~12 tables) before the suite; (3) the engagement assignments describe has generous timeouts (60-90s) since cold requests can still succeed slowly (slow-but-200 doesn't trigger `retryQuery`).
+- **Teacher submissions route**: ownership check rewritten from 5 sequential `.single()` queries to one joined query `assignments!inner(teacher_lessons!inner(teacher_sections!inner(teacher_courses!inner(classes!inner(teacher_id)))))` — same pattern as `authorizeByLesson` in the assignments route.
+- **Engagement suite 11/11 green** (2026-08-04): lesson discussions, assignments/submissions (4 sequential tests, `retries: 0`), bookmarks, announcements, analytics, certificates all pass against the hosted project. Certificates seed via `SUPABASE_SERVICE_ROLE_KEY` (certificates table has SELECT-only RLS).
 
 ## Work State
 ### Completed
@@ -46,13 +49,14 @@ The Guiding Light — an Islamic learning platform (Next.js 16 + Supabase + next
 - **Test API resilience**: `setOnboarded()` and engagement cert seeding use direct Supabase REST instead of `/api/test/*` (blocked in production)
 - **Cached auth tokens**: `scripts/cache-auth-tokens.mjs` + `tests/e2e/fixtures/auth-tokens.json` + fallback in `loginAs`/`loginAsForOnboarding`
 - **Base64url cookie fix**: `buildCookieValue` uses `Buffer.toString("base64url")`; `decodeSupabaseCookie` tries base64url first, falls back to base64
+- **Cold-pool resilience (2026-08-04)**: `retryQuery()` helper + global-setup pool warm-up + generous engagement timeouts; teacher submissions ownership is one joined query. Commit `72edb88`.
 
 ### Active
-- **Complete as of 2026-08-02**: new hosted Supabase `nbwclxbdiuzfxdnbjmti` is live, deployed, and verified. Migrations applied, users seeded, `.env.local` + Vercel env vars set, redeployed. Live login (auth 200 → `/en/onboarding` → dashboard) and live quiz generation (HTTP 200, valid questions) verified end-to-end. Remaining optional: re-run full E2E suite.
+- **Full E2E suite re-run** (2026-08-04, in progress): engagement spec 11/11 green. Full suite (~162 tests, 1 worker, `CI=true`) running in background after killing a stale Aug-3 suite run that was saturating hosted Supabase.
+- **Complete as of 2026-08-02**: new hosted Supabase `nbwclxbdiuzfxdnbjmti` is live, deployed, and verified. Migrations applied, users seeded, `.env.local` + Vercel env vars set, redeployed. Live login (auth 200 → `/en/onboarding` → dashboard) and live quiz generation (HTTP 200, valid questions) verified end-to-end.
 
 ### Deferred (intentionally deferred, not blocked)
 - API polish (error shapes consistency, more `withErrorHandling` coverage) — partial; `createApiSupabaseClient`/`applyCookies`/`withErrorHandling` already exist in `src/lib/supabase-api.ts`.
-- Re-running the full E2E suite against the hosted project.
 - Islamic-content guardrail on AI-generated quiz questions (AGENTS.md guidelines reference `islamqa.info`; quiz generation prompt currently has no external verification step).
 
 ### Blocked
