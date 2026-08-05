@@ -13,6 +13,16 @@ import { Badge } from "@/components/ui/badge";
 
 export const dynamic = "force-dynamic";
 
+function isoDaysAgo(days: number): string {
+  return new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
+}
+
+function lastSevenDays(): string[] {
+  return Array.from({ length: 7 }, (_, i) =>
+    new Date(Date.now() - (6 - i) * 24 * 60 * 60 * 1000).toISOString().split("T")[0]
+  );
+}
+
 export default async function DashboardPage({
   params,
 }: {
@@ -68,7 +78,7 @@ export default async function DashboardPage({
     .select("*", { count: "exact", head: true })
     .eq("student_id", userId);
 
-  const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+  const weekAgo = isoDaysAgo(7);
   const { count: lessonsThisWeek } = await service
     .from("teacher_progress")
     .select("*", { count: "exact", head: true })
@@ -199,9 +209,7 @@ export default async function DashboardPage({
           </span>
         </div>
         <div className="flex items-center gap-1.5 ml-auto">
-          {Array.from({ length: 7 }).map((_, i) => {
-            const d = new Date(Date.now() - (6 - i) * 24 * 60 * 60 * 1000);
-            const dayStr = d.toISOString().split("T")[0];
+          {lastSevenDays().map((dayStr, i) => {
             return (
               <div
                 key={i}

@@ -2,8 +2,6 @@ import { test, expect } from "@playwright/test";
 import { loginAs } from "./helpers/auth";
 import { setupTeacherLesson } from "./helpers/teacher-setup";
 
-const TEACHER_EMAIL = "teacher@theguidinglight.com";
-const TEACHER_PASSWORD = "Teacher123!";
 const STUDENT_EMAIL = "student@theguidinglight.com";
 const STUDENT_PASSWORD = "Student123!";
 

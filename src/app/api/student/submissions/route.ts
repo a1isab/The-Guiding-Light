@@ -47,20 +47,22 @@ export async function POST(request: NextRequest) {
       .single(),
   );
 
-  if (existing && existing.status === "graded") {
+  const existingRow = existing as { id: string; status: string } | null;
+
+  if (existingRow && existingRow.status === "graded") {
     return applyCookies(NextResponse.json({ error: "Submission already graded" }, { status: 400 }));
   }
 
-  if (existing) {
+  if (existingRow) {
     const { error } = await retryQuery(() =>
       supabase
         .from("submissions")
         .update({ body: body ?? null, file_urls: fileUrls ?? [] })
-        .eq("id", existing.id),
+        .eq("id", existingRow.id),
     );
 
     if (error) return applyCookies(NextResponse.json({ error: error.message }, { status: 500 }));
-    return applyCookies(NextResponse.json({ id: existing.id }));
+    return applyCookies(NextResponse.json({ id: existingRow.id }));
   }
 
   const { data, error } = await retryQuery(() =>

@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
   if (error) return applyCookies(NextResponse.json({ error: error.message }, { status: 500 }));
 
   const userIds = [...new Set((comments ?? []).map((c) => c.user_id))];
-  let profiles: Record<string, { user_id: string; role: string }> = {};
+  const profiles: Record<string, { user_id: string; role: string }> = {};
 
   if (userIds.length > 0) {
     const { data: profilesData } = await admin

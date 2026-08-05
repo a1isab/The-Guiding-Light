@@ -8,13 +8,9 @@ import { CheckCircle } from "lucide-react";
 
 export function CompleteButton({
   lessonId,
-  classId,
-  courseId,
   initialCompleted,
 }: {
   lessonId: string;
-  classId: string;
-  courseId: string;
   initialCompleted: boolean;
 }) {
   const t = useTranslations("quiz");

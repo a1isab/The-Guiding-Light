@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { setupTeacherLesson, type TestData } from "./helpers/teacher-setup";
-import { loginAs, getUserId, enrollStudent, getAccessToken } from "./helpers/auth";
+import { loginAs, getUserId, enrollStudent } from "./helpers/auth";
 
 const STUDENT_EMAIL = "student@theguidinglight.com";
 const STUDENT_PASSWORD = "Student123!";

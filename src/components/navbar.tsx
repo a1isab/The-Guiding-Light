@@ -36,7 +36,15 @@ export function Navbar() {
   const [langOpen, setLangOpen] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [pendingLocale, setPendingLocale] = useState<string | null>(null);
+  const [prevPathname, setPrevPathname] = useState(pathname);
   const langRef = useRef<HTMLDivElement>(null);
+
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname);
+    setMobileOpen(false);
+    setDropdownOpen(false);
+    setLangOpen(false);
+  }
 
   const segments = pathname.split("/").filter(Boolean);
   const currentLocale = segments.length > 0 && LOCALES.some((l) => l.code === segments[0])
@@ -67,12 +75,6 @@ export function Navbar() {
 
     return () => subscription.unsubscribe();
   }, []);
-
-  useEffect(() => {
-    setMobileOpen(false);
-    setDropdownOpen(false);
-    setLangOpen(false);
-  }, [pathname]);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {

@@ -1,8 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { createAdminClient, createServerSupabaseClient } from "@/lib/supabase";
 import { notFound, redirect } from "next/navigation";
-import Link from "next/link";
-import { ChevronDown, FileText, Film, CheckCircle } from "lucide-react";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { StudentCurriculum } from "@/components/student-curriculum";
 
@@ -52,7 +50,7 @@ export default async function StudentCoursePage({
         .order("order_index", { ascending: true })
     : { data: [] };
 
-  const lessonsBySection: Record<string, any[]> = {};
+  const lessonsBySection: Record<string, Array<{ id: string; section_id: string; title: string; video_url: string | null; duration: number | null }>> = {};
   for (const lesson of lessons ?? []) {
     if (!lessonsBySection[lesson.section_id]) {
       lessonsBySection[lesson.section_id] = [];
@@ -65,7 +63,7 @@ export default async function StudentCoursePage({
     .select("lesson_id")
     .eq("student_id", userId);
 
-  const completedIds = new Set(progressData?.map((p: any) => p.lesson_id) ?? []);
+  const completedIds = new Set(progressData?.map((p: { lesson_id: string }) => p.lesson_id) ?? []);
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-12">

@@ -64,7 +64,6 @@ test.describe("i18n locale switching", () => {
     await page.goto("/en/dashboard");
     await page.waitForLoadState("networkidle");
 
-    const langSwitcher = page.locator('[data-testid="lang-switcher"]').or(page.getByRole("button", { name: /lang|language/i }));
     const navbar = page.locator("nav, header").first();
     const navText = await navbar.textContent() ?? "";
     expect(navText).toBeTruthy();

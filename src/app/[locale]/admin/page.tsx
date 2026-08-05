@@ -5,12 +5,11 @@ import { Card } from "@/components/ui/card";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminDashboardPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
+function isoDaysAgo(days: number): string {
+  return new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
+}
+
+export default async function AdminDashboardPage() {
   const t = await getTranslations("admin");
   const supabase = createServiceClient();
 
@@ -18,7 +17,7 @@ export default async function AdminDashboardPage({
     .from("profiles")
     .select("*", { count: "exact", head: true });
 
-  const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+  const thirtyDaysAgo = isoDaysAgo(30);
   const { count: newUsers } = await supabase
     .from("profiles")
     .select("*", { count: "exact", head: true })

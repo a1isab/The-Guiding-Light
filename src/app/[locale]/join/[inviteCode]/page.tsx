@@ -49,7 +49,7 @@ export default function JoinPage() {
 
         setStatus("success");
         setClassName(data.className);
-      } catch (err) {
+      } catch {
         setStatus("error");
         setErrorMsg(t("join_error"));
       }

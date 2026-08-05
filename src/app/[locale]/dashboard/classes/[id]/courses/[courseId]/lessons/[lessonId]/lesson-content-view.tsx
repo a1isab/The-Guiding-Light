@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Eye, CheckCircle, ClipboardList } from "lucide-react";
+import { Eye, ClipboardList } from "lucide-react";
 import { MarkdownContent } from "@/components/teacher/markdown-content";
 import { QuizViewer } from "@/components/teacher/quiz-viewer";
 import { CommentThread } from "@/components/comment-thread";
@@ -31,11 +31,9 @@ function AssignmentSection({ lessonId }: { lessonId: string }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    Promise.all([
-      fetch(`/api/student/lessons/comments?lessonId=${lessonId}`).then(() => {}),
-      fetch(`/api/teacher/assignments?lessonId=${lessonId}`).then((r) => r.json()),
-    ])
-      .then(([_, data]) => {
+    fetch(`/api/teacher/assignments?lessonId=${lessonId}`)
+      .then((r) => r.json())
+      .then((data) => {
         const list = data.assignments ?? [];
         setAssignments(list);
         if (list.length > 0) {
@@ -92,7 +90,6 @@ function AssignmentSection({ lessonId }: { lessonId: string }) {
 export function LessonContentView({
   lessonId,
   lessonContent,
-  videoUrl,
   initialViewedAt,
   hasQuiz,
   prevLesson,
@@ -103,7 +100,6 @@ export function LessonContentView({
 }: {
   lessonId: string;
   lessonContent: string | null;
-  videoUrl: string | null;
   initialViewedAt: string | null;
   hasQuiz: boolean;
   prevLesson: { id: string; title: string } | null;

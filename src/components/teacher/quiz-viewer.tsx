@@ -10,6 +10,21 @@ interface QuizQuestion {
   options: string[];
 }
 
+interface QuizStatus {
+  passed: boolean;
+  locked: boolean;
+  retryAfter: number;
+  totalAttempts: number;
+  attemptsRemaining: number;
+  score?: number;
+  total?: number;
+}
+
+interface QuizData {
+  questions: QuizQuestion[];
+  status: QuizStatus;
+}
+
 export function QuizViewer({ lessonId }: { lessonId: string }) {
   const t = useTranslations("quiz");
   const [loading, setLoading] = useState(true);
@@ -22,43 +37,35 @@ export function QuizViewer({ lessonId }: { lessonId: string }) {
     passed: boolean;
     attemptsRemaining: number;
   } | null>(null);
-  const [status, setStatus] = useState<{
-    passed: boolean;
-    locked: boolean;
-    retryAfter: number;
-    totalAttempts: number;
-    attemptsRemaining: number;
-    score?: number;
-    total?: number;
-  } | null>(null);
+  const [status, setStatus] = useState<QuizStatus | null>(null);
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-  const loadData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const [quizRes, statusRes] = await Promise.all([
-        fetch(`/api/teacher/quiz/questions?lessonId=${lessonId}`),
-        fetch(`/api/teacher/quiz/status?lessonId=${lessonId}`),
-      ]);
-      const quizData = await quizRes.json();
-      const statusData = await statusRes.json();
-
-      if (quizData.questions) {
-        setQuestions(quizData.questions);
-        setAnswers(new Array(quizData.questions.length).fill(-1));
-      }
-      setStatus(statusData);
-    } catch {
-      setError("Failed to load quiz");
-    } finally {
-      setLoading(false);
-    }
+  const loadData = useCallback(async (): Promise<QuizData | null> => {
+    const [quizRes, statusRes] = await Promise.all([
+      fetch(`/api/teacher/quiz/questions?lessonId=${lessonId}`),
+      fetch(`/api/teacher/quiz/status?lessonId=${lessonId}`),
+    ]);
+    const quizData = await quizRes.json();
+    const statusData = await statusRes.json();
+    return { questions: quizData.questions ?? [], status: statusData };
   }, [lessonId]);
 
+  const applyData = useCallback((data: QuizData | null) => {
+    if (!data) return;
+    if (data.questions.length) {
+      setQuestions(data.questions);
+      setAnswers(new Array(data.questions.length).fill(-1));
+    }
+    setStatus(data.status);
+  }, []);
+
   useEffect(() => {
-    loadData();
-  }, [loadData]);
+    loadData()
+      .then(applyData)
+      .catch(() => setError("Failed to load quiz"))
+      .finally(() => setLoading(false));
+  }, [loadData, applyData]);
 
   async function handleSubmit() {
     if (answers.some((a) => a === -1)) {
@@ -97,14 +104,14 @@ export function QuizViewer({ lessonId }: { lessonId: string }) {
       setStatus((prev) => {
         if (!prev || prev.retryAfter <= 1) {
           clearInterval(timer);
-          loadData();
+          loadData().then(applyData).catch(() => setError("Failed to load quiz"));
           return prev ? { ...prev, locked: false, retryAfter: 0, attemptsRemaining: 2 } : null;
         }
         return { ...prev, retryAfter: prev.retryAfter - 1 };
       });
     }, 1000);
     return () => clearInterval(timer);
-  }, [status?.locked, status?.retryAfter, loadData]);
+  }, [status?.locked, status?.retryAfter, loadData, applyData]);
 
   function formatTime(seconds: number): string {
     const m = Math.floor(seconds / 60);
@@ -167,7 +174,11 @@ export function QuizViewer({ lessonId }: { lessonId: string }) {
           <div className="mt-3">
             <p className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>{t("fail_msg")}</p>
             <button
-              onClick={() => { setSubmitted(false); setResult(null); loadData(); }}
+              onClick={() => {
+                setSubmitted(false);
+                setResult(null);
+                loadData().then(applyData).catch(() => setError("Failed to load quiz"));
+              }}
               className="rounded-lg px-4 py-2 text-xs font-medium transition-all"
               style={{ background: "var(--bg-subtle)", color: "var(--text-primary)" }}
             >

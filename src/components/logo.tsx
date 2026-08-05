@@ -13,12 +13,7 @@ export function Logo() {
 
   useEffect(() => {
     const hasAnimated = sessionStorage.getItem("logo-animated");
-    if (hasAnimated) {
-      setDisplayed(arabic);
-      return;
-    }
-
-    let i = 0;
+    let i = hasAnimated ? arabic.length : 0;
     const interval = setInterval(() => {
       setDisplayed(arabic.slice(0, i + 1));
       i++;
@@ -26,7 +21,7 @@ export function Logo() {
         clearInterval(interval);
         sessionStorage.setItem("logo-animated", "true");
       }
-    }, 40);
+    }, hasAnimated ? 0 : 40);
 
     return () => clearInterval(interval);
   }, []);

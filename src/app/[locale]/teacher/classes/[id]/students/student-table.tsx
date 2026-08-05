@@ -13,11 +13,9 @@ interface Member {
 
 export function StudentTable({
   members,
-  locale,
   classId,
 }: {
   members: Member[];
-  locale: string;
   classId: string;
 }) {
   const t = useTranslations("teacher");

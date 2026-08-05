@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import Link from "next/link";
 import { Sun, Moon, Globe, ArrowLeft } from "lucide-react";
@@ -11,12 +11,10 @@ import { Card } from "@/components/ui/card";
 export default function SettingsPage() {
   const t = useTranslations("settings");
   const locale = useLocale() as Locale;
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
-
-  useEffect(() => {
-    const stored = localStorage.getItem("theme") as "dark" | "light" | null;
-    if (stored) setTheme(stored);
-  }, []);
+  const [theme, setTheme] = useState<"dark" | "light">(() => {
+    if (typeof window === "undefined") return "dark";
+    return (localStorage.getItem("theme") as "dark" | "light") ?? "dark";
+  });
 
   const toggleTheme = (newTheme: "dark" | "light") => {
     setTheme(newTheme);

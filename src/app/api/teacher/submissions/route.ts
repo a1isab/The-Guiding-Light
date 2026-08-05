@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
 
   if (error) return applyCookies(NextResponse.json({ error: error.message }, { status: 500 }));
 
-  const studentIds = [...new Set((data ?? []).map((s: any) => s.student_id))];
+  const studentIds = [...new Set(((data ?? []) as { student_id: string }[]).map((s) => s.student_id))];
   let profiles: { user_id: string; full_name: string | null }[] = [];
   if (studentIds.length) {
     const { data: p } = await retryQuery(() =>
@@ -50,10 +50,10 @@ export async function GET(request: NextRequest) {
         .select("user_id, full_name")
         .in("user_id", studentIds),
     );
-    profiles = p ?? [];
+    profiles = (p ?? []) as { user_id: string; full_name: string | null }[];
   }
 
-  const enriched = (data ?? []).map((s: any) => ({
+  const enriched = ((data ?? []) as { id: string; student_id: string; body: string | null; status: string; score: number | null; feedback: string | null; submitted_at: string }[]).map((s) => ({
     ...s,
     student_name: profiles.find((p) => p.user_id === s.student_id)?.full_name ?? null,
   }));

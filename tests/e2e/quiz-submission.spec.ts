@@ -10,7 +10,7 @@ async function submitQuiz(
   studentPage: import("@playwright/test").Page,
   lessonId: string,
   answers: number[]
-): Promise<{ status: number; body: any }> {
+): Promise<{ status: number; body: Record<string, unknown> }> {
   return studentPage.evaluate(
     async ([lid, ans]) => {
       const res = await fetch("/api/teacher/quiz/submit", {

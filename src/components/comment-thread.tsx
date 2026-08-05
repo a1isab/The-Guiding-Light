@@ -146,22 +146,28 @@ export function CommentThread({ lessonId }: CommentThreadProps) {
   const [currentUserId, setCurrentUserId] = useState<string>("");
   const [loading, setLoading] = useState(true);
 
-  const fetchComments = useCallback(async () => {
+  const loadComments = useCallback(async (): Promise<Comment[]> => {
     const res = await fetch(`/api/student/lessons/comments?lessonId=${lessonId}`);
     if (res.ok) {
       const data = await res.json();
-      setComments(data.comments ?? []);
+      return data.comments ?? [];
     }
+    return [];
   }, [lessonId]);
 
   useEffect(() => {
-    fetchComments().finally(() => setLoading(false));
+    loadComments()
+      .then((items) => {
+        setComments(items);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
 
     fetch("/api/auth/me")
       .then((r) => r.json())
       .then((d) => setCurrentUserId(d.userId ?? ""))
       .catch(() => {});
-  }, [fetchComments]);
+  }, [loadComments]);
 
   async function handlePost(body: string) {
     await fetch("/api/student/lessons/comments", {
@@ -169,7 +175,7 @@ export function CommentThread({ lessonId }: CommentThreadProps) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ lessonId, body }),
     });
-    await fetchComments();
+    setComments(await loadComments());
   }
 
   async function handleReply(parentId: string, body: string) {
@@ -178,12 +184,12 @@ export function CommentThread({ lessonId }: CommentThreadProps) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ lessonId, body, parentId }),
     });
-    await fetchComments();
+    setComments(await loadComments());
   }
 
   async function handleDelete(id: string) {
     await fetch(`/api/student/lessons/comments?id=${id}`, { method: "DELETE" });
-    await fetchComments();
+    setComments(await loadComments());
   }
 
   const topLevel = comments.filter((c) => !c.parent_id);

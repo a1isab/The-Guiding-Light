@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { loginAs, setOnboarded, loginAsForOnboarding } from "./helpers/auth";
+import { loginAs } from "./helpers/auth";
 
 const ADMIN_EMAIL = "admin@theguidinglight.com";
 const ADMIN_PASSWORD = "Admin123!";

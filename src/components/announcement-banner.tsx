@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Megaphone, X } from "lucide-react";
+import { Megaphone } from "lucide-react";
 
 interface Announcement {
   id: string;
@@ -23,20 +23,22 @@ export function AnnouncementBanner({ classId }: { classId: string }) {
       .finally(() => setLoading(false));
   }, [classId]);
 
-  async function markRead() {
-    const unread = announcements.filter((a) => !a.is_read);
-    if (unread.length === 0) return;
+  async function markAllRead(list: Announcement[]): Promise<Announcement[]> {
+    const unread = list.filter((a) => !a.is_read);
+    if (unread.length === 0) return list;
     await fetch("/api/student/announcements", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ announcementIds: unread.map((a) => a.id) }),
     });
-    setAnnouncements((prev) => prev.map((a) => ({ ...a, is_read: true })));
+    return list.map((a) => ({ ...a, is_read: true }));
   }
 
   useEffect(() => {
-    if (!loading && announcements.length > 0) markRead();
-  }, [loading]);
+    if (!loading && announcements.length > 0) {
+      markAllRead(announcements).then(setAnnouncements).catch(() => {});
+    }
+  }, [loading, announcements]);
 
   if (loading || announcements.length === 0) return null;
 

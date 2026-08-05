@@ -50,21 +50,17 @@ export function FileUpload({ lessonId }: { lessonId: string }) {
   const [dragOver, setDragOver] = useState(false);
   const [error, setError] = useState("");
 
-  const loadFiles = useCallback(async () => {
-    setLoading(true);
-    try {
-      const res = await fetch(`/api/teacher/files?lessonId=${lessonId}`);
-      const data = await res.json();
-      setFiles(data.files ?? []);
-    } catch {
-      setError("Failed to load files");
-    } finally {
-      setLoading(false);
-    }
+  const loadFiles = useCallback(async (): Promise<LessonFile[]> => {
+    const res = await fetch(`/api/teacher/files?lessonId=${lessonId}`);
+    const data = await res.json();
+    return data.files ?? [];
   }, [lessonId]);
 
   useEffect(() => {
-    loadFiles();
+    loadFiles()
+      .then(setFiles)
+      .catch(() => setError("Failed to load files"))
+      .finally(() => setLoading(false));
   }, [loadFiles]);
 
   function formatSize(bytes: number): string {
@@ -116,7 +112,7 @@ export function FileUpload({ lessonId }: { lessonId: string }) {
       return;
     }
 
-    const { data: urlData } = supabase.storage
+    supabase.storage
       .from("lesson-files")
       .getPublicUrl(path);
 

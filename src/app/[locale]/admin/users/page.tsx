@@ -4,12 +4,7 @@ import { UsersList } from "./users-list";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminUsersPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
+export default async function AdminUsersPage() {
   const t = await getTranslations("admin");
   const supabase = createServiceClient();
 

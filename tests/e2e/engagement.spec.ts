@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { createClient } from "@supabase/supabase-js";
-import { setupTeacherLesson, type TestData } from "./helpers/teacher-setup";
+import { setupTeacherLesson } from "./helpers/teacher-setup";
 import { loginAs, getUserId, enrollStudent } from "./helpers/auth";
 
 const TEACHER_EMAIL = "teacher@theguidinglight.com";

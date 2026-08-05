@@ -24,15 +24,15 @@ export function TemplateManager() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
-  const loadTemplates = useCallback(async () => {
-    setLoading(true);
+  const loadTemplates = useCallback(async (): Promise<Template[]> => {
     const res = await fetch("/api/admin/templates");
     const data = await res.json();
-    setTemplates(data.templates ?? []);
-    setLoading(false);
+    return data.templates ?? [];
   }, []);
 
-  useEffect(() => { loadTemplates(); }, [loadTemplates]);
+  useEffect(() => {
+    loadTemplates().then(setTemplates).finally(() => setLoading(false));
+  }, [loadTemplates]);
 
   function startCreate() {
     setName("");
@@ -94,13 +94,13 @@ export function TemplateManager() {
     setSaving(false);
     setCreating(false);
     setEditing(null);
-    loadTemplates();
+    setTemplates(await loadTemplates());
   }
 
   async function handleDelete(id: string) {
     if (!confirm("Delete this template permanently?")) return;
     const res = await fetch(`/api/admin/templates?id=${id}`, { method: "DELETE" });
-    if (res.ok) loadTemplates();
+    if (res.ok) setTemplates(await loadTemplates());
   }
 
   function cancelEdit() {

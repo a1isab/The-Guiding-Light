@@ -17,17 +17,17 @@ export type Locale = "en" | "ar" | "ur" | "fr";
 
 export type TranslationMap = Partial<Record<Locale, Record<string, string>>>;
 
-export function getTranslation<T extends Record<string, any>>(
+export function getTranslation<T extends Record<string, unknown>>(
   obj: T,
   field: string,
   locale: Locale,
   fallback?: string
 ): string {
-  const translations = (obj as any).translations as TranslationMap | undefined;
+  const translations = (obj as { translations?: TranslationMap }).translations;
   if (translations && translations[locale] && translations[locale]![field]) {
     return translations[locale]![field]!;
   }
-  return fallback ?? (obj as any)[field] ?? "";
+  return fallback ?? String((obj as Record<string, unknown>)[field] ?? "");
 }
 
 export interface Subscription {
@@ -228,8 +228,8 @@ export function getQuizQuestion(q: QuizQuestion, locale: Locale): { question: st
   const questionKey = QUIZ_QUESTION_KEYS[locale];
   const optionsKey = `options_${locale}` as keyof QuizQuestion;
 
-  const translatedQuestion = questionKey ? (q as any)[questionKey] as string | undefined : undefined;
-  const translatedOptions = (q as any)[optionsKey] as string[] | undefined;
+  const translatedQuestion = questionKey ? (q as unknown as Record<string, unknown>)[questionKey] as string | undefined : undefined;
+  const translatedOptions = (q as unknown as Record<string, unknown>)[optionsKey] as string[] | undefined;
 
   return {
     question: translatedQuestion || q.question,

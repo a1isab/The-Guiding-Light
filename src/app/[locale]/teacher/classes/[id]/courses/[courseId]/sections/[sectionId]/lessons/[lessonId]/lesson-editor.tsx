@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { Eye, EyeOff, Copy, Save, BookTemplate } from "lucide-react";
+import { Eye, EyeOff, Copy, Save } from "lucide-react";
 import { VideoUpload } from "@/components/teacher/video-upload";
 import { QuizEditor } from "@/components/teacher/quiz-editor";
 import { FileUpload } from "@/components/teacher/file-upload";
@@ -24,11 +24,9 @@ interface Lesson {
 
 export function LessonEditor({
   lesson,
-  locale,
   teacherId,
 }: {
   lesson: Lesson;
-  locale: string;
   teacherId: string;
 }) {
   const t = useTranslations("teacher");

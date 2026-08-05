@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
+import type { ResponseCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
 export function extractBearerToken(request: NextRequest): string | undefined {
   const auth = request.headers.get("authorization");
@@ -25,7 +26,7 @@ class CookieCollector {
   applyTo(response: NextResponse): NextResponse {
     for (const cookie of this.cookies) {
       response.cookies.set(cookie.name, cookie.value, {
-        ...(cookie.options as any),
+        ...(cookie.options as Partial<ResponseCookie>),
         path: "/",
         sameSite: "lax",
         secure: process.env.NODE_ENV === "production",
@@ -66,7 +67,14 @@ export function createApiSupabaseClient(request: NextRequest) {
 
 export type ApiSupabase = ReturnType<typeof createApiSupabaseClient>;
 
-function isTransientError(error: any): boolean {
+interface QueryError {
+  code?: string;
+  message?: string;
+}
+
+type QueryResult = { data: unknown; error: QueryError | null };
+
+function isTransientError(error: QueryError): boolean {
   const code = error?.code ?? "";
   return code === "57014" || code === "53300" || code.startsWith("08");
 }
@@ -77,10 +85,10 @@ function isTransientError(error: any): boolean {
  * typically succeeds once the connection is warm.
  */
 export async function retryQuery(
-  build: () => any,
+  build: () => PromiseLike<QueryResult>,
   attempts = 3,
-): Promise<{ data: any; error: any }> {
-  let lastError: any;
+): Promise<QueryResult> {
+  let lastError: QueryError | null = null;
   for (let i = 0; i < attempts; i++) {
     const result = await build();
     if (!result.error || !isTransientError(result.error)) return result;
@@ -99,7 +107,7 @@ export function withErrorHandling(handler: RouteHandler): RouteHandler {
   return async (request, context) => {
     try {
       return await handler(request, context);
-    } catch (error: any) {
+    } catch (error) {
       console.error(`[API] Unhandled error in ${request.nextUrl.pathname}:`, error);
       return NextResponse.json(
         { error: "Internal server error" },

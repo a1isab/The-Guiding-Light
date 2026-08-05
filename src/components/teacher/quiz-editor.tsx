@@ -35,31 +35,32 @@ export function QuizEditor({ lessonId, lessonContent }: { lessonId: string; less
     correct: number;
   }
 
-  const loadQuestions = useCallback(async () => {
-    setLoading(true);
-    try {
-      const res = await fetch(`/api/teacher/quiz/questions?lessonId=${lessonId}`);
-      if (!res.ok) throw new Error("Failed to load");
-      const data = await res.json();
-      if (data.questions?.length) {
-        const mapped = data.questions.map((q: ApiQuestion) => ({
-          id: q.id,
-          question: q.question,
-          options: q.options,
-          correctIndex: q.correct_index,
-        }));
-        setQuestions(mapped);
-        setSavedCount(mapped.length);
-      }
-    } catch {
-      setError("Failed to load quiz");
-    } finally {
-      setLoading(false);
+  const loadQuestions = useCallback(async (): Promise<SavedQuestion[]> => {
+    const res = await fetch(`/api/teacher/quiz/questions?lessonId=${lessonId}`);
+    if (!res.ok) throw new Error("Failed to load");
+    const data = await res.json();
+    if (data.questions?.length) {
+      const mapped = data.questions.map((q: ApiQuestion) => ({
+        id: q.id,
+        question: q.question,
+        options: q.options,
+        correctIndex: q.correct_index,
+      }));
+      return mapped;
     }
+    return [];
   }, [lessonId]);
 
   useEffect(() => {
-    loadQuestions();
+    loadQuestions()
+      .then((qs) => {
+        if (qs.length) {
+          setQuestions(qs);
+          setSavedCount(qs.length);
+        }
+      })
+      .catch(() => setError("Failed to load quiz"))
+      .finally(() => setLoading(false));
   }, [loadQuestions]);
 
   function addQuestion() {

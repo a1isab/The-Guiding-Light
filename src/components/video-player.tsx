@@ -1,12 +1,21 @@
 "use client";
 
 import { useTranslations, useLocale } from "next-intl";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Film } from "lucide-react";
+
+interface YTPlayer {
+  destroy: () => void;
+  getCurrentTime: () => number;
+  stopVideo: () => void;
+}
 
 declare global {
   interface Window {
-    YT: any;
+    YT?: {
+      ready?: boolean;
+      Player: new (el: HTMLElement, options: Record<string, unknown>) => YTPlayer;
+    };
     onYouTubeIframeAPIReady: () => void;
   }
 }
@@ -27,7 +36,7 @@ export function VideoPlayer({ src }: { src?: string | null }) {
   const t = useTranslations("video");
   const locale = useLocale();
   const containerRef = useRef<HTMLDivElement>(null);
-  const playerRef = useRef<any>(null);
+  const playerRef = useRef<YTPlayer | null>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [ready, setReady] = useState(false);
   const [ended, setEnded] = useState(false);
@@ -37,12 +46,32 @@ export function VideoPlayer({ src }: { src?: string | null }) {
   const startSec = parsed?.start ?? 0;
   const endSec = parsed?.end ?? null;
 
-  const ytLang: Record<string, string> = {
+  const ytLang: Record<string, string> = useMemo(() => ({
     en: "en",
     ar: "ar",
     ur: "ur",
     fr: "fr",
-  };
+  }), []);
+
+  const onStateChange = useCallback(function onStateChange(event: { data: number }) {
+    if (event.data === 1) {
+      if (endSec !== null) {
+        intervalRef.current = setInterval(() => {
+          const current = playerRef.current?.getCurrentTime();
+          if (current != null && current >= endSec) {
+            playerRef.current?.stopVideo();
+            setEnded(true);
+            if (intervalRef.current) clearInterval(intervalRef.current);
+          }
+        }, 200);
+      }
+    } else {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    }
+  }, [endSec]);
 
   useEffect(() => {
     if (!videoId) return;
@@ -55,7 +84,7 @@ export function VideoPlayer({ src }: { src?: string | null }) {
     }
 
     function createPlayer() {
-      if (!containerRef.current) return;
+      if (!containerRef.current || !window.YT) return;
       playerRef.current = new window.YT.Player(containerRef.current, {
         height: "100%",
         width: "100%",
@@ -76,27 +105,7 @@ export function VideoPlayer({ src }: { src?: string | null }) {
       if (intervalRef.current) clearInterval(intervalRef.current);
       playerRef.current?.destroy();
     };
-  }, [videoId, startSec]);
-
-  function onStateChange(event: { data: number }) {
-    if (event.data === 1) {
-      if (endSec !== null) {
-        intervalRef.current = setInterval(() => {
-          const current = playerRef.current?.getCurrentTime();
-          if (current != null && current >= endSec) {
-            playerRef.current?.stopVideo();
-            setEnded(true);
-            if (intervalRef.current) clearInterval(intervalRef.current);
-          }
-        }, 200);
-      }
-    } else {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-      }
-    }
-  }
+  }, [videoId, startSec, locale, onStateChange, ytLang]);
 
   if (!videoId) {
     return (

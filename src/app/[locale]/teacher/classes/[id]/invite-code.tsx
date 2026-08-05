@@ -7,12 +7,10 @@ import { Copy, RotateCcw } from "lucide-react";
 export function InviteCodeDisplay({
   code,
   url,
-  locale,
   classId,
 }: {
   code: string;
   url: string;
-  locale: string;
   classId: string;
 }) {
   const t = useTranslations("teacher");

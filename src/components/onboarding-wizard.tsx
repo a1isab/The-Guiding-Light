@@ -24,9 +24,13 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [signupRole, setSignupRole] = useState<"student" | "teacher">(
-    initialRole === "teacher" ? "teacher" : "student"
-  );
+  const [signupRole, setSignupRole] = useState<"student" | "teacher">(() => {
+    if (typeof window !== "undefined") {
+      const stored = sessionStorage.getItem("wiz_role");
+      if (stored === "student" || stored === "teacher") return stored;
+    }
+    return initialRole === "teacher" ? "teacher" : "student";
+  });
   const [inviteCode, setInviteCode] = useState("");
   const [signupError, setSignupError] = useState("");
   const [signupSuccess, setSignupSuccess] = useState(false);
@@ -54,11 +58,6 @@ export function OnboardingWizard({ locale, role: initialRole }: OnboardingWizard
   const totalSteps = steps.length;
 
   useEffect(() => {
-    const stored = sessionStorage.getItem("wiz_role");
-    if (stored === "student" || stored === "teacher") {
-      setSignupRole(stored);
-    }
-
     createClient().auth.getUser().then(({ data }) => {
       setAuthenticated(!!data.user);
       setCheckingAuth(false);

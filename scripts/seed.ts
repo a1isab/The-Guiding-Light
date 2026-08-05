@@ -30,7 +30,7 @@ async function upsertOrSkip<T extends Record<string, unknown>>(
 
   const { data, error } = await supabase
     .from(table)
-    .insert(row as any)
+    .insert(row)
     .select()
     .single();
 
@@ -87,7 +87,7 @@ async function seed() {
   }
 
   // ─── Course 1: New Muslim Guide ───────────────────────────────────
-  const { data: course1 } = await upsertOrSkip(
+  const { data: course1, created: course1Created } = await upsertOrSkip(
     "teacher_courses", "title", "New Muslim Guide",
     {
       class_id: cls!.id,
@@ -97,7 +97,7 @@ async function seed() {
       order_index: 1,
     }
   );
-  console.log(`  ${course1 ? (course1 as any).__created ? "✅" : "ℹ️" : "❌"} Course "${course1?.title}"`);
+  console.log(`  ${course1 ? (course1Created ? "✅" : "ℹ️") : "❌"} Course "${course1?.title}"`);
 
   async function ensureSection(courseId: string, title: string, orderIndex: number) {
     const { data } = await upsertOrSkip(

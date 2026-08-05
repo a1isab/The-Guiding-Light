@@ -45,7 +45,7 @@ export function Confetti() {
     }
 
     let animId: number;
-    let start = performance.now();
+    const start = performance.now();
 
     function animate(now: number) {
       const elapsed = now - start;

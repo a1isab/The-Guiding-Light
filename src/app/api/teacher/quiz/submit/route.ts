@@ -140,8 +140,8 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
         .eq("id", existing.id);
     }
 
-    updateStreak(userId, dataClient as any).catch(() => {});
-    scanAndAwardBadges(userId, dataClient as any).catch(() => {});
+    updateStreak(userId, dataClient).catch(() => {});
+    scanAndAwardBadges(userId, dataClient).catch(() => {});
   }
 
   return applyCookies(

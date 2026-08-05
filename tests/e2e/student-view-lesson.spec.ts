@@ -1,5 +1,5 @@
-                                                                                                                                                                        import { test, expect } from "@playwright/test";
-import { setupTeacherLesson, type TestData } from "./helpers/teacher-setup";
+                                    import { test, expect } from "@playwright/test";
+import { setupTeacherLesson } from "./helpers/teacher-setup";
 
 const STUDENT_EMAIL = "student@theguidinglight.com";
 const STUDENT_PASSWORD = "Student123!";

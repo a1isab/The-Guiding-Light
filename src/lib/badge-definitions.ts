@@ -1,9 +1,11 @@
+import type { SupabaseClient } from "@supabase/supabase-js";
+
 export interface BadgeDefinition {
   key: string;
   titleKey: string;
   descKey: string;
   icon: string;
-  condition: (userId: string, supabase: any) => Promise<boolean>;
+  condition: (userId: string, supabase: SupabaseClient) => Promise<boolean>;
 }
 
 export const BADGE_DEFINITIONS: BadgeDefinition[] = [

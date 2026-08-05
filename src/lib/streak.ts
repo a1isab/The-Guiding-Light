@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase-client";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
 const STREAK_MILESTONES = [3, 7, 30] as const;
 
@@ -11,7 +12,7 @@ export interface StreakResult {
 
 export async function updateStreak(
   userId: string,
-  supabase?: any
+  supabase?: SupabaseClient
 ): Promise<StreakResult> {
   const client = supabase ?? createClient();
 

@@ -52,7 +52,7 @@ export default async function LessonEditPage({
         ]}
       />
 
-      <LessonEditor lesson={lesson} locale={locale} teacherId={teacherId} />
+      <LessonEditor lesson={lesson} teacherId={teacherId} />
     </div>
   );
 }

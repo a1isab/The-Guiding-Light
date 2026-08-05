@@ -3,8 +3,6 @@ import { loginAs } from "./helpers/auth";
 
 const STUDENT_EMAIL = "student@theguidinglight.com";
 const STUDENT_PASSWORD = "Student123!";
-const TEACHER_EMAIL = "teacher@theguidinglight.com";
-const TEACHER_PASSWORD = "Teacher123!";
 
 test.describe.configure({ timeout: 120000 });
 

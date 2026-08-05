@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useTranslations, useLocale } from "next-intl";
 import { createClient } from "@/lib/supabase-client";
@@ -12,7 +11,6 @@ import { Button } from "@/components/ui/button";
 export default function SignUpPage() {
   const t = useTranslations("auth");
   const locale = useLocale();
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");

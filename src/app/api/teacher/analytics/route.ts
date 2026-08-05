@@ -80,7 +80,6 @@ export async function GET(request: NextRequest) {
   }
 
   const now = new Date();
-  const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
   const completionTimeline: { date: string; count: number }[] = [];
   for (let i = 29; i >= 0; i--) {
     const d = new Date(now.getTime() - i * 24 * 60 * 60 * 1000);

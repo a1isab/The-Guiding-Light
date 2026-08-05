@@ -26,7 +26,7 @@ test.describe("student dashboard", () => {
   test("5.3 continue learning section visible when lessons exist", async ({ browser }) => {
     const teacherCtx = await browser.newContext();
     const teacherPage = await teacherCtx.newPage();
-    const data = await setupTeacherLesson(teacherPage);
+    await setupTeacherLesson(teacherPage);
     await teacherCtx.close();
 
     const studentCtx = await browser.newContext();

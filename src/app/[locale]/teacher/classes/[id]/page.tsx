@@ -85,7 +85,7 @@ export default async function ClassDetailPage({
       </div>
 
       {/* Invite Code */}
-      <InviteCodeDisplay code={cls.invite_code} url={inviteUrl} locale={locale} classId={id} />
+      <InviteCodeDisplay code={cls.invite_code} url={inviteUrl} classId={id} />
 
       {/* Progress Link */}
       <div className="mt-6">
@@ -125,7 +125,7 @@ export default async function ClassDetailPage({
           <h2 data-testid="students-heading" className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{t("students")}</h2>
           <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{members?.length ?? 0}</span>
         </div>
-        <StudentTable members={enrichedMembers} locale={locale} classId={id} />
+        <StudentTable members={enrichedMembers} classId={id} />
       </div>
 
       {/* Courses */}

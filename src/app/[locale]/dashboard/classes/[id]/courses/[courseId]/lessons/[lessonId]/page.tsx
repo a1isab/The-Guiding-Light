@@ -127,7 +127,6 @@ export default async function StudentLessonPage({
         <LessonContentView
           lessonId={lessonId}
           lessonContent={lesson.content}
-          videoUrl={lesson.video_url}
           initialViewedAt={contentViewedAt}
           hasQuiz={hasQuiz}
           prevLesson={prevLesson ? { id: prevLesson.id, title: prevLesson.title } : null}

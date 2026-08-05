@@ -23,19 +23,17 @@ export default function AdminInvitesPage() {
   const [copiedId, setCopiedId] = useState<number | null>(null);
   const [error, setError] = useState("");
 
-  async function loadInvites() {
-    setLoading(true);
+  async function loadInvites(): Promise<Invite[]> {
     const supabase = createClient();
     const { data } = await supabase
       .from("teacher_invites")
       .select("*")
       .order("created_at", { ascending: false });
-    if (data) setInvites(data);
-    setLoading(false);
+    return data ?? [];
   }
 
   useEffect(() => {
-    loadInvites();
+    loadInvites().then(setInvites).finally(() => setLoading(false));
   }, []);
 
   async function generate() {
@@ -48,7 +46,7 @@ export default function AdminInvitesPage() {
         setError(data.error || "Failed to generate code");
         return;
       }
-      await loadInvites();
+      setInvites(await loadInvites());
     } catch {
       setError("Network error");
     } finally {

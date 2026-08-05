@@ -3,7 +3,7 @@
 import { useState, useRef, type DragEvent } from "react";
 import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase-client";
-import { Upload, X, Film, Loader2 } from "lucide-react";
+import { X, Film, Loader2 } from "lucide-react";
 
 const MAX_SIZE = 500 * 1024 * 1024;
 const ACCEPTED = ["video/mp4", "video/quicktime", "video/webm"];

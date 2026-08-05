@@ -3,7 +3,11 @@ import translate from "@iamtraction/google-translate";
 
 const src = JSON.parse(fs.readFileSync("messages/en.json", "utf-8"));
 
-function flatten(obj: Record<string, any>, prefix = ""): Record<string, string> {
+interface NestedRecord {
+  [key: string]: string | NestedRecord;
+}
+
+function flatten(obj: NestedRecord, prefix = ""): Record<string, string> {
   const r: Record<string, string> = {};
   for (const [k, v] of Object.entries(obj)) {
     const key = prefix ? prefix + "." + k : k;
@@ -13,14 +17,14 @@ function flatten(obj: Record<string, any>, prefix = ""): Record<string, string> 
   return r;
 }
 
-function unflatten(map: Record<string, string>): Record<string, any> {
-  const root: Record<string, any> = {};
+function unflatten(map: Record<string, string>): NestedRecord {
+  const root: NestedRecord = {};
   for (const [key, value] of Object.entries(map)) {
     const parts = key.split(".");
-    let cur = root;
+    let cur: NestedRecord = root;
     for (let i = 0; i < parts.length - 1; i++) {
       if (!cur[parts[i]]) cur[parts[i]] = {};
-      cur = cur[parts[i]];
+      cur = cur[parts[i]] as NestedRecord;
     }
     cur[parts[parts.length - 1]] = value;
   }

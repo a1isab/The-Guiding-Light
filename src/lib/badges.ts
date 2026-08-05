@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase-client";
 import { BADGE_DEFINITIONS } from "@/lib/badge-definitions";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
 export async function awardSectionBadge(
   userId: string,
@@ -61,7 +62,7 @@ export async function awardSectionBadge(
 export async function awardBadge(
   userId: string,
   badgeKey: string,
-  supabase?: any
+  supabase?: SupabaseClient
 ): Promise<boolean> {
   const client = supabase ?? createClient();
 
@@ -84,7 +85,7 @@ export async function awardBadge(
 
 export async function scanAndAwardBadges(
   userId: string,
-  supabase?: any
+  supabase?: SupabaseClient
 ): Promise<string[]> {
   const client = supabase ?? createClient();
   const earned: string[] = [];
@@ -94,7 +95,7 @@ export async function scanAndAwardBadges(
     .select("badge_key")
     .eq("user_id", userId);
 
-  const held = new Set(existingBadges?.map((b: any) => b.badge_key) ?? []);
+  const held = new Set(existingBadges?.map((b: { badge_key: string }) => b.badge_key) ?? []);
 
   for (const def of BADGE_DEFINITIONS) {
     if (held.has(def.key)) continue;

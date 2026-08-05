@@ -41,7 +41,7 @@ export default async function CourseDetailPage({
     .in("section_id", sections?.map((s) => s.id) ?? [])
     .order("order_index", { ascending: true });
 
-  const lessonsBySection: Record<string, any[]> = {};
+  const lessonsBySection: Record<string, Array<{ id: string; section_id: string; title: string; video_url: string | null; order_index: number }>> = {};
   for (const lesson of allLessons ?? []) {
     if (!lessonsBySection[lesson.section_id]) {
       lessonsBySection[lesson.section_id] = [];

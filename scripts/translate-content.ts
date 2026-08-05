@@ -6,6 +6,11 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
+interface QuizQuestion {
+  question: string;
+  options: string[];
+}
+
 const SOURCE = "en";
 const TARGETS = ["ar", "ur", "fr"];
 
@@ -16,7 +21,7 @@ async function translateText(text: string, target: string): Promise<string> {
   try {
     const result = await translate(text, { from: SOURCE, to: target });
     return result.text;
-  } catch (err) {
+  } catch {
     console.warn(`  ⚠️  Failed to translate "${text.slice(0, 50)}..." → ${target}`);
     return text;
   }
@@ -26,28 +31,13 @@ function sleep(ms: number) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
-async function translateBatch(
-  items: { id: string; text: string; field: string }[],
-  target: string
-): Promise<{ id: string; field: string; translated: string }[]> {
-  const results: { id: string; field: string; translated: string }[] = [];
-  for (let i = 0; i < items.length; i++) {
-    const item = items[i];
-    const translated = await translateText(item.text, target);
-    results.push({ id: item.id, field: item.field, translated });
-    if (i % 3 === 2) await sleep(500);
-  }
-  return results;
-}
-
 async function main() {
   console.log("🚀 Starting content translation...\n");
-
   // ─── Courses ────────────────────────────────────────
   console.log("📚 Translating courses...");
   const { data: courses } = await supabase.from("courses").select("id, title, description");
   for (const course of courses ?? []) {
-    const translations: Record<string, any> = { en: { title: course.title, description: course.description } };
+    const translations: Record<string, { title: string; description: string }> = { en: { title: course.title, description: course.description } };
     for (const target of TARGETS) {
       const [tt, td] = await Promise.all([
         translateText(course.title, target),
@@ -67,7 +57,7 @@ async function main() {
   console.log("\n📖 Translating sections...");
   const { data: sections } = await supabase.from("sections").select("id, title");
   for (const section of sections ?? []) {
-    const translations: Record<string, any> = { en: { title: section.title } };
+    const translations: Record<string, { title: string }> = { en: { title: section.title } };
     for (const target of TARGETS) {
       const tt = await translateText(section.title, target);
       translations[target] = { title: tt };
@@ -86,7 +76,7 @@ async function main() {
     .from("lessons")
     .select("id, title, content");
   for (const lesson of lessons ?? []) {
-    const translations: Record<string, any> = {
+    const translations: Record<string, { title: string; content: string }> = {
       en: { title: lesson.title, content: lesson.content },
     };
     for (const target of TARGETS) {
@@ -113,10 +103,10 @@ async function main() {
     .select("id, questions");
 
   const uniqueStrings: Set<string> = new Set();
-  const quizMap: { id: string; questions: any[] }[] = [];
+  const quizMap: { id: string; questions: QuizQuestion[] }[] = [];
 
   for (const quiz of quizzes ?? []) {
-    const questions = quiz.questions as any[];
+    const questions = quiz.questions as QuizQuestion[];
     quizMap.push({ id: quiz.id, questions });
     for (const q of questions) {
       uniqueStrings.add(q.question);
@@ -149,7 +139,7 @@ async function main() {
   // Update quizzes with translated data
   console.log(`  Writing translations to ${quizzes?.length ?? 0} quizzes...`);
   for (const entry of quizMap) {
-    const translatedQuestions = entry.questions.map((q: any) => ({
+    const translatedQuestions = entry.questions.map((q: QuizQuestion) => ({
       ...q,
       question_ar: translationCache[q.question]?.ar ?? q.question,
       question_ur: translationCache[q.question]?.ur ?? q.question,
